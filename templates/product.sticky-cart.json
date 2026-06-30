@@ -1,0 +1,38 @@
+{
+  "name": "Urolithin A — Single-Active Liposomal",
+  "sections": {
+    "product-main": {
+      "type": "product-main",
+      "settings": {
+        "mock_title": "Urolithin A — Single-Active Liposomal",
+        "mock_description": "Liposomal Urolithin A, derived from pomegranate. One molecule. Nothing else.",
+        "mock_price": 12900,
+        "mock_compare_price": 0,
+        "mock_id": 41234567890123,
+        "show_pill": true,
+        "pill_text": "Single-Active • Liposomal",
+        "add_to_cart_text": "Add to Cart",
+        "shipping_text": "Free U.S. shipping on orders $75+",
+        "strip_cta_text": "Keep it clean. Choose single-active.",
+        "strip_cta_link_text": "Add to Cart →",
+        "compare_heading_left": "Panstellar Urolithin Liposomal",
+        "compare_heading_right": "Typical Approach",
+        "ingredients_heading": "From Nature,<br>Backed by Science.",
+        "quality_heading": "Quality You<br>Can Trust.",
+        "lab_heading": "Lab results.<br>Real data.",
+        "lab_link_text": "View library →",
+        "subscribe_heading": "Commit. Save.<br>Skip Anytime.",
+        "lock_heading": "Lock your routine.",
+        "lock_cta_text": "SUBSCRIBE & SAVE",
+        "lock_note": "Cancel or skip anytime",
+        "guarantee_number": "90",
+        "guarantee_heading": "90 Days. No Risk.",
+        "guarantee_text": "Not a fit? Full refund.",
+        "guarantee_link_text": "View guarantee details →"
+      }
+    }
+  },
+  "order": [
+    "product-main"
+  ]
+}

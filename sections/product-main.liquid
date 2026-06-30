@@ -1,0 +1,987 @@
+{% comment %}
+  Product Main — Urolithin Liposomal Product Page
+  Section for Shopify Dawn theme
+
+  Usage:
+  - Créer un template `templates/product.custom.json` qui référence cette section
+  - Ou l'ajouter via l'éditeur de section dans un template produit
+
+  Schema settings permettent de personnaliser depuis l'admin Shopify.
+{% endcomment %}
+
+{{ 'theme-sticky.css' | asset_url | stylesheet_tag }}
+{{ 'https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800;900&family=Playfair+Display:wght@700;800&display=swap' | stylesheet_tag }}
+
+{%- liquid
+  assign product = product | default: section.settings.product
+  unless product
+    assign product = all_products[section.settings.featured_product]
+  endunless
+
+  assign current_variant = product.selected_or_first_available_variant
+  assign featured_image = product.featured_image
+  assign product_exists = product.title != blank
+
+  assign mock_title = section.settings.mock_title | default: 'Urolithin A — Single-Active Liposomal'
+  assign mock_desc = section.settings.mock_description | default: 'Liposomal Urolithin A, derived from pomegranate. One molecule. Nothing else.'
+  assign mock_price = section.settings.mock_price | default: 12900
+  assign mock_id = section.settings.mock_id | default: 41234567890123
+-%}
+
+<div class="pm-page">
+  <!-- ═══════ HERO ═══════ -->
+  <section class="pm-hero">
+    <picture>
+      <source media="(max-width: 767px)"
+              srcset="{% if section.settings.hero_image_mobile %}{{ section.settings.hero_image_mobile | img_url: 'master' }}{% else %}{{ 'pm-hero-bg.svg' | asset_url }}{% endif %}">
+      <img class="pm-hero-bg"
+           src="{% if section.settings.hero_image %}{{ section.settings.hero_image | img_url: 'master' }}{% elsif featured_image %}{{ featured_image | img_url: 'master' }}{% else %}{{ 'pm-hero-bg.svg' | asset_url }}{% endif %}"
+           alt="{{ product.title }}"
+           loading="eager">
+    </picture>
+
+    {% if section.settings.show_pill %}
+    <div class="pm-pill">
+      {{ section.settings.pill_text | default: 'Single-Active • Liposomal' }}
+    </div>
+    {% endif %}
+
+    <!-- Hero product image (floating bottle) -->
+    <img class="pm-hero-product"
+         src="{% if section.settings.hero_product_image %}{{ section.settings.hero_product_image | img_url: 'master' }}{% else %}{{ 'pm-hero-product.svg' | asset_url }}{% endif %}"
+         alt="{{ product.title }}"
+         loading="eager">
+
+    <div class="pm-wrap pm-hero-grid">
+      <div class="pm-hero-copy">
+        <h1>{% if product_exists %}{{ product.title }}{% else %}{{ mock_title }}{% endif %}</h1>
+        {% if product.description != blank %}
+          <p class="pm-subtitle">{{ product.description | strip_html | truncatewords: 30 }}</p>
+        {% elsif section.settings.mock_description != blank %}
+          <p class="pm-subtitle">{{ mock_desc }}</p>
+        {% endif %}
+
+        <div class="pm-hero-icons">
+          {% for block in section.blocks %}
+            {% if block.type == 'hero_icon' %}
+              <div>
+                <img class="pm-icon-img"
+                     src="{% if block.settings.icon %}{{ block.settings.icon | img_url: '34x34' }}{% else %}{{ 'pm-benefit-icon.svg' | asset_url }}{% endif %}"
+                     alt="{{ block.settings.label }}"
+                     loading="lazy">
+                <span>{{ block.settings.label }}</span>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- ═══════ BUY CARD ═══════ -->
+      <aside class="pm-buy-card">
+        <h2>{% if product_exists %}{{ product.title }}{% else %}{{ mock_title }}{% endif %}</h2>
+
+        {% form 'product', product, id: 'pm-add-to-cart-form', class: 'pm-add-form' %}
+          <input type="hidden" name="id" value="{% if current_variant.id %}{{ current_variant.id }}{% else %}{{ mock_id }}{% endif %}">
+
+          {% if product.variants.size > 1 %}
+            {% for variant in product.variants %}
+              {% assign variant_label = '' %}
+              {% for option in product.options %}
+                {% if forloop.first %}
+                  {% assign variant_label = variant.options[forloop.index0] %}
+                {% else %}
+                  {% assign variant_label = variant_label | append: ' - ' | append: variant.options[forloop.index0] %}
+                {% endif %}
+              {% endfor %}
+              <div class="pm-choice {% if variant.id == current_variant.id %}active{% endif %}"
+                   data-variant-id="{{ variant.id }}"
+                   data-variant-label="{{ variant_label | escape }}">
+                <div class="pm-choice-head">
+                  <div class="pm-radio"></div>
+                  <div>
+                    <div class="pm-choice-title">{{ variant_label }}</div>
+                    {% if variant.title contains 'Subscribe' or variant.title contains 'Subscription' %}
+                      <div class="pm-ship">Free shipping • Skip anytime</div>
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="pm-price" data-variant-price="{{ variant.id }}">
+                  {{ variant.price | money }}
+                  {% if variant.compare_at_price > variant.price %}
+                    <small><s>{{ variant.compare_at_price | money }}</s></small>
+                  {% endif %}
+                </div>
+              </div>
+            {% endfor %}
+          {% endif %}
+
+          <!-- Benefits grid -->
+          <div class="pm-benefit-grid">
+            {% for block in section.blocks %}
+              {% if block.type == 'benefit' %}
+                <div class="pm-benefit">
+                  <img class="pm-benefit-icon"
+                       src="{% if block.settings.icon %}{{ block.settings.icon | img_url: '15x15' }}{% else %}{{ 'pm-benefit-icon.svg' | asset_url }}{% endif %}"
+                       alt="{{ block.settings.label }}"
+                       loading="lazy">
+                  <span>{{ block.settings.label }}</span>
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+
+          <!-- Quantity selector -->
+          <div class="pm-qty-selector">
+            <button type="button" class="pm-qty-btn pm-qty-minus" aria-label="Reduce quantity">−</button>
+            <input type="number"
+                   name="quantity"
+                   id="pm-qty-input"
+                   class="pm-qty-input"
+                   value="1"
+                   min="1"
+                   step="1"
+                   inputmode="numeric"
+                   autocomplete="off">
+            <button type="button" class="pm-qty-btn pm-qty-plus" aria-label="Increase quantity">+</button>
+          </div>
+
+          <!-- Total price (qty × price) -->
+          <div class="pm-total-price" id="pm-total-price">
+            <span class="pm-total-label">Total</span>
+            <span class="pm-total-amount" id="pm-total-amount">{% if current_variant.price %}{{ current_variant.price | money }}{% else %}{{ mock_price | money }}{% endif %}</span>
+          </div>
+
+          <!-- Add to cart button -->
+          <button type="submit"
+                  class="pm-cta"
+                  id="pm-add-btn"
+                  {% if product_exists %}{% unless current_variant.available %}disabled{% endunless %}{% endif %}>
+            {% if product_exists and current_variant.available == false %}
+              {{ 'products.product.sold_out' | t }}
+            {% else %}
+              {{ section.settings.add_to_cart_text | default: 'Add to Cart' }}
+              — <span class="pm-btn-price">{% if current_variant.price %}{{ current_variant.price | money }}{% else %}{{ mock_price | money }}{% endif %}</span>
+            {% endif %}
+          </button>
+
+          <!-- Shipping info -->
+          {% if section.settings.shipping_text != blank %}
+            <div class="pm-shipping">
+              <img class="pm-shipping-icon"
+                   src="{% if section.settings.shipping_icon %}{{ section.settings.shipping_icon | img_url: '19x19' }}{% else %}{{ 'pm-shipping-icon.svg' | asset_url }}{% endif %}"
+                   alt="Shipping"
+                   loading="lazy">
+              {{ section.settings.shipping_text }}
+            </div>
+          {% endif %}
+        {% endform %}
+
+<!-- Exposer les données produit pour le JS -->
+<script>
+  window.productJSON = {{ product | json }};
+  if (!window.productJSON || !window.productJSON.title) {
+    window.productJSON = {
+      id: {{ mock_id }},
+      title: {{ mock_title | json }},
+      description: {{ mock_desc | json }},
+      available: true,
+      variants: [{
+        id: {{ mock_id }},
+        title: 'Default Title',
+        price: {{ mock_price }},
+        available: true,
+        featured_image: null
+      }]
+    };
+  }
+  window.pmAddToCartText = {{ section.settings.add_to_cart_text | default: 'Add to Cart' | json }};
+  window.pmSoldOutText = {{ 'products.product.sold_out' | t | json }};
+</script>
+
+        <!-- ═══════ ACCORDION ═══════ -->
+        <div class="pm-accordion" id="pm-accordion">
+
+          <!-- ACCORDION: Supports -->
+          <div class="pm-acc-row">
+            <button class="pm-acc-btn" type="button" aria-expanded="false">
+              <span class="pm-acc-label">
+                <img class="pm-acc-icon"
+                     src="{% if section.settings.acc_support_icon %}{{ section.settings.acc_support_icon | img_url: '31x31' }}{% else %}{{ 'acc-support-leaf.svg' | asset_url }}{% endif %}"
+                     alt="" loading="lazy">
+                Supports
+              </span>
+              <span class="pm-acc-note">Designed to support.</span>
+              <span class="pm-acc-chevron">⌄</span>
+            </button>
+            <div class="pm-acc-panel">
+              <div class="pm-support-grid">
+                {% for block in section.blocks %}
+                  {% if block.type == 'support_item' %}
+                    <div class="pm-support-card">
+                      <img src="{% if block.settings.icon %}{{ block.settings.icon | img_url: '34x34' }}{% else %}{{ 'pm-support-icon.svg' | asset_url }}{% endif %}" alt="" loading="lazy">
+                      <span>{{ block.settings.label }}</span>
+                    </div>
+                  {% endif %}
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+
+          <!-- ACCORDION: Ingredients -->
+          <div class="pm-acc-row">
+            <button class="pm-acc-btn" type="button" aria-expanded="false">
+              <span class="pm-acc-label">
+                <img class="pm-acc-icon"
+                     src="{% if section.settings.acc_ingredients_icon %}{{ section.settings.acc_ingredients_icon | img_url: '31x31' }}{% else %}{{ 'acc-title-flask.svg' | asset_url }}{% endif %}"
+                     alt="" loading="lazy">
+                Ingredients
+              </span>
+              <span class="pm-acc-note">Full list inside.</span>
+              <span class="pm-acc-chevron">⌄</span>
+            </button>
+            <div class="pm-acc-panel">
+              <div class="pm-ingredient-grid">
+                {% for block in section.blocks %}
+                  {% if block.type == 'ingredient_item' %}
+                    <div class="pm-ingredient-card">
+                      <img src="{% if block.settings.icon %}{{ block.settings.icon | img_url: '48x48' }}{% else %}{{ 'pm-ingredient-icon.svg' | asset_url }}{% endif %}" alt="" loading="lazy">
+                      <span>{{ block.settings.label }}</span>
+                    </div>
+                  {% endif %}
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+
+          <!-- ACCORDION: Certificates -->
+          <div class="pm-acc-row">
+            <button class="pm-acc-btn" type="button" aria-expanded="false">
+              <span class="pm-acc-label">
+                <img class="pm-acc-icon"
+                     src="{% if section.settings.acc_certificates_icon %}{{ section.settings.acc_certificates_icon | img_url: '31x31' }}{% else %}{{ 'acc-title-shield.svg' | asset_url }}{% endif %}"
+                     alt="" loading="lazy">
+                Certificates
+              </span>
+              <span class="pm-acc-note">Verified quality. Total transparency.</span>
+              <span class="pm-acc-chevron">⌄</span>
+            </button>
+            <div class="pm-acc-panel">
+              <div class="pm-cert-layout">
+                <div class="pm-cert-icons">
+                  {% for block in section.blocks %}
+                    {% if block.type == 'certificate_item' %}
+                      <div>
+                        <img src="{% if block.settings.icon %}{{ block.settings.icon | img_url: '26x26' }}{% else %}{{ 'pm-cert-icon.svg' | asset_url }}{% endif %}" alt="" loading="lazy">
+                        <span>{{ block.settings.label }}</span>
+                      </div>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+                <img class="pm-coa-img"
+                     src="{% if section.settings.coa_image %}{{ section.settings.coa_image | img_url: '300x' }}{% else %}{{ 'pm-coa-certificate.svg' | asset_url }}{% endif %}"
+                     alt="Certificate of Analysis" loading="lazy">
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Fin accordéon -->
+
+      </aside>
+    </div>
+  </section>
+
+  <!-- ═══════ STICKY CART ═══════ -->
+  {% assign sticky_variant = product.selected_or_first_available_variant %}
+  <aside class="pm-sticky-cart" id="pm-sticky-cart">
+    <div class="pm-sticky-inner">
+      <div class="pm-sticky-info">
+        <img class="pm-sticky-img"
+             id="pm-sticky-img"
+             src="{% if featured_image %}{{ featured_image | img_url: '48x48' }}{% else %}{{ 'pm-hero-product-thumb.svg' | asset_url }}{% endif %}"
+             alt="{% if product_exists %}{{ product.title }}{% else %}{{ mock_title }}{% endif %}"
+             loading="lazy">
+        <div>
+          <div class="pm-sticky-title" id="pm-sticky-title">{% if product_exists %}{{ product.title }}{% else %}{{ mock_title }}{% endif %}</div>
+          <div class="pm-sticky-price" id="pm-sticky-price">
+            {% if sticky_variant.price %}{{ sticky_variant.price | money }}{% else %}{{ mock_price | money }}{% endif %}
+          </div>
+          <div class="pm-total-price pm-total-price-sm" id="pm-sticky-total">
+            <span class="pm-total-label">Total</span>
+            <span class="pm-total-amount" id="pm-sticky-total-amount">{% if sticky_variant.price %}{{ sticky_variant.price | money }}{% else %}{{ mock_price | money }}{% endif %}</span>
+          </div>
+        </div>
+      </div>
+      <div class="pm-sticky-qty-wrap">
+        <div class="pm-qty-selector pm-qty-sm">
+          <button type="button" class="pm-qty-btn pm-qty-minus" aria-label="Reduce quantity">−</button>
+          <span class="pm-qty-display" id="pm-sticky-qty-display">1</span>
+          <button type="button" class="pm-qty-btn pm-qty-plus" aria-label="Increase quantity">+</button>
+        </div>
+        <button type="button"
+                class="pm-sticky-btn"
+                id="pm-sticky-btn"
+                {% if product_exists %}{% unless sticky_variant.available %}disabled{% endunless %}{% endif %}>
+          {% if product_exists and sticky_variant.available == false %}
+            {{ 'products.product.sold_out' | t }}
+          {% else %}
+            {{ section.settings.add_to_cart_text | default: 'Add to Cart' }} — <span class="pm-sticky-btn-price">{% if sticky_variant.price %}{{ sticky_variant.price | money }}{% else %}{{ mock_price | money }}{% endif %}</span>
+          {% endif %}
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ═══════ ICON STRIP ═══════ -->
+  <section class="pm-icon-strip">
+    <div class="pm-wrap pm-strip-inner">
+      <div class="pm-strip-grid">
+        {% for block in section.blocks %}
+          {% if block.type == 'strip_item' %}
+            <div class="pm-strip-item">
+              <img class="pm-strip-icon-img"
+                   src="{% if block.settings.icon %}{{ block.settings.icon | img_url: '42x42' }}{% else %}{{ 'pm-benefit-icon.svg' | asset_url }}{% endif %}"
+                   alt="{{ block.settings.label }}" loading="lazy">
+              <b>{{ block.settings.label }}</b>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+      <div class="pm-strip-cta">
+        {{ section.settings.strip_cta_text | default: 'Keep it clean. Choose single-active.' }}
+        <a href="#pm-plans">{{ section.settings.strip_cta_link_text | default: 'Add to Cart →' }}</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ COMPARISON ═══════ -->
+  <section class="pm-compare">
+    <div class="pm-compare-side pm-left">
+      <img class="pm-product-main"
+           src="{% if section.settings.compare_product_image %}{{ section.settings.compare_product_image | img_url: 'master' }}{% else %}{{ 'pm-compare-product.svg' | asset_url }}{% endif %}"
+           alt="{{ product.title }}" loading="lazy">
+      <h3>{{ section.settings.compare_heading_left | default: 'Panstellar Urolithin Liposomal' }}</h3>
+      <div class="pm-compare-list">
+        {% for block in section.blocks %}
+          {% if block.type == 'compare_pro' %}
+            <div><span class="pm-check">✓</span>{{ block.settings.label }}</div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="pm-vs-col">
+      <div class="pm-vs">VS</div>
+    </div>
+
+    <div class="pm-compare-side">
+      <img class="pm-bottle-group"
+           src="{% if section.settings.compare_con_image %}{{ section.settings.compare_con_image | img_url: 'master' }}{% else %}{{ 'pm-compare-con.svg' | asset_url }}{% endif %}"
+           alt="Typical approach" loading="lazy">
+      <h3>{{ section.settings.compare_heading_right | default: 'Typical Approach' }}</h3>
+      <div class="pm-compare-list">
+        {% for block in section.blocks %}
+          {% if block.type == 'compare_con' %}
+            <div><span class="pm-cross">×</span>{{ block.settings.label }}</div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ INGREDIENTS ═══════ -->
+  <section class="pm-ingredients">
+    <div class="pm-wrap pm-ing-grid">
+      <div class="pm-ing-title">
+        <h2>{{ section.settings.ingredients_heading | default: 'From Nature,<br>Backed by Science.' }}</h2>
+      </div>
+      <div class="pm-ing-scroll">
+        {% for block in section.blocks %}
+          {% if block.type == 'ingredient_detail' %}
+            <div class="pm-ing-card">
+              {% if block.settings.image != blank %}
+                <img src="{{ block.settings.image | img_url: '136x86' }}" alt="{{ block.settings.title }}" loading="lazy">
+              {% endif %}
+              <b>{{ block.settings.title }}</b>
+              {% if block.settings.subtitle != blank %}
+                <small>{{ block.settings.subtitle }}</small>
+              {% endif %}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ QUALITY ═══════ -->
+  <section class="pm-quality">
+    <div class="pm-wrap pm-quality-grid">
+      <h2>{{ section.settings.quality_heading | default: 'Quality You<br>Can Trust.' }}</h2>
+      <div class="pm-quality-icons">
+        {% for block in section.blocks %}
+          {% if block.type == 'quality_item' %}
+            <div class="pm-q-item">
+              <img class="pm-quality-icon-img"
+                   src="{% if block.settings.icon %}{{ block.settings.icon | img_url: '34x34' }}{% else %}{{ 'pm-benefit-icon.svg' | asset_url }}{% endif %}"
+                   alt="{{ block.settings.title }}" loading="lazy">
+              <div>
+                <b>{{ block.settings.title }}</b>
+                {% if block.settings.subtitle != blank %}
+                  <small>{{ block.settings.subtitle }}</small>
+                {% endif %}
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+      <div class="pm-lab-card">
+        <img src="{% if section.settings.lab_image %}{{ section.settings.lab_image | img_url: 'master' }}{% else %}{{ 'pm-lab-results.svg' | asset_url }}{% endif %}" alt="Lab results" loading="lazy">
+        <div>
+          <h3>{{ section.settings.lab_heading | default: 'Lab results.<br>Real data.' }}</h3>
+          <a href="{{ section.settings.lab_link | default: '#' }}">{{ section.settings.lab_link_text | default: 'View library →' }}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ SUBSCRIBE / PLANS ═══════ -->
+  <section class="pm-subscribe" id="pm-plans">
+    <div class="pm-wrap pm-sub-grid">
+      <div class="pm-sub-left">
+        <h2>{{ section.settings.subscribe_heading | default: 'Commit. Save.<br>Skip Anytime.' }}</h2>
+        <ul>
+          {% for block in section.blocks %}
+            {% if block.type == 'subscribe_bullet' %}
+              <li>{{ block.settings.text }}</li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="pm-plans">
+        {% for block in section.blocks %}
+          {% if block.type == 'plan' %}
+            <div class="pm-plan {% if block.settings.popular %}pm-popular{% endif %}">
+              {% if block.settings.popular %}
+                <div class="pm-tag">{{ block.settings.tag_text | default: 'MOST POPULAR' }}</div>
+              {% endif %}
+              <h3>{{ block.settings.title }}</h3>
+              <small>{{ block.settings.subtitle }}</small>
+              <div class="pm-monthly">{{ block.settings.monthly_price }}</div>
+              <div class="pm-off">{{ block.settings.discount_text }}</div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <div class="pm-lock">
+        <h3>{{ section.settings.lock_heading | default: 'Lock your routine.' }}</h3>
+        <button class="pm-cta" onclick="document.querySelector('#pm-add-btn').click()">
+          {{ section.settings.lock_cta_text | default: 'SUBSCRIBE & SAVE' }}
+        </button>
+        <small>{{ section.settings.lock_note | default: 'Cancel or skip anytime' }}</small>
+      </div>
+    </div>
+
+    <div class="pm-wrap pm-bottom-row">
+      <div class="pm-guarantee">
+        <div class="pm-seal">{{ section.settings.guarantee_number | default: '90' }}</div>
+        <div>
+          <h3>{{ section.settings.guarantee_heading | default: '90 Days. No Risk.' }}</h3>
+          <p>{{ section.settings.guarantee_text | default: 'Not a fit? Full refund.' }}</p>
+          <p><u><a href="{{ section.settings.guarantee_link | default: '#' }}" style="color:inherit;text-decoration:underline;">{{ section.settings.guarantee_link_text | default: 'View guarantee details →' }}</a></u></p>
+        </div>
+      </div>
+
+      <div class="pm-reviews">
+        {% for block in section.blocks %}
+          {% if block.type == 'review' %}
+            <div class="pm-review">
+              <div class="pm-stars">{{ block.settings.stars | default: '★★★★★' }}</div>
+              <b>{{ block.settings.text }}</b>
+              <br><small>— {{ block.settings.author }}</small>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <div class="pm-faq-mini">
+        {% for block in section.blocks %}
+          {% if block.type == 'faq' %}
+            <div>{{ block.settings.question }} <span>{{ block.settings.arrow | default: '›' }}</span></div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- Modules JS (ordre important) -->
+{{ 'theme-sticky-accordion.js' | asset_url | script_tag }}
+{{ 'theme-sticky-variant.js' | asset_url | script_tag }}
+{{ 'theme-sticky-quantity.js' | asset_url | script_tag }}
+{{ 'theme-sticky-cart.js' | asset_url | script_tag }}
+
+{% schema %}
+{
+  "name": "Product Main",
+  "tag": "section",
+  "class": "section",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "header",
+      "content": "⚡ Mock Product Data"
+    },
+    {
+      "type": "paragraph",
+      "content": "Ces données s'affichent quand aucun produit Shopify n'est trouvé (fallback pour le dev/preview)."
+    },
+    {
+      "type": "text",
+      "id": "mock_title",
+      "label": "Mock product title",
+      "default": "Urolithin A — Single-Active Liposomal"
+    },
+    {
+      "type": "textarea",
+      "id": "mock_description",
+      "label": "Mock description",
+      "default": "Liposomal Urolithin A, derived from pomegranate. One molecule. Nothing else."
+    },
+    {
+      "type": "number",
+      "id": "mock_price",
+      "label": "Mock price (cents)",
+      "default": 12900
+    },
+    {
+      "type": "number",
+      "id": "mock_id",
+      "label": "Mock variant ID",
+      "default": 41234567890123
+    },
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero background image"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image_mobile",
+      "label": "Hero background (mobile)"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_product_image",
+      "label": "Hero floating product image"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_pill",
+      "label": "Show pill badge",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "pill_text",
+      "label": "Pill badge text",
+      "default": "Single-Active • Liposomal"
+    },
+    {
+      "type": "header",
+      "content": "Add to Cart"
+    },
+    {
+      "type": "text",
+      "id": "add_to_cart_text",
+      "label": "Button text",
+      "default": "Add to Cart"
+    },
+    {
+      "type": "image_picker",
+      "id": "shipping_icon",
+      "label": "Shipping icon"
+    },
+    {
+      "type": "text",
+      "id": "shipping_text",
+      "label": "Shipping text",
+      "default": "Free U.S. shipping on orders $75+"
+    },
+    {
+      "type": "header",
+      "content": "Accordion Icons"
+    },
+    {
+      "type": "image_picker",
+      "id": "acc_support_icon",
+      "label": "Supports accordion icon"
+    },
+    {
+      "type": "image_picker",
+      "id": "acc_ingredients_icon",
+      "label": "Ingredients accordion icon"
+    },
+    {
+      "type": "image_picker",
+      "id": "acc_certificates_icon",
+      "label": "Certificates accordion icon"
+    },
+    {
+      "type": "image_picker",
+      "id": "coa_image",
+      "label": "COA certificate image"
+    },
+    {
+      "type": "header",
+      "content": "Icon Strip"
+    },
+    {
+      "type": "text",
+      "id": "strip_cta_text",
+      "label": "Strip CTA text",
+      "default": "Keep it clean. Choose single-active."
+    },
+    {
+      "type": "text",
+      "id": "strip_cta_link_text",
+      "label": "Strip CTA link text",
+      "default": "Add to Cart →"
+    },
+    {
+      "type": "header",
+      "content": "Comparison"
+    },
+    {
+      "type": "image_picker",
+      "id": "compare_product_image",
+      "label": "Product image (left)"
+    },
+    {
+      "type": "text",
+      "id": "compare_heading_left",
+      "label": "Heading left",
+      "default": "Panstellar Urolithin Liposomal"
+    },
+    {
+      "type": "image_picker",
+      "id": "compare_con_image",
+      "label": "Comparison image (right)"
+    },
+    {
+      "type": "text",
+      "id": "compare_heading_right",
+      "label": "Heading right",
+      "default": "Typical Approach"
+    },
+    {
+      "type": "header",
+      "content": "Ingredients Section"
+    },
+    {
+      "type": "text",
+      "id": "ingredients_heading",
+      "label": "Heading",
+      "default": "From Nature,<br>Backed by Science."
+    },
+    {
+      "type": "header",
+      "content": "Quality Section"
+    },
+    {
+      "type": "text",
+      "id": "quality_heading",
+      "label": "Heading",
+      "default": "Quality You<br>Can Trust."
+    },
+    {
+      "type": "image_picker",
+      "id": "lab_image",
+      "label": "Lab results image"
+    },
+    {
+      "type": "text",
+      "id": "lab_heading",
+      "label": "Lab heading",
+      "default": "Lab results.<br>Real data."
+    },
+    {
+      "type": "text",
+      "id": "lab_link_text",
+      "label": "Lab link text",
+      "default": "View library →"
+    },
+    {
+      "type": "url",
+      "id": "lab_link",
+      "label": "Lab link URL"
+    },
+    {
+      "type": "header",
+      "content": "Subscribe Section"
+    },
+    {
+      "type": "text",
+      "id": "subscribe_heading",
+      "label": "Heading",
+      "default": "Commit. Save.<br>Skip Anytime."
+    },
+    {
+      "type": "text",
+      "id": "lock_heading",
+      "label": "Lock heading",
+      "default": "Lock your routine."
+    },
+    {
+      "type": "text",
+      "id": "lock_cta_text",
+      "label": "Lock CTA text",
+      "default": "SUBSCRIBE & SAVE"
+    },
+    {
+      "type": "text",
+      "id": "lock_note",
+      "label": "Lock note",
+      "default": "Cancel or skip anytime"
+    },
+    {
+      "type": "header",
+      "content": "Guarantee"
+    },
+    {
+      "type": "text",
+      "id": "guarantee_number",
+      "label": "Guarantee number",
+      "default": "90"
+    },
+    {
+      "type": "text",
+      "id": "guarantee_heading",
+      "label": "Guarantee heading",
+      "default": "90 Days. No Risk."
+    },
+    {
+      "type": "text",
+      "id": "guarantee_text",
+      "label": "Guarantee text",
+      "default": "Not a fit? Full refund."
+    },
+    {
+      "type": "text",
+      "id": "guarantee_link_text",
+      "label": "Guarantee link text",
+      "default": "View guarantee details →"
+    },
+    {
+      "type": "url",
+      "id": "guarantee_link",
+      "label": "Guarantee link URL"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "hero_icon",
+      "name": "Hero Icon",
+      "limit": 4,
+      "settings": [
+        { "type": "image_picker", "id": "icon", "label": "Icon" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Third-Party Tested" }
+      ]
+    },
+    {
+      "type": "benefit",
+      "name": "Benefit",
+      "limit": 6,
+      "settings": [
+        { "type": "image_picker", "id": "icon", "label": "Icon" },
+        { "type": "text", "id": "label", "label": "Label", "default": "45 Servings" }
+      ]
+    },
+    {
+      "type": "support_item",
+      "name": "Support Item",
+      "limit": 6,
+      "settings": [
+        { "type": "image_picker", "id": "icon", "label": "Icon" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Cellular energy" }
+      ]
+    },
+    {
+      "type": "ingredient_item",
+      "name": "Accordion Ingredient",
+      "limit": 8,
+      "settings": [
+        { "type": "image_picker", "id": "icon", "label": "Icon" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Urolithin A" }
+      ]
+    },
+    {
+      "type": "certificate_item",
+      "name": "Certificate Item",
+      "limit": 4,
+      "settings": [
+        { "type": "image_picker", "id": "icon", "label": "Icon" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Third-Party Tested" }
+      ]
+    },
+    {
+      "type": "strip_item",
+      "name": "Strip Item",
+      "limit": 4,
+      "settings": [
+        { "type": "image_picker", "id": "icon", "label": "Icon" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Cellular energy support" }
+      ]
+    },
+    {
+      "type": "compare_pro",
+      "name": "Comparison Pro",
+      "limit": 8,
+      "settings": [
+        { "type": "text", "id": "label", "label": "Text", "default": "Single-Active (No Blend)" }
+      ]
+    },
+    {
+      "type": "compare_con",
+      "name": "Comparison Con",
+      "limit": 8,
+      "settings": [
+        { "type": "text", "id": "label", "label": "Text", "default": "Multi-Ingredient Blends" }
+      ]
+    },
+    {
+      "type": "ingredient_detail",
+      "name": "Ingredient Detail",
+      "limit": 8,
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Urolithin A" },
+        { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Derived from pomegranate" }
+      ]
+    },
+    {
+      "type": "quality_item",
+      "name": "Quality Item",
+      "limit": 4,
+      "settings": [
+        { "type": "image_picker", "id": "icon", "label": "Icon" },
+        { "type": "text", "id": "title", "label": "Title", "default": "COA by Batch" },
+        { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Transparency you can see" }
+      ]
+    },
+    {
+      "type": "subscribe_bullet",
+      "name": "Subscribe Bullet",
+      "limit": 6,
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "Subscribe & save on every order" }
+      ]
+    },
+    {
+      "type": "plan",
+      "name": "Subscription Plan",
+      "limit": 3,
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "3 Months" },
+        { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "1 bottle • 2 refills" },
+        { "type": "text", "id": "monthly_price", "label": "Monthly price", "default": "$109.65 / month" },
+        { "type": "text", "id": "discount_text", "label": "Discount text", "default": "15% OFF" },
+        { "type": "checkbox", "id": "popular", "label": "Mark as popular", "default": false },
+        { "type": "text", "id": "tag_text", "label": "Popular tag text", "default": "MOST POPULAR" }
+      ]
+    },
+    {
+      "type": "review",
+      "name": "Review",
+      "limit": 3,
+      "settings": [
+        { "type": "text", "id": "stars", "label": "Stars", "default": "★★★★★" },
+        { "type": "text", "id": "text", "label": "Review text", "default": "Clean labels. No fillers." },
+        { "type": "text", "id": "author", "label": "Author", "default": "Verified reviewer" }
+      ]
+    },
+    {
+      "type": "faq",
+      "name": "FAQ",
+      "limit": 6,
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "Why single-active?" },
+        { "type": "text", "id": "arrow", "label": "Arrow symbol", "default": "›" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Main",
+      "blocks": [
+        { "type": "hero_icon", "settings": { "label": "Third-Party Tested" } },
+        { "type": "hero_icon", "settings": { "label": "cGMP Manufactured" } },
+        { "type": "hero_icon", "settings": { "label": "COA By Batch" } },
+        { "type": "hero_icon", "settings": { "label": "Non-GMO" } },
+        { "type": "benefit", "settings": { "label": "45 Servings" } },
+        { "type": "benefit", "settings": { "label": "Single-Active" } },
+        { "type": "benefit", "settings": { "label": "Liposomal" } },
+        { "type": "benefit", "settings": { "label": "No Blend" } },
+        { "type": "benefit", "settings": { "label": "90-Day Guarantee" } },
+        { "type": "support_item", "settings": { "label": "Cellular energy" } },
+        { "type": "support_item", "settings": { "label": "Mitochondrial health" } },
+        { "type": "support_item", "settings": { "label": "Healthy aging" } },
+        { "type": "support_item", "settings": { "label": "COA-verified" } },
+        { "type": "ingredient_item", "settings": { "label": "Urolithin A" } },
+        { "type": "ingredient_item", "settings": { "label": "Liposomal" } },
+        { "type": "ingredient_item", "settings": { "label": "Derived from pomegranate" } },
+        { "type": "ingredient_item", "settings": { "label": "2000 mg" } },
+        { "type": "ingredient_item", "settings": { "label": "90 capsules" } },
+        { "type": "ingredient_item", "settings": { "label": "45 servings" } },
+        { "type": "certificate_item", "settings": { "label": "Third-Party Tested" } },
+        { "type": "certificate_item", "settings": { "label": "COA available by batch" } },
+        { "type": "certificate_item", "settings": { "label": "cGMP" } },
+        { "type": "certificate_item", "settings": { "label": "USA" } },
+        { "type": "strip_item", "settings": { "label": "Cellular energy<br>support" } },
+        { "type": "strip_item", "settings": { "label": "Mitochondrial<br>health support" } },
+        { "type": "strip_item", "settings": { "label": "Healthy aging<br>support" } },
+        { "type": "strip_item", "settings": { "label": "COA-verified<br>& tested" } },
+        { "type": "compare_pro", "settings": { "label": "Single-Active (No Blend)" } },
+        { "type": "compare_pro", "settings": { "label": "Liposomal Delivery" } },
+        { "type": "compare_pro", "settings": { "label": "Clinically Dosed 2000mg" } },
+        { "type": "compare_pro", "settings": { "label": "COA Verified" } },
+        { "type": "compare_pro", "settings": { "label": "Third-Party Tested" } },
+        { "type": "compare_pro", "settings": { "label": "90-Day Guarantee" } },
+        { "type": "compare_con", "settings": { "label": "Multi-Ingredient Blends" } },
+        { "type": "compare_con", "settings": { "label": "No Liposomal Delivery" } },
+        { "type": "compare_con", "settings": { "label": "Underdosed" } },
+        { "type": "compare_con", "settings": { "label": "COA Varies" } },
+        { "type": "compare_con", "settings": { "label": "Testing Often Missing" } },
+        { "type": "compare_con", "settings": { "label": "No Guarantee" } },
+        { "type": "ingredient_detail", "settings": { "title": "Urolithin A (2000mg)", "subtitle": "Derived from pomegranate" } },
+        { "type": "ingredient_detail", "settings": { "title": "Phosphatidylcholine (Liposomal Matrix)", "subtitle": "Supports delivery" } },
+        { "type": "ingredient_detail", "settings": { "title": "Sunflower Lecithin", "subtitle": "Plant-based carrier" } },
+        { "type": "ingredient_detail", "settings": { "title": "Rice Flour (Filler)", "subtitle": "Clean & simple" } },
+        { "type": "ingredient_detail", "settings": { "title": "Vegetable Capsule (Vegan)", "subtitle": "Plant-based capsule" } },
+        { "type": "quality_item", "settings": { "title": "COA by Batch", "subtitle": "Transparency you can see" } },
+        { "type": "quality_item", "settings": { "title": "cGMP", "subtitle": "Quality you can trust" } },
+        { "type": "quality_item", "settings": { "title": "Purity Tested", "subtitle": "Third-party verified" } },
+        { "type": "quality_item", "settings": { "title": "Made in USA", "subtitle": "With globally sourced ingredients" } },
+        { "type": "subscribe_bullet", "settings": { "text": "Subscribe & save on every order" } },
+        { "type": "subscribe_bullet", "settings": { "text": "Ships every 90 days" } },
+        { "type": "subscribe_bullet", "settings": { "text": "Cancel or pause anytime" } },
+        { "type": "subscribe_bullet", "settings": { "text": "COA access included" } },
+        { "type": "plan", "settings": { "title": "3 Months", "subtitle": "1 bottle • 2 refills", "monthly_price": "$109.65 / month", "discount_text": "15% OFF", "popular": true, "tag_text": "MOST POPULAR" } },
+        { "type": "plan", "settings": { "title": "6 Months", "subtitle": "1 bottle • 5 refills", "monthly_price": "$99.00 / month", "discount_text": "23% OFF" } },
+        { "type": "plan", "settings": { "title": "12 Months", "subtitle": "1 bottle • 11 refills", "monthly_price": "$89.00 / month", "discount_text": "31% OFF" } },
+        { "type": "review", "settings": { "stars": "★★★★★", "text": "Clean labels. No fillers. Exactly why I switched.", "author": "Verified reviewer" } },
+        { "type": "review", "settings": { "stars": "★★★★★", "text": "COA transparency is a huge plus for me.", "author": "Review from website" } },
+        { "type": "review", "settings": { "stars": "★★★★★", "text": "Finally a single-active I can trust.", "author": "All our guarantees" } },
+        { "type": "faq", "settings": { "question": "Why single-active?" } },
+        { "type": "faq", "settings": { "question": "Is it pure?" } },
+        { "type": "faq", "settings": { "question": "Is it tested?" } },
+        { "type": "faq", "settings": { "question": "What is the guarantee?" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

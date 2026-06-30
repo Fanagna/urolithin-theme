@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" fill="none">
+  <!-- Bottle body -->
+  <rect x="120" y="140" width="160" height="340" rx="16" fill="#e8d5b8" stroke="#c9a87c" stroke-width="2"/>
+  <rect x="130" y="160" width="140" height="280" rx="8" fill="rgba(255,249,242,0.5)"/>
+  <!-- Label -->
+  <rect x="135" y="240" width="130" height="120" rx="6" fill="#b87316" opacity="0.15"/>
+  <text x="200" y="290" text-anchor="middle" fill="#b87316" font-family="Georgia,serif" font-size="13" font-weight="700">UROLITHIN</text>
+  <text x="200" y="310" text-anchor="middle" fill="#b87316" font-family="Georgia,serif" font-size="10" font-weight="600">LIPOSOMAL</text>
+  <text x="200" y="336" text-anchor="middle" fill="#7a5c3a" font-family="Arial,sans-serif" font-size="8">2000 mg</text>
+  <!-- Cap -->
+  <rect x="145" y="90" width="110" height="56" rx="10" fill="#d4a44a" stroke="#b87316" stroke-width="2"/>
+  <rect x="155" y="100" width="90" height="36" rx="4" fill="#c99330"/>
+  <!-- Shadow -->
+  <ellipse cx="200" cy="482" rx="90" ry="8" fill="rgba(70,40,20,0.12)"/>
+</svg>

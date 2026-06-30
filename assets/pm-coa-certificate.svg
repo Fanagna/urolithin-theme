@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 224" fill="none">
+  <rect x="5" y="5" width="290" height="214" rx="6" fill="#fffaf4" stroke="#b87316" stroke-width="1" stroke-opacity="0.3"/>
+  <rect x="20" y="25" width="260" height="170" rx="4" fill="none" stroke="#b87316" stroke-width="0.5" stroke-opacity="0.2"/>
+  <text x="150" y="65" text-anchor="middle" fill="#b87316" font-family="Georgia,serif" font-size="14" font-weight="700">Certificate of Analysis</text>
+  <line x1="60" y1="80" x2="240" y2="80" stroke="#b87316" stroke-width="0.5" opacity="0.2"/>
+  <text x="150" y="100" text-anchor="middle" fill="#b87316" font-family="Arial,sans-serif" font-size="9" opacity="0.5">Urolithin A - Liposomal</text>
+  <text x="150" y="118" text-anchor="middle" fill="#b87316" font-family="Arial,sans-serif" font-size="8" opacity="0.4">Batch: UA-2000-LIPO-001</text>
+  <line x1="60" y1="135" x2="240" y2="135" stroke="#b87316" stroke-width="0.5" opacity="0.2"/>
+  <text x="150" y="160" text-anchor="middle" fill="#4c8a2a" font-family="Arial,sans-serif" font-size="16" font-weight="700">✓ PASSED</text>
+  <text x="150" y="178" text-anchor="middle" fill="#b87316" font-family="Arial,sans-serif" font-size="7" opacity="0.4">Third-Party Verified</text>
+  <rect x="88" y="192" width="124" height="1" fill="#b87316" opacity="0.2"/>
+</svg>
