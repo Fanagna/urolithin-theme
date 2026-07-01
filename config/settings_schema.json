@@ -1,0 +1,19 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Urolithin Theme",
+    "theme_version": "1.0.0",
+    "theme_author": "Panstellar",
+    "theme_documentation_url": "https://github.com/Fanagna/urolithin-theme",
+    "theme_support_url": "https://github.com/Fanagna/urolithin-theme"
+  },
+  {
+    "name": "colors",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Colors are defined in assets/theme-sticky.css"
+      }
+    ]
+  }
+]

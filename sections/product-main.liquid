@@ -9,9 +9,6 @@
   Schema settings permettent de personnaliser depuis l'admin Shopify.
 {% endcomment %}
 
-{{ 'theme-sticky.css' | asset_url | stylesheet_tag }}
-{{ 'https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800;900&family=Playfair+Display:wght@700;800&display=swap' | stylesheet_tag }}
-
 {%- liquid
   assign product = product | default: section.settings.product
   unless product
@@ -523,7 +520,7 @@
   </section>
 </div>
 
-<!-- Modules JS (ordre important) -->
+<!-- Modules JS (chargés ici après le DOM pour garantir que les éléments existent) -->
 {{ 'theme-sticky-accordion.js' | asset_url | script_tag }}
 {{ 'theme-sticky-variant.js' | asset_url | script_tag }}
 {{ 'theme-sticky-quantity.js' | asset_url | script_tag }}
