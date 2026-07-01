@@ -1,0 +1,74 @@
+<cart-drawer class="pm-drawer" id="pm-cart-drawer">
+  <div class="pm-drawer-overlay" id="pm-drawer-overlay"></div>
+  <div class="pm-drawer-inner">
+    <div class="pm-drawer-header">
+      <h2 class="pm-drawer-title">Cart</h2>
+      <button class="pm-drawer-close" id="pm-drawer-close" aria-label="Close cart" type="button">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="pm-drawer-body" id="pm-drawer-body">
+      {% if cart.item_count > 0 %}
+        <div class="pm-drawer-items" id="pm-drawer-items">
+          {% for item in cart.items %}
+            <div class="pm-drawer-item" data-key="{{ item.key }}">
+              <img src="{{ item.image | img_url: '80x80' }}" alt="{{ item.title }}" loading="lazy" class="pm-drawer-item-img">
+              <div class="pm-drawer-item-info">
+                <a href="{{ item.url }}" class="pm-drawer-item-title">{{ item.product.title }}</a>
+                {% unless item.product.has_only_default_variant %}
+                  <div class="pm-drawer-item-variant">{{ item.variant.title }}</div>
+                {% endunless %}
+                <div class="pm-drawer-item-price">{{ item.price | money }}</div>
+                <div class="pm-drawer-qty-wrap">
+                  <button class="pm-drawer-qty-btn pm-drawer-qty-minus" data-key="{{ item.key }}" type="button">−</button>
+                  <input type="number" value="{{ item.quantity }}" class="pm-drawer-qty-input" data-key="{{ item.key }}" min="0" readonly>
+                  <button class="pm-drawer-qty-btn pm-drawer-qty-plus" data-key="{{ item.key }}" type="button">+</button>
+                  <button class="pm-drawer-item-remove" data-key="{{ item.key }}" type="button">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2">
+                      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="pm-drawer-empty" id="pm-drawer-empty">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="1.5">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 01-8 0"/>
+          </svg>
+          <p>Your cart is empty</p>
+          <a href="/collections/all" class="pm-cta hm-cta hm-cta-primary" style="display:inline-flex;width:auto;padding:12px 28px;font-size:14px;">Continue Shopping</a>
+        </div>
+      {% endif %}
+    </div>
+
+    {% if cart.item_count > 0 %}
+      <div class="pm-drawer-footer" id="pm-drawer-footer">
+        <div class="pm-drawer-subtotal">
+          <span>Subtotal</span>
+          <span class="pm-drawer-total" id="pm-drawer-total">{{ cart.total_price | money }}</span>
+        </div>
+        <form action="/cart" method="post">
+          <button type="submit" name="checkout" class="pm-cta" style="margin:0;">
+            Checkout — {{ cart.total_price | money }}
+          </button>
+        </form>
+        <p class="pm-drawer-note">Free U.S. shipping on orders $75+</p>
+      </div>
+    {% endif %}
+  </div>
+</cart-drawer>
+
+{% schema %}
+{
+  "name": "Cart drawer",
+  "settings": []
+}
+{% endschema %}

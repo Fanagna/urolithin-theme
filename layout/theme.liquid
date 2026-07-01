@@ -33,6 +33,7 @@
 
   {{ 'theme-sticky.css' | asset_url | stylesheet_tag }}
   {{ 'theme-homesticky.css' | asset_url | stylesheet_tag }}
+  {{ 'theme-header.css' | asset_url | stylesheet_tag }}
 
   {{ 'https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800;900&family=Playfair+Display:wght@700;800&display=swap' | stylesheet_tag }}
 
@@ -52,6 +53,7 @@
   </main>
 
   {%- sections 'footer-group' -%}
+  {%- section 'cart-drawer' -%}
 
   <ul hidden>
     <li id="a11y-refresh-page-message">{{ 'accessibility.refresh_page' | t }}</li>
@@ -87,5 +89,7 @@
       playSlideshow: `{{ 'sections.slideshow.play_slideshow' | t }}`
     };
   </script>
+
+  {{ 'theme-cart-drawer.js' | asset_url | script_tag }}
 </body>
 </html>

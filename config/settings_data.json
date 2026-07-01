@@ -28,7 +28,8 @@
       "announcement-bar",
       "header",
       "product-main",
-      "footer"
+      "footer",
+      "cart-drawer"
     ]
   }
 }
