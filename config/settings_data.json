@@ -13,10 +13,6 @@
         "type": "product-main",
         "blocks": {},
         "settings": {
-          "mock_title": "Urolithin A — Single-Active Liposomal",
-          "mock_description": "Liposomal Urolithin A, derived from pomegranate. One molecule. Nothing else.",
-          "mock_price": 12900,
-          "mock_id": 41234567890123,
           "show_pill": true,
           "pill_text": "Single-Active • Liposomal",
           "add_to_cart_text": "Add to Cart",

@@ -12,7 +12,7 @@
     "settings": [
       {
         "type": "paragraph",
-        "content": "Colors are defined in assets/theme-sticky.css"
+        "content": "Les couleurs sont définies dans assets/theme-sticky.css (variables CSS :root)."
       }
     ]
   }

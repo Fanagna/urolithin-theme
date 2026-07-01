@@ -10,19 +10,8 @@
 {% endcomment %}
 
 {%- liquid
-  assign product = product | default: section.settings.product
-  unless product
-    assign product = all_products[section.settings.featured_product]
-  endunless
-
   assign current_variant = product.selected_or_first_available_variant
   assign featured_image = product.featured_image
-  assign product_exists = product.title != blank
-
-  assign mock_title = section.settings.mock_title | default: 'Urolithin A — Single-Active Liposomal'
-  assign mock_desc = section.settings.mock_description | default: 'Liposomal Urolithin A, derived from pomegranate. One molecule. Nothing else.'
-  assign mock_price = section.settings.mock_price | default: 12900
-  assign mock_id = section.settings.mock_id | default: 41234567890123
 -%}
 
 <div class="pm-page">
@@ -45,17 +34,15 @@
 
     <!-- Hero product image (floating bottle) -->
     <img class="pm-hero-product"
-         src="{% if section.settings.hero_product_image %}{{ section.settings.hero_product_image | img_url: 'master' }}{% else %}{{ 'pm-hero-product.svg' | asset_url }}{% endif %}"
+         src="{% if section.settings.hero_product_image %}{{ section.settings.hero_product_image | img_url: 'master' }}{% elsif featured_image %}{{ featured_image | img_url: 'master' }}{% else %}{{ 'pm-hero-product.svg' | asset_url }}{% endif %}"
          alt="{{ product.title }}"
          loading="eager">
 
     <div class="pm-wrap pm-hero-grid">
       <div class="pm-hero-copy">
-        <h1>{% if product_exists %}{{ product.title }}{% else %}{{ mock_title }}{% endif %}</h1>
+        <h1>{{ product.title }}</h1>
         {% if product.description != blank %}
           <p class="pm-subtitle">{{ product.description | strip_html | truncatewords: 30 }}</p>
-        {% elsif section.settings.mock_description != blank %}
-          <p class="pm-subtitle">{{ mock_desc }}</p>
         {% endif %}
 
         <div class="pm-hero-icons">
@@ -75,10 +62,10 @@
 
       <!-- ═══════ BUY CARD ═══════ -->
       <aside class="pm-buy-card">
-        <h2>{% if product_exists %}{{ product.title }}{% else %}{{ mock_title }}{% endif %}</h2>
+        <h2>{{ product.title }}</h2>
 
         {% form 'product', product, id: 'pm-add-to-cart-form', class: 'pm-add-form' %}
-          <input type="hidden" name="id" value="{% if current_variant.id %}{{ current_variant.id }}{% else %}{{ mock_id }}{% endif %}">
+          <input type="hidden" name="id" value="{{ current_variant.id }}">
 
           {% if product.variants.size > 1 %}
             {% for variant in product.variants %}
@@ -145,19 +132,19 @@
           <!-- Total price (qty × price) -->
           <div class="pm-total-price" id="pm-total-price">
             <span class="pm-total-label">Total</span>
-            <span class="pm-total-amount" id="pm-total-amount">{% if current_variant.price %}{{ current_variant.price | money }}{% else %}{{ mock_price | money }}{% endif %}</span>
+            <span class="pm-total-amount" id="pm-total-amount">{{ current_variant.price | money }}</span>
           </div>
 
           <!-- Add to cart button -->
           <button type="submit"
                   class="pm-cta"
                   id="pm-add-btn"
-                  {% if product_exists %}{% unless current_variant.available %}disabled{% endunless %}{% endif %}>
-            {% if product_exists and current_variant.available == false %}
+                  {% unless current_variant.available %}disabled{% endunless %}>
+            {% if current_variant.available == false %}
               {{ 'products.product.sold_out' | t }}
             {% else %}
               {{ section.settings.add_to_cart_text | default: 'Add to Cart' }}
-              — <span class="pm-btn-price">{% if current_variant.price %}{{ current_variant.price | money }}{% else %}{{ mock_price | money }}{% endif %}</span>
+              — <span class="pm-btn-price">{{ current_variant.price | money }}</span>
             {% endif %}
           </button>
 
@@ -176,21 +163,6 @@
 <!-- Exposer les données produit pour le JS -->
 <script>
   window.productJSON = {{ product | json }};
-  if (!window.productJSON || !window.productJSON.title) {
-    window.productJSON = {
-      id: {{ mock_id }},
-      title: {{ mock_title | json }},
-      description: {{ mock_desc | json }},
-      available: true,
-      variants: [{
-        id: {{ mock_id }},
-        title: 'Default Title',
-        price: {{ mock_price }},
-        available: true,
-        featured_image: null
-      }]
-    };
-  }
   window.pmAddToCartText = {{ section.settings.add_to_cart_text | default: 'Add to Cart' | json }};
   window.pmSoldOutText = {{ 'products.product.sold_out' | t | json }};
 </script>
@@ -295,16 +267,16 @@
         <img class="pm-sticky-img"
              id="pm-sticky-img"
              src="{% if featured_image %}{{ featured_image | img_url: '48x48' }}{% else %}{{ 'pm-hero-product-thumb.svg' | asset_url }}{% endif %}"
-             alt="{% if product_exists %}{{ product.title }}{% else %}{{ mock_title }}{% endif %}"
+             alt="{{ product.title }}"
              loading="lazy">
         <div>
-          <div class="pm-sticky-title" id="pm-sticky-title">{% if product_exists %}{{ product.title }}{% else %}{{ mock_title }}{% endif %}</div>
+          <div class="pm-sticky-title" id="pm-sticky-title">{{ product.title }}</div>
           <div class="pm-sticky-price" id="pm-sticky-price">
-            {% if sticky_variant.price %}{{ sticky_variant.price | money }}{% else %}{{ mock_price | money }}{% endif %}
+            {{ sticky_variant.price | money }}
           </div>
           <div class="pm-total-price pm-total-price-sm" id="pm-sticky-total">
             <span class="pm-total-label">Total</span>
-            <span class="pm-total-amount" id="pm-sticky-total-amount">{% if sticky_variant.price %}{{ sticky_variant.price | money }}{% else %}{{ mock_price | money }}{% endif %}</span>
+            <span class="pm-total-amount" id="pm-sticky-total-amount">{{ sticky_variant.price | money }}</span>
           </div>
         </div>
       </div>
@@ -317,11 +289,11 @@
         <button type="button"
                 class="pm-sticky-btn"
                 id="pm-sticky-btn"
-                {% if product_exists %}{% unless sticky_variant.available %}disabled{% endunless %}{% endif %}>
-          {% if product_exists and sticky_variant.available == false %}
+                {% unless sticky_variant.available %}disabled{% endunless %}>
+          {% if sticky_variant.available == false %}
             {{ 'products.product.sold_out' | t }}
           {% else %}
-            {{ section.settings.add_to_cart_text | default: 'Add to Cart' }} — <span class="pm-sticky-btn-price">{% if sticky_variant.price %}{{ sticky_variant.price | money }}{% else %}{{ mock_price | money }}{% endif %}</span>
+            {{ section.settings.add_to_cart_text | default: 'Add to Cart' }} — <span class="pm-sticky-btn-price">{{ sticky_variant.price | money }}</span>
           {% endif %}
         </button>
       </div>
@@ -354,7 +326,7 @@
   <section class="pm-compare">
     <div class="pm-compare-side pm-left">
       <img class="pm-product-main"
-           src="{% if section.settings.compare_product_image %}{{ section.settings.compare_product_image | img_url: 'master' }}{% else %}{{ 'pm-compare-product.svg' | asset_url }}{% endif %}"
+           src="{% if section.settings.compare_product_image %}{{ section.settings.compare_product_image | img_url: 'master' }}{% elsif featured_image %}{{ featured_image | img_url: 'master' }}{% else %}{{ 'pm-compare-product.svg' | asset_url }}{% endif %}"
            alt="{{ product.title }}" loading="lazy">
       <h3>{{ section.settings.compare_heading_left | default: 'Panstellar Urolithin Liposomal' }}</h3>
       <div class="pm-compare-list">
@@ -533,38 +505,6 @@
   "class": "section",
   "limit": 1,
   "settings": [
-    {
-      "type": "header",
-      "content": "⚡ Mock Product Data"
-    },
-    {
-      "type": "paragraph",
-      "content": "Ces données s'affichent quand aucun produit Shopify n'est trouvé (fallback pour le dev/preview)."
-    },
-    {
-      "type": "text",
-      "id": "mock_title",
-      "label": "Mock product title",
-      "default": "Urolithin A — Single-Active Liposomal"
-    },
-    {
-      "type": "textarea",
-      "id": "mock_description",
-      "label": "Mock description",
-      "default": "Liposomal Urolithin A, derived from pomegranate. One molecule. Nothing else."
-    },
-    {
-      "type": "number",
-      "id": "mock_price",
-      "label": "Mock price (cents)",
-      "default": 12900
-    },
-    {
-      "type": "number",
-      "id": "mock_id",
-      "label": "Mock variant ID",
-      "default": 41234567890123
-    },
     {
       "type": "header",
       "content": "Hero"
