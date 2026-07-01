@@ -17,9 +17,9 @@
   <section class="hm-hero">
     <picture>
       <source media="(max-width: 767px)"
-              srcset="{% if section.settings.hero_bg_mobile %}{{ section.settings.hero_bg_mobile | img_url: 'master' }}{% else %}{{ 'pm-hero-bg.svg' | asset_url }}{% endif %}">
+              srcset="{% if section.settings.hero_bg_mobile %}{{ section.settings.hero_bg_mobile | img_url: 'master' }}{% else %}{{ 'hero-mobile-only.jpg' | asset_url }}{% endif %}">
       <img class="hm-hero-bg"
-           src="{% if section.settings.hero_bg %}{{ section.settings.hero_bg | img_url: 'master' }}{% else %}{{ 'pm-hero-bg.svg' | asset_url }}{% endif %}"
+           src="{% if section.settings.hero_bg %}{{ section.settings.hero_bg | img_url: 'master' }}{% else %}{{ 'hero-lifestyle-integrated.jpg' | asset_url }}{% endif %}"
            alt=""
            loading="eager">
     </picture>

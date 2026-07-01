@@ -19,9 +19,9 @@
   <section class="pm-hero">
     <picture>
       <source media="(max-width: 767px)"
-              srcset="{% if section.settings.hero_image_mobile %}{{ section.settings.hero_image_mobile | img_url: 'master' }}{% else %}{{ 'pm-hero-bg.svg' | asset_url }}{% endif %}">
+              srcset="{% if section.settings.hero_image_mobile %}{{ section.settings.hero_image_mobile | img_url: 'master' }}{% else %}{{ 'hero-mobile-only.jpg' | asset_url }}{% endif %}">
       <img class="pm-hero-bg"
-           src="{% if section.settings.hero_image %}{{ section.settings.hero_image | img_url: 'master' }}{% elsif featured_image %}{{ featured_image | img_url: 'master' }}{% else %}{{ 'pm-hero-bg.svg' | asset_url }}{% endif %}"
+           src="{% if section.settings.hero_image %}{{ section.settings.hero_image | img_url: 'master' }}{% elsif featured_image %}{{ featured_image | img_url: 'master' }}{% else %}{{ 'hero-lifestyle-integrated.jpg' | asset_url }}{% endif %}"
            alt="{{ product.title }}"
            loading="eager">
     </picture>
@@ -34,7 +34,7 @@
 
     <!-- Hero product image (floating bottle) -->
     <img class="pm-hero-product"
-         src="{% if section.settings.hero_product_image %}{{ section.settings.hero_product_image | img_url: 'master' }}{% elsif featured_image %}{{ featured_image | img_url: 'master' }}{% else %}{{ 'pm-hero-product.svg' | asset_url }}{% endif %}"
+         src="{% if section.settings.hero_product_image %}{{ section.settings.hero_product_image | img_url: 'master' }}{% elsif featured_image %}{{ featured_image | img_url: 'master' }}{% else %}{{ 'product-packshot.png' | asset_url }}{% endif %}"
          alt="{{ product.title }}"
          loading="eager">
 
@@ -50,7 +50,7 @@
             {% if block.type == 'hero_icon' %}
               <div>
                 <img class="pm-icon-img"
-                     src="{% if block.settings.icon %}{{ block.settings.icon | img_url: '34x34' }}{% else %}{{ 'pm-benefit-icon.svg' | asset_url }}{% endif %}"
+                     src="{% if block.settings.icon %}{{ block.settings.icon | img_url: '34x34' }}{% else %}{{ 'icon-leaf.png' | asset_url }}{% endif %}"
                      alt="{{ block.settings.label }}"
                      loading="lazy">
                 <span>{{ block.settings.label }}</span>
@@ -105,7 +105,7 @@
               {% if block.type == 'benefit' %}
                 <div class="pm-benefit">
                   <img class="pm-benefit-icon"
-                       src="{% if block.settings.icon %}{{ block.settings.icon | img_url: '15x15' }}{% else %}{{ 'pm-benefit-icon.svg' | asset_url }}{% endif %}"
+                       src="{% if block.settings.icon %}{{ block.settings.icon | img_url: '15x15' }}{% else %}{{ 'icon-leaf.png' | asset_url }}{% endif %}"
                        alt="{{ block.settings.label }}"
                        loading="lazy">
                   <span>{{ block.settings.label }}</span>
@@ -152,7 +152,7 @@
           {% if section.settings.shipping_text != blank %}
             <div class="pm-shipping">
               <img class="pm-shipping-icon"
-                   src="{% if section.settings.shipping_icon %}{{ section.settings.shipping_icon | img_url: '19x19' }}{% else %}{{ 'pm-shipping-icon.svg' | asset_url }}{% endif %}"
+                   src="{% if section.settings.shipping_icon %}{{ section.settings.shipping_icon | img_url: '19x19' }}{% else %}{{ 'icon-truck.png' | asset_url }}{% endif %}"
                    alt="Shipping"
                    loading="lazy">
               {{ section.settings.shipping_text }}
@@ -175,7 +175,7 @@
             <button class="pm-acc-btn" type="button" aria-expanded="false">
               <span class="pm-acc-label">
                 <img class="pm-acc-icon"
-                     src="{% if section.settings.acc_support_icon %}{{ section.settings.acc_support_icon | img_url: '31x31' }}{% else %}{{ 'acc-support-leaf.svg' | asset_url }}{% endif %}"
+                     src="{% if section.settings.acc_support_icon %}{{ section.settings.acc_support_icon | img_url: '31x31' }}{% else %}{{ 'acc-support-leaf.png' | asset_url }}{% endif %}"
                      alt="" loading="lazy">
                 Supports
               </span>
@@ -187,7 +187,7 @@
                 {% for block in section.blocks %}
                   {% if block.type == 'support_item' %}
                     <div class="pm-support-card">
-                      <img src="{% if block.settings.icon %}{{ block.settings.icon | img_url: '34x34' }}{% else %}{{ 'pm-support-icon.svg' | asset_url }}{% endif %}" alt="" loading="lazy">
+                      <img src="{% if block.settings.icon %}{{ block.settings.icon | img_url: '34x34' }}{% else %}{{ 'acc-support-leaf.png' | asset_url }}{% endif %}" alt="" loading="lazy">
                       <span>{{ block.settings.label }}</span>
                     </div>
                   {% endif %}
@@ -201,7 +201,7 @@
             <button class="pm-acc-btn" type="button" aria-expanded="false">
               <span class="pm-acc-label">
                 <img class="pm-acc-icon"
-                     src="{% if section.settings.acc_ingredients_icon %}{{ section.settings.acc_ingredients_icon | img_url: '31x31' }}{% else %}{{ 'acc-title-flask.svg' | asset_url }}{% endif %}"
+                     src="{% if section.settings.acc_ingredients_icon %}{{ section.settings.acc_ingredients_icon | img_url: '31x31' }}{% else %}{{ 'acc-title-flask.png' | asset_url }}{% endif %}"
                      alt="" loading="lazy">
                 Ingredients
               </span>
@@ -213,7 +213,7 @@
                 {% for block in section.blocks %}
                   {% if block.type == 'ingredient_item' %}
                     <div class="pm-ingredient-card">
-                      <img src="{% if block.settings.icon %}{{ block.settings.icon | img_url: '48x48' }}{% else %}{{ 'pm-ingredient-icon.svg' | asset_url }}{% endif %}" alt="" loading="lazy">
+                      <img src="{% if block.settings.icon %}{{ block.settings.icon | img_url: '48x48' }}{% else %}{{ 'acc-title-flask.png' | asset_url }}{% endif %}" alt="" loading="lazy">
                       <span>{{ block.settings.label }}</span>
                     </div>
                   {% endif %}
@@ -227,7 +227,7 @@
             <button class="pm-acc-btn" type="button" aria-expanded="false">
               <span class="pm-acc-label">
                 <img class="pm-acc-icon"
-                     src="{% if section.settings.acc_certificates_icon %}{{ section.settings.acc_certificates_icon | img_url: '31x31' }}{% else %}{{ 'acc-title-shield.svg' | asset_url }}{% endif %}"
+                     src="{% if section.settings.acc_certificates_icon %}{{ section.settings.acc_certificates_icon | img_url: '31x31' }}{% else %}{{ 'acc-title-shield.png' | asset_url }}{% endif %}"
                      alt="" loading="lazy">
                 Certificates
               </span>
@@ -240,14 +240,14 @@
                   {% for block in section.blocks %}
                     {% if block.type == 'certificate_item' %}
                       <div>
-                        <img src="{% if block.settings.icon %}{{ block.settings.icon | img_url: '26x26' }}{% else %}{{ 'pm-cert-icon.svg' | asset_url }}{% endif %}" alt="" loading="lazy">
+                        <img src="{% if block.settings.icon %}{{ block.settings.icon | img_url: '26x26' }}{% else %}{{ 'acc-cert-thirdparty.png' | asset_url }}{% endif %}" alt="" loading="lazy">
                         <span>{{ block.settings.label }}</span>
                       </div>
                     {% endif %}
                   {% endfor %}
                 </div>
                 <img class="pm-coa-img"
-                     src="{% if section.settings.coa_image %}{{ section.settings.coa_image | img_url: '300x' }}{% else %}{{ 'pm-coa-certificate.svg' | asset_url }}{% endif %}"
+                     src="{% if section.settings.coa_image %}{{ section.settings.coa_image | img_url: '300x' }}{% else %}{{ 'acc-cert-coa.png' | asset_url }}{% endif %}"
                      alt="Certificate of Analysis" loading="lazy">
               </div>
             </div>
@@ -266,7 +266,7 @@
       <div class="pm-sticky-info">
         <img class="pm-sticky-img"
              id="pm-sticky-img"
-             src="{% if featured_image %}{{ featured_image | img_url: '48x48' }}{% else %}{{ 'pm-hero-product-thumb.svg' | asset_url }}{% endif %}"
+             src="{% if featured_image %}{{ featured_image | img_url: '48x48' }}{% else %}{{ 'product-packshot.png' | asset_url }}{% endif %}"
              alt="{{ product.title }}"
              loading="lazy">
         <div>
@@ -308,7 +308,7 @@
           {% if block.type == 'strip_item' %}
             <div class="pm-strip-item">
               <img class="pm-strip-icon-img"
-                   src="{% if block.settings.icon %}{{ block.settings.icon | img_url: '42x42' }}{% else %}{{ 'pm-benefit-icon.svg' | asset_url }}{% endif %}"
+                   src="{% if block.settings.icon %}{{ block.settings.icon | img_url: '42x42' }}{% else %}{{ 'icon-leaf.png' | asset_url }}{% endif %}"
                    alt="{{ block.settings.label }}" loading="lazy">
               <b>{{ block.settings.label }}</b>
             </div>
@@ -326,7 +326,7 @@
   <section class="pm-compare">
     <div class="pm-compare-side pm-left">
       <img class="pm-product-main"
-           src="{% if section.settings.compare_product_image %}{{ section.settings.compare_product_image | img_url: 'master' }}{% elsif featured_image %}{{ featured_image | img_url: 'master' }}{% else %}{{ 'pm-compare-product.svg' | asset_url }}{% endif %}"
+           src="{% if section.settings.compare_product_image %}{{ section.settings.compare_product_image | img_url: 'master' }}{% elsif featured_image %}{{ featured_image | img_url: 'master' }}{% else %}{{ 'comparison-bottles.png' | asset_url }}{% endif %}"
            alt="{{ product.title }}" loading="lazy">
       <h3>{{ section.settings.compare_heading_left | default: 'Panstellar Urolithin Liposomal' }}</h3>
       <div class="pm-compare-list">
@@ -344,7 +344,7 @@
 
     <div class="pm-compare-side">
       <img class="pm-bottle-group"
-           src="{% if section.settings.compare_con_image %}{{ section.settings.compare_con_image | img_url: 'master' }}{% else %}{{ 'pm-compare-con.svg' | asset_url }}{% endif %}"
+           src="{% if section.settings.compare_con_image %}{{ section.settings.compare_con_image | img_url: 'master' }}{% else %}{{ 'comparison-bottles.png' | asset_url }}{% endif %}"
            alt="Typical approach" loading="lazy">
       <h3>{{ section.settings.compare_heading_right | default: 'Typical Approach' }}</h3>
       <div class="pm-compare-list">
@@ -390,7 +390,7 @@
           {% if block.type == 'quality_item' %}
             <div class="pm-q-item">
               <img class="pm-quality-icon-img"
-                   src="{% if block.settings.icon %}{{ block.settings.icon | img_url: '34x34' }}{% else %}{{ 'pm-benefit-icon.svg' | asset_url }}{% endif %}"
+                   src="{% if block.settings.icon %}{{ block.settings.icon | img_url: '34x34' }}{% else %}{{ 'icon-leaf.png' | asset_url }}{% endif %}"
                    alt="{{ block.settings.title }}" loading="lazy">
               <div>
                 <b>{{ block.settings.title }}</b>
@@ -403,7 +403,7 @@
         {% endfor %}
       </div>
       <div class="pm-lab-card">
-        <img src="{% if section.settings.lab_image %}{{ section.settings.lab_image | img_url: 'master' }}{% else %}{{ 'pm-lab-results.svg' | asset_url }}{% endif %}" alt="Lab results" loading="lazy">
+        <img src="{% if section.settings.lab_image %}{{ section.settings.lab_image | img_url: 'master' }}{% else %}{{ 'lab-results.jpg' | asset_url }}{% endif %}" alt="Lab results" loading="lazy">
         <div>
           <h3>{{ section.settings.lab_heading | default: 'Lab results.<br>Real data.' }}</h3>
           <a href="{{ section.settings.lab_link | default: '#' }}">{{ section.settings.lab_link_text | default: 'View library →' }}</a>
