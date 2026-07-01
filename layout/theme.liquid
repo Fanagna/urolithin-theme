@@ -23,8 +23,15 @@
     {%- unless page_title contains shop.name %}&ndash; {{ shop.name }}{% endunless -%}
   </title>
 
-  {% if page_description %}
-    <meta name="description" content="{{ page_description | escape }}">
+  {%- liquid
+    if template.name == 'index' and settings.homepage_seo_description != blank
+      assign meta_description = settings.homepage_seo_description
+    else
+      assign meta_description = page_description
+    endif
+  -%}
+  {% if meta_description %}
+    <meta name="description" content="{{ meta_description | escape }}">
   {% endif %}
 
   {% render 'meta-tags' %}

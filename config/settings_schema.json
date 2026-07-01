@@ -15,5 +15,17 @@
         "content": "Les couleurs sont définies dans assets/theme-sticky.css (variables CSS :root)."
       }
     ]
+  },
+  {
+    "name": "SEO — Homepage",
+    "settings": [
+      {
+        "type": "textarea",
+        "id": "homepage_seo_description",
+        "label": "Meta description de la page d'accueil",
+        "info": "Cette description apparaît dans les résultats de recherche Google. Recommandé : 150-160 caractères.",
+        "default": "Premium supplement store — science-backed urolithin A liposomal, third-party tested, COA verified. Pure ingredients for cellular health and healthy aging."
+      }
+    ]
   }
 ]

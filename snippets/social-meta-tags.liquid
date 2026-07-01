@@ -1,6 +1,10 @@
 {%- liquid
   assign og_title = page_title | default: shop.name
-  assign og_description = page_description | default: shop.description | default: shop.name
+  if template.name == 'index' and settings.homepage_seo_description != blank
+    assign og_description = settings.homepage_seo_description
+  else
+    assign og_description = page_description | default: shop.description | default: shop.name
+  endif
 
   # Image fallback chain: product/article/page > theme settings > shop logo
   if template.name == 'product' and product.featured_image
