@@ -1,0 +1,363 @@
+{% comment %}
+  Home Main — Homepage section for Urolithin Theme
+  Sections: Hero Banner, Trust Features, Featured Products, Newsletter
+{% endcomment %}
+
+{%- liquid
+  assign max_products = section.settings.max_products | default: 6 | times: 1
+  if section.settings.featured_collection != blank
+    assign featured = collections[section.settings.featured_collection]
+  else
+    assign featured = collections['all']
+  endif
+-%}
+
+<div class="hm-page">
+  <!-- ═══════ HERO ═══════ -->
+  <section class="hm-hero">
+    <picture>
+      <source media="(max-width: 767px)"
+              srcset="{% if section.settings.hero_bg_mobile %}{{ section.settings.hero_bg_mobile | img_url: 'master' }}{% else %}{{ 'pm-hero-bg.svg' | asset_url }}{% endif %}">
+      <img class="hm-hero-bg"
+           src="{% if section.settings.hero_bg %}{{ section.settings.hero_bg | img_url: 'master' }}{% else %}{{ 'pm-hero-bg.svg' | asset_url }}{% endif %}"
+           alt=""
+           loading="eager">
+    </picture>
+    <div class="hm-hero-overlay"></div>
+
+    <div class="hm-wrap hm-hero-content">
+      <div class="hm-hero-badge">Premium Supplement Store</div>
+      <h1>{{ section.settings.hero_heading | default: 'Premium Supplements<br>for Peak Performance' }}</h1>
+      <p class="hm-hero-sub">{{ section.settings.hero_subtitle | default: 'Science-backed formulations, third-party tested. Pure ingredients. Real results.' }}</p>
+      <a href="{{ section.settings.hero_cta_link | default: '/collections/all' }}" class="hm-cta hm-cta-primary">
+        {{ section.settings.hero_cta_text | default: 'Shop Now' }}
+      </a>
+    </div>
+  </section>
+
+  <!-- ═══════ TRUST FEATURES ═══════ -->
+  {% if section.settings.show_features %}
+  <section class="hm-features">
+    <div class="hm-wrap">
+      {% if section.settings.features_heading != blank %}
+        <h2 class="hm-section-title">{{ section.settings.features_heading }}</h2>
+      {% endif %}
+      <div class="hm-features-grid">
+        {% for block in section.blocks %}
+          {% if block.type == 'feature' %}
+            <div class="hm-feature-card">
+              <div class="hm-feature-icon-wrap">
+                {% if block.settings.icon != blank %}
+                  <img src="{{ block.settings.icon | img_url: '48x48' }}" alt="" class="hm-feature-icon" loading="lazy">
+                {% else %}
+                  <span class="hm-feature-icon-emoji">{{ block.settings.emoji | default: '✓' }}</span>
+                {% endif %}
+              </div>
+              <h3 class="hm-feature-title">{{ block.settings.title }}</h3>
+              <p class="hm-feature-desc">{{ block.settings.description }}</p>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- ═══════ FEATURED PRODUCTS ═══════ -->
+  {% if section.settings.show_featured %}
+  <section class="hm-products">
+    <div class="hm-wrap">
+      <div class="hm-section-head">
+        <h2 class="hm-section-title">{{ section.settings.featured_heading | default: 'Featured Products' }}</h2>
+        {% if section.settings.featured_subtitle != blank %}
+          <p class="hm-section-sub">{{ section.settings.featured_subtitle }}</p>
+        {% endif %}
+      </div>
+      <div class="hm-products-grid">
+        {% for product in featured.products limit: max_products %}
+          <a href="{{ product.url }}" class="hm-product-card">
+            <div class="hm-product-img-wrap">
+              {% if product.featured_image %}
+                <img src="{{ product.featured_image | img_url: '400x400' }}" alt="{{ product.title }}" loading="lazy">
+              {% else %}
+                <div class="hm-product-placeholder">{{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+              {% endif %}
+            </div>
+            <div class="hm-product-info">
+              <h3 class="hm-product-title">{{ product.title }}</h3>
+              <div class="hm-product-price">{{ product.price | money }}</div>
+              {% if product.compare_at_price > product.price %}
+                <div class="hm-product-compare"><s>{{ product.compare_at_price | money }}</s></div>
+              {% endif %}
+            </div>
+          </a>
+        {% else %}
+          {% for i in (1..max_products) %}
+            <div class="hm-product-card">
+              <div class="hm-product-img-wrap">
+                <div class="hm-product-placeholder">{{ 'product-' | append: i | placeholder_svg_tag: 'placeholder-svg' }}</div>
+              </div>
+              <div class="hm-product-info">
+                <h3 class="hm-product-title">Product {{ i }}</h3>
+                <div class="hm-product-price">$0.00</div>
+              </div>
+            </div>
+          {% endfor %}
+        {% endfor %}
+      </div>
+      <div class="hm-products-cta">
+        <a href="{{ section.settings.featured_link | default: '/collections/all' }}" class="hm-cta hm-cta-secondary">
+          {{ section.settings.featured_link_text | default: 'View All Products →' }}
+        </a>
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- ═══════ NEWSLETTER ═══════ -->
+  {% if section.settings.show_newsletter %}
+  <section class="hm-newsletter">
+    <div class="hm-wrap hm-newsletter-inner">
+      <div class="hm-newsletter-content">
+        <h2>{{ section.settings.newsletter_heading | default: 'Stay in the Loop' }}</h2>
+        <p>{{ section.settings.newsletter_text | default: 'Subscribe for exclusive offers, product launches, and science-backed health insights.' }}</p>
+      </div>
+      {% form 'customer', class: 'hm-newsletter-form' %}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <div class="hm-newsletter-input-wrap">
+          <input type="email"
+                 name="contact[email]"
+                 class="hm-newsletter-input"
+                 value="{{ form.email }}"
+                 placeholder="Enter your email"
+                 aria-label="Email"
+                 autocorrect="off"
+                 autocapitalize="off"
+                 required>
+          <button type="submit" class="hm-cta hm-cta-primary hm-cta-sm">
+            {{ section.settings.newsletter_btn_text | default: 'Subscribe' }}
+          </button>
+        </div>
+        {%- if form.posted_successfully? -%}
+          <p class="hm-newsletter-success">✓ Thanks for subscribing!</p>
+        {%- elsif form.errors -%}
+          <p class="hm-newsletter-error">{{ form.errors.translated_fields['email'] }} {{ form.errors.messages['email'] }}</p>
+        {%- endif -%}
+      {% endform %}
+    </div>
+  </section>
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "Home Main",
+  "tag": "section",
+  "class": "section",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero Banner"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_bg",
+      "label": "Hero background image",
+      "info": "1920×560px recommandé"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_bg_mobile",
+      "label": "Hero background (mobile)",
+      "info": "600×378px recommandé"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_heading",
+      "label": "Hero heading",
+      "default": "Premium Supplements<br>for Peak Performance"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_subtitle",
+      "label": "Hero subtitle",
+      "default": "Science-backed formulations, third-party tested. Pure ingredients. Real results."
+    },
+    {
+      "type": "text",
+      "id": "hero_cta_text",
+      "label": "CTA button text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "hero_cta_link",
+      "label": "CTA link",
+      "default": "/collections/all"
+    },
+    {
+      "type": "header",
+      "content": "Features Section"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_features",
+      "label": "Show features section",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "features_heading",
+      "label": "Features heading",
+      "default": "Why Choose Us?"
+    },
+    {
+      "type": "header",
+      "content": "Featured Products"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_featured",
+      "label": "Show featured products",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "featured_heading",
+      "label": "Heading",
+      "default": "Featured Products"
+    },
+    {
+      "type": "text",
+      "id": "featured_subtitle",
+      "label": "Subtitle",
+      "default": "Discover our premium biohacking supplements"
+    },
+    {
+      "type": "collection",
+      "id": "featured_collection",
+      "label": "Collection to show"
+    },
+    {
+      "type": "range",
+      "id": "max_products",
+      "label": "Max products",
+      "min": 3,
+      "max": 12,
+      "step": 1,
+      "default": 6
+    },
+    {
+      "type": "url",
+      "id": "featured_link",
+      "label": "View all link"
+    },
+    {
+      "type": "text",
+      "id": "featured_link_text",
+      "label": "View all text",
+      "default": "View All Products →"
+    },
+    {
+      "type": "header",
+      "content": "Newsletter"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_newsletter",
+      "label": "Show newsletter",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "newsletter_heading",
+      "label": "Heading",
+      "default": "Stay in the Loop"
+    },
+    {
+      "type": "textarea",
+      "id": "newsletter_text",
+      "label": "Text",
+      "default": "Subscribe for exclusive offers, product launches, and science-backed health insights."
+    },
+    {
+      "type": "text",
+      "id": "newsletter_btn_text",
+      "label": "Button text",
+      "default": "Subscribe"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Trust Feature",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon (48×48px)"
+        },
+        {
+          "type": "text",
+          "id": "emoji",
+          "label": "Emoji fallback",
+          "default": "🏆"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Quality Guaranteed"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "All products are third-party tested and COA verified."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Home Main",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "emoji": "🏆",
+            "title": "Quality Guaranteed",
+            "description": "All products are third-party tested and COA verified."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "emoji": "🔄",
+            "title": "Money Back Guarantee",
+            "description": "Not satisfied? Full refund within 90 days. No questions asked."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "emoji": "🔒",
+            "title": "SSL Secure",
+            "description": "Your data is encrypted and protected with industry-standard security."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "emoji": "🚚",
+            "title": "Free Shipping",
+            "description": "Free U.S. shipping on orders $75+. Fast and reliable delivery."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

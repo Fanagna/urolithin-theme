@@ -1,0 +1,27 @@
+{
+  "name": "Homepage",
+  "sections": {
+    "home-main": {
+      "type": "home-main",
+      "settings": {
+        "hero_heading": "Premium Supplements\nfor Peak Performance",
+        "hero_subtitle": "Science-backed formulations, third-party tested. Pure ingredients. Real results.",
+        "hero_cta_text": "Shop Now",
+        "hero_cta_link": "/collections/all",
+        "show_features": true,
+        "features_heading": "Why Choose Us?",
+        "show_featured": true,
+        "featured_heading": "Featured Products",
+        "featured_subtitle": "Discover our premium biohacking supplements",
+        "max_products": 6,
+        "show_newsletter": true,
+        "newsletter_heading": "Stay in the Loop",
+        "newsletter_text": "Subscribe for exclusive offers, product launches, and science-backed health insights.",
+        "newsletter_btn_text": "Subscribe"
+      }
+    }
+  },
+  "order": [
+    "home-main"
+  ]
+}
