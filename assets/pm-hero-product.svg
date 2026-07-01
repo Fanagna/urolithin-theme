@@ -1,15 +1,39 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" fill="none">
-  <!-- Bottle body -->
-  <rect x="120" y="140" width="160" height="340" rx="16" fill="#e8d5b8" stroke="#c9a87c" stroke-width="2"/>
-  <rect x="130" y="160" width="140" height="280" rx="8" fill="rgba(255,249,242,0.5)"/>
-  <!-- Label -->
-  <rect x="135" y="240" width="130" height="120" rx="6" fill="#b87316" opacity="0.15"/>
-  <text x="200" y="290" text-anchor="middle" fill="#b87316" font-family="Georgia,serif" font-size="13" font-weight="700">UROLITHIN</text>
-  <text x="200" y="310" text-anchor="middle" fill="#b87316" font-family="Georgia,serif" font-size="10" font-weight="600">LIPOSOMAL</text>
-  <text x="200" y="336" text-anchor="middle" fill="#7a5c3a" font-family="Arial,sans-serif" font-size="8">2000 mg</text>
-  <!-- Cap -->
-  <rect x="145" y="90" width="110" height="56" rx="10" fill="#d4a44a" stroke="#b87316" stroke-width="2"/>
-  <rect x="155" y="100" width="90" height="36" rx="4" fill="#c99330"/>
+  <defs>
+    <linearGradient id="bottleBody" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f0e0c8"/>
+      <stop offset="50%" stop-color="#e8d5b8"/>
+      <stop offset="100%" stop-color="#dcc8a8"/>
+    </linearGradient>
+    <linearGradient id="capGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#dba94a"/>
+      <stop offset="100%" stop-color="#c68a2c"/>
+    </linearGradient>
+    <linearGradient id="labelGlow" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="rgba(184,115,22,0.08)"/>
+      <stop offset="100%" stop-color="rgba(184,115,22,0.18)"/>
+    </linearGradient>
+  </defs>
   <!-- Shadow -->
-  <ellipse cx="200" cy="482" rx="90" ry="8" fill="rgba(70,40,20,0.12)"/>
+  <ellipse cx="200" cy="482" rx="95" ry="10" fill="rgba(70,40,20,0.1)"/>
+  <ellipse cx="200" cy="482" rx="60" ry="5" fill="rgba(70,40,20,0.08)"/>
+  <!-- Bottle body -->
+  <rect x="120" y="140" width="160" height="340" rx="18" fill="url(#bottleBody)" stroke="#c9a87c" stroke-width="1.5"/>
+  <rect x="128" y="158" width="144" height="280" rx="10" fill="url(#labelGlow)"/>
+  <!-- Glass highlight -->
+  <rect x="130" y="158" width="12" height="276" rx="6" fill="rgba(255,255,255,0.15)"/>
+  <!-- Label -->
+  <rect x="136" y="236" width="128" height="124" rx="6" fill="rgba(184,115,22,0.08)" stroke="rgba(184,115,22,0.2)" stroke-width="0.5"/>
+  <rect x="140" y="240" width="120" height="116" rx="4" fill="rgba(184,115,22,0.04)"/>
+  <text x="200" y="280" text-anchor="middle" fill="#b87316" font-family="Georgia,serif" font-size="14" font-weight="700" letter-spacing="1">UROLITHIN A</text>
+  <line x1="156" y1="290" x2="244" y2="290" stroke="#b87316" stroke-width="0.5" opacity="0.3"/>
+  <text x="200" y="310" text-anchor="middle" fill="#b87316" font-family="Georgia,serif" font-size="10" font-weight="600" letter-spacing="2">LIPOSOMAL</text>
+  <text x="200" y="336" text-anchor="middle" fill="#7a5c3a" font-family="Arial,sans-serif" font-size="8" letter-spacing="0.5">2000 mg · 45 servings</text>
+  <line x1="160" y1="348" x2="240" y2="348" stroke="rgba(184,115,22,0.15)" stroke-width="0.5"/>
+  <!-- Cap -->
+  <rect x="145" y="88" width="110" height="58" rx="10" fill="url(#capGrad)" stroke="#b87316" stroke-width="1.5"/>
+  <rect x="155" y="96" width="90" height="38" rx="4" fill="rgba(255,255,255,0.08)"/>
+  <rect x="195" y="96" width="10" height="38" rx="2" fill="rgba(255,255,255,0.06)"/>
+  <!-- Cap highlight -->
+  <rect x="152" y="98" width="8" height="34" rx="4" fill="rgba(255,255,255,0.12)"/>
 </svg>

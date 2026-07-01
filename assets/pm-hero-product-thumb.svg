@@ -1,10 +1,24 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 280" fill="none">
-  <rect x="140" y="30" width="100" height="200" rx="12" fill="#e8d5b8" stroke="#c9a87c" stroke-width="1.5"/>
-  <rect x="148" y="48" width="84" height="160" rx="6" fill="rgba(255,249,242,0.4)"/>
-  <rect x="152" y="100" width="76" height="76" rx="4" fill="#b87316" opacity="0.12"/>
-  <text x="190" y="136" text-anchor="middle" fill="#b87316" font-family="Georgia,serif" font-size="11" font-weight="700">UA</text>
-  <text x="190" y="152" text-anchor="middle" fill="#b87316" font-family="Arial,sans-serif" font-size="7" font-weight="600">LIPOSOMAL</text>
-  <rect x="158" y="12" width="64" height="24" rx="6" fill="#d4a44a"/>
-  <rect x="162" y="16" width="56" height="16" rx="3" fill="#c99330"/>
-  <ellipse cx="190" cy="234" rx="60" ry="5" fill="rgba(70,40,20,0.08)"/>
+  <defs>
+    <linearGradient id="thumbBody" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f0e0c8"/>
+      <stop offset="100%" stop-color="#dcc8a8"/>
+    </linearGradient>
+    <linearGradient id="thumbCap" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#dba94a"/>
+      <stop offset="100%" stop-color="#c68a2c"/>
+    </linearGradient>
+  </defs>
+  <rect x="140" y="30" width="100" height="200" rx="14" fill="url(#thumbBody)" stroke="#c9a87c" stroke-width="1.5"/>
+  <rect x="148" y="48" width="84" height="160" rx="6" fill="rgba(255,249,242,0.2)"/>
+  <!-- Label on bottle -->
+  <rect x="152" y="100" width="76" height="76" rx="6" fill="rgba(184,115,22,0.08)" stroke="rgba(184,115,22,0.15)" stroke-width="0.5"/>
+  <text x="190" y="134" text-anchor="middle" fill="#b87316" font-family="Georgia,serif" font-size="12" font-weight="700" letter-spacing="0.5">UA</text>
+  <line x1="162" y1="142" x2="218" y2="142" stroke="#b87316" stroke-width="0.5" opacity="0.2"/>
+  <text x="190" y="154" text-anchor="middle" fill="#b87316" font-family="Arial,sans-serif" font-size="7" font-weight="600">LIPOSOMAL</text>
+  <!-- Cap -->
+  <rect x="158" y="12" width="64" height="24" rx="6" fill="url(#thumbCap)"/>
+  <rect x="162" y="16" width="56" height="16" rx="3" fill="rgba(255,255,255,0.06)"/>
+  <!-- Shadow -->
+  <ellipse cx="190" cy="234" rx="65" ry="6" fill="rgba(70,40,20,0.08)"/>
 </svg>
