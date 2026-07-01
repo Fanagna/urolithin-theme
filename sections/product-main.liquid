@@ -504,10 +504,18 @@
         {% endfor %}
       </div>
 
-      <div class="pm-faq-mini">
+      <div class="pm-faq-mini" id="pm-faq">
         {% for block in section.blocks %}
           {% if block.type == 'faq' %}
-            <div>{{ block.settings.question }} <span>{{ block.settings.arrow | default: '›' }}</span></div>
+            <div class="pm-faq-row">
+              <button class="pm-faq-btn" type="button" aria-expanded="false">
+                <span class="pm-faq-question">{{ block.settings.question }}</span>
+                <span class="pm-faq-arrow">{{ block.settings.arrow | default: '›' }}</span>
+              </button>
+              <div class="pm-faq-answer">
+                <p>{{ block.settings.answer }}</p>
+              </div>
+            </div>
           {% endif %}
         {% endfor %}
       </div>
@@ -910,6 +918,7 @@
       "limit": 6,
       "settings": [
         { "type": "text", "id": "question", "label": "Question", "default": "Why single-active?" },
+        { "type": "textarea", "id": "answer", "label": "Answer", "default": "Most Urolithin A products blend multiple compounds, which dilutes each individual dose." },
         { "type": "text", "id": "arrow", "label": "Arrow symbol", "default": "›" }
       ]
     }
@@ -970,16 +979,16 @@
         { "type": "subscribe_bullet", "settings": { "text": "Ships every 90 days" } },
         { "type": "subscribe_bullet", "settings": { "text": "Cancel or pause anytime" } },
         { "type": "subscribe_bullet", "settings": { "text": "COA access included" } },
-        { "type": "plan", "settings": { "title": "3 Months", "subtitle": "1 bottle • 2 refills", "monthly_price": "$109.65 / month", "discount_text": "15% OFF", "popular": true, "tag_text": "MOST POPULAR" } },
-        { "type": "plan", "settings": { "title": "6 Months", "subtitle": "1 bottle • 5 refills", "monthly_price": "$99.00 / month", "discount_text": "23% OFF" } },
-        { "type": "plan", "settings": { "title": "12 Months", "subtitle": "1 bottle • 11 refills", "monthly_price": "$89.00 / month", "discount_text": "31% OFF" } },
+        { "type": "plan", "settings": { "title": "3 Months", "subtitle": "1 bottle • 2 refills", "monthly_price": "$109.65 / delivery", "discount_text": "Save 15% — Best Value", "popular": true, "tag_text": "MOST POPULAR" } },
+        { "type": "plan", "settings": { "title": "6 Months", "subtitle": "1 bottle • 5 refills", "monthly_price": "$99.00 / delivery", "discount_text": "Save 23%" } },
+        { "type": "plan", "settings": { "title": "12 Months", "subtitle": "1 bottle • 11 refills", "monthly_price": "$89.00 / delivery", "discount_text": "Save 31%" } },
         { "type": "review", "settings": { "stars": "★★★★★", "text": "Clean labels. No fillers. Exactly why I switched.", "author": "Verified reviewer" } },
         { "type": "review", "settings": { "stars": "★★★★★", "text": "COA transparency is a huge plus for me.", "author": "Review from website" } },
         { "type": "review", "settings": { "stars": "★★★★★", "text": "Finally a single-active I can trust.", "author": "All our guarantees" } },
-        { "type": "faq", "settings": { "question": "Why single-active?" } },
-        { "type": "faq", "settings": { "question": "Is it pure?" } },
-        { "type": "faq", "settings": { "question": "Is it tested?" } },
-        { "type": "faq", "settings": { "question": "What is the guarantee?" } }
+        { "type": "faq", "settings": { "question": "Why single-active?", "answer": "Most Urolithin A products blend multiple compounds, which dilutes each individual dose and makes it harder to know what's actually working. Single-active means 100% of the dose is Urolithin A — nothing competing, nothing diluted." } },
+        { "type": "faq", "settings": { "question": "Is it pure?", "answer": "Yes. Each batch is COA-verified by an independent third-party lab. Beyond Urolithin A, the only other ingredients are rice flour (filler), phosphatidylcholine (liposomal matrix), sunflower lecithin, and a vegetable capsule." } },
+        { "type": "faq", "settings": { "question": "Is it tested?", "answer": "Every batch is sent to a third-party laboratory and tested for purity, potency, and contaminants. Certificates of Analysis are available by batch on request." } },
+        { "type": "faq", "settings": { "question": "What is the guarantee?", "answer": "We offer a 90-day money-back guarantee. If you're not satisfied for any reason within 90 days of purchase, contact us for a full refund — no questions asked." } }
       ]
     }
   ]
