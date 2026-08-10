@@ -1,0 +1,460 @@
+{
+  "sections": {
+    "main": {
+      "type": "akv-pdp",
+      "blocks": {
+        "hero_slide_1": {
+          "type": "hero_slide",
+          "settings": {
+            "img_file": "akv-hero.webp",
+            "caption": "",
+            "fit": "cover",
+            "thumb_file": "akv-hero-thumb.webp"
+          }
+        },
+        "hero_slide_2": {
+          "type": "hero_slide",
+          "settings": {
+            "img_file": "akv-supplement-facts.webp",
+            "caption": "Supplement Facts",
+            "fit": "contain",
+            "thumb_file": "akv-supplement-facts-thumb.webp"
+          }
+        },
+        "hero_slide_3": {
+          "type": "hero_slide",
+          "settings": {
+            "img_file": "akv-coa-akkermansia.webp",
+            "caption": "Certificate of Analysis · Batch ALD241223",
+            "fit": "contain",
+            "thumb_file": "akv-coa-thumb.webp"
+          }
+        },
+        "ingredient_1": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Akkermansia Muciniphila — 500 Billion AFU",
+            "img": "akv-ing-akkermansia.webp"
+          }
+        },
+        "ingredient_2": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Inulin (Prebiotic Fiber) — 390 mg",
+            "img": "akv-ing-inulin.webp"
+          }
+        },
+        "ingredient_3": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Green Tea Leaf — 300 mg",
+            "img": "akv-ing-green-tea.webp"
+          }
+        },
+        "ingredient_4": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Vitamin D — 25 mcg (1000 IU)",
+            "img": "akv-ing-vitamin.webp"
+          }
+        },
+        "ingredient_5": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Vitamin B2 (Riboflavin) — 100 mg",
+            "img": "akv-ing-vitamin.webp"
+          }
+        },
+        "ingredient_6": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Chromium — 1000 mcg",
+            "img": "akv-ing-chromium.webp"
+          }
+        },
+        "ingredient_7": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Zinc (Bisglycinate) — 20 mg",
+            "img": "akv-ing-zinc.webp"
+          }
+        },
+        "ingredient_8": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Alpha Lipoic Acid (ALA) — 50 mg",
+            "img": ""
+          }
+        },
+        "expert_1": {
+          "type": "expert",
+          "settings": {
+            "image_file": "sciexp-patrice-cani.webp",
+            "focus_y": 41,
+            "name": "Dr. Patrice D. Cani, PhD",
+            "role": "Microbiologist, Metabolism Expert",
+            "institution": "UCLouvain",
+            "institution_sub": "Belgium"
+          }
+        },
+        "expert_2": {
+          "type": "expert",
+          "settings": {
+            "image_file": "sciexp-willem-de-vos.webp",
+            "focus_y": 33,
+            "name": "Dr. Willem M. de Vos, PhD",
+            "role": "Microbiology & Gut Microbiome Pioneer",
+            "institution": "Wageningen University & Research",
+            "institution_sub": "Netherlands"
+          }
+        },
+        "expert_3": {
+          "type": "expert",
+          "settings": {
+            "image_file": "sciexp-audrey-everard.webp",
+            "focus_y": 28,
+            "name": "Dr. Audrey Everard, PhD",
+            "role": "Physiology & Metabolic Health",
+            "institution": "UCLouvain",
+            "institution_sub": "Belgium"
+          }
+        },
+        "expert_4": {
+          "type": "expert",
+          "settings": {
+            "image_file": "sciexp-didier-maiter.webp",
+            "focus_y": 33,
+            "name": "Dr. Didier Maiter, MD, PhD",
+            "role": "Endocrinology & Clinical Research",
+            "institution": "Cliniques Universitaires Saint-Luc",
+            "institution_sub": "Brussels, Belgium"
+          }
+        },
+        "research_1": {
+          "type": "research_item",
+          "settings": {
+            "image_file": "sciexp-nih.webp",
+            "alt": "National Institutes of Health",
+            "text": ""
+          }
+        },
+        "research_2": {
+          "type": "research_item",
+          "settings": {
+            "image_file": "sciexp-pubmed.webp",
+            "alt": "PubMed",
+            "text": ""
+          }
+        },
+        "research_3": {
+          "type": "research_item",
+          "settings": {
+            "image_file": "",
+            "alt": "",
+            "text": "Published in Top-Tier Peer-Reviewed Journals"
+          }
+        },
+        "research_4": {
+          "type": "research_item",
+          "settings": {
+            "image_file": "sciexp-harvard.webp",
+            "alt": "Harvard University",
+            "text": ""
+          }
+        },
+        "research_5": {
+          "type": "research_item",
+          "settings": {
+            "image_file": "sciexp-stanford.webp",
+            "alt": "Stanford University",
+            "text": ""
+          }
+        },
+        "faq_1": {
+          "type": "faq",
+          "settings": {
+            "question": "What exactly is in the 8-in-1 formula?",
+            "answer": "Akkermansia muciniphila (500 Billion AFU per serving), prebiotic inulin, green tea leaf, vitamin D, vitamin B2, chromium, zinc and alpha lipoic acid (ALA)."
+          }
+        },
+        "faq_2": {
+          "type": "faq",
+          "settings": {
+            "question": "How long does one bottle last?",
+            "answer": "Each bottle contains 180 capsules. The daily serving is 2 capsules, so one bottle is a full 3-month (90-day) supply."
+          }
+        },
+        "faq_3": {
+          "type": "faq",
+          "settings": {
+            "question": "What are AFUs and why do they matter?",
+            "answer": "AFU (Active Fluorescent Units) counts viable probiotic cells using flow cytometry — a modern, more precise alternative to traditional CFU counting. It gives a clearer picture of the active cells in each serving."
+          }
+        },
+        "faq_4": {
+          "type": "faq",
+          "settings": {
+            "question": "When should I expect to notice a difference?",
+            "answer": "Everyone's microbiome is different, so individual experiences vary. Consistency matters most — many people give a new probiotic routine at least 4–6 weeks as part of their daily habits."
+          }
+        },
+        "sp_quote_1": {
+          "type": "sp_quote",
+          "settings": {
+            "quote": "Since I started taking Akkermansia, I feel lighter and have more energy throughout the day.",
+            "author": "– Julia D.",
+            "avatar_file": "akv-sp-avatar-julia.webp"
+          }
+        },
+        "sp_quote_2": {
+          "type": "sp_quote",
+          "settings": {
+            "quote": "An essential part of my daily routine: better digestion, less bloating, and I feel more balanced.",
+            "author": "– Clara M.",
+            "avatar_file": "akv-sp-avatar-clara.webp"
+          }
+        },
+        "sp_quote_3": {
+          "type": "sp_quote",
+          "settings": {
+            "quote": "An effective and 100% natural probiotic. I highly recommend it to anyone!",
+            "author": "– Emma L.",
+            "avatar_file": "akv-sp-avatar-emma.webp"
+          }
+        },
+        "media_logo_1": {
+          "type": "media_logo",
+          "settings": {
+            "logo": "shopify://shop_images/Marie-Claire-logo.png",
+            "name": "Media logo",
+            "link": ""
+          }
+        },
+        "media_logo_2": {
+          "type": "media_logo",
+          "settings": {
+            "logo": "shopify://shop_images/forbes.png",
+            "name": "Media logo",
+            "link": ""
+          }
+        },
+        "media_logo_3": {
+          "type": "media_logo",
+          "settings": {
+            "logo": "shopify://shop_images/vogue.png",
+            "name": "Media logo",
+            "link": ""
+          }
+        },
+        "media_logo_4": {
+          "type": "media_logo",
+          "settings": {
+            "logo": "shopify://shop_images/vanity_fair.png",
+            "name": "Media logo",
+            "link": ""
+          }
+        },
+        "media_logo_5": {
+          "type": "media_logo",
+          "settings": {
+            "logo": "shopify://shop_images/wsj.png",
+            "name": "Media logo",
+            "link": ""
+          }
+        },
+        "creator_video_1": {
+          "type": "creator_video",
+          "settings": {
+            "video_file": "akv-ugc-1.mp4",
+            "poster_file": "akv-ugc-1-poster.webp",
+            "label": "",
+            "video_url": ""
+          }
+        },
+        "creator_video_2": {
+          "type": "creator_video",
+          "settings": {
+            "video_file": "akv-ugc-2.mp4",
+            "poster_file": "akv-ugc-2-poster.webp",
+            "label": "",
+            "video_url": ""
+          }
+        },
+        "creator_video_i6kyMx": {
+          "type": "creator_video",
+          "settings": {
+            "video_file": "akv-crea-2.mp4",
+            "poster_file": "akv-crea-2-poster.webp",
+            "label": "",
+            "video_url": ""
+          }
+        },
+        "creator_video_PLXiEG": {
+          "type": "creator_video",
+          "settings": {
+            "video_file": "akv-crea-3.mp4",
+            "poster_file": "akv-crea-3-poster.webp",
+            "label": "",
+            "video_url": ""
+          }
+        },
+        "judgeme_widget": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "review_data": "sample_data",
+            "max_width": 1200,
+            "show_shop_reviews": false,
+            "empty_state": "empty_widget"
+          }
+        }
+      },
+      "block_order": [
+        "hero_slide_1",
+        "hero_slide_2",
+        "hero_slide_3",
+        "ingredient_1",
+        "ingredient_2",
+        "ingredient_3",
+        "ingredient_4",
+        "ingredient_5",
+        "ingredient_6",
+        "ingredient_7",
+        "ingredient_8",
+        "expert_1",
+        "expert_2",
+        "expert_3",
+        "expert_4",
+        "research_1",
+        "research_2",
+        "research_3",
+        "research_4",
+        "research_5",
+        "faq_1",
+        "faq_2",
+        "faq_3",
+        "faq_4",
+        "sp_quote_1",
+        "sp_quote_2",
+        "sp_quote_3",
+        "media_logo_1",
+        "media_logo_2",
+        "media_logo_3",
+        "media_logo_4",
+        "media_logo_5",
+        "creator_video_1",
+        "creator_video_2",
+        "creator_video_i6kyMx",
+        "creator_video_PLXiEG",
+        "judgeme_widget"
+      ],
+      "settings": {
+        "supply_days": 90,
+        "hero_heading": "Clinical-Grade Akkermansia. Without the Clinical Price.",
+        "hero_sub": "500 Billion AFU of Akkermansia muciniphila, prebiotic inulin and an 8-in-1 formula — in one simple daily serving.",
+        "hero_b1": "500 Billion AFU",
+        "hero_b2": "8-in-1 Formula",
+        "hero_b3": "180 Capsules · 3-Month Supply",
+        "hero_cta": "Add to Cart",
+        "hero_cta2": "See All Options",
+        "guarantee_text": "90-Day Money-Back Guarantee",
+        "rating": "",
+        "rating_count": "",
+        "proof_1": "Third-Party Tested",
+        "proof_2": "500 Billion AFU · 8-in-1 Formula",
+        "proof_3": "GMP-Certified Facility",
+        "sci_heading": "Why pay clinical prices for gut support?",
+        "q1_title": "Why do premium brands charge $54+?",
+        "q1_text": "Most premium akkermansia products are single-ingredient capsules sold at boutique prices. You pay for the brand — not for a broader formula.",
+        "q2_title": "Do you have to pay more for quality?",
+        "q2_text": "No. The same key ingredient — Akkermansia muciniphila — can be delivered with verified AFU counts, third-party testing and 7 more gut-supporting ingredients, for less.",
+        "afu_heading": "What does 500 Billion AFU mean?",
+        "afu_text": "AFU (Active Fluorescent Units) counts viable probiotic cells using flow cytometry — a modern, more precise alternative to traditional CFU counting. 500 Billion AFU per serving reflects the active cells the formula is built to deliver.",
+        "sp_enabled": true,
+        "sp_rating": "4,8",
+        "sp_rating_suffix": "/5",
+        "sp_caption": "Based on +12,560 customer reviews",
+        "sp_bottle_file": "akv-sp-bottle.webp",
+        "sp_sales_number": "+10,000",
+        "sp_sales_text": "bottles sold last month",
+        "doctor_enabled": false,
+        "doctor_kicker": "THE SCIENCE, EXPLAINED",
+        "doctor_heading": "The science behind the formula.",
+        "doctor_body": "A closer look at what Akkermansia muciniphila is, how AFU potency is measured, and what to realistically expect from a daily probiotic routine.",
+        "doctor_name": "",
+        "doctor_credential": "",
+        "doctor_video_file": "",
+        "doctor_poster_file": "",
+        "doctor_video_url": "",
+        "doctor_disclaimer": "Educational information, not medical advice. Individual results vary.",
+        "experts_enabled": true,
+        "experts_heading": "Our Scientific Experts – Backed by Research. Driven by Results.",
+        "experts_shield": true,
+        "experts_research_heading": "Research & Publications",
+        "experts_bg": "#f6fbff",
+        "experts_accent": "#082f56",
+        "experts_accent2": "#0a3357",
+        "val_brand_label": "Typical premium akkermansia brands",
+        "val_brand_price": "$54",
+        "val_badge": "SMARTER VALUE",
+        "val_note": "The same key ingredient — plus prebiotic inulin, green tea and more. For less.",
+        "val_caption": "Same science. Broader formula. Smarter price.",
+        "daily_heading": "Designed for Daily Comfort",
+        "daily_copy": "Two capsules a day, with or without food. One bottle covers a full three months — no complicated protocols, no refills every few weeks.",
+        "daily_b1": "Gut Balance",
+        "daily_b2": "Immune Support",
+        "daily_b3": "Metabolism Support",
+        "ing_heading": "Everything Your Gut Routine Needs. In One Formula.",
+        "ing_intro": "Premium brands charge more for akkermansia alone. This formula combines it with 7 more gut-supporting ingredients — every one listed below.",
+        "ing_total": "Total: 8-in-1 Gut Support Formula",
+        "supp_heading": "Supplement Facts",
+        "supp_image_file": "",
+        "supp_note": "",
+        "qual_1": "Third-Party Tested",
+        "qual_2": "500 Billion AFU Verified",
+        "qual_3": "GMP-Certified Facility",
+        "qual_4": "180 Capsules · 90 Servings",
+        "coa_label": "View Sample COA",
+        "coa_url": "",
+        "coa_heading": "Certificate of Analysis",
+        "coa_sub": "Independent third-party lab results for each batch — full transparency on potency and purity.",
+        "judgeme": true,
+        "rev_heading": "What Customers Say",
+        "rev_b1": "Gut Balance",
+        "rev_b2": "Digestive Comfort",
+        "rev_b3": "Daily Routine",
+        "all_reviews_url": "",
+        "media_enabled": true,
+        "media_kicker": "PANSTELLAR IN THE MEDIA",
+        "media_heading": "Science worth talking about.",
+        "media_sub": "Independent coverage and conversations around smarter microbiome support.",
+        "media_link_label": "View press mentions",
+        "media_link_url": "",
+        "creators_enabled": true,
+        "creators_kicker": "CREATOR ROUTINES",
+        "creators_heading": "See how it fits into real life.",
+        "creators_sub": "Short, practical routines from creators who make wellness easier to understand.",
+        "creators_link_label": "Watch all videos",
+        "creators_link_url": "",
+        "buy_heading": "Choose Your Smarter Value",
+        "offer1_title": "One-Time Purchase",
+        "offer1_sub": "One bottle. 180 capsules — a full 3-month supply.",
+        "offer2_title": "Subscribe & Save",
+        "offer2_sub": "Same bottle, delivered on your schedule. Pause, skip or cancel anytime.",
+        "offer3_title": "2 Bottles",
+        "offer3_sub": "6-month supply. Stock up and stay consistent.",
+        "offer4_title": "3 Bottles",
+        "offer4_sub": "9-month supply. The long-game option.",
+        "faq_heading": "Frequently Asked Questions",
+        "disclaimer": "*These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.",
+        "final_heading": "Smarter Gut Support Starts Today",
+        "final_m1": "500 Billion AFU",
+        "final_m2": "180 Capsules",
+        "final_m3": "3-Month Supply",
+        "final_cta": "Choose Your Option"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

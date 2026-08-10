@@ -1,0 +1,445 @@
+{{ 'akk-pdp.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign akk_variant = product.selected_or_first_available_variant
+  assign akk_price   = akk_variant.price | money
+  assign akk_compare = akk_variant.compare_at_price | money
+
+  # Per-day price, auto-calculated from the live product price so it never goes
+  # stale when the price changes. supply_days is a merchant-editable fact about
+  # the product (not a price), defaults to 90 (3 months supply / 180 capsules).
+  assign akk_supply_days = section.settings.supply_days | default: 90
+  assign akk_day_price = akk_variant.price | times: 1.0 | divided_by: akk_supply_days | money | append: '/day'
+
+  assign akk_hero_desktop = 'akk-hero-desktop.webp' | asset_url
+  assign akk_hero_mobile  = 'akk-hero-mobile.webp'  | asset_url
+  if section.settings.hero_bg != blank
+    assign akk_hero_desktop = section.settings.hero_bg | image_url: width: 1920
+  endif
+  if section.settings.hero_bg_mobile != blank
+    assign akk_hero_mobile = section.settings.hero_bg_mobile | image_url: width: 900
+  endif
+
+  assign akk_bottle = 'akk-jar.webp' | asset_url
+  if section.settings.product_image != blank
+    assign akk_bottle = section.settings.product_image | image_url: width: 600
+  endif
+
+  assign review_blocks = section.blocks | where: 'type', 'review'
+  assign faq_blocks    = section.blocks | where: 'type', 'faq_item'
+
+  assign akk_hero_form_id   = 'akk-hero-form-'   | append: section.id
+  assign akk_sticky_form_id = 'akk-sticky-form-' | append: section.id
+-%}
+
+{% render 'panstellar-product-schema', product: product %}
+<link rel="preload" as="image" href="{{ akk_hero_desktop }}" media="(min-width: 761px)" fetchpriority="high">
+<link rel="preload" as="image" href="{{ akk_hero_mobile }}" media="(max-width: 760px)" fetchpriority="high">
+<style>
+  #akk-pdp-{{ section.id }}{
+    --akk-hero-img: url('{{ akk_hero_desktop }}');
+    --akk-hero-img-m: url('{{ akk_hero_mobile }}');
+  }
+</style>
+
+<div class="akk-pdp akk-page" id="akk-pdp-{{ section.id }}">
+
+  <!-- ══════════════════════════════ HERO ══════════════════════════════ -->
+  <section class="akk-section akk-hero">
+    <div class="akk-hero-grid">
+      <div class="akk-hero-copy">
+        <div class="akk-eyebrow">{{ section.settings.hero_eyebrow }}</div>
+        <h1 class="akk-hero-title">{{ section.settings.hero_h1 }}</h1>
+        <p>{{ section.settings.hero_subtitle }}</p>
+        <div class="akk-hero-icons">
+          <div class="akk-hero-icon"><div class="akk-icon-circle"><img src="{{ 'akk-icon-molecule.png' | asset_url }}" alt="AFUs" width="30" height="30"></div>{{ section.settings.hero_stat1 }}</div>
+          <div class="akk-hero-icon"><div class="akk-icon-circle"><img src="{{ 'akk-icon-beaker.png' | asset_url }}" alt="Formula" width="30" height="30"></div>{{ section.settings.hero_stat2 }}</div>
+          <div class="akk-hero-icon"><div class="akk-icon-circle"><img src="{{ 'akk-icon-molecule0.png' | asset_url }}" alt="Strains" width="30" height="30"></div>{{ section.settings.hero_stat3 }}</div>
+          <div class="akk-hero-icon"><div class="akk-icon-circle"><img src="{{ 'akk-icon-certificatev.png' | asset_url }}" alt="Supply" width="30" height="30"></div>{{ section.settings.hero_stat4 }}</div>
+        </div>
+        <div class="akk-hero-meta">{{ section.settings.hero_foot }}</div>
+      </div>
+
+      <!-- Mobile-only intro text: the main description above is hidden on mobile
+           (it would overlap the product photo), this replaces it in the flow. -->
+      <p class="akk-mobile-cart-intro">{{ section.settings.hero_subtitle }}</p>
+
+      <aside class="akk-buy-card" id="akk-buy-card-{{ section.id }}">
+        <div class="akk-price">{{ akk_price }}</div>
+        {%- if akk_variant.compare_at_price > akk_variant.price -%}
+          <div class="akk-was">{{ akk_compare }}</div>
+        {%- endif -%}
+        <div class="akk-meta">{{ section.settings.card_meta }}</div>
+        <div class="akk-day">{{ akk_day_price }}</div>
+
+        {%- form 'product', product, id: akk_hero_form_id, novalidate: 'novalidate' -%}
+          <input type="hidden" name="id" value="{{ akk_variant.id }}">
+          <input type="hidden" name="quantity" value="1">
+          <button type="submit" name="add" class="akk-cta">{{ section.settings.cta_text }}</button>
+        {%- endform -%}
+
+        <div class="akk-trust-list">
+          <div><img src="{{ 'akk-icon-truck.png' | asset_url }}" alt="" width="20" height="20">{{ section.settings.trust1 }}</div>
+          <div><img src="{{ 'akk-icon-shield-lock.png' | asset_url }}" alt="" width="20" height="20">{{ section.settings.trust2 }}</div>
+          <div><img src="{{ 'akk-icon-shield-check.png' | asset_url }}" alt="" width="20" height="20">{{ section.settings.trust3 }}</div>
+        </div>
+
+        <div class="akk-accordion">
+          <div class="akk-acc">
+            <button class="akk-acc-btn" type="button">{{ section.settings.acc1_label }} <span>⌄</span></button>
+            <div class="akk-acc-panel"><p>{{ section.settings.acc1_text }}</p></div>
+          </div>
+          <div class="akk-acc">
+            <button class="akk-acc-btn" type="button">{{ section.settings.acc2_label }} <span>⌄</span></button>
+            <div class="akk-acc-panel"><p>{{ section.settings.acc2_text }}</p></div>
+          </div>
+          <div class="akk-acc">
+            <button class="akk-acc-btn" type="button">{{ section.settings.acc3_label }} <span>⌄</span></button>
+            <div class="akk-acc-panel"><p>{{ section.settings.acc3_text }}</p></div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════ INGREDIENTS (8) ══════════════════════════════ -->
+  <section class="akk-section akk-ingredients">
+    <div class="akk-ingredient-layout">
+      <div class="akk-block-title">
+        <h2 class="akk-ingredients-title">{{ section.settings.ing_heading }}</h2>
+        <p>{{ section.settings.ing_sub }}</p>
+      </div>
+      <div class="akk-ingredient-grid">
+        <article class="akk-ingredient-card"><div class="akk-thumb"><img src="{{ 'akk-ing-akkermansia.webp' | asset_url }}" alt="Akkermansia 500B AFUs" loading="lazy"></div><h3>Akkermansia<br>500B AFUs</h3><div class="akk-dose">key postbiotic</div><div class="akk-desc">for gut balance</div></article>
+        <article class="akk-ingredient-card"><div class="akk-thumb"><img src="{{ 'akk-ing-strains.webp' | asset_url }}" alt="20 Probiotic Strains" loading="lazy"></div><h3>20 Probiotic<br>Strains</h3><div class="akk-dose">diverse strains</div><div class="akk-desc">for full support</div></article>
+        <article class="akk-ingredient-card"><div class="akk-thumb"><img src="{{ 'akk-ing-inulin.webp' | asset_url }}" alt="Inulin" loading="lazy"></div><h3>Inulin</h3><div class="akk-dose">prebiotic fiber</div><div class="akk-desc">to feed good bacteria</div></article>
+        <article class="akk-ingredient-card"><div class="akk-thumb"><img src="{{ 'akk-ing-greentea.webp' | asset_url }}" alt="Green Tea Extract" loading="lazy"></div><h3>Green Tea<br>Extract</h3><div class="akk-dose">plant extract</div><div class="akk-desc">antioxidant support</div></article>
+        <article class="akk-ingredient-card"><div class="akk-thumb"><img src="{{ 'akk-ing-vitamind.webp' | asset_url }}" alt="Vitamin D" loading="lazy"></div><h3>Vitamin D</h3><div class="akk-dose">daily nutrient</div><div class="akk-desc">overall wellness support</div></article>
+        <article class="akk-ingredient-card"><div class="akk-thumb"><img src="{{ 'akk-ing-vitaminb2.webp' | asset_url }}" alt="Vitamin B2" loading="lazy"></div><h3>Vitamin B2</h3><div class="akk-dose">riboflavin</div><div class="akk-desc">energy metabolism support</div></article>
+        <article class="akk-ingredient-card"><div class="akk-thumb"><img src="{{ 'akk-ing-zinc.webp' | asset_url }}" alt="Zinc" loading="lazy"></div><h3>Zinc</h3><div class="akk-dose">essential mineral</div><div class="akk-desc">immune support</div></article>
+        <article class="akk-ingredient-card"><div class="akk-thumb"><img src="{{ 'akk-ing-chromium.webp' | asset_url }}" alt="Chromium" loading="lazy"></div><h3>Chromium</h3><div class="akk-dose">trace mineral</div><div class="akk-desc">metabolism support</div></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════ COMPARE ══════════════════════════════ -->
+  <section class="akk-section akk-compare">
+    <div class="akk-compare-layout">
+      <div class="akk-compare-title">
+        <h2>{{ section.settings.compare_heading }}</h2>
+        <p>{{ section.settings.compare_sub }}</p>
+      </div>
+      <div class="akk-main-compare">
+        <div class="akk-bottle"><img src="{{ akk_bottle }}" alt="{{ product.title }}" loading="lazy"></div>
+        <div class="akk-copy">
+          <div class="akk-brand">PANSTELLAR</div>
+          <h3>AKKERMANSIA MUCINIPHILA</h3>
+          <ul class="akk-check-list">
+            <li><span class="akk-tick">✓</span>500B AFUs per serving</li>
+            <li><span class="akk-tick">✓</span>8-in-1 formula</li>
+            <li><span class="akk-tick">✓</span>20 strains</li>
+            <li><span class="akk-tick">✓</span>180 capsules</li>
+            <li><span class="akk-tick">✓</span>3 months supply</li>
+            <li><span class="akk-tick">✓</span>One easy routine</li>
+          </ul>
+        </div>
+        <div class="akk-vs">VS</div>
+      </div>
+      <div class="akk-side-compare">
+        <h3>Typical Multi‑Product<br>Routine</h3>
+        <div class="akk-bottles"><img src="{{ 'akk-typical.webp' | asset_url }}" alt="Typical multi-product routine" loading="lazy"></div>
+        <ul class="akk-x-list">
+          <li><span class="akk-cross">×</span>Multiple products</li>
+          <li><span class="akk-cross">×</span>More clutter</li>
+          <li><span class="akk-cross">×</span>Harder to track</li>
+          <li><span class="akk-cross">×</span>Less convenient</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════ SCIENCE ══════════════════════════════ -->
+  <section class="akk-section akk-science">
+    <div class="akk-science-layout">
+      <div class="akk-science-img">
+        <picture>
+          <source media="(max-width: 760px)" srcset="{{ 'akk-science-mobile.webp' | asset_url }}">
+          <img src="{{ 'akk-science.webp' | asset_url }}" alt="Microbiome science visual" loading="lazy">
+        </picture>
+      </div>
+      <div class="akk-science-copy">
+        <h2>{{ section.settings.science_heading }}</h2>
+        <p>{{ section.settings.science_sub }}</p>
+      </div>
+      <div class="akk-science-points">
+        <div class="akk-science-point"><div class="akk-mini"><img src="{{ 'akk-icon-molecule.png' | asset_url }}" alt="" width="22" height="22" loading="lazy"></div>Supports<br>gut balance</div>
+        <div class="akk-science-point"><div class="akk-mini"><img src="{{ 'akk-icon-beaker.png' | asset_url }}" alt="" width="22" height="22" loading="lazy"></div>Daily digestive<br>support</div>
+        <div class="akk-science-point"><div class="akk-mini"><img src="{{ 'akk-icon-shield-check.png' | asset_url }}" alt="" width="22" height="22" loading="lazy"></div>Simple wellness<br>routine</div>
+      </div>
+      <div class="akk-research">
+        <h3>{{ section.settings.research_big }}<span>{{ section.settings.research_sub }}</span></h3>
+        <p>{{ section.settings.research_note }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════ TRUST / QUALITY ══════════════════════════════ -->
+  <section class="akk-section akk-trust">
+    <div class="akk-trust-layout">
+      <h2>{{ section.settings.quality_heading }}</h2>
+      <div class="akk-quality-icons">
+        <div class="akk-quality"><div class="akk-icon-circle"><img src="{{ 'akk-icon-certificate.png' | asset_url }}" alt="" width="28" height="28" loading="lazy"></div>Third‑Party<br>Tested</div>
+        <div class="akk-quality"><div class="akk-icon-circle"><img src="{{ 'akk-icon-made-in-usa.webp' | asset_url }}" alt="" width="28" height="28" loading="lazy"></div>Made in<br>USA</div>
+        <div class="akk-quality"><div class="akk-icon-circle"><img src="{{ 'akk-icon-shield-check.png' | asset_url }}" alt="" width="28" height="28" loading="lazy"></div>Non‑GMO</div>
+        <div class="akk-quality"><div class="akk-icon-circle"><img src="{{ 'akk-icon-capsule.png' | asset_url }}" alt="" width="28" height="28" loading="lazy"></div>Delayed‑Release<br>Daily Use</div>
+        <div class="akk-quality"><div class="akk-icon-circle"><img src="{{ 'akk-icon-molecule0.png' | asset_url }}" alt="" width="28" height="28" loading="lazy"></div>Premium<br>Formula</div>
+      </div>
+      <div class="akk-badge"><img src="{{ 'akk-guarantee.webp' | asset_url }}" alt="90 Day guarantee" loading="lazy"></div>
+      <div class="akk-risk">
+        <h3>Try it Risk‑Free</h3>
+        <p>Love it or get a full refund within 90 days of purchase.</p>
+        <a href="{{ section.settings.guarantee_url | default: '#' }}" class="akk-learn">LEARN MORE</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════ REVIEWS ══════════════════════════════ -->
+  {%- if review_blocks.size > 0 -%}
+  <section class="akk-section akk-reviews">
+    <div class="akk-reviews-layout">
+      <div>
+        <h2>{{ section.settings.reviews_heading }}</h2>
+        <div class="akk-rating">{{ section.settings.reviews_score }} <span class="akk-stars">★★★★★</span> <span style="font-weight:500;color:#5d534a">{{ section.settings.reviews_count }}</span></div>
+      </div>
+      <div>
+        <div class="akk-review-grid">
+          {%- for block in review_blocks -%}
+            <article class="akk-review-card" {{ block.shopify_attributes }}>
+              <div class="akk-stars">★★★★★</div>
+              <p>{{ block.settings.quote }}</p>
+              <div class="akk-author">— {{ block.settings.author }}</div>
+            </article>
+          {%- endfor -%}
+        </div>
+        {%- if section.settings.reviews_note != blank -%}
+          <div class="akk-note">{{ section.settings.reviews_note }}</div>
+        {%- endif -%}
+      </div>
+    </div>
+  </section>
+  {%- endif -%}
+
+  <!-- ══════════════════════════════ FAQ ══════════════════════════════ -->
+  {%- if faq_blocks.size > 0 -%}
+  <section class="akk-section akk-faq">
+    <div class="akk-faq-layout">
+      <h2 class="akk-faq-title">{{ section.settings.faq_heading }}</h2>
+      <div class="akk-faq-box">
+        {%- for block in faq_blocks -%}
+          <div class="akk-faq-item" {{ block.shopify_attributes }}>
+            <button class="akk-faq-q" type="button">{{ block.settings.question }} <span>⌄</span></button>
+            <div class="akk-faq-a"><p>{{ block.settings.answer }}</p></div>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+  {%- endif -%}
+
+  <!-- ══════════════════════════════ STICKY ADD-TO-CART ══════════════════════════════ -->
+  <section class="akk-sticky" id="akk-sticky-{{ section.id }}" aria-label="Quick add to cart">
+    <div class="akk-sticky-inner">
+      <div class="akk-mini-bottle"><img src="{{ akk_bottle }}" alt="{{ product.title }}" loading="lazy"></div>
+      <div class="akk-headline">{{ section.settings.sticky_title }}</div>
+      <div class="akk-sticky-price">
+        <div class="akk-num">{{ akk_price }}</div>
+        <div class="akk-sub">{{ section.settings.card_meta }} · {{ akk_day_price }}</div>
+        <div class="akk-sticky-icons">
+          <span><img src="{{ 'akk-icon-truck.png' | asset_url }}" alt="" width="16" height="16" loading="lazy">{{ section.settings.trust1 }}</span>
+          <span><img src="{{ 'akk-icon-shield-lock.png' | asset_url }}" alt="" width="16" height="16" loading="lazy">{{ section.settings.trust2 }}</span>
+          <span><img src="{{ 'akk-icon-shield-check.png' | asset_url }}" alt="" width="16" height="16" loading="lazy">{{ section.settings.trust3 }}</span>
+        </div>
+      </div>
+      {%- form 'product', product, id: akk_sticky_form_id, novalidate: 'novalidate' -%}
+        <input type="hidden" name="id" value="{{ akk_variant.id }}">
+        <input type="hidden" name="quantity" value="1">
+        <button type="submit" name="add">{{ section.settings.cta_text }}</button>
+      {%- endform -%}
+    </div>
+  </section>
+
+</div><!-- /.akk-pdp -->
+
+<script>
+(function(){
+  var wrap = document.getElementById('akk-pdp-{{ section.id }}');
+  if (!wrap) return;
+
+  /* ── Accordions + FAQ ── */
+  wrap.querySelectorAll('.akk-acc-btn, .akk-faq-q').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var p = btn.nextElementSibling;
+      var open = p.style.maxHeight && p.style.maxHeight !== '0px';
+      var group = p.parentElement.parentElement;
+      group.querySelectorAll('.akk-acc-panel, .akk-faq-a').forEach(function(x){
+        if (x !== p) x.style.maxHeight = null;
+      });
+      p.style.maxHeight = open ? null : p.scrollHeight + 'px';
+    });
+  });
+
+  /* ── Sticky reveal once the buy-card (CTA + accordions) scrolls out of
+     view — observing the whole hero instead would keep the sticky hidden
+     while the buy-card has scrolled away but the rest of the (taller) hero
+     is still on screen, leaving no visible CTA in between. ── */
+  var buyCard = document.getElementById('akk-buy-card-{{ section.id }}');
+  var sticky = document.getElementById('akk-sticky-{{ section.id }}');
+  if (buyCard && sticky && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function(entries){
+      sticky.classList.toggle('akk-sticky--visible', !entries[0].isIntersecting);
+    }, { threshold: 0 }).observe(buyCard);
+  } else if (sticky) {
+    sticky.classList.add('akk-sticky--visible');
+  }
+
+  /* ── AJAX Add to Cart (Dawn cart drawer) ──
+     Uses the native <cart-drawer> custom element's own renderContents()
+     method (same one Dawn's product-form.js calls) — it both swaps in the
+     fresh sections AND opens the drawer. window.openCartDrawer() and
+     [data-cart-toggle]/[aria-controls="CartDrawer"] don't exist anywhere
+     in this theme, so relying on them silently did nothing. */
+  function handleForm(form){
+    if (!form) return;
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var btn = form.querySelector('[type="submit"]');
+      var origText = btn ? btn.textContent : '';
+      if (btn) { btn.disabled = true; btn.textContent = 'Adding…'; }
+      fetch(window.Shopify.routes.root + 'cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+        body: JSON.stringify({
+          id: form.querySelector('[name="id"]').value,
+          quantity: 1,
+          sections: ['cart-drawer', 'cart-icon-bubble'],
+          sections_url: window.location.pathname
+        })
+      })
+      .then(function(r){ return r.json(); })
+      .then(function(data){
+        /* Fire Dawn's own pubsub cart-update event (same one product-form.js
+           fires) — apps that hook into cart updates (reviews widgets, bundle
+           upsells, etc.) listen for this, not our custom DOM event alone. */
+        if (typeof publish === 'function' && typeof PUB_SUB_EVENTS !== 'undefined') {
+          publish(PUB_SUB_EVENTS.cartUpdate, { source: 'akk-pdp', productVariantId: form.querySelector('[name="id"]').value, cartData: data });
+        }
+        document.dispatchEvent(new CustomEvent('cart:refresh'));
+        if (btn) { btn.dataset.added = '1'; }
+        var drawer = document.querySelector('cart-drawer');
+        if (drawer && typeof drawer.renderContents === 'function') {
+          drawer.renderContents(data);
+        } else {
+          window.location = window.Shopify.routes.root + 'cart';
+        }
+      })
+      .catch(function(){ window.location = window.Shopify.routes.root + 'cart'; })
+      .finally(function(){ if (btn) { btn.disabled = false; if (btn.dataset.added) { delete btn.dataset.added; btn.textContent = '\u2713 Added'; setTimeout(function(){ btn.textContent = origText; }, 1600); } else { btn.textContent = origText; } } });
+    });
+  }
+  handleForm(document.getElementById('akk-hero-form-{{ section.id }}'));
+  handleForm(document.getElementById('akk-sticky-form-{{ section.id }}'));
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Akkermansia PDP",
+  "tag": "section",
+  "class": "akk-pdp-wrapper",
+  "settings": [
+    { "type": "header", "content": "Hero" },
+    { "type": "image_picker", "id": "hero_bg",        "label": "Hero background (desktop)" },
+    { "type": "image_picker", "id": "hero_bg_mobile", "label": "Hero background (mobile)" },
+    { "type": "image_picker", "id": "product_image",  "label": "Product jar (compare + sticky)" },
+    { "type": "text",     "id": "hero_eyebrow",  "label": "Eyebrow",  "default": "500B AFUs · 8-in-1 Gut Support" },
+    { "type": "html",     "id": "hero_h1",       "label": "Heading (HTML allowed)", "default": "<span class=\"akk-nowrap-line\">Better Gut Balance.</span><br><span class=\"akk-nowrap-line akk-green\">Smarter Every Bottle.</span>" },
+    { "type": "textarea", "id": "hero_subtitle",  "label": "Subtitle", "default": "Akkermansia muciniphila with 500 Billion AFUs per serving, 20 strains, and an 8-in-1 formula designed for daily gut microbiome support." },
+    { "type": "html",     "id": "hero_stat1",    "label": "Stat 1", "default": "500B<br>AFUs" },
+    { "type": "html",     "id": "hero_stat2",    "label": "Stat 2", "default": "8 in 1<br>Formula" },
+    { "type": "html",     "id": "hero_stat3",    "label": "Stat 3", "default": "20<br>Strains" },
+    { "type": "html",     "id": "hero_stat4",    "label": "Stat 4", "default": "3 Months<br>Supply" },
+    { "type": "text",     "id": "hero_foot",     "label": "Footer line", "default": "Third-party tested · Made in USA · 180 Capsules" },
+    { "type": "header", "content": "Buy card" },
+    { "type": "text",     "id": "card_meta",     "label": "Meta line", "default": "180 Capsules · 3 Months Supply" },
+    { "type": "number",   "id": "supply_days",   "label": "Days of supply (used to auto-calculate the $/day price)", "info": "How many days one order lasts. The $/day price shown on the page is calculated automatically from the live product price ÷ this number — it always stays correct, even when the price changes.", "default": 90 },
+    { "type": "text",     "id": "cta_text",      "label": "CTA button", "default": "ADD TO CART" },
+    { "type": "text",     "id": "trust1",        "label": "Trust 1", "default": "Free U.S. shipping · 1-2 day delivery" },
+    { "type": "text",     "id": "trust2",        "label": "Trust 2", "default": "Secure checkout" },
+    { "type": "text",     "id": "trust3",        "label": "Trust 3", "default": "Quality you can trust" },
+    { "type": "text",     "id": "acc1_label",    "label": "Accordion 1 label", "default": "Supports" },
+    { "type": "textarea", "id": "acc1_text",     "label": "Accordion 1 text",  "default": "Daily gut balance, everyday digestive comfort, and a simple wellness routine." },
+    { "type": "text",     "id": "acc2_label",    "label": "Accordion 2 label", "default": "Ingredients" },
+    { "type": "textarea", "id": "acc2_text",     "label": "Accordion 2 text",  "default": "Akkermansia muciniphila, 20 probiotic strains, inulin, green tea extract, vitamin D, vitamin B2, zinc and chromium." },
+    { "type": "text",     "id": "acc3_label",    "label": "Accordion 3 label", "default": "Certificates" },
+    { "type": "textarea", "id": "acc3_text",     "label": "Accordion 3 text",  "default": "Third-party tested, made in USA, non-GMO and formulated for delayed-release daily use." },
+    { "type": "header", "content": "Ingredients" },
+    { "type": "html",     "id": "ing_heading",   "label": "Heading", "default": "<span class=\"akk-nowrap-line\">8 Key Elements.</span><br><span class=\"akk-nowrap-line\">1 Complete Gut Formula.</span>" },
+    { "type": "textarea", "id": "ing_sub",       "label": "Subtitle", "default": "A synergistic blend designed to support your gut microbiome, every day." },
+    { "type": "header", "content": "Compare" },
+    { "type": "html",     "id": "compare_heading", "label": "Heading", "default": "One Bottle<br>vs. Many Bottles" },
+    { "type": "text",     "id": "compare_sub",     "label": "Subtitle", "default": "Simplify your routine with everything your gut needs in one premium formula." },
+    { "type": "header", "content": "Science" },
+    { "type": "html",     "id": "science_heading", "label": "Heading", "default": "Microbiome Science.<br>Daily Support." },
+    { "type": "textarea", "id": "science_sub",     "label": "Subtitle", "default": "Advanced Akkermansia and a premium 8-in-1 formula designed to support your daily gut ecosystem and everyday well-being." },
+    { "type": "text",     "id": "research_big",    "label": "Research big number", "default": "500B" },
+    { "type": "text",     "id": "research_sub",    "label": "Research number label", "default": "AFUs" },
+    { "type": "html",     "id": "research_note",   "label": "Research note", "default": "20 strains<br>8-in-1 formula" },
+    { "type": "header", "content": "Quality" },
+    { "type": "html",     "id": "quality_heading", "label": "Heading", "default": "Quality You<br>Can Trust" },
+    { "type": "url",      "id": "guarantee_url",   "label": "Guarantee URL" },
+    { "type": "header", "content": "Reviews" },
+    { "type": "html",     "id": "reviews_heading", "label": "Heading", "default": "Real People.<br>Real Routines." },
+    { "type": "text",     "id": "reviews_score",   "label": "Score", "default": "4.8" },
+    { "type": "text",     "id": "reviews_count",   "label": "Count", "default": "Verified reviews" },
+    { "type": "textarea", "id": "reviews_note",    "label": "Disclaimer", "default": "Reviews may vary. Testimonials reflect individual experiences and are not guaranteed." },
+    { "type": "header", "content": "FAQ" },
+    { "type": "html",     "id": "faq_heading",     "label": "Heading", "default": "<span class=\"akk-nowrap-line\">Frequently Asked</span><br><span class=\"akk-nowrap-line\">Questions</span>" },
+    { "type": "header", "content": "Sticky bar" },
+    { "type": "html",     "id": "sticky_title",    "label": "Sticky title", "default": "Better Gut Balance. <span>Smarter Every Bottle.</span>" }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "textarea", "id": "quote",  "label": "Quote",  "default": "Great for daily digestive comfort." },
+        { "type": "text",     "id": "author", "label": "Author", "default": "Verified Buyer" }
+      ]
+    },
+    {
+      "type": "faq_item",
+      "name": "FAQ item",
+      "settings": [
+        { "type": "text",     "id": "question", "label": "Question", "default": "What is Akkermansia muciniphila?" },
+        { "type": "textarea", "id": "answer",   "label": "Answer",   "default": "Akkermansia muciniphila is a beneficial bacterium studied for its role in supporting gut lining health and microbiome balance." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Akkermansia PDP",
+      "blocks": [
+        { "type": "review", "settings": { "quote": "Great for daily digestive comfort.", "author": "Verified Buyer" }},
+        { "type": "review", "settings": { "quote": "Love that it combines so many strains in one capsule.", "author": "Verified Buyer" }},
+        { "type": "review", "settings": { "quote": "Easy to fit into my daily routine.", "author": "Verified Buyer" }},
+        { "type": "review", "settings": { "quote": "High quality and well tolerated.", "author": "Verified Buyer" }},
+        { "type": "faq_item", "settings": { "question": "What is Akkermansia muciniphila?", "answer": "Akkermansia muciniphila is a beneficial bacterium studied for its role in supporting gut lining health and microbiome balance." }},
+        { "type": "faq_item", "settings": { "question": "How many capsules are in each bottle?", "answer": "Each bottle contains 180 capsules, designed as a 3-month supply when taken as directed." }},
+        { "type": "faq_item", "settings": { "question": "What are the 8 key elements?", "answer": "Akkermansia muciniphila, 20 probiotic strains, inulin, green tea extract, vitamin D, vitamin B2, zinc and chromium." }},
+        { "type": "faq_item", "settings": { "question": "Is this formula delayed-release?", "answer": "Yes, the formula is designed for delayed-release daily use to support delivery to the gut." }},
+        { "type": "faq_item", "settings": { "question": "Is it third-party tested?", "answer": "Yes, this page positions the product as third-party tested and made in the USA." }}
+      ]
+    }
+  ]
+}
+{% endschema %}

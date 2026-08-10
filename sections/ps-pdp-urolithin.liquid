@@ -1,0 +1,696 @@
+{{ 'ps-pdp-urolithin.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign ps_variant  = product.selected_or_first_available_variant
+  assign ps_price    = ps_variant.price | money
+
+  # Per-day price, auto-calculated from the live product price so it never goes
+  # stale when the price changes. supply_days is a merchant-editable fact about
+  # the product (not a price), defaults to 90 (90 servings).
+  assign ps_supply_days = section.settings.supply_days | default: 90
+  assign ps_day_price = ps_variant.price | times: 1.0 | divided_by: ps_supply_days | money | append: '/day'
+
+  assign ps_hero_img = section.settings.hero_bg | image_url: width: 1920
+  unless section.settings.hero_bg
+    assign ps_hero_img = 'ps-hero-header.webp' | asset_url
+  endunless
+-%}
+
+{% render 'panstellar-product-schema', product: product %}
+<div id="ps-pdp-{{ section.id }}" class="ps-pdp">
+
+  {%- comment -%}══════════════ HERO ══════════════{%- endcomment -%}
+  <section class="ps-hero" style="--ps-hero-bg: url('{{ ps_hero_img }}')">
+    <div class="ps-wrap ps-hero__grid">
+
+      {%- comment -%} Copy — left column {%- endcomment -%}
+      <div class="ps-hero__copy">
+        <div class="ps-eyebrow">{{ section.settings.hero_eyebrow }}</div>
+        <h1>{{ section.settings.hero_heading }}</h1>
+        <p>{{ section.settings.hero_subtext }}</p>
+
+        <div class="ps-hero__badges">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'hero_badge' -%}
+              <div class="ps-hero__badge" {{ block.shopify_attributes }}>
+                <div class="ps-hero__badge-icon">
+                  {%- if block.settings.icon != blank -%}
+                    {{ block.settings.icon | image_url: width: 108 | image_tag: loading: 'lazy', alt: block.settings.label }}
+                  {%- else -%}
+                    <img src="{{ block.settings.fallback_asset | asset_url }}" loading="lazy" alt="{{ block.settings.label }}">
+                  {%- endif -%}
+                </div>
+                <b>{{ block.settings.value }}</b>
+                <small>{{ block.settings.label }}</small>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+
+        <div class="ps-hero__micro">{{ section.settings.hero_micro }}</div>
+      </div>
+
+      {%- comment -%} Middle spacer (desktop background image shows through) {%- endcomment -%}
+      <div></div>
+
+      {%- comment -%} Buy card — right column {%- endcomment -%}
+      <aside class="ps-buy">
+        <div class="ps-buy__tab">{{ section.settings.buy_tab }}</div>
+        <div class="ps-buy__price">{{ ps_price }}</div>
+        <div class="ps-buy__servings">{{ section.settings.buy_servings }}</div>
+        <div class="ps-buy__day">{{ ps_day_price }}</div>
+
+        <div class="ps-buy__trust">
+          {%- for i in (1..3) -%}
+            {%- liquid
+              assign ti_icon     = 'trust_' | append: i | append: '_icon'
+              assign ti_fallback = 'trust_' | append: i | append: '_fallback'
+              assign ti_text     = 'trust_' | append: i | append: '_text'
+            -%}
+            <div class="ps-buy__trust-item">
+              {%- if section.settings[ti_icon] != blank -%}
+                {{ section.settings[ti_icon] | image_url: width: 48 | image_tag: loading: 'lazy', alt: section.settings[ti_text] }}
+              {%- else -%}
+                <img src="{{ section.settings[ti_fallback] | asset_url }}" loading="lazy" alt="{{ section.settings[ti_text] }}">
+              {%- endif -%}
+              <span>{{ section.settings[ti_text] }}</span>
+            </div>
+          {%- endfor -%}
+        </div>
+
+        {%- assign ps_main_form_id = 'ps-main-form-' | append: section.id -%}{% form 'product', product, id: ps_main_form_id, novalidate: 'novalidate' -%}
+          <input type="hidden" name="id" value="{{ ps_variant.id }}">
+          <div class="ps-qty">
+            <button type="button" class="ps-qty__btn" aria-label="Decrease quantity">−</button>
+            <input type="number" name="quantity" id="ps-qty-{{ section.id }}" value="1" min="1" class="ps-qty__input" aria-label="Quantity">
+            <button type="button" class="ps-qty__btn" aria-label="Increase quantity">+</button>
+          </div>
+          <button type="submit" name="add" class="ps-btn">{{ section.settings.buy_cta }}</button>
+        {%- endform -%}
+
+        <div class="ps-buy__accs">
+
+          {%- comment -%} Accordion: Supports {%- endcomment -%}
+          <details class="ps-acc">
+            <summary>{{ section.settings.acc_supports_label }}<span class="ps-acc__arrow">⌄</span></summary>
+            <div class="ps-acc__panel">
+              <div class="ps-support-grid">
+                {%- for block in section.blocks -%}
+                  {%- if block.type == 'science_point' -%}
+                    <div class="ps-support-card" {{ block.shopify_attributes }}>
+                      <div class="ps-support-card__icon">
+                        {%- if block.settings.icon != blank -%}
+                          {{ block.settings.icon | image_url: width: 104 | image_tag: loading: 'lazy', alt: block.settings.label }}
+                        {%- else -%}
+                          <img src="{{ block.settings.fallback_asset | asset_url }}" loading="lazy" alt="{{ block.settings.label }}">
+                        {%- endif -%}
+                      </div>
+                      <b>{{ block.settings.label }}</b>
+                    </div>
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+            </div>
+          </details>
+
+          {%- comment -%} Accordion: Ingredients {%- endcomment -%}
+          <details class="ps-acc">
+            <summary>{{ section.settings.acc_ingredients_label }}<span class="ps-acc__arrow">⌄</span></summary>
+            <div class="ps-acc__panel">
+              <div class="ps-mini-ings">
+                {%- for block in section.blocks -%}
+                  {%- if block.type == 'ingredient' -%}
+                    {%- if block.settings.featured -%}
+                      <div class="ps-mini-featured">
+                        <div>
+                          <h4>{{ block.settings.name }}</h4>
+                          <span>{{ block.settings.dose }}</span>
+                        </div>
+                        {%- if block.settings.image != blank -%}
+                          {{ block.settings.image | image_url: width: 240 | image_tag: loading: 'lazy', alt: block.settings.name }}
+                        {%- else -%}
+                          <img src="{{ block.settings.fallback_asset | asset_url }}" loading="lazy" alt="{{ block.settings.name }}">
+                        {%- endif -%}
+                      </div>
+                    {%- else -%}
+                      <div class="ps-mini-ing" {{ block.shopify_attributes }}>
+                        {%- if block.settings.image != blank -%}
+                          {{ block.settings.image | image_url: width: 160 | image_tag: loading: 'lazy', alt: block.settings.name }}
+                        {%- else -%}
+                          <img src="{{ block.settings.fallback_asset | asset_url }}" loading="lazy" alt="{{ block.settings.name }}">
+                        {%- endif -%}
+                        <b>{{ block.settings.name }}</b>
+                        <span>{{ block.settings.dose }}</span>
+                      </div>
+                    {%- endif -%}
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+            </div>
+          </details>
+
+          {%- comment -%} Accordion: Certificates {%- endcomment -%}
+          <details class="ps-acc">
+            <summary>{{ section.settings.acc_certs_label }}<span class="ps-acc__arrow">⌄</span></summary>
+            <div class="ps-acc__panel">
+              <div class="ps-cert-icons">
+                <div class="ps-cert-icon">
+                  <div class="ps-support-card__icon">
+                    {%- if section.settings.cert_1_icon != blank -%}
+                      {{ section.settings.cert_1_icon | image_url: width: 96 | image_tag: loading: 'lazy', alt: section.settings.cert_1_label }}
+                    {%- else -%}
+                      <img src="{{ section.settings.cert_1_fallback | asset_url }}" loading="lazy" alt="{{ section.settings.cert_1_label }}">
+                    {%- endif -%}
+                  </div>
+                  {{ section.settings.cert_1_label }}
+                </div>
+                <div class="ps-cert-icon">
+                  <div class="ps-cert-badge">COA</div>
+                  {{ section.settings.cert_2_label }}
+                </div>
+                <div class="ps-cert-icon">
+                  <div class="ps-support-card__icon">
+                    {%- if section.settings.cert_3_icon != blank -%}
+                      {{ section.settings.cert_3_icon | image_url: width: 96 | image_tag: loading: 'lazy', alt: section.settings.cert_3_label }}
+                    {%- else -%}
+                      <img src="{{ section.settings.cert_3_fallback | asset_url }}" loading="lazy" alt="{{ section.settings.cert_3_label }}">
+                    {%- endif -%}
+                  </div>
+                  {{ section.settings.cert_3_label }}
+                </div>
+              </div>
+              <div class="ps-coa-box">
+                <div class="ps-coa-preview">
+                  <strong>PANSTELLAR<br>CERTIFICATE OF ANALYSIS</strong>
+                  {%- for i in (1..8) -%}<div class="ps-coa-line"></div>{%- endfor -%}
+                </div>
+                <div class="ps-coa-text">
+                  <h4>{{ section.settings.coa_title }}</h4>
+                  <p>{{ section.settings.coa_subtext }}</p>
+                  {%- if section.settings.coa_link_url != blank -%}
+                    <a href="{{ section.settings.coa_link_url }}" class="ps-coa-link" target="_blank" rel="noopener">{{ section.settings.coa_link_label }} →</a>
+                  {%- else -%}
+                    <span class="ps-coa-link">{{ section.settings.coa_link_label }} →</span>
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+          </details>
+
+        </div>
+      </aside>
+
+    </div>
+  </section>
+
+  {%- comment -%}══════════════ INGREDIENTS ══════════════{%- endcomment -%}
+  <section class="ps-section">
+    <div class="ps-wrap ps-ing__grid">
+      <div class="ps-ing__intro">
+        <h2>{{ section.settings.ing_heading }}</h2>
+        <p>{{ section.settings.ing_subtext }}</p>
+      </div>
+      <div class="ps-ing__cards">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'ingredient' -%}
+            <div class="ps-ing__card{% if block.settings.featured %} ps-ing__card--featured{% endif %}" {{ block.shopify_attributes }}>
+              <div class="ps-ing__imgbox">
+                {%- if block.settings.image != blank -%}
+                  {{ block.settings.image | image_url: width: 400 | image_tag: loading: 'lazy', alt: block.settings.name }}
+                {%- else -%}
+                  <img src="{{ block.settings.fallback_asset | asset_url }}" loading="lazy" alt="{{ block.settings.name }}">
+                {%- endif -%}
+              </div>
+              <b>{{ block.settings.name }}</b>
+              <span>{{ block.settings.dose }}</span>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%}══════════════ COMPARISON ══════════════{%- endcomment -%}
+  <section class="ps-section">
+    <div class="ps-wrap">
+      <div class="ps-comp__grid">
+        <div class="ps-comp__intro">
+          <h2>{{ section.settings.comp_heading }}</h2>
+          <p>{{ section.settings.comp_subtext }}</p>
+        </div>
+
+        <div class="ps-comp__ours">
+          {%- if section.settings.comp_bottle != blank -%}
+            {{ section.settings.comp_bottle | image_url: width: 400 | image_tag: loading: 'lazy', alt: section.settings.comp_our_title }}
+          {%- else -%}
+            <img src="{{ 'ps-hero-bottle.webp' | asset_url }}" loading="lazy" alt="{{ section.settings.comp_our_title }}">
+          {%- endif -%}
+          <div>
+            <h3>{{ section.settings.comp_our_title }}</h3>
+            <ul class="ps-checklist">
+              {%- for i in (1..8) -%}
+                {%- assign check_key = 'comp_check_' | append: i -%}
+                {%- if section.settings[check_key] != blank -%}
+                  <li>{{ section.settings[check_key] }}</li>
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
+          </div>
+        </div>
+
+        <div class="ps-comp__vs">VS</div>
+
+        <div class="ps-comp__theirs">
+          <div>
+            {%- if section.settings.comp_vs_image != blank -%}
+              {{ section.settings.comp_vs_image | image_url: width: 480 | image_tag: loading: 'lazy', alt: section.settings.comp_theirs_title }}
+            {%- else -%}
+              <img src="{{ 'ps-vs-bottles.webp' | asset_url }}" loading="lazy" alt="{{ section.settings.comp_theirs_title }}">
+            {%- endif -%}
+          </div>
+          <div>
+            <h3>{{ section.settings.comp_theirs_title }}</h3>
+            <ul class="ps-crosslist">
+              {%- for i in (1..7) -%}
+                {%- assign cross_key = 'comp_cross_' | append: i -%}
+                {%- if section.settings[cross_key] != blank -%}
+                  <li>{{ section.settings[cross_key] }}</li>
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%}══════════════ SCIENCE ══════════════{%- endcomment -%}
+  <section class="ps-science">
+    <div class="ps-wrap">
+      <div class="ps-science__grid">
+        <div class="ps-science__intro">
+          <h2>{{ section.settings.science_heading }}</h2>
+          <p>{{ section.settings.science_subtext }}</p>
+        </div>
+        <div class="ps-science__visual">
+          {%- if section.settings.science_visual != blank -%}
+            {{ section.settings.science_visual | image_url: width: 940 | image_tag: loading: 'lazy', alt: section.settings.science_heading }}
+          {%- else -%}
+            <img src="{{ 'ps-science-visual.webp' | asset_url }}" loading="lazy" alt="{{ section.settings.science_heading }}">
+          {%- endif -%}
+        </div>
+        <div class="ps-science__points">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'science_point' -%}
+              <div class="ps-science__point" {{ block.shopify_attributes }}>
+                {%- if block.settings.icon != blank -%}
+                  {{ block.settings.icon | image_url: width: 120 | image_tag: loading: 'lazy', alt: block.settings.label }}
+                {%- else -%}
+                  <img src="{{ block.settings.fallback_asset | asset_url }}" loading="lazy" alt="{{ block.settings.label }}">
+                {%- endif -%}
+                <b>{{ block.settings.label }}</b>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%}══════════════ QUALITY ══════════════{%- endcomment -%}
+  <section class="ps-section">
+    <div class="ps-wrap ps-qual__grid">
+      <div>
+        <h2>{{ section.settings.qual_heading }}</h2>
+        <p>{{ section.settings.qual_subtext }}</p>
+      </div>
+      <div class="ps-qual__icons">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'quality_badge' -%}
+            <div class="ps-qual__item" {{ block.shopify_attributes }}>
+              <div class="ps-qual__icon">
+                {%- if block.settings.icon != blank -%}
+                  {{ block.settings.icon | image_url: width: 200 | image_tag: loading: 'lazy', alt: block.settings.label }}
+                {%- else -%}
+                  <img src="{{ block.settings.fallback_asset | asset_url }}" loading="lazy" alt="{{ block.settings.label }}">
+                {%- endif -%}
+              </div>
+              <b>{{ block.settings.label }}</b>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%}══════════════ REVIEWS ══════════════{%- endcomment -%}
+  <section class="ps-section">
+    <div class="ps-wrap ps-reviews__grid">
+      <div>
+        <h2>{{ section.settings.reviews_heading }}</h2>
+        <div class="ps-review-cards">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'review' -%}
+              {%- assign star_n = block.settings.stars | plus: 0 -%}
+              <div class="ps-review" {{ block.shopify_attributes }}>
+                <div class="ps-review__stars">
+                  {%- for i in (1..star_n) -%}★{%- endfor -%}
+                </div>
+                <p>"{{ block.settings.quote }}"</p>
+                <small>— {{ block.settings.reviewer }}</small>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+        <p class="ps-disclaimer">{{ section.settings.reviews_disclaimer }}</p>
+      </div>
+      <div class="ps-lifestyle">
+        {%- if section.settings.reviews_lifestyle != blank -%}
+          {{ section.settings.reviews_lifestyle | image_url: width: 680 | image_tag: loading: 'lazy', alt: 'Lifestyle' }}
+        {%- else -%}
+          <img src="{{ 'ps-lifestyle-bottle.webp' | asset_url }}" loading="lazy" alt="{{ 'Lifestyle' }}">
+        {%- endif -%}
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%}══════════════ GUARANTEE ══════════════{%- endcomment -%}
+  <section class="ps-guar">
+    <div class="ps-wrap">
+      <div class="ps-guar__grid">
+        <div class="ps-guar__seal">
+          {%- if section.settings.guar_seal != blank -%}
+            {{ section.settings.guar_seal | image_url: width: 236 | image_tag: loading: 'lazy', alt: section.settings.guar_heading }}
+          {%- else -%}
+            <img src="{{ 'ps-seal-90-day.webp' | asset_url }}" loading="lazy" alt="{{ section.settings.guar_heading }}">
+          {%- endif -%}
+        </div>
+        <div class="ps-guar__copy">
+          <h3>{{ section.settings.guar_heading }}</h3>
+          <p>{{ section.settings.guar_subtext }}</p>
+          {%- if section.settings.guar_learn_url != blank -%}
+            <a href="{{ section.settings.guar_learn_url }}" class="ps-guar__learn">{{ section.settings.guar_learn }}</a>
+          {%- else -%}
+            <span class="ps-guar__learn">{{ section.settings.guar_learn }}</span>
+          {%- endif -%}
+        </div>
+        <div class="ps-guar__items">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'guarantee_item' -%}
+              <div class="ps-guar__item" {{ block.shopify_attributes }}>
+                <div class="ps-guar__item-icon">
+                  {%- if block.settings.icon != blank -%}
+                    {{ block.settings.icon | image_url: width: 144 | image_tag: loading: 'lazy', alt: block.settings.label }}
+                  {%- else -%}
+                    <img src="{{ block.settings.fallback_asset | asset_url }}" loading="lazy" alt="{{ block.settings.label }}">
+                  {%- endif -%}
+                </div>
+                <b>{{ block.settings.label }}</b>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%}══════════════ FAQ ══════════════{%- endcomment -%}
+  <section class="ps-faq">
+    <div class="ps-wrap">
+      <h2>{{ section.settings.faq_heading }}</h2>
+      <div class="ps-faq__grid">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'faq_item' -%}
+            <div class="ps-faq__item" {{ block.shopify_attributes }}>
+              <button class="ps-faq__q" type="button" aria-expanded="false" aria-controls="ps-faq-{{ block.id }}">
+                {{ block.settings.question }}
+                <span class="ps-faq__arrow" aria-hidden="true">⌄</span>
+              </button>
+              <div class="ps-faq__a" id="ps-faq-{{ block.id }}" role="region" hidden>
+                <div class="ps-faq__a-inner">{{ block.settings.answer }}</div>
+              </div>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%}══════════════ STICKY CART ══════════════{%- endcomment -%}
+  <div class="ps-sticky" aria-hidden="true" aria-label="Quick add to cart">
+    <div class="ps-sticky__inner">
+      <div class="ps-sticky__product">
+        {%- if product.featured_image != blank -%}
+          {{ product.featured_image | image_url: width: 120 | image_tag: loading: 'lazy', alt: product.title }}
+        {%- else -%}
+          <img src="{{ 'ps-hero-bottle.webp' | asset_url }}" loading="lazy" alt="{{ product.title }}">
+        {%- endif -%}
+        <div>
+          <span class="ps-sticky__title">{{ product.title }}</span>
+          <span class="ps-sticky__meta">{{ section.settings.buy_servings }}</span>
+        </div>
+      </div>
+      <div class="ps-sticky__price">
+        {{ ps_price }}
+        <span>{{ ps_day_price }}</span>
+      </div>
+      {%- assign ps_sticky_form_id = 'ps-sticky-form-' | append: section.id -%}{% form 'product', product, id: ps_sticky_form_id, novalidate: 'novalidate' -%}
+        <input type="hidden" name="id" value="{{ ps_variant.id }}">
+        <input type="hidden" name="quantity" value="1">
+        <button type="submit" name="add" class="ps-btn">{{ section.settings.buy_cta }}</button>
+      {%- endform -%}
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  var pdp = document.getElementById('ps-pdp-{{ section.id }}');
+  if (!pdp) return;
+
+  /* ── Quantity buttons ── */
+  var form = document.getElementById('ps-main-form-{{ section.id }}');
+  if (form) {
+    var qInput = form.querySelector('.ps-qty__input');
+    var btns   = form.querySelectorAll('.ps-qty__btn');
+    if (btns[0]) btns[0].addEventListener('click', function () { qInput.value = Math.max(1, (parseInt(qInput.value) || 1) - 1); });
+    if (btns[1]) btns[1].addEventListener('click', function () { qInput.value = (parseInt(qInput.value) || 1) + 1; });
+  }
+
+  /* ── Buy card accordions — un seul ouvert à la fois ── */
+  var buyAccs = Array.from(pdp.querySelectorAll('.ps-buy__accs .ps-acc'));
+  buyAccs.forEach(function(acc) {
+    var summ = acc.querySelector('summary');
+    if (!summ) return;
+    summ.addEventListener('click', function(e) {
+      e.preventDefault();
+      var wasOpen = acc.hasAttribute('open');
+      buyAccs.forEach(function(a) { a.removeAttribute('open'); });
+      if (!wasOpen) acc.setAttribute('open', '');
+    });
+  });
+
+  /* ── FAQ accordion ── */
+  pdp.querySelectorAll('.ps-faq__q').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var item  = this.closest('.ps-faq__item');
+      var panel = item.querySelector('.ps-faq__a');
+      var open  = this.getAttribute('aria-expanded') === 'true';
+      this.setAttribute('aria-expanded', open ? 'false' : 'true');
+      item.classList.toggle('ps-faq--open', !open);
+      if (open) panel.setAttribute('hidden', '');
+      else panel.removeAttribute('hidden');
+    });
+  });
+
+  /* ── Sticky cart ── */
+  var hero   = pdp.querySelector('.ps-hero');
+  var sticky = pdp.querySelector('.ps-sticky');
+  if (!hero || !sticky) return;
+
+  function setSticky(visible) {
+    sticky.classList.toggle('ps-sticky--visible', visible);
+    sticky.setAttribute('aria-hidden', visible ? 'false' : 'true');
+  }
+
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      setSticky(!entries[0].isIntersecting);
+    }, { threshold: 0 }).observe(hero);
+  } else {
+    window.addEventListener('scroll', function () {
+      setSticky(hero.getBoundingClientRect().bottom < 80);
+    }, { passive: true });
+    setSticky(hero.getBoundingClientRect().bottom < 80);
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Urolithin A PDP",
+  "settings": [
+    { "type": "header", "content": "Hero" },
+    { "type": "text",   "id": "hero_eyebrow",  "label": "Eyebrow",   "default": "Longevity Support · Cellular Energy" },
+    { "type": "text",   "id": "hero_heading",   "label": "Heading",   "default": "Your 90-Day Longevity Stack" },
+    { "type": "textarea","id": "hero_subtext",  "label": "Subtext",   "default": "2000 mg Urolithin A + 7 powerful actives to support cellular energy and healthy aging." },
+    { "type": "text",   "id": "hero_micro",     "label": "Micro proof","default": "GMP Facility · Made in USA · 90-Day Guarantee" },
+    { "type": "image_picker", "id": "hero_bg",  "label": "Background image" },
+
+    { "type": "header", "content": "Buy card" },
+    { "type": "text",   "id": "buy_tab",      "label": "Purchase tab",    "default": "One-time purchase" },
+    { "type": "text",   "id": "buy_servings", "label": "Servings text",   "default": "90 Servings · 180 Capsules" },
+    { "type": "number", "id": "supply_days", "label": "Days of supply (used to auto-calculate the $/day price)", "info": "How many days one order lasts. The $/day price shown on the page is calculated automatically from the live product price ÷ this number — it always stays correct, even when the price changes.", "default": 90 },
+    { "type": "text",   "id": "buy_cta",      "label": "CTA button text", "default": "Add to Cart" },
+
+    { "type": "header", "content": "Trust items" },
+    { "type": "image_picker", "id": "trust_1_icon",     "label": "Trust 1 — icon" },
+    { "type": "text",         "id": "trust_1_fallback", "label": "Trust 1 — asset fallback", "default": "ps-icon-shipping.png" },
+    { "type": "text",         "id": "trust_1_text",     "label": "Trust 1 — text",     "default": "Free shipping" },
+    { "type": "image_picker", "id": "trust_2_icon",     "label": "Trust 2 — icon" },
+    { "type": "text",         "id": "trust_2_fallback", "label": "Trust 2 — asset fallback", "default": "ps-icon-guarantee.png" },
+    { "type": "text",         "id": "trust_2_text",     "label": "Trust 2 — text",     "default": "90-day guarantee" },
+    { "type": "image_picker", "id": "trust_3_icon",     "label": "Trust 3 — icon" },
+    { "type": "text",         "id": "trust_3_fallback", "label": "Trust 3 — asset fallback", "default": "ps-icon-secure.png" },
+    { "type": "text",         "id": "trust_3_text",     "label": "Trust 3 — text",     "default": "Secure checkout" },
+
+    { "type": "header", "content": "Accordions" },
+    { "type": "text", "id": "acc_supports_label",    "label": "Supports label",    "default": "Supports" },
+    { "type": "text", "id": "acc_ingredients_label", "label": "Ingredients label", "default": "Ingredients" },
+    { "type": "text", "id": "acc_certs_label",       "label": "Certificates label","default": "Certificates" },
+    { "type": "image_picker", "id": "cert_1_icon",     "label": "Cert 1 — icon" },
+    { "type": "text",         "id": "cert_1_fallback", "label": "Cert 1 — asset fallback", "default": "ps-icon-lab.png" },
+    { "type": "text",         "id": "cert_1_label",    "label": "Cert 1 — label",  "default": "Third-party tested" },
+    { "type": "text",         "id": "cert_2_label",    "label": "Cert 2 — label (COA badge)", "default": "COA by batch" },
+    { "type": "image_picker", "id": "cert_3_icon",     "label": "Cert 3 — icon" },
+    { "type": "text",         "id": "cert_3_fallback", "label": "Cert 3 — asset fallback", "default": "ps-icon-cgmp.png" },
+    { "type": "text",         "id": "cert_3_label",    "label": "Cert 3 — label",  "default": "GMP facility" },
+    { "type": "text",         "id": "coa_title",       "label": "COA title",        "default": "Certificate of Analysis" },
+    { "type": "text",         "id": "coa_subtext",     "label": "COA subtext",      "default": "Available for every batch." },
+    { "type": "text",         "id": "coa_link_label",  "label": "COA link label",   "default": "View sample COA" },
+    { "type": "url",          "id": "coa_link_url",    "label": "COA link URL (PDF or page)" },
+
+    { "type": "header", "content": "Ingredients section" },
+    { "type": "text",    "id": "ing_heading", "label": "Heading", "default": "8 Powerful Actives. 1 Complete Stack." },
+    { "type": "textarea","id": "ing_subtext", "label": "Subtext", "default": "Synergistic nutrients designed to support cellular energy, mitochondrial and healthy aging." },
+
+    { "type": "header", "content": "Comparison section" },
+    { "type": "text", "id": "comp_heading",      "label": "Heading",         "default": "One Bottle vs. 8+ Bottles" },
+    { "type": "text", "id": "comp_subtext",      "label": "Subtext",         "default": "Get more. Simplify your routine." },
+    { "type": "image_picker", "id": "comp_bottle",   "label": "Our bottle image" },
+    { "type": "image_picker", "id": "comp_vs_image", "label": "Competitor bottles image" },
+    { "type": "text", "id": "comp_our_title",    "label": "Our title",       "default": "Panstellar Urolithin A Stack" },
+    { "type": "text", "id": "comp_theirs_title", "label": "Theirs title",    "default": "Typical 8+ Bottles" },
+    { "type": "text", "id": "comp_check_1", "label": "Checklist 1", "default": "2000 mg Urolithin A" },
+    { "type": "text", "id": "comp_check_2", "label": "Checklist 2", "default": "8 Active Ingredients" },
+    { "type": "text", "id": "comp_check_3", "label": "Checklist 3", "default": "180 Capsules" },
+    { "type": "text", "id": "comp_check_4", "label": "Checklist 4", "default": "90 Servings" },
+    { "type": "text", "id": "comp_check_5", "label": "Checklist 5", "default": "Clear Dose Per Active" },
+    { "type": "text", "id": "comp_check_6", "label": "Checklist 6", "default": "Third-Party Tested" },
+    { "type": "text", "id": "comp_check_7", "label": "Checklist 7", "default": "GMP Facility" },
+    { "type": "text", "id": "comp_check_8", "label": "Checklist 8", "default": "Made in USA" },
+    { "type": "text", "id": "comp_cross_1", "label": "Crosslist 1", "default": "Lower Doses" },
+    { "type": "text", "id": "comp_cross_2", "label": "Crosslist 2", "default": "8+ Separate Products" },
+    { "type": "text", "id": "comp_cross_3", "label": "Crosslist 3", "default": "More Capsules" },
+    { "type": "text", "id": "comp_cross_4", "label": "Crosslist 4", "default": "Shorter Supply" },
+    { "type": "text", "id": "comp_cross_5", "label": "Crosslist 5", "default": "Harder To Track" },
+    { "type": "text", "id": "comp_cross_6", "label": "Crosslist 6", "default": "Higher Cost" },
+    { "type": "text", "id": "comp_cross_7", "label": "Crosslist 7", "default": "More Clutter" },
+
+    { "type": "header", "content": "Science section" },
+    { "type": "text",    "id": "science_heading", "label": "Heading", "default": "Science. Synergy. Performance." },
+    { "type": "textarea","id": "science_subtext", "label": "Subtext", "default": "Urolithin A helps support cellular energy, muscle health and healthy aging pathways." },
+    { "type": "image_picker", "id": "science_visual", "label": "Visual image" },
+
+    { "type": "header", "content": "Quality section" },
+    { "type": "text", "id": "qual_heading", "label": "Heading", "default": "Quality You Can Trust" },
+    { "type": "text", "id": "qual_subtext", "label": "Subtext", "default": "Every batch. Every time." },
+
+    { "type": "header", "content": "Reviews section" },
+    { "type": "text", "id": "reviews_heading",    "label": "Heading",    "default": "Real People. Real Results." },
+    { "type": "image_picker", "id": "reviews_lifestyle", "label": "Lifestyle image" },
+    { "type": "text", "id": "reviews_disclaimer", "label": "Disclaimer", "default": "Results may vary. Testimonials reflect individual experiences and are not guaranteed." },
+
+    { "type": "header", "content": "Guarantee section" },
+    { "type": "image_picker", "id": "guar_seal",    "label": "Seal image" },
+    { "type": "text",         "id": "guar_heading", "label": "Heading",   "default": "Try It Risk-Free" },
+    { "type": "text",         "id": "guar_subtext", "label": "Subtext",   "default": "If you're not satisfied within 90 days, we'll make it right." },
+    { "type": "text",         "id": "guar_learn",     "label": "Link label",    "default": "Learn more" },
+    { "type": "url",          "id": "guar_learn_url", "label": "Learn more URL (policy page)" },
+
+    { "type": "header", "content": "FAQ section" },
+    { "type": "text", "id": "faq_heading", "label": "Heading", "default": "Frequently Asked Questions" }
+  ],
+  "blocks": [
+    {
+      "type": "hero_badge",
+      "name": "Hero badge",
+      "settings": [
+        { "type": "image_picker", "id": "icon",           "label": "Icon" },
+        { "type": "text",         "id": "fallback_asset", "label": "Asset fallback" },
+        { "type": "text",         "id": "value",          "label": "Value (bold)", "default": "8" },
+        { "type": "text",         "id": "label",          "label": "Label",        "default": "Actives" }
+      ]
+    },
+    {
+      "type": "ingredient",
+      "name": "Ingredient",
+      "settings": [
+        { "type": "image_picker", "id": "image",          "label": "Image" },
+        { "type": "text",         "id": "fallback_asset", "label": "Asset fallback" },
+        { "type": "text",         "id": "name",           "label": "Name",  "default": "Urolithin A" },
+        { "type": "text",         "id": "dose",           "label": "Dose",  "default": "2000mg" },
+        { "type": "checkbox",     "id": "featured",       "label": "Featured (hero card)", "default": false }
+      ]
+    },
+    {
+      "type": "science_point",
+      "name": "Science / Support point",
+      "settings": [
+        { "type": "image_picker", "id": "icon",           "label": "Icon" },
+        { "type": "text",         "id": "fallback_asset", "label": "Asset fallback" },
+        { "type": "text",         "id": "label",          "label": "Label", "default": "Supports Cellular Energy" }
+      ]
+    },
+    {
+      "type": "quality_badge",
+      "name": "Quality badge",
+      "settings": [
+        { "type": "image_picker", "id": "icon",           "label": "Icon" },
+        { "type": "text",         "id": "fallback_asset", "label": "Asset fallback" },
+        { "type": "text",         "id": "label",          "label": "Label", "default": "Third-Party Tested" }
+      ]
+    },
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "select", "id": "stars", "label": "Stars", "options": [{"value":"5","label":"★★★★★"},{"value":"4","label":"★★★★"},{"value":"3","label":"★★★"}], "default": "5" },
+        { "type": "textarea", "id": "quote",    "label": "Quote",    "default": "Great quality and easy to take every day." },
+        { "type": "text",     "id": "reviewer", "label": "Reviewer", "default": "Verified Buyer" }
+      ]
+    },
+    {
+      "type": "faq_item",
+      "name": "FAQ item",
+      "settings": [
+        { "type": "text",     "id": "question", "label": "Question", "default": "How long does one bottle last?" },
+        { "type": "textarea", "id": "answer",   "label": "Answer",   "default": "One bottle contains 180 capsules — a full 90-day supply at one capsule per day." }
+      ]
+    },
+    {
+      "type": "guarantee_item",
+      "name": "Guarantee item",
+      "settings": [
+        { "type": "image_picker", "id": "icon",           "label": "Icon" },
+        { "type": "text",         "id": "fallback_asset", "label": "Asset fallback" },
+        { "type": "text",         "id": "label",          "label": "Label", "default": "90-Day Guarantee" }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "Urolithin A PDP" }
+  ]
+}
+{% endschema %}

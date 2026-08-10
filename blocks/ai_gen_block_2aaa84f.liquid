@@ -1,0 +1,455 @@
+{% doc %}
+  @prompt
+    Create a FAQ section identical to the reference.
+    
+    ⚠️ Do not change any text, wording, or design elements.
+    ⚠️ Only ensure that each question is listed vertically and that the layout is responsive.
+    
+    CONTENT (must remain exactly the same)
+    
+    Title (uppercase, bold):
+    ❓ COMMON QUESTIONS
+    
+    QUESTIONS (listed vertically)
+    
+    Question 1:
+    Why take both bottles together?
+    Answer:
+    They work better as a team. One recharges your cells (NAD+). The other activates your longevity genes (NMN). Together, they give you more energy AND help you age better. Think of it like eating protein + vegetables instead of just one.
+    
+    Question 2:
+    When will I feel something?
+    Answer:
+    Everyone’s different, but most notice a change by week 3. Week 1–2 is foundation building. Week 6–8 brings noticeable recovery benefits. Full benefits at 3 months.
+    
+    Question 3:
+    Is it safe?
+    Answer:
+    Yes. Made in USA facilities, every batch is tested, and backed by 200+ studies. If you're on medication, check with your doctor first.
+    
+    Question 4:
+    Can I see your lab reports?
+    Answer:
+    Yes. We publish Certificate of Analysis (COA) for every batch. [Link to Reports]
+    
+    Question 5 (highlighted in reference):
+    What if it doesn’t work?
+    Answer (highlighted):
+    Use both bottles for 90 days. Not happy? Send us the empty bottles and we’ll refund you 100%. No questions asked.
+    
+    DESIGN & STYLE RULES
+    
+    Question Title: Bold and slightly larger than the answer text
+    
+    Answer Text: Regular weight, consistent font size
+    
+    Spacing: Equal vertical spacing between questions
+    
+    Highlight: The "What if it doesn’t work?" question should have a subtle background highlight or border (matching reference image)
+    
+    RESPONSIVENESS (MANDATORY)
+    
+    Desktop: Questions and answers listed in a clean vertical list
+    
+    Tablet: Same list with reduced gap between questions
+    
+    Mobile:
+    
+    Full-width content
+    
+    Questions stacked vertically with readable text
+    
+    Ensure readability and no horizontal scrolling
+    
+    TECHNICAL CONSTRAINTS
+    
+    Use semantic HTML
+    
+    Use Flexbox or CSS Grid
+    
+    Use media queries for mobile
+    
+    Mobile-first responsive design
+    
+    Shopify Dawn compatible
+    
+    No JavaScript required
+    
+    The final result must look exactly like the reference, with the “What if it doesn’t work?” question highlighted and clearly visible.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-faq-section-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    padding: 40px 20px;
+    background-color: {{ block.settings.background_color }};
+  }
+
+  .ai-faq-container-{{ ai_gen_id }} {
+    max-width: {{ block.settings.max_width }}px;
+    margin: 0 auto;
+  }
+
+  .ai-faq-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: {{ block.settings.title_color }};
+    margin: 0 0 32px 0;
+    text-align: {{ block.settings.title_alignment }};
+    letter-spacing: 0.5px;
+  }
+
+  .ai-faq-list-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: {{ block.settings.question_spacing }}px;
+  }
+
+  .ai-faq-item-{{ ai_gen_id }} {
+    padding: {{ block.settings.item_padding }}px;
+    background-color: {{ block.settings.item_background }};
+    border-radius: {{ block.settings.item_border_radius }}px;
+    border: {{ block.settings.item_border_width }}px solid {{ block.settings.item_border_color }};
+  }
+
+  .ai-faq-item-{{ ai_gen_id }}.ai-faq-item-highlighted-{{ ai_gen_id }} {
+    background-color: {{ block.settings.highlight_background }};
+    border-color: {{ block.settings.highlight_border_color }};
+    border-width: {{ block.settings.highlight_border_width }}px;
+  }
+
+  .ai-faq-question-{{ ai_gen_id }} {
+    font-size: {{ block.settings.question_size }}px;
+    font-weight: 700;
+    color: {{ block.settings.question_color }};
+    margin: 0 0 12px 0;
+    line-height: 1.4;
+  }
+
+  .ai-faq-item-highlighted-{{ ai_gen_id }} .ai-faq-question-{{ ai_gen_id }} {
+    color: {{ block.settings.highlight_question_color }};
+  }
+
+  .ai-faq-answer-{{ ai_gen_id }} {
+    font-size: {{ block.settings.answer_size }}px;
+    font-weight: 400;
+    color: {{ block.settings.answer_color }};
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .ai-faq-item-highlighted-{{ ai_gen_id }} .ai-faq-answer-{{ ai_gen_id }} {
+    color: {{ block.settings.highlight_answer_color }};
+  }
+
+  .ai-faq-answer-{{ ai_gen_id }} a {
+    color: {{ block.settings.link_color }};
+    text-decoration: underline;
+  }
+
+  .ai-faq-answer-{{ ai_gen_id }} a:hover {
+    opacity: 0.8;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-faq-section-{{ ai_gen_id }} {
+      padding: 32px 16px;
+    }
+
+    .ai-faq-title-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.title_size }}px * 0.85);
+      margin-bottom: 24px;
+    }
+
+    .ai-faq-list-{{ ai_gen_id }} {
+      gap: {{ block.settings.question_spacing | times: 0.75 }}px;
+    }
+
+    .ai-faq-item-{{ ai_gen_id }} {
+      padding: {{ block.settings.item_padding | times: 0.8 }}px;
+    }
+
+    .ai-faq-question-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.question_size }}px * 0.9);
+    }
+
+    .ai-faq-answer-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.answer_size }}px * 0.95);
+    }
+  }
+
+  @media screen and (min-width: 750px) and (max-width: 989px) {
+    .ai-faq-list-{{ ai_gen_id }} {
+      gap: {{ block.settings.question_spacing | times: 0.85 }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-faq-section-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-faq-container-{{ ai_gen_id }}">
+    <h2 class="ai-faq-title-{{ ai_gen_id }}">❓ COMMON QUESTIONS</h2>
+    
+    <div class="ai-faq-list-{{ ai_gen_id }}">
+      <div class="ai-faq-item-{{ ai_gen_id }}">
+        <h3 class="ai-faq-question-{{ ai_gen_id }}">Why take both bottles together?</h3>
+        <p class="ai-faq-answer-{{ ai_gen_id }}">They work better as a team. One recharges your cells (NAD+). The other activates your longevity genes (NMN). Together, they give you more energy AND help you age better. Think of it like eating protein + vegetables instead of just one.</p>
+      </div>
+
+      <div class="ai-faq-item-{{ ai_gen_id }}">
+        <h3 class="ai-faq-question-{{ ai_gen_id }}">When will I feel something?</h3>
+        <p class="ai-faq-answer-{{ ai_gen_id }}">Everyone's different, but most notice a change by week 3. Week 1–2 is foundation building. Week 6–8 brings noticeable recovery benefits. Full benefits at 3 months.</p>
+      </div>
+
+      <div class="ai-faq-item-{{ ai_gen_id }}">
+        <h3 class="ai-faq-question-{{ ai_gen_id }}">Is it safe?</h3>
+        <p class="ai-faq-answer-{{ ai_gen_id }}">Yes. Made in USA facilities, every batch is tested, and backed by 200+ studies. If you're on medication, check with your doctor first.</p>
+      </div>
+
+      <div class="ai-faq-item-{{ ai_gen_id }}">
+        <h3 class="ai-faq-question-{{ ai_gen_id }}">Can I see your lab reports?</h3>
+        <p class="ai-faq-answer-{{ ai_gen_id }}">Yes. We publish Certificate of Analysis (COA) for every batch. <a href="{{ block.settings.lab_reports_link }}">Link to Reports</a></p>
+      </div>
+
+      <div class="ai-faq-item-{{ ai_gen_id }} ai-faq-item-highlighted-{{ ai_gen_id }}">
+        <h3 class="ai-faq-question-{{ ai_gen_id }}">What if it doesn't work?</h3>
+        <p class="ai-faq-answer-{{ ai_gen_id }}">Use both bottles for 90 days. Not happy? Send us the empty bottles and we'll refund you 100%. No questions asked.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "FAQ section",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 600,
+      "max": 1400,
+      "step": 50,
+      "unit": "px",
+      "label": "Maximum width",
+      "default": 900
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "Title"
+    },
+    {
+      "type": "select",
+      "id": "title_alignment",
+      "label": "Alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 16,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Font size",
+      "default": 24
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Color",
+      "default": "#121212"
+    },
+    {
+      "type": "header",
+      "content": "Questions"
+    },
+    {
+      "type": "range",
+      "id": "question_spacing",
+      "min": 8,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Spacing between questions",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "question_size",
+      "min": 14,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Question font size",
+      "default": 18
+    },
+    {
+      "type": "color",
+      "id": "question_color",
+      "label": "Question color",
+      "default": "#121212"
+    },
+    {
+      "type": "range",
+      "id": "answer_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Answer font size",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "answer_color",
+      "label": "Answer color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "label": "Link color",
+      "default": "#5c1ada"
+    },
+    {
+      "type": "header",
+      "content": "Item style"
+    },
+    {
+      "type": "range",
+      "id": "item_padding",
+      "min": 8,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "item_background",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "item_border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "item_border_width",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "label": "Border width",
+      "default": 1
+    },
+    {
+      "type": "color",
+      "id": "item_border_color",
+      "label": "Border color",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "header",
+      "content": "Highlight style"
+    },
+    {
+      "type": "color",
+      "id": "highlight_background",
+      "label": "Background color",
+      "default": "#f3f3f3"
+    },
+    {
+      "type": "range",
+      "id": "highlight_border_width",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "label": "Border width",
+      "default": 2
+    },
+    {
+      "type": "color",
+      "id": "highlight_border_color",
+      "label": "Border color",
+      "default": "#5c1ada"
+    },
+    {
+      "type": "color",
+      "id": "highlight_question_color",
+      "label": "Question color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "highlight_answer_color",
+      "label": "Answer color",
+      "default": "#121212"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Links"
+    },
+    {
+      "type": "url",
+      "id": "lab_reports_link",
+      "label": "Lab reports link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ section"
+    }
+  ]
+}
+{% endschema %}

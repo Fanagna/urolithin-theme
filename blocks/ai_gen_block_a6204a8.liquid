@@ -1,0 +1,540 @@
+{% doc %}
+  @prompt
+    genere moi une section contenant un titre(entré au centre) 
+    juste ne dessous 3  multicolonnes avec un titre et liste puis une ligne de séparation
+    en desous du ligne se trouve le prix barré et le prix;
+    un text en orange; un boutton add To cart et enfin des icons (cadena,garenty,truck) avec des text à coté. tous les contenant de cette section sont centré au centre
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-pricing-section-{{ ai_gen_id }} {
+    padding: 40px 20px;
+    text-align: center;
+    background-color: {{ block.settings.background_color }};
+  }
+
+  .ai-pricing-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    color: {{ block.settings.title_color }};
+    margin: 0 0 40px;
+  }
+
+  .ai-pricing-columns-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto 30px;
+  }
+
+  .ai-pricing-column-{{ ai_gen_id }} {
+    text-align: center;
+  }
+
+  .ai-pricing-column-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.column_title_size }}px;
+    color: {{ block.settings.column_title_color }};
+    margin: 0 0 15px;
+    font-weight: 600;
+  }
+
+  .ai-pricing-column-list-{{ ai_gen_id }} {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .ai-pricing-column-list-{{ ai_gen_id }} li {
+    font-size: {{ block.settings.list_item_size }}px;
+    color: {{ block.settings.list_item_color }};
+    margin-bottom: 8px;
+  }
+
+  .ai-pricing-separator-{{ ai_gen_id }} {
+    width: 100%;
+    max-width: 1200px;
+    height: 1px;
+    background-color: {{ block.settings.separator_color }};
+    margin: 30px auto;
+  }
+
+  .ai-pricing-content-{{ ai_gen_id }} {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .ai-pricing-prices-{{ ai_gen_id }} {
+    margin-bottom: 15px;
+  }
+
+  .ai-pricing-compare-price-{{ ai_gen_id }} {
+    font-size: {{ block.settings.compare_price_size }}px;
+    color: {{ block.settings.compare_price_color }};
+    text-decoration: line-through;
+    margin-right: 10px;
+  }
+
+  .ai-pricing-price-{{ ai_gen_id }} {
+    font-size: {{ block.settings.price_size }}px;
+    color: {{ block.settings.price_color }};
+    font-weight: 700;
+  }
+
+  .ai-pricing-highlight-text-{{ ai_gen_id }} {
+    font-size: {{ block.settings.highlight_text_size }}px;
+    color: {{ block.settings.highlight_text_color }};
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+
+  .ai-pricing-button-{{ ai_gen_id }} {
+    display: inline-block;
+    padding: 15px 40px;
+    background-color: {{ block.settings.button_bg_color }};
+    color: {{ block.settings.button_text_color }};
+    font-size: {{ block.settings.button_text_size }}px;
+    text-decoration: none;
+    border-radius: {{ block.settings.button_radius }}px;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 25px;
+    transition: background-color 0.3s ease;
+  }
+
+  .ai-pricing-button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_bg_color }};
+  }
+
+  .ai-pricing-features-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+
+  .ai-pricing-feature-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .ai-pricing-feature-icon-{{ ai_gen_id }} {
+    width: {{ block.settings.icon_size }}px;
+    height: {{ block.settings.icon_size }}px;
+    color: {{ block.settings.icon_color }};
+    flex-shrink: 0;
+  }
+
+  .ai-pricing-feature-text-{{ ai_gen_id }} {
+    font-size: {{ block.settings.feature_text_size }}px;
+    color: {{ block.settings.feature_text_color }};
+  }
+
+  @media screen and (max-width: 768px) {
+    .ai-pricing-columns-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .ai-pricing-features-{{ ai_gen_id }} {
+      flex-direction: column;
+      gap: 15px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-pricing-section-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% if block.settings.main_title != blank %}
+    <h2 class="ai-pricing-title-{{ ai_gen_id }}">{{ block.settings.main_title }}</h2>
+  {% endif %}
+
+  <div class="ai-pricing-columns-{{ ai_gen_id }}">
+    {% for i in (1..3) %}
+      {% liquid
+        assign column_title_key = 'column_' | append: i | append: '_title'
+        assign column_list_key = 'column_' | append: i | append: '_list'
+        assign column_title = block.settings[column_title_key]
+        assign column_list = block.settings[column_list_key]
+      %}
+      <div class="ai-pricing-column-{{ ai_gen_id }}">
+        {% if column_title != blank %}
+          <h3 class="ai-pricing-column-title-{{ ai_gen_id }}">{{ column_title }}</h3>
+        {% endif %}
+        {% if column_list != blank %}
+          <ul class="ai-pricing-column-list-{{ ai_gen_id }}">
+            {% assign list_items = column_list | split: ',' %}
+            {% for item in list_items %}
+              <li>{{ item | strip }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="ai-pricing-separator-{{ ai_gen_id }}"></div>
+
+  <div class="ai-pricing-content-{{ ai_gen_id }}">
+    <div class="ai-pricing-prices-{{ ai_gen_id }}">
+      {% if block.settings.compare_price != blank %}
+        <span class="ai-pricing-compare-price-{{ ai_gen_id }}">{{ block.settings.compare_price }}</span>
+      {% endif %}
+      {% if block.settings.price != blank %}
+        <span class="ai-pricing-price-{{ ai_gen_id }}">{{ block.settings.price }}</span>
+      {% endif %}
+    </div>
+
+    {% if block.settings.highlight_text != blank %}
+      <div class="ai-pricing-highlight-text-{{ ai_gen_id }}">{{ block.settings.highlight_text }}</div>
+    {% endif %}
+
+    {% if block.settings.button_text != blank %}
+      <button class="ai-pricing-button-{{ ai_gen_id }}" type="button">
+        {{ block.settings.button_text }}
+      </button>
+    {% endif %}
+
+    <div class="ai-pricing-features-{{ ai_gen_id }}">
+      <div class="ai-pricing-feature-{{ ai_gen_id }}">
+        <svg class="ai-pricing-feature-icon-{{ ai_gen_id }}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+        <span class="ai-pricing-feature-text-{{ ai_gen_id }}">{{ block.settings.feature_1_text }}</span>
+      </div>
+
+      <div class="ai-pricing-feature-{{ ai_gen_id }}">
+        <svg class="ai-pricing-feature-icon-{{ ai_gen_id }}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+        </svg>
+        <span class="ai-pricing-feature-text-{{ ai_gen_id }}">{{ block.settings.feature_2_text }}</span>
+      </div>
+
+      <div class="ai-pricing-feature-{{ ai_gen_id }}">
+        <svg class="ai-pricing-feature-icon-{{ ai_gen_id }}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="1" y="3" width="15" height="13"></rect>
+          <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+          <circle cx="5.5" cy="18.5" r="2.5"></circle>
+          <circle cx="18.5" cy="18.5" r="2.5"></circle>
+        </svg>
+        <span class="ai-pricing-feature-text-{{ ai_gen_id }}">{{ block.settings.feature_3_text }}</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Pricing section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Main title"
+    },
+    {
+      "type": "text",
+      "id": "main_title",
+      "label": "Title",
+      "default": "Choose Your Plan"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 16,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Title size",
+      "default": 32
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#121212"
+    },
+    {
+      "type": "header",
+      "content": "Column 1"
+    },
+    {
+      "type": "text",
+      "id": "column_1_title",
+      "label": "Title",
+      "default": "Basic"
+    },
+    {
+      "type": "textarea",
+      "id": "column_1_list",
+      "label": "List items",
+      "default": "Feature 1, Feature 2, Feature 3"
+    },
+    {
+      "type": "header",
+      "content": "Column 2"
+    },
+    {
+      "type": "text",
+      "id": "column_2_title",
+      "label": "Title",
+      "default": "Pro"
+    },
+    {
+      "type": "textarea",
+      "id": "column_2_list",
+      "label": "List items",
+      "default": "Feature 1, Feature 2, Feature 3"
+    },
+    {
+      "type": "header",
+      "content": "Column 3"
+    },
+    {
+      "type": "text",
+      "id": "column_3_title",
+      "label": "Title",
+      "default": "Premium"
+    },
+    {
+      "type": "textarea",
+      "id": "column_3_list",
+      "label": "List items",
+      "default": "Feature 1, Feature 2, Feature 3"
+    },
+    {
+      "type": "range",
+      "id": "column_title_size",
+      "min": 14,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Column title size",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "column_title_color",
+      "label": "Column title color",
+      "default": "#121212"
+    },
+    {
+      "type": "range",
+      "id": "list_item_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "List item size",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "list_item_color",
+      "label": "List item color",
+      "default": "#121212"
+    },
+    {
+      "type": "header",
+      "content": "Separator"
+    },
+    {
+      "type": "color",
+      "id": "separator_color",
+      "label": "Separator color",
+      "default": "#cccccc"
+    },
+    {
+      "type": "header",
+      "content": "Pricing"
+    },
+    {
+      "type": "text",
+      "id": "compare_price",
+      "label": "Compare at price",
+      "default": "$99.99"
+    },
+    {
+      "type": "range",
+      "id": "compare_price_size",
+      "min": 14,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Compare price size",
+      "default": 18
+    },
+    {
+      "type": "color",
+      "id": "compare_price_color",
+      "label": "Compare price color",
+      "default": "#999999"
+    },
+    {
+      "type": "text",
+      "id": "price",
+      "label": "Price",
+      "default": "$79.99"
+    },
+    {
+      "type": "range",
+      "id": "price_size",
+      "min": 16,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Price size",
+      "default": 28
+    },
+    {
+      "type": "color",
+      "id": "price_color",
+      "label": "Price color",
+      "default": "#121212"
+    },
+    {
+      "type": "header",
+      "content": "Highlight text"
+    },
+    {
+      "type": "text",
+      "id": "highlight_text",
+      "label": "Text",
+      "default": "Limited time offer"
+    },
+    {
+      "type": "range",
+      "id": "highlight_text_size",
+      "min": 12,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "highlight_text_color",
+      "label": "Text color",
+      "default": "#ff6600"
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Add to cart"
+    },
+    {
+      "type": "range",
+      "id": "button_text_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Button text size",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button background",
+      "default": "#5c1ada"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg_color",
+      "label": "Button hover background",
+      "default": "#4a15b0"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "button_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Button border radius",
+      "default": 6
+    },
+    {
+      "type": "header",
+      "content": "Features"
+    },
+    {
+      "type": "text",
+      "id": "feature_1_text",
+      "label": "Feature 1 text",
+      "default": "Secure payment"
+    },
+    {
+      "type": "text",
+      "id": "feature_2_text",
+      "label": "Feature 2 text",
+      "default": "Money-back guarantee"
+    },
+    {
+      "type": "text",
+      "id": "feature_3_text",
+      "label": "Feature 3 text",
+      "default": "Free shipping"
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "min": 16,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Icon size",
+      "default": 24
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon color",
+      "default": "#5c1ada"
+    },
+    {
+      "type": "range",
+      "id": "feature_text_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Feature text size",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "feature_text_color",
+      "label": "Feature text color",
+      "default": "#121212"
+    },
+    {
+      "type": "header",
+      "content": "Section style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Pricing section"
+    }
+  ]
+}
+{% endschema %}

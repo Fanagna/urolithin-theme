@@ -1,0 +1,239 @@
+{% doc %}
+  @prompt
+    genere moi une section  contenant un text à gauche et un boutton Buy Now à  droite avedc tous les parametrage (et que la sextion reste fixe tout en haut de la page juste apres la bar de menu de navigation lorsqu on scroll la page juste apres la section product information)
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-sticky-bar-{{ ai_gen_id }} {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: {{ block.settings.background_color }};
+    z-index: 999;
+    padding: {{ block.settings.padding_vertical }}px {{ block.settings.padding_horizontal }}px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .ai-sticky-bar-container-{{ ai_gen_id }} {
+    max-width: {{ block.settings.container_width }}px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .ai-sticky-bar-text-{{ ai_gen_id }} {
+    flex: 1;
+    color: {{ block.settings.text_color }};
+    font-size: {{ block.settings.text_size }}px;
+    line-height: 1.4;
+  }
+
+  .ai-sticky-bar-button-{{ ai_gen_id }} {
+    flex-shrink: 0;
+    padding: {{ block.settings.button_padding_vertical }}px {{ block.settings.button_padding_horizontal }}px;
+    background-color: {{ block.settings.button_color }};
+    color: {{ block.settings.button_text_color }};
+    border: none;
+    border-radius: {{ block.settings.button_radius }}px;
+    font-size: {{ block.settings.button_text_size }}px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    white-space: nowrap;
+  }
+
+  .ai-sticky-bar-button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_color }};
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-sticky-bar-container-{{ ai_gen_id }} {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 12px;
+    }
+
+    .ai-sticky-bar-text-{{ ai_gen_id }} {
+      text-align: center;
+      font-size: {{ block.settings.text_size | times: 0.9 }}px;
+    }
+
+    .ai-sticky-bar-button-{{ ai_gen_id }} {
+      width: 100%;
+      text-align: center;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-sticky-bar-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-sticky-bar-container-{{ ai_gen_id }}">
+    <div class="ai-sticky-bar-text-{{ ai_gen_id }}">
+      {{ block.settings.text }}
+    </div>
+    <a href="{{ block.settings.button_link }}" class="ai-sticky-bar-button-{{ ai_gen_id }}">
+      {{ block.settings.button_text }}
+    </a>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Sticky bar",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Special offer: Free shipping on orders over $50</p>"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Buy Now"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#5c1ada"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_color",
+      "label": "Hover background color",
+      "default": "#f3f3f3"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Text color",
+      "default": "#5c1ada"
+    },
+    {
+      "type": "range",
+      "id": "button_text_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "button_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 6
+    },
+    {
+      "type": "range",
+      "id": "button_padding_vertical",
+      "min": 8,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Vertical padding",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "button_padding_horizontal",
+      "min": 16,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "label": "Horizontal padding",
+      "default": 32
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "container_width",
+      "min": 1000,
+      "max": 1600,
+      "step": 100,
+      "unit": "px",
+      "label": "Container width",
+      "default": 1600
+    },
+    {
+      "type": "range",
+      "id": "padding_vertical",
+      "min": 8,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Vertical padding",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding_horizontal",
+      "min": 16,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "label": "Horizontal padding",
+      "default": 20
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sticky bar"
+    }
+  ],
+  "tag": null
+}
+{% endschema %}

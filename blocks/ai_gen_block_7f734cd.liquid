@@ -1,0 +1,232 @@
+{% doc %}
+  @prompt
+    Create a centered announcement section identical to the reference visual.
+    
+    Do NOT change any wording, capitalization, spacing, alignment, or colors.
+    
+    🔹 CONTENT (must remain exactly the same)
+    
+    Main headline (large, bold, uppercase):
+    
+    FREE SAME -DAY SHIPPING
+    
+    Subheadline below:
+    
+    Veteran & Military Discount Available
+    
+    🔹 DESIGN REQUIREMENTS
+    
+    Background: pure white
+    
+    Text color: solid black
+    
+    Headline:
+    
+    Large font size
+    
+    Bold
+    
+    Uppercase
+    
+    Center aligned
+    
+    Subheadline:
+    
+    Slightly smaller font size
+    
+    Bold
+    
+    Center aligned
+    
+    Clean, minimal layout
+    
+    No icons
+    
+    No buttons
+    
+    No additional elements
+    
+    🔹 LAYOUT
+    
+    Full-width section
+    
+    Text centered horizontally
+    
+    Comfortable vertical spacing
+    
+    Balanced white space above and below
+    
+    🔹 RESPONSIVE RULES (very important)
+    
+    Headline scales smoothly on mobile
+    
+    Text wraps naturally without breaking structure
+    
+    Maintain strong visual hierarchy on all screen sizes
+    
+    🔹 TECHNICAL REQUIREMENTS
+    
+    Semantic HTML
+    
+    Clean, minimal CSS
+    
+    No JavaScript required
+    
+    Shopify Dawn theme compatible
+    
+    The final result must visually match the reference exactly.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-announcement-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    background-color: {{ block.settings.background_color }};
+    padding: {{ block.settings.padding_top }}px 20px {{ block.settings.padding_bottom }}px;
+  }
+
+  .ai-announcement-content-{{ ai_gen_id }} {
+    text-align: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .ai-announcement-headline-{{ ai_gen_id }} {
+    font-size: {{ block.settings.headline_size }}px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: {{ block.settings.text_color }};
+    margin: 0 0 {{ block.settings.spacing }}px 0;
+    line-height: 1.2;
+    letter-spacing: 0.5px;
+  }
+
+  .ai-announcement-subheadline-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subheadline_size }}px;
+    font-weight: 700;
+    color: {{ block.settings.text_color }};
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-announcement-headline-{{ ai_gen_id }} {
+      font-size: {{ block.settings.headline_size | times: 0.6 }}px;
+    }
+
+    .ai-announcement-subheadline-{{ ai_gen_id }} {
+      font-size: {{ block.settings.subheadline_size | times: 0.75 }}px;
+    }
+
+    .ai-announcement-{{ ai_gen_id }} {
+      padding: {{ block.settings.padding_top | times: 0.7 }}px 16px {{ block.settings.padding_bottom | times: 0.7 }}px;
+    }
+  }
+{% endstyle %}
+
+<announcement-section-{{ ai_gen_id }} class="ai-announcement-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-announcement-content-{{ ai_gen_id }}">
+    <h2 class="ai-announcement-headline-{{ ai_gen_id }}">{{ block.settings.headline }}</h2>
+    <p class="ai-announcement-subheadline-{{ ai_gen_id }}">{{ block.settings.subheadline }}</p>
+  </div>
+</announcement-section-{{ ai_gen_id }}>
+
+{% schema %}
+{
+  "name": "Announcement",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Headline",
+      "default": "FREE SAME -DAY SHIPPING"
+    },
+    {
+      "type": "text",
+      "id": "subheadline",
+      "label": "Subheadline",
+      "default": "Veteran & Military Discount Available"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "headline_size",
+      "label": "Headline size",
+      "min": 20,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "subheadline_size",
+      "label": "Subheadline size",
+      "min": 12,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "spacing",
+      "label": "Spacing between texts",
+      "min": 4,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Announcement"
+    }
+  ]
+}
+{% endschema %}

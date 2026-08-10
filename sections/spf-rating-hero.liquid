@@ -1,0 +1,87 @@
+{{ 'spf.css' | asset_url | stylesheet_tag }}
+<div class="spf spf-hero-wrap" style="--spf-bg:{{ section.settings.bg }};--spf-ink:{{ section.settings.ink }};--spf-gold:{{ section.settings.gold }};--spf-line:{{ section.settings.line }}">
+  <div class="spf-hero">
+    <div class="spf-rating">
+      <div class="spf-stars" aria-hidden="true">{{ section.settings.stars }}</div>
+      <div class="spf-rating-num">{{ section.settings.rating_num }}<small>{{ section.settings.rating_den }}</small></div>
+      <div class="spf-rating-cap">{{ section.settings.rating_caption }}</div>
+    </div>
+
+    <div class="spf-quotes">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'testimonial' -%}
+          <article class="spf-quote" {{ block.shopify_attributes }}>
+            <blockquote>{{ block.settings.quote }}<div class="spf-quote-author">{{ block.settings.author }}</div></blockquote>
+            <div class="spf-quote-foot">
+              {%- render 'spf-img', img: block.settings.avatar, file: block.settings.avatar_file, w: 96, wid: 34, hei: 34, alt: block.settings.author -%}
+              <span class="spf-stars" aria-hidden="true">{{ block.settings.stars | default: section.settings.stars }}</span>
+            </div>
+          </article>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.bottle != blank or section.settings.bottle_file != blank -%}
+      <div class="spf-bottle">{%- render 'spf-img', img: section.settings.bottle, file: section.settings.bottle_file, w: 340, wid: 112, hei: 150, alt: 'Product bottle' -%}</div>
+    {%- endif -%}
+
+    {%- if section.settings.sales_number != blank -%}
+      <div class="spf-sales">
+        <strong>{{ section.settings.sales_number }}</strong>
+        <span>{{ section.settings.sales_label }}</span>
+        {%- if section.settings.sales_arrow != blank -%}<div class="spf-sales-arrow" aria-hidden="true">{{ section.settings.sales_arrow }}</div>{%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "SPF · Rating hero",
+  "tag": "section",
+  "class": "spf-section",
+  "settings": [
+    { "type": "header", "content": "Colours" },
+    { "type": "color", "id": "bg", "label": "Background", "default": "#ffffff" },
+    { "type": "color", "id": "ink", "label": "Text", "default": "#111111" },
+    { "type": "color", "id": "gold", "label": "Stars", "default": "#f5a000" },
+    { "type": "color", "id": "line", "label": "Border", "default": "#e7e2da" },
+    { "type": "header", "content": "Rating" },
+    { "type": "text", "id": "stars", "label": "Stars", "default": "★★★★★" },
+    { "type": "text", "id": "rating_num", "label": "Rating number", "default": "4.8" },
+    { "type": "text", "id": "rating_den", "label": "Rating suffix", "default": "/5" },
+    { "type": "text", "id": "rating_caption", "label": "Caption", "default": "Based on +12,560 customer reviews" },
+    { "type": "header", "content": "Bottle (blank = hidden)" },
+    { "type": "image_picker", "id": "bottle", "label": "Bottle image" },
+    { "type": "text", "id": "bottle_file", "label": "…or asset filename", "info": "e.g. spf-bottle-top.webp" },
+    { "type": "header", "content": "Sales stat (blank = hidden)" },
+    { "type": "text", "id": "sales_number", "label": "Number", "default": "+10,000" },
+    { "type": "richtext", "id": "sales_label", "label": "Label", "default": "<p>bottles sold last month</p>" },
+    { "type": "text", "id": "sales_arrow", "label": "Arrow glyph (blank = none)", "default": "↗" }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        { "type": "richtext", "id": "quote", "label": "Quote", "default": "<p>Since I started taking it, I feel lighter and have more energy.</p>" },
+        { "type": "text", "id": "author", "label": "Author", "default": "– Julia D." },
+        { "type": "image_picker", "id": "avatar", "label": "Avatar" },
+        { "type": "text", "id": "avatar_file", "label": "…or asset filename", "info": "e.g. spf-avatar-julia.webp" },
+        { "type": "text", "id": "stars", "label": "Stars (blank = section default)" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SPF · Rating hero",
+      "settings": { "bottle_file": "spf-bottle-top.webp" },
+      "blocks": [
+        { "type": "testimonial", "settings": { "quote": "<p>Since I started taking Akkermansia, I feel lighter and have more energy throughout the day.</p>", "author": "– Julia D.", "avatar_file": "spf-avatar-julia.webp" } },
+        { "type": "testimonial", "settings": { "quote": "<p>An essential part of my daily routine: better digestion, less bloating, and I feel more balanced.</p>", "author": "– Clara M.", "avatar_file": "spf-avatar-clara.webp" } },
+        { "type": "testimonial", "settings": { "quote": "<p>An effective and 100% natural probiotic. I highly recommend it to anyone!</p>", "author": "– Emma L.", "avatar_file": "spf-avatar-emma.webp" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

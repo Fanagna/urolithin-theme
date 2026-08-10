@@ -1,0 +1,138 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "nad-pdp",
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "quote": "Great energy support throughout the day.",
+            "author": "Verified Buyer"
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "quote": "Love the liposomal technology and formula.",
+            "author": "Verified Buyer"
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "quote": "High quality ingredients, worth every penny.",
+            "author": "Verified Buyer"
+          }
+        },
+        "review_4": {
+          "type": "review",
+          "settings": {
+            "quote": "Easy to add to my daily routine.",
+            "author": "Verified Buyer"
+          }
+        },
+        "faq_1": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What is NAD+?",
+            "answer": "NAD+ is a naturally occurring coenzyme involved in cellular energy processes and daily wellness routines."
+          }
+        },
+        "faq_2": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How much NAD+ is in each serving?",
+            "answer": "The formula is positioned as a 2000mg ultra liposomal 10-in-1 complex per serving."
+          }
+        },
+        "faq_3": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How do I take it?",
+            "answer": "Follow the directions on the product label and use consistently as part of your daily routine."
+          }
+        },
+        "faq_4": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Is it third-party tested?",
+            "answer": "Yes, this page positions the product as third-party tested and made in a cGMP facility."
+          }
+        },
+        "faq_5": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What is your return policy?",
+            "answer": "The product is backed by a 90-day guarantee as shown on this page."
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3",
+        "review_4",
+        "faq_1",
+        "faq_2",
+        "faq_3",
+        "faq_4",
+        "faq_5"
+      ],
+      "settings": {
+        "hero_bg": "shopify://shop_images/hero-desktop.jpg",
+        "hero_bg_mobile": "shopify://shop_images/hero-mobile.jpg",
+        "product_image": "shopify://shop_images/product-bottle.png",
+        "hero_eyebrow": "NAD+ SUPPORT · CELLULAR ENERGY",
+        "hero_h1": "<span class=\"nad-nowrap-line\">Fuel Your</span><br><span class=\"nad-nowrap-line\">Cellular Energy</span>",
+        "hero_subtitle": "Advanced NAD+ Complex. Ultra Liposomal Technology.",
+        "hero_stat1": "2000mg<br>Per Serving",
+        "hero_stat2": "10 in 1<br>Formula",
+        "hero_stat3": "180<br>Capsules",
+        "hero_stat4": "3 Months<br>Supply",
+        "hero_foot": "Third-party tested · cGMP facility · Made in USA",
+        "card_meta": "3 Months Supply · 180 Capsules",
+        "supply_days": 90,
+        "cta_text": "ADD TO CART",
+        "trust1": "Free U.S. shipping \u00b7 1-2 day delivery",
+        "trust2": "Secure checkout",
+        "trust3": "Quality you can trust",
+        "acc1_label": "Supports",
+        "acc1_text": "Daily cellular energy, healthy aging routines and convenient everyday wellness support.",
+        "acc2_label": "Ingredients",
+        "acc2_text": "NAD+, NR, NMN, Resveratrol, Quercetin, PQQ, CoQ10, Alpha Lipoic Acid, L-Taurine and Vitamin C.",
+        "acc3_label": "Certificates",
+        "acc3_text": "Third-party tested, cGMP facility, made in USA, non-GMO and backed by a 90-day guarantee.",
+        "ing_heading": "<span class=\"nad-nowrap-line\">10 Powerful Ingredients.</span><br><span class=\"nad-nowrap-line\">1 Superior Formula.</span>",
+        "ing_sub": "Synergistic nutrients designed to support cellular energy and daily wellness.",
+        "compare_heading": "One Bottle vs.<br>Many Bottles",
+        "compare_sub": "Get everything you need in one advanced formula.",
+        "science_heading": "Ultra Liposomal<br>Absorption",
+        "science_sub": "Advanced double encapsulation delivers nutrients where your body needs them.",
+        "research_big": "10x",
+        "research_sub": "Advanced Support",
+        "research_note": "ultra liposomal<br>delivery system",
+        "quality_heading": "Quality You<br>Can Trust",
+        "guarantee_url": "",
+        "reviews_heading": "Real People.<br>Real Results.",
+        "reviews_score": "4.8",
+        "reviews_count": "1,247 reviews",
+        "reviews_note": "Results may vary. Testimonials reflect individual experiences and are not guaranteed.",
+        "faq_heading": "<span class=\"nad-nowrap-line\">Frequently Asked</span><br><span class=\"nad-nowrap-line\">Questions</span>",
+        "sticky_title": "Fuel Your <span>Cellular Energy</span>."
+      }
+    }
+  },
+  "order": [
+    "main"
+  ],
+  "layout": "ua-no-header"
+}

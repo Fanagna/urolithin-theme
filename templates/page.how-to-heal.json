@@ -1,0 +1,393 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "17658702140d02a9df": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_e19b486_QFFEWK": {
+          "type": "ai_gen_block_e19b486",
+          "settings": {
+            "title": "How to Heal Stubborn Injuries That Won't Go Away",
+            "title_size": 48,
+            "title_color": "#f3f3f3",
+            "title_weight": "700",
+            "subtitle": "<p>Download the complete recovery protocol used by elite athletes. Includes a 30% discount code for BPC-157 capsules.<br/><br/></p>",
+            "subtitle_size": 18,
+            "subtitle_color": "#ffffff",
+            "subtitle_weight": "400",
+            "spacing": 16,
+            "padding_top": 40,
+            "padding_bottom": 40,
+            "container_width": 800,
+            "background_color": "#00143e"
+          },
+          "blocks": {}
+        },
+        "ai_gen_block_11785ae_n4FtaU": {
+          "type": "ai_gen_block_11785ae",
+          "settings": {
+            "section_padding_top": 60,
+            "section_padding_bottom": 60,
+            "background_color": "#ffffff",
+            "container_max_width": 700,
+            "card_background": "#1a1a1a",
+            "card_gradient": "linear-gradient(135deg, rgba(26, 26, 26, 1), rgba(35, 35, 35, 1) 100%)",
+            "card_border_radius": 16,
+            "card_padding": 48,
+            "shadow_vertical": 20,
+            "shadow_blur": 60,
+            "shadow_opacity": 0.5,
+            "title_size": 36,
+            "title_weight": 700,
+            "title_color": "#ffffff",
+            "title_margin": 16,
+            "header_spacing": 40,
+            "subtitle_size": 16,
+            "subtitle_weight": 400,
+            "subtitle_color": "#a0a0a0",
+            "item_text_size": 16,
+            "item_text_color": "#e0e0e0",
+            "item_padding": 16,
+            "item_gap": 16,
+            "item_border_width": 1,
+            "item_border_color": "#2a2a2a",
+            "list_bottom_margin": 32,
+            "icon_size": 24,
+            "icon_color": "#10b981",
+            "icon_check_color": "#ffffff",
+            "bonus_background": "#0f2e1a",
+            "bonus_border_width": 2,
+            "bonus_border_color": "#10b981",
+            "bonus_border_radius": 12,
+            "bonus_padding": 24,
+            "bonus_text_size": 15,
+            "bonus_text_weight": 600,
+            "bonus_text_color": "#10b981",
+            "desktop_width_percent": 100
+          },
+          "blocks": {}
+        },
+        "ai_gen_block_f343a47_BpwBEG": {
+          "type": "ai_gen_block_f343a47",
+          "settings": {
+            "background_color": "#1a1a2e",
+            "background_gradient": "linear-gradient(6deg, rgba(61, 109, 236, 1) 10%, rgba(52, 133, 236, 1) 32%, rgba(170, 248, 219, 1) 86%)",
+            "shadow_color": "rgba(0, 0, 0, 0.3)",
+            "border_radius": 16,
+            "padding_vertical": 50,
+            "padding_horizontal": 40,
+            "text_color": "#ffffff",
+            "title_size": 32,
+            "subtitle_size": 16,
+            "label_size": 14,
+            "input_background": "#2a2a3e",
+            "input_text_color": "#ffffff",
+            "placeholder_color": "#a0a0a0",
+            "input_border_color": "#3a3a4e",
+            "input_focus_border_color": "#5c1ada",
+            "input_border_thickness": 1,
+            "input_border_radius": 8,
+            "input_size": 16,
+            "checkbox_color": "#5c1ada",
+            "checkbox_text_size": 13,
+            "button_background": "#22c55e",
+            "button_hover_background": "#16a34a",
+            "button_text_color": "#ffffff",
+            "button_padding": 18,
+            "button_border_radius": 8,
+            "button_text_size": 16,
+            "feature_text_size": 12
+          },
+          "blocks": {}
+        },
+        "ai_gen_block_91612b9_iJahVP": {
+          "type": "ai_gen_block_91612b9",
+          "settings": {
+            "container_max_width": 1200,
+            "container_padding_horizontal": 20,
+            "section_padding_top": 40,
+            "section_padding_bottom": 40,
+            "title": "Trusted by Athletes & Biohackers",
+            "title_font_size": 32,
+            "title_font_weight": 700,
+            "title_color": "#ffffff",
+            "title_margin_bottom": 40,
+            "background_gradient": "#1a1a2e",
+            "container_border_radius": 16,
+            "container_border_thickness": 1,
+            "container_border_color": "#333344",
+            "inner_padding_vertical": 50,
+            "inner_padding_horizontal": 40,
+            "container_shadow_horizontal": 0,
+            "container_shadow_vertical": 4,
+            "container_shadow_blur": 20,
+            "container_shadow_color": "#00000033",
+            "card_gap": 20,
+            "card_background": "#0f0f1e",
+            "card_border_radius": 12,
+            "card_border_thickness": 1,
+            "card_border_color": "#2a2a3e",
+            "card_padding_vertical": 30,
+            "card_padding_horizontal": 25,
+            "card_inner_shadow_horizontal": 0,
+            "card_inner_shadow_vertical": 2,
+            "card_inner_shadow_blur": 8,
+            "card_inner_shadow_color": "#00000066",
+            "metric_1": "10,000+",
+            "subtext_1": "Active users",
+            "metric_2": "4.8★",
+            "subtext_2": "Average rating",
+            "metric_3": "Third-party",
+            "subtext_3": "Lab tested",
+            "metric_font_size": 36,
+            "metric_font_weight": 700,
+            "metric_color": "#4a9eff",
+            "metric_margin_bottom": 10,
+            "subtext_font_size": 14,
+            "subtext_font_weight": 400,
+            "subtext_color": "#a0a0b0"
+          },
+          "blocks": {}
+        },
+        "ai_gen_block_b05738f_4r6rNn": {
+          "type": "ai_gen_block_b05738f",
+          "settings": {
+            "desktop_width_percent": 100,
+            "title": "Why This Guide Is Different",
+            "title_color": "#ffffff",
+            "title_size": 28,
+            "title_spacing": 24,
+            "feature_1_title": "Research-Backed",
+            "feature_1_description": "No bro-science. Every recommendation is based on actual studies and athlete case reports.",
+            "feature_2_title": "Actionable Protocols",
+            "feature_2_description": "Not just theory. Step-by-step instructions you can implement today.",
+            "feature_3_title": "Covers BPC-157 Capsules",
+            "feature_3_description": "Learn about the oral alternative to injections — easier, more convenient, no needles.",
+            "feature_4_title": "Includes 30% Discount",
+            "feature_4_description": "Exclusive code for Panstellar products. Save on your first order of BPC-157 capsules.",
+            "background_gradient": "#1a1a2e",
+            "container_padding": 32,
+            "border_radius": 16,
+            "border_thickness": 1,
+            "border_color": "#2a2a3e",
+            "shadow_opacity": 20,
+            "shadow_horizontal": 0,
+            "shadow_vertical": 8,
+            "shadow_blur": 24,
+            "item_spacing": 16,
+            "icon_size": 20,
+            "icon_color": "#5c1ada",
+            "icon_text_gap": 12,
+            "item_title_color": "#ffffff",
+            "item_title_size": 16,
+            "item_description_color": "#e0e0e0",
+            "item_description_size": 14
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_e19b486_QFFEWK",
+        "ai_gen_block_11785ae_n4FtaU",
+        "ai_gen_block_f343a47_BpwBEG",
+        "ai_gen_block_91612b9_iJahVP",
+        "ai_gen_block_b05738f_4r6rNn"
+      ],
+      "settings": {}
+    },
+    "17658018066fb96227": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_0ee0fc4_8ppfkD": {
+          "type": "ai_gen_block_0ee0fc4",
+          "disabled": true,
+          "settings": {
+            "max_width": 600,
+            "section_padding_top": 60,
+            "section_padding_bottom": 60,
+            "background_color": "#0a0e27",
+            "title": "Get Instant Access",
+            "title_size": 36,
+            "title_color": "#ffffff",
+            "subtitle": "Enter your email to download the guide + receive your 30% discount code",
+            "subtitle_size": 16,
+            "subtitle_color": "#a0a0a0",
+            "card_background": "#1a1f3a",
+            "card_border_radius": 16,
+            "card_padding": 48,
+            "shadow_color": "#00000080",
+            "email_placeholder": "you@example.com",
+            "show_name_field": true,
+            "name_placeholder": "John",
+            "input_background": "#0f1429",
+            "input_border_color": "#2a3150",
+            "input_focus_border_color": "#14b8a6",
+            "input_focus_glow": "#14b8a633",
+            "input_border_radius": 8,
+            "input_text_color": "#ffffff",
+            "input_placeholder_color": "#6b7280",
+            "checkbox_text": "Send me the free guide, discount code, and recovery tips. Unsubscribe anytime.",
+            "checkbox_required": false,
+            "checkbox_text_color": "#a0a0a0",
+            "button_text": "Download Free Guide Now",
+            "button_font_size": 16,
+            "button_background": "#14b8a6",
+            "button_hover_background": "#0d9488",
+            "button_text_color": "#ffffff",
+            "button_glow_color": "#14b8a666",
+            "button_border_radius": 8,
+            "trust_item_1": "Instant download",
+            "trust_item_2": "100% free",
+            "trust_item_3": "No spam",
+            "trust_text_color": "#a0a0a0",
+            "trust_icon_color": "#14b8a6",
+            "social_proof_title": "Trusted by Athletes & Biohackers",
+            "social_title_size": 24,
+            "social_title_color": "#ffffff",
+            "stat_1_number": "10,000+",
+            "stat_1_label": "Active users",
+            "stat_2_number": "4.8★",
+            "stat_2_label": "Average rating",
+            "stat_3_number": "Third-party",
+            "stat_3_label": "Lab tested",
+            "stat_card_background": "#1a1f3a",
+            "stat_card_border_radius": 12,
+            "stat_shadow_color": "#0000004d",
+            "stat_number_size": 40,
+            "stat_number_color": "#14b8a6",
+            "stat_glow_color": "#14b8a64d",
+            "stat_label_size": 14,
+            "stat_label_color": "#a0a0a0",
+            "success_message": "Thank you! Check your email for your free guide and discount code.",
+            "success_color": "#10b981",
+            "error_color": "#ef4444"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_0ee0fc4_8ppfkD"
+      ],
+      "settings": {}
+    },
+    "multicolumn_xagiEN": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_tNcKYL": {
+          "type": "column",
+          "settings": {
+            "title": "Panstellar Shop",
+            "text": "<p>Welcome to Panstellar Shop – Where Health Meets Innovation</p><p>At Panstellar Shop, we are committed to empowering you with premium-quality supplements designed to enhance your health, vitality, and overall well-being. Based in Fort Lauderdale, Florida, we specialize in crafting cutting-edge formulations that combine science and nature, ensuring that every product delivers exceptional results.<br/></p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_d6rmX4": {
+          "type": "column",
+          "settings": {
+            "title": "<strong>Our Story</strong>",
+            "text": "<p>In early 2022, our journey with BPC-157 began as passionate advocates for health and performance. As athletes and wellness enthusiasts, we understood the incredible potential of BPC-157 to support recovery, enhance performance, and improve overall well-being. But as we explored the products available on the market, one thing became clear:<strong>none met our standards for purity, potency, and effectiveness</strong>.</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_Ra9edT": {
+          "type": "column",
+          "settings": {
+            "title": "",
+            "text": "<p>Determined to make a difference, we decided to create a version of <a href=\"/products/bpc157\" title=\"BPC 157 500mcg - for oral use (60 Capsules)\">BPC-157 </a><strong>that was better, stronger, and more reliable, </strong>something we could trust for ourselves and proudly share with others. This wasn’t just about creating a product; it was about redefining what BPC-157 could do for athletes, fitness enthusiasts, and anyone on their journey to optimal health.</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_cqJxnF": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/gempages_541592725728789369-ccea41e5-ed2f-441c-8a1a-1cfa2c189cbb.png",
+            "title": "<strong>Crafting Excellence in the USA</strong>",
+            "text": "<p>In 2023, we established our U.S.-based laboratory, uniting scientists, sports professionals, and health experts to create an advanced BPC-157 formula. Proudly made in the USA, our product meets the highest quality standards and undergoes rigorous lab testing for purity, potency, and safety, trusted by professionals</p>",
+            "link_label": "",
+            "link": "shopify://products/bpc157"
+          }
+        },
+        "column_mkWcym": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/image_about_us_1.jpg",
+            "title": "<strong>What sets us apart?</strong>",
+            "text": "<ul><li><strong>Unmatched Purity:</strong> Our BPC-157 is 99% pure, verified through third-party lab testing.</li><li><strong>Potency You Can Feel:</strong> Each capsule is designed to deliver the precise dosage needed to promote faster recovery and improved performance.</li><li><strong>Certified Quality:</strong> Manufactured in a <strong>GMP-certified</strong> facility, our formula meets the highest standards for safety and efficacy.</li></ul>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_B7yNcm": {
+          "type": "column",
+          "settings": {
+            "title": "<strong>Empowering Recovery and Performance</strong>",
+            "text": "<p>Our enhanced formula has been specifically designed with athletes in mind. Whether you're recovering from intense training, seeking relief from muscle fatigue, or looking to support your joint health, our BPC-157 offers a solution you can rely on.</p><p>Countless customers, from professional athletes to weekend warriors, have shared their experiences with our product, describing faster healing, enhanced endurance, and better overall physical performance.</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_YzFwfV": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/image_about_us_2.jpg",
+            "title": "<strong>The Future of Wellness</strong>",
+            "text": "<p>Our vision doesn’t stop here. We’re committed to pushing the boundaries of innovation in health supplements. Our mission is to continue providing cutting-edge products that empower people to achieve their goals, whether in sports, fitness, or everyday life.</p><p>If you're ready to experience the difference a truly enhanced BPC-157 can make, we invite you to join the movement. Discover what sets us apart and see why our customers choose us time and time again.</p><p> Welcome to the future of recovery. Welcome to the future of performance. Welcome to Panstellar shop</p><h3></h3>",
+            "link_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "column_tNcKYL",
+        "column_d6rmX4",
+        "column_Ra9edT",
+        "column_cqJxnF",
+        "column_mkWcym",
+        "column_B7yNcm",
+        "column_YzFwfV"
+      ],
+      "disabled": true,
+      "settings": {
+        "title": "About us",
+        "heading_size": "h1",
+        "image_width": "full",
+        "image_ratio": "adapt",
+        "columns_desktop": 3,
+        "column_alignment": "left",
+        "background_style": "primary",
+        "button_label": "",
+        "button_link": "",
+        "color_scheme": "",
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "main",
+    "17658702140d02a9df",
+    "17658018066fb96227",
+    "multicolumn_xagiEN"
+  ]
+}

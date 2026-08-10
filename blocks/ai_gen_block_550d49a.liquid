@@ -1,0 +1,940 @@
+{% doc %}
+  @prompt
+    Role:
+    Act as a senior Shopify theme developer and conversion-focused UX designer with strong experience in premium supplement product pages.
+    
+    Goal:
+    Generate a clean, educational Dual-Action Protocol section that explains Step 1 of a supplement protocol, with a content card on the left and a purely visual image block on the right.
+    
+    Section Header
+    
+    Centered icon (lightning bolt or energy icon)
+    
+    Headline (editable):
+    “THE DUAL-ACTION PROTOCOL”
+    
+    Subheadline (editable, small text):
+    “Most supplements address only one side of the problem. We address both.”
+    
+    Layout
+    
+    Two-column layout on desktop
+    
+    Stacked layout on mobile (content first, image second)
+    
+    White background
+    
+    Generous spacing, premium biotech aesthetic
+    
+    LEFT COLUMN — CONTENT CARD (FUNCTIONAL CONTENT)
+    
+    Create a rounded card with soft blue background.
+    
+    Card Structure (all text editable from section settings):
+    
+    Small label at top:
+    “STEP 1 — FUEL”
+    
+    Main title:
+    “NAD+ Complex (AM)”
+    
+    Highlighted dosage line (accent color):
+    “2000mg per serving”
+    
+    Description text (neutral, non-medical):
+    “Supports your body’s natural NAD+ production pathways for sustained cellular energy.”
+    
+    Bullet list with check icons:
+    
+    Clinically studied precursor
+    
+    Non-stimulating
+    
+    180 capsules (90 servings)
+    
+    Small credibility note at bottom (optional, editable):
+    “200+ published studies”
+    
+    RIGHT COLUMN — IMAGE ONLY (IMPORTANT)
+    
+    The right column must be STRICTLY a visual image container
+    
+    NO product logic
+    
+    NO add-to-cart
+    
+    NO dynamic product data
+    
+    This block is decorative / educational only
+    
+    Image requirements:
+    
+    Image selectable from Shopify section settings
+    
+    Rounded container with dashed or subtle border
+    
+    Light gray background
+    
+    Centered image (scientific illustration / molecules / abstract biotech visual)
+    
+    Optional caption (editable):
+    “Visual: Scientific rendering of NAD+ molecules fueling a cell”
+    
+    Design & Style
+    
+    Minimal, premium, science-driven
+    
+    No exaggerated claims
+    
+    No medical promises
+    
+    Typography clean and readable
+    
+    Consistent spacing between elements
+    
+    Cu
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-dual-protocol-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    background-color: {{ block.settings.section_background }};
+    padding: {{ block.settings.section_padding_top }}px 20px {{ block.settings.section_padding_bottom }}px;
+  }
+
+  .ai-dual-protocol-container-{{ ai_gen_id }} {
+    max-width: {{ block.settings.max_width }}px;
+    margin: 0 auto;
+  }
+
+  .ai-dual-protocol-header-{{ ai_gen_id }} {
+    text-align: center;
+    margin-bottom: {{ block.settings.header_spacing }}px;
+  }
+
+  .ai-dual-protocol-icon-{{ ai_gen_id }} {
+    width: {{ block.settings.icon_size }}px;
+    height: {{ block.settings.icon_size }}px;
+    margin: 0 auto {{ block.settings.icon_spacing }}px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: {{ block.settings.icon_color }};
+  }
+
+  .ai-dual-protocol-icon-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .ai-dual-protocol-headline-{{ ai_gen_id }} {
+    font-size: {{ block.settings.headline_size }}px;
+    font-weight: 700;
+    color: {{ block.settings.headline_color }};
+    margin: 0 0 {{ block.settings.headline_spacing }}px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .ai-dual-protocol-subheadline-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subheadline_size }}px;
+    color: {{ block.settings.subheadline_color }};
+    margin: 0;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5;
+  }
+
+  .ai-dual-protocol-content-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: {{ block.settings.column_gap }}px;
+    align-items: center;
+  }
+
+  .ai-dual-protocol-card-{{ ai_gen_id }} {
+    background-color: {{ block.settings.card_background }};
+    border-radius: {{ block.settings.card_border_radius }}px;
+    padding: {{ block.settings.card_padding }}px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  }
+
+  .ai-dual-protocol-label-{{ ai_gen_id }} {
+    font-size: {{ block.settings.label_size }}px;
+    font-weight: 600;
+    color: {{ block.settings.label_color }};
+    margin: 0 0 {{ block.settings.label_spacing }}px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .ai-dual-protocol-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    font-weight: 700;
+    color: {{ block.settings.title_color }};
+    margin: 0 0 {{ block.settings.title_spacing }}px;
+    line-height: 1.2;
+  }
+
+  .ai-dual-protocol-dosage-{{ ai_gen_id }} {
+    font-size: {{ block.settings.dosage_size }}px;
+    font-weight: 600;
+    color: {{ block.settings.dosage_color }};
+    margin: 0 0 {{ block.settings.dosage_spacing }}px;
+  }
+
+  .ai-dual-protocol-description-{{ ai_gen_id }} {
+    font-size: {{ block.settings.description_size }}px;
+    color: {{ block.settings.description_color }};
+    margin: 0 0 {{ block.settings.description_spacing }}px;
+    line-height: 1.6;
+  }
+
+  .ai-dual-protocol-bullets-{{ ai_gen_id }} {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 {{ block.settings.bullets_spacing }}px;
+  }
+
+  .ai-dual-protocol-bullet-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-size: {{ block.settings.bullet_size }}px;
+    color: {{ block.settings.bullet_color }};
+  }
+
+  .ai-dual-protocol-bullet-{{ ai_gen_id }}:last-child {
+    margin-bottom: 0;
+  }
+
+  .ai-dual-protocol-check-{{ ai_gen_id }} {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    color: {{ block.settings.check_color }};
+  }
+
+  .ai-dual-protocol-credibility-{{ ai_gen_id }} {
+    font-size: {{ block.settings.credibility_size }}px;
+    color: {{ block.settings.credibility_color }};
+    margin: 0;
+    font-style: italic;
+  }
+
+  .ai-dual-protocol-image-container-{{ ai_gen_id }} {
+    position: relative;
+    border-radius: {{ block.settings.image_border_radius }}px;
+    border: {{ block.settings.image_border_width }}px {{ block.settings.image_border_style }} {{ block.settings.image_border_color }};
+    background-color: {{ block.settings.image_background }};
+    padding: {{ block.settings.image_padding }}px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+  }
+
+  .ai-dual-protocol-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: auto;
+    border-radius: {{ block.settings.image_inner_radius }}px;
+    object-fit: contain;
+  }
+
+  .ai-dual-protocol-image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .ai-dual-protocol-image-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    opacity: 0.3;
+  }
+
+  .ai-dual-protocol-caption-{{ ai_gen_id }} {
+    text-align: center;
+    font-size: {{ block.settings.caption_size }}px;
+    color: {{ block.settings.caption_color }};
+    margin-top: {{ block.settings.caption_spacing }}px;
+    font-style: italic;
+    line-height: 1.4;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-dual-protocol-content-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+      gap: {{ block.settings.mobile_gap }}px;
+    }
+
+    .ai-dual-protocol-headline-{{ ai_gen_id }} {
+      font-size: {{ block.settings.headline_size | times: 0.8 }}px;
+    }
+
+    .ai-dual-protocol-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_size | times: 0.85 }}px;
+    }
+
+    .ai-dual-protocol-card-{{ ai_gen_id }} {
+      padding: {{ block.settings.card_padding | times: 0.75 }}px;
+    }
+  }
+{% endstyle %}
+
+<dual-action-protocol-{{ ai_gen_id }} class="ai-dual-protocol-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-dual-protocol-container-{{ ai_gen_id }}">
+    <div class="ai-dual-protocol-header-{{ ai_gen_id }}">
+      {% if block.settings.show_icon %}
+        <div class="ai-dual-protocol-icon-{{ ai_gen_id }}">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+          </svg>
+        </div>
+      {% endif %}
+
+      {% if block.settings.headline != blank %}
+        <h2 class="ai-dual-protocol-headline-{{ ai_gen_id }}">{{ block.settings.headline }}</h2>
+      {% endif %}
+
+      {% if block.settings.subheadline != blank %}
+        <p class="ai-dual-protocol-subheadline-{{ ai_gen_id }}">{{ block.settings.subheadline }}</p>
+      {% endif %}
+    </div>
+
+    <div class="ai-dual-protocol-content-{{ ai_gen_id }}">
+      <div class="ai-dual-protocol-card-{{ ai_gen_id }}">
+        {% if block.settings.step_label != blank %}
+          <div class="ai-dual-protocol-label-{{ ai_gen_id }}">{{ block.settings.step_label }}</div>
+        {% endif %}
+
+        {% if block.settings.product_title != blank %}
+          <h3 class="ai-dual-protocol-title-{{ ai_gen_id }}">{{ block.settings.product_title }}</h3>
+        {% endif %}
+
+        {% if block.settings.dosage != blank %}
+          <div class="ai-dual-protocol-dosage-{{ ai_gen_id }}">{{ block.settings.dosage }}</div>
+        {% endif %}
+
+        {% if block.settings.description != blank %}
+          <div class="ai-dual-protocol-description-{{ ai_gen_id }}">{{ block.settings.description }}</div>
+        {% endif %}
+
+        <ul class="ai-dual-protocol-bullets-{{ ai_gen_id }}">
+          {% if block.settings.bullet_1 != blank %}
+            <li class="ai-dual-protocol-bullet-{{ ai_gen_id }}">
+              <svg class="ai-dual-protocol-check-{{ ai_gen_id }}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              <span>{{ block.settings.bullet_1 }}</span>
+            </li>
+          {% endif %}
+
+          {% if block.settings.bullet_2 != blank %}
+            <li class="ai-dual-protocol-bullet-{{ ai_gen_id }}">
+              <svg class="ai-dual-protocol-check-{{ ai_gen_id }}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              <span>{{ block.settings.bullet_2 }}</span>
+            </li>
+          {% endif %}
+
+          {% if block.settings.bullet_3 != blank %}
+            <li class="ai-dual-protocol-bullet-{{ ai_gen_id }}">
+              <svg class="ai-dual-protocol-check-{{ ai_gen_id }}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              <span>{{ block.settings.bullet_3 }}</span>
+            </li>
+          {% endif %}
+        </ul>
+
+        {% if block.settings.credibility_note != blank %}
+          <p class="ai-dual-protocol-credibility-{{ ai_gen_id }}">{{ block.settings.credibility_note }}</p>
+        {% endif %}
+      </div>
+
+      <div>
+        <div class="ai-dual-protocol-image-container-{{ ai_gen_id }}">
+          {% if block.settings.visual_image %}
+            <img
+              src="{{ block.settings.visual_image | image_url: width: 800 }}"
+              alt="{{ block.settings.visual_image.alt | escape }}"
+              loading="lazy"
+              width="{{ block.settings.visual_image.width }}"
+              height="{{ block.settings.visual_image.height }}"
+              class="ai-dual-protocol-image-{{ ai_gen_id }}"
+            >
+          {% else %}
+            <div class="ai-dual-protocol-image-placeholder-{{ ai_gen_id }}">
+              {{ 'image' | placeholder_svg_tag }}
+            </div>
+          {% endif %}
+        </div>
+
+        {% if block.settings.image_caption != blank %}
+          <p class="ai-dual-protocol-caption-{{ ai_gen_id }}">{{ block.settings.image_caption }}</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</dual-action-protocol-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class DualActionProtocol{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+      }
+    }
+
+    customElements.define('dual-action-protocol-{{ ai_gen_id }}', DualActionProtocol{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Dual-action protocol",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section header"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_icon",
+      "label": "Show icon",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "min": 20,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "label": "Icon size",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "icon_spacing",
+      "min": 5,
+      "max": 30,
+      "step": 5,
+      "unit": "px",
+      "label": "Icon spacing",
+      "default": 15
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon color",
+      "default": "#5c1ada"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Headline",
+      "default": "THE DUAL-ACTION PROTOCOL"
+    },
+    {
+      "type": "range",
+      "id": "headline_size",
+      "min": 16,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Headline size",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "headline_spacing",
+      "min": 5,
+      "max": 30,
+      "step": 5,
+      "unit": "px",
+      "label": "Headline spacing",
+      "default": 15
+    },
+    {
+      "type": "color",
+      "id": "headline_color",
+      "label": "Headline color",
+      "default": "#121212"
+    },
+    {
+      "type": "text",
+      "id": "subheadline",
+      "label": "Subheadline",
+      "default": "Most supplements address only one side of the problem. We address both."
+    },
+    {
+      "type": "range",
+      "id": "subheadline_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Subheadline size",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "subheadline_color",
+      "label": "Subheadline color",
+      "default": "#666666"
+    },
+    {
+      "type": "range",
+      "id": "header_spacing",
+      "min": 20,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "label": "Header spacing",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Content card"
+    },
+    {
+      "type": "text",
+      "id": "step_label",
+      "label": "Step label",
+      "default": "STEP 1 — FUEL"
+    },
+    {
+      "type": "range",
+      "id": "label_size",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Label size",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "label_spacing",
+      "min": 5,
+      "max": 25,
+      "step": 5,
+      "unit": "px",
+      "label": "Label spacing",
+      "default": 10
+    },
+    {
+      "type": "color",
+      "id": "label_color",
+      "label": "Label color",
+      "default": "#5c1ada"
+    },
+    {
+      "type": "text",
+      "id": "product_title",
+      "label": "Product title",
+      "default": "NAD+ Complex (AM)"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 18,
+      "max": 36,
+      "step": 2,
+      "unit": "px",
+      "label": "Title size",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "title_spacing",
+      "min": 5,
+      "max": 25,
+      "step": 5,
+      "unit": "px",
+      "label": "Title spacing",
+      "default": 15
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#121212"
+    },
+    {
+      "type": "text",
+      "id": "dosage",
+      "label": "Dosage",
+      "default": "2000mg per serving"
+    },
+    {
+      "type": "range",
+      "id": "dosage_size",
+      "min": 14,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Dosage size",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "dosage_spacing",
+      "min": 5,
+      "max": 25,
+      "step": 5,
+      "unit": "px",
+      "label": "Dosage spacing",
+      "default": 15
+    },
+    {
+      "type": "color",
+      "id": "dosage_color",
+      "label": "Dosage color",
+      "default": "#5c1ada"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Supports your body's natural NAD+ production pathways for sustained cellular energy."
+    },
+    {
+      "type": "range",
+      "id": "description_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Description size",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "description_spacing",
+      "min": 10,
+      "max": 30,
+      "step": 5,
+      "unit": "px",
+      "label": "Description spacing",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Description color",
+      "default": "#444444"
+    },
+    {
+      "type": "text",
+      "id": "bullet_1",
+      "label": "Bullet 1",
+      "default": "Clinically studied precursor"
+    },
+    {
+      "type": "text",
+      "id": "bullet_2",
+      "label": "Bullet 2",
+      "default": "Non-stimulating"
+    },
+    {
+      "type": "text",
+      "id": "bullet_3",
+      "label": "Bullet 3",
+      "default": "180 capsules (90 servings)"
+    },
+    {
+      "type": "range",
+      "id": "bullet_size",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Bullet size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "bullets_spacing",
+      "min": 10,
+      "max": 30,
+      "step": 5,
+      "unit": "px",
+      "label": "Bullets spacing",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "bullet_color",
+      "label": "Bullet color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "check_color",
+      "label": "Check icon color",
+      "default": "#5c1ada"
+    },
+    {
+      "type": "text",
+      "id": "credibility_note",
+      "label": "Credibility note",
+      "default": "200+ published studies"
+    },
+    {
+      "type": "range",
+      "id": "credibility_size",
+      "min": 10,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "label": "Credibility size",
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "credibility_color",
+      "label": "Credibility color",
+      "default": "#888888"
+    },
+    {
+      "type": "header",
+      "content": "Card style"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Background",
+      "default": "#f0f4ff"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "card_padding",
+      "min": 20,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Visual image"
+    },
+    {
+      "type": "image_picker",
+      "id": "visual_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "image_caption",
+      "label": "Caption",
+      "default": "Visual: Scientific rendering of NAD+ molecules fueling a cell"
+    },
+    {
+      "type": "range",
+      "id": "caption_size",
+      "min": 10,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "label": "Caption size",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "caption_spacing",
+      "min": 5,
+      "max": 25,
+      "step": 5,
+      "unit": "px",
+      "label": "Caption spacing",
+      "default": 15
+    },
+    {
+      "type": "color",
+      "id": "caption_color",
+      "label": "Caption color",
+      "default": "#666666"
+    },
+    {
+      "type": "header",
+      "content": "Image container style"
+    },
+    {
+      "type": "color",
+      "id": "image_background",
+      "label": "Background",
+      "default": "#f9f9f9"
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "image_border_width",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "unit": "px",
+      "label": "Border width",
+      "default": 2
+    },
+    {
+      "type": "select",
+      "id": "image_border_style",
+      "label": "Border style",
+      "options": [
+        {
+          "value": "solid",
+          "label": "Solid"
+        },
+        {
+          "value": "dashed",
+          "label": "Dashed"
+        },
+        {
+          "value": "dotted",
+          "label": "Dotted"
+        }
+      ],
+      "default": "dashed"
+    },
+    {
+      "type": "color",
+      "id": "image_border_color",
+      "label": "Border color",
+      "default": "#dddddd"
+    },
+    {
+      "type": "range",
+      "id": "image_padding",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "image_inner_radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Inner radius",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 800,
+      "max": 1400,
+      "step": 50,
+      "unit": "px",
+      "label": "Max width",
+      "default": 1200
+    },
+    {
+      "type": "range",
+      "id": "column_gap",
+      "min": 20,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "label": "Column gap",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "mobile_gap",
+      "min": 20,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile gap",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 60
+    },
+    {
+      "type": "color",
+      "id": "section_background",
+      "label": "Section background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Dual-action protocol"
+    }
+  ],
+  "tag": null
+}
+{% endschema %}

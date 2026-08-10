@@ -1,0 +1,404 @@
+{% doc %}
+  @prompt
+    generer moi une section contenant un titre  et 6 blocs de card (3 en haut et 3 en bas )  ; les posssedent un titre et une paragraphe
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-card-grid-{{ ai_gen_id }} {
+    padding: {{ block.settings.section_padding_top }}px 0 {{ block.settings.section_padding_bottom }}px;
+    background-color: {{ block.settings.background_color }};
+  }
+
+  .ai-card-grid-container-{{ ai_gen_id }} {
+    max-width: {{ block.settings.container_width }}px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .ai-card-grid-heading-{{ ai_gen_id }} {
+    text-align: {{ block.settings.heading_alignment }};
+    margin: 0 0 {{ block.settings.heading_spacing }}px;
+    color: {{ block.settings.heading_color }};
+    font-size: {{ block.settings.heading_size }}px;
+  }
+
+  .ai-card-grid-cards-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: {{ block.settings.card_gap }}px;
+  }
+
+  .ai-card-{{ ai_gen_id }} {
+    background-color: {{ block.settings.card_background }};
+    border-radius: {{ block.settings.card_border_radius }}px;
+    padding: {{ block.settings.card_padding }}px;
+    box-shadow: 0 {{ block.settings.card_shadow_vertical }}px {{ block.settings.card_shadow_blur }}px rgba(0, 0, 0, {{ block.settings.card_shadow_opacity | divided_by: 100.0 }});
+    transition: transform 0.3s ease;
+  }
+
+  .ai-card-{{ ai_gen_id }}:hover {
+    transform: translateY(-4px);
+  }
+
+  .ai-card-title-{{ ai_gen_id }} {
+    margin: 0 0 12px;
+    color: {{ block.settings.card_title_color }};
+    font-size: {{ block.settings.card_title_size }}px;
+    font-weight: 600;
+  }
+
+  .ai-card-text-{{ ai_gen_id }} {
+    margin: 0;
+    color: {{ block.settings.card_text_color }};
+    font-size: {{ block.settings.card_text_size }}px;
+    line-height: 1.6;
+  }
+
+  @media screen and (max-width: 989px) {
+    .ai-card-grid-cards-{{ ai_gen_id }} {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-card-grid-cards-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+    }
+
+    .ai-card-grid-heading-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.heading_size }}px * 0.8);
+    }
+  }
+{% endstyle %}
+
+<div class="ai-card-grid-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-card-grid-container-{{ ai_gen_id }}">
+    {% if block.settings.heading != blank %}
+      <h2 class="ai-card-grid-heading-{{ ai_gen_id }}">{{ block.settings.heading }}</h2>
+    {% endif %}
+
+    <div class="ai-card-grid-cards-{{ ai_gen_id }}">
+      {% for i in (1..6) %}
+        {% liquid
+          assign card_title_key = 'card_' | append: i | append: '_title'
+          assign card_text_key = 'card_' | append: i | append: '_text'
+          assign card_title = block.settings[card_title_key]
+          assign card_text = block.settings[card_text_key]
+        %}
+
+        <div class="ai-card-{{ ai_gen_id }}">
+          {% if card_title != blank %}
+            <h3 class="ai-card-title-{{ ai_gen_id }}">{{ card_title }}</h3>
+          {% endif %}
+          {% if card_text != blank %}
+            <div class="ai-card-text-{{ ai_gen_id }}">{{ card_text }}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Card grid",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Our features"
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading size",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "heading_spacing",
+      "min": 10,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "label": "Heading spacing",
+      "default": 40
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "container_width",
+      "min": 1000,
+      "max": 1600,
+      "step": 100,
+      "unit": "px",
+      "label": "Container width",
+      "default": 1400
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 60
+    },
+    {
+      "type": "header",
+      "content": "Cards"
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "Gap between cards",
+      "default": 30
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background",
+      "default": "#f3f3f3"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Card border radius",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "card_padding",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "Card padding",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "card_shadow_vertical",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Shadow vertical offset",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "card_shadow_blur",
+      "min": 0,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "label": "Shadow blur",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "card_shadow_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Shadow opacity",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "card_title_size",
+      "min": 14,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Title size",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "card_title_color",
+      "label": "Title color",
+      "default": "#121212"
+    },
+    {
+      "type": "range",
+      "id": "card_text_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "card_text_color",
+      "label": "Text color",
+      "default": "#121212"
+    },
+    {
+      "type": "header",
+      "content": "Card 1"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "card_1_title",
+      "label": "Title",
+      "default": "Premium quality"
+    },
+    {
+      "type": "richtext",
+      "id": "card_1_text",
+      "label": "Text",
+      "default": "<p>Our products are manufactured to the highest standards with rigorous quality control.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Card 2"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "card_2_title",
+      "label": "Title",
+      "default": "Scientifically backed"
+    },
+    {
+      "type": "richtext",
+      "id": "card_2_text",
+      "label": "Text",
+      "default": "<p>Every formula is supported by clinical research and scientific evidence.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Card 3"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "card_3_title",
+      "label": "Title",
+      "default": "Fast shipping"
+    },
+    {
+      "type": "richtext",
+      "id": "card_3_text",
+      "label": "Text",
+      "default": "<p>Quick and reliable delivery to ensure you receive your supplements on time.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Card 4"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "card_4_title",
+      "label": "Title",
+      "default": "Third-party tested"
+    },
+    {
+      "type": "richtext",
+      "id": "card_4_text",
+      "label": "Text",
+      "default": "<p>Independent laboratory testing ensures purity and potency of every batch.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Card 5"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "card_5_title",
+      "label": "Title",
+      "default": "Expert support"
+    },
+    {
+      "type": "richtext",
+      "id": "card_5_text",
+      "label": "Text",
+      "default": "<p>Our team of health professionals is available to answer your questions.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Card 6"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "card_6_title",
+      "label": "Title",
+      "default": "Money-back guarantee"
+    },
+    {
+      "type": "richtext",
+      "id": "card_6_text",
+      "label": "Text",
+      "default": "<p>Try our products risk-free with our 30-day satisfaction guarantee.</p>"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Card grid"
+    }
+  ]
+}
+{% endschema %}

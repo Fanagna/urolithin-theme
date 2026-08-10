@@ -1,0 +1,175 @@
+/* ============================================================
+   PAGE D'ACCUEIL — home.css
+   Compléments aux CSS Dawn copiés (section-image-banner.css,
+   component-slider.css, component-slideshow.css, section-multicolumn.css).
+   ============================================================ */
+
+/* ─── Slideshow : placeholder quand aucune image n'est définie ─── */
+.home-slideshow-placeholder {
+	display: block;
+	width: 100%;
+	height: 100%;
+	min-height: 40rem;
+	background: linear-gradient(120deg, var(--gradient-base-background-2, #e8ddc9), var(--gradient-base-background-1, #f3e8d8));
+}
+@media screen and (min-width: 750px) {
+	.home-slideshow-placeholder { min-height: 56rem; }
+}
+
+/* ─── Featured Products (bloc AI reconstruit) ─── */
+.home-featured-products {
+	padding: 60px 0;
+	color: #fff;
+}
+
+.home-featured-products .featured-carousel {
+	margin: 0 auto;
+	padding: 0 1.5rem;
+}
+
+.home-featured-products .featured-carousel__header {
+	text-align: center;
+	margin-bottom: 3rem;
+}
+
+.home-featured-products .featured-carousel__heading {
+	margin: 0 0 1rem;
+	font-size: clamp(2.4rem, 4vw, 4.2rem);
+	line-height: 1.1;
+}
+
+.home-featured-products .featured-carousel__subheading {
+	margin: 0;
+	font-size: 1.6rem;
+	opacity: 0.9;
+}
+
+/* Carrousel : scroll horizontal + grille responsive */
+.home-featured-products .featured-carousel__list {
+	display: grid;
+	grid-template-columns: repeat(var(--featured-cols-desktop, 4), 1fr);
+	gap: 20px;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	scroll-snap-type: x mandatory;
+	overflow-x: auto;
+}
+
+@media screen and (max-width: 989px) {
+	.home-featured-products .featured-carousel__list {
+		grid-template-columns: repeat(var(--featured-cols-tablet, 2), minmax(220px, 1fr));
+	}
+}
+
+@media screen and (max-width: 749px) {
+	.home-featured-products .featured-carousel__list {
+		display: flex;
+		scroll-snap-type: x mandatory;
+	}
+	.home-featured-products .featured-card {
+		flex: 0 0 78%;
+		scroll-snap-align: start;
+	}
+}
+
+/* Carte produit */
+.home-featured-products .featured-card {
+	overflow: hidden;
+	box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+	display: flex;
+	flex-direction: column;
+}
+
+.home-featured-products .featured-card:hover {
+	transform: translateY(-4px);
+	box-shadow: 0 10px 32px rgba(0, 0, 0, 0.5);
+}
+
+.home-featured-products .featured-card__image {
+	display: block;
+	aspect-ratio: 1 / 1;
+	overflow: hidden;
+}
+
+.home-featured-products .featured-card__image img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform 0.4s ease;
+}
+
+.home-featured-products .featured-card:hover .featured-card__image img {
+	transform: scale(1.05);
+}
+
+.home-featured-products .featured-card__body {
+	padding: 1.6rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.8rem;
+	flex: 1;
+}
+
+.home-featured-products .featured-card__title {
+	margin: 0;
+	font-size: 1.6rem;
+	line-height: 1.3;
+	font-weight: 600;
+}
+
+.home-featured-products .featured-card__title a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.home-featured-products .featured-card__title a:hover {
+	text-decoration: underline;
+}
+
+.home-featured-products .featured-card__price {
+	font-size: 1.8rem;
+	font-weight: 700;
+}
+
+.home-featured-products .featured-card__price .price {
+	color: inherit;
+}
+
+.home-featured-products .featured-card__button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: auto;
+	padding: 1rem 2rem;
+	font-size: 1.4rem;
+	font-weight: 700;
+	text-decoration: none;
+	transition: background 0.25s ease, color 0.25s ease;
+}
+
+/* Contrôles du carrousel */
+.home-featured-products .featured-carousel__controls {
+	display: flex;
+	justify-content: center;
+	gap: 1rem;
+	margin-top: 3rem;
+}
+
+.home-featured-products .featured-nav {
+	width: 4.4rem;
+	height: 4.4rem;
+	border: 0;
+	border-radius: 50%;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: background 0.25s ease, color 0.25s ease;
+}
+
+.home-featured-products .featured-nav[disabled] {
+	opacity: 0.4;
+	cursor: default;
+}

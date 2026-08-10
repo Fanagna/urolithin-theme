@@ -1,0 +1,196 @@
+{{ 'ndl-liposomal.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'ndl-liposomal.js' | asset_url }}" defer></script>
+{% liquid
+  assign science_blocks = section.blocks | where: 'type', 'science'
+  assign ingredient_blocks = section.blocks | where: 'type', 'ingredient'
+  assign survey_blocks = section.blocks | where: 'type', 'survey'
+
+  # Single editable image (was a background scene + a separately overlaid
+  # bottle photo — kept as one image now, since composing two independently
+  # picked images rarely lines up well). scene_bg stays the primary field;
+  # bottle_image is honored too so an existing choice there isn't lost.
+  if section.settings.scene_bg != blank
+    assign ndl_scene_desktop = section.settings.scene_bg | image_url: width: 1400
+    if section.settings.scene_bg_mobile != blank
+      assign ndl_scene_mobile = section.settings.scene_bg_mobile | image_url: width: 900
+    else
+      assign ndl_scene_mobile = section.settings.scene_bg | image_url: width: 900
+    endif
+  elsif section.settings.bottle_image != blank
+    assign ndl_scene_desktop = section.settings.bottle_image | image_url: width: 1400
+    assign ndl_scene_mobile = section.settings.bottle_image | image_url: width: 900
+  else
+    assign ndl_scene_desktop = 'ndl-mountain-blue.webp' | asset_url
+    assign ndl_scene_mobile = 'ndl-mountain-blue-mobile.webp' | asset_url
+  endif
+%}
+<div class="ndl">
+  <section class="ndl-section ndl-absorption" id="ndl-absorption-{{ section.id }}">
+    <div class="ndl-shell">
+      <div class="ndl-absorption-top">
+        <div class="ndl-bottle-scene">
+          <picture>
+            <source media="(max-width: 768px)" srcset="{{ ndl_scene_mobile }}">
+            <img src="{{ ndl_scene_desktop }}" alt="{{ section.settings.bottle_alt | escape }}" loading="lazy">
+          </picture>
+        </div>
+        <div class="ndl-absorption-copy">
+          <h2 class="ndl-heading">{{ section.settings.heading | newline_to_br }}</h2>
+          <p class="ndl-subheading">{{ section.settings.subheading }}</p>
+          <div class="ndl-card ndl-liposome-card">
+            <h3>{{ section.settings.liposome_title }}</h3>
+            <div class="ndl-liposome-grid">
+              {% if section.settings.liposome_image != blank %}
+                {{ section.settings.liposome_image | image_url: width: 700 | image_tag: loading: 'lazy', alt: 'Liposomal delivery visualization' }}
+              {% else %}
+                <img src="{{ 'ndl-liposomal-delivery.webp' | asset_url }}" alt="Liposomal delivery visualization" loading="lazy">
+              {% endif %}
+              <div class="ndl-science-list">
+                {% for block in science_blocks %}
+                  <div {{ block.shopify_attributes }}>
+                    <span class="icon">{% render 'nad-icon', name: block.settings.icon, custom_image: block.settings.custom_icon %}</span>
+                    <span><strong>{{ block.settings.title }}</strong><p>{{ block.settings.text }}</p></span>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ndl-delivery-compare">
+        <div class="ndl-delivery-col">
+          <h3 class="ndl-lime">{{ section.settings.delivery_ours_title }}</h3>
+          <ul>
+            {% for block in section.blocks %}{% if block.type == 'delivery_item' and block.settings.column == 'ours' %}
+              <li {{ block.shopify_attributes }}>✓ {{ block.settings.text }}</li>
+            {% endif %}{% endfor %}
+          </ul>
+        </div>
+        <div class="ndl-delivery-vs"><span>VS.</span></div>
+        <div class="ndl-delivery-col">
+          <h3>{{ section.settings.delivery_other_title }}</h3>
+          <ul>
+            {% for block in section.blocks %}{% if block.type == 'delivery_item' and block.settings.column == 'other' %}
+              <li {{ block.shopify_attributes }}>⊗ {{ block.settings.text }}</li>
+            {% endif %}{% endfor %}
+          </ul>
+        </div>
+      </div>
+
+      {% if ingredient_blocks.size > 0 %}
+      <div class="ndl-hscroll-wrap">
+        <div class="ndl-ingredient-three">
+          {% for block in ingredient_blocks %}
+            <article class="ndl-ingredient-feature" {{ block.shopify_attributes }}>
+              {% if block.settings.image != blank %}
+                {{ block.settings.image | image_url: width: 700 | image_tag: loading: 'lazy', alt: block.settings.name }}
+              {% else %}
+                {% assign ndl_ing_n = forloop.index0 | modulo: 3 | plus: 1 %}
+                {% capture ndl_ing_asset %}ndl-ingredient-{% case ndl_ing_n %}{% when 1 %}nmn{% when 2 %}nr{% else %}resveratrol{% endcase %}.jpg{% endcapture %}
+                <img src="{{ ndl_ing_asset | asset_url }}" alt="{{ block.settings.name | escape }}" loading="lazy">
+              {% endif %}
+              <div class="copy"><h3>{{ block.settings.name }}</h3><p>{{ block.settings.text }}</p></div>
+            </article>
+          {% endfor %}
+        </div>
+        <button type="button" class="ndl-hscroll-arrow is-hidden" data-ndl-hscroll-prev aria-label="Previous">‹</button>
+        <button type="button" class="ndl-hscroll-arrow" data-ndl-hscroll-next aria-label="Next">›</button>
+      </div>
+      {% endif %}
+
+      {% if survey_blocks.size > 0 %}
+      <div class="ndl-white-card ndl-survey-panel">
+        <h3>{{ section.settings.survey_heading }}</h3>
+        <div class="ndl-hscroll-wrap">
+          <div class="ndl-survey-grid">
+            {% for block in survey_blocks %}
+              <div class="ndl-survey-item" {{ block.shopify_attributes }}>
+                <div class="ndl-survey-stat"><strong>{{ block.settings.value }}</strong><span>{{ block.settings.text }}</span></div>
+                {% if block.settings.image != blank %}
+                  {{ block.settings.image | image_url: width: 500 | image_tag: loading: 'lazy', alt: '' }}
+                {% else %}
+                  {% assign ndl_survey_n = forloop.index0 | modulo: 4 | plus: 1 %}
+                  {% capture ndl_survey_asset %}ndl-survey-{{ ndl_survey_n }}.webp{% endcapture %}
+                  <img src="{{ ndl_survey_asset | asset_url }}" alt="" loading="lazy">
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+          <button type="button" class="ndl-hscroll-arrow is-hidden" data-ndl-hscroll-prev aria-label="Previous">‹</button>
+          <button type="button" class="ndl-hscroll-arrow" data-ndl-hscroll-next aria-label="Next">›</button>
+        </div>
+        {% if section.settings.survey_note != blank %}<p style="font-size:.68rem;text-align:center;margin:12px 0 0">{{ section.settings.survey_note }}</p>{% endif %}
+      </div>
+      {% endif %}
+    </div>
+  </section>
+</div>
+{% schema %}
+{
+  "name": "NDL — Advanced absorption",
+  "tag": "section",
+  "class": "ndl-section-wrapper",
+  "settings": [
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "Advanced Absorption.\nReal Daily Benefits." },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Our dual-shield liposomal delivery system is designed to protect the formula and deliver it deeper—so your body can absorb more and you can feel the difference every day." },
+    { "type": "image_picker", "id": "scene_bg", "label": "Image", "info": "One single image for this visual — use a photo that already shows the bottle in its setting, rather than relying on a separate overlay." },
+    { "type": "image_picker", "id": "scene_bg_mobile", "label": "Image — mobile", "info": "Optional. Falls back to the image above if left blank." },
+    { "type": "image_picker", "id": "bottle_image", "label": "Image (legacy)", "info": "Only used if \"Image\" above is blank. Kept for backward compatibility — set the image on the \"Image\" field instead." },
+    { "type": "text", "id": "bottle_alt", "label": "Image alt text", "default": "PANSTELLAR NAD+ Liposomal bottle" },
+    { "type": "text", "id": "liposome_title", "label": "Liposome card title", "default": "DUAL-SHIELD LIPOSOMAL DELIVERY" },
+    { "type": "image_picker", "id": "liposome_image", "label": "Liposome card image" },
+    { "type": "text", "id": "delivery_ours_title", "label": "Comparison — our column title", "default": "LIPOSOMAL DELIVERY" },
+    { "type": "text", "id": "delivery_other_title", "label": "Comparison — other column title", "default": "STANDARD DELIVERY" },
+    { "type": "text", "id": "survey_heading", "label": "Survey panel heading", "default": "Feel the Difference. Every Day." },
+    { "type": "text", "id": "survey_note", "label": "Survey panel note", "default": "*Replace illustrative survey metrics with verified, substantiated study data before publishing." }
+  ],
+  "blocks": [
+    { "type": "science", "name": "Science point", "settings": [
+      { "type": "select", "id": "icon", "label": "Icon", "options": [
+        { "value": "shield-check", "label": "Shield check" }, { "value": "target", "label": "Target" }, { "value": "bolt-arrow", "label": "Bolt" }
+      ], "default": "shield-check" },
+      { "type": "image_picker", "id": "custom_icon", "label": "Custom icon image (optional)" },
+      { "type": "text", "id": "title", "label": "Title", "default": "Protects NAD+" },
+      { "type": "text", "id": "text", "label": "Text", "default": "Designed to shield the formula through digestion." }
+    ]},
+    { "type": "delivery_item", "name": "Comparison list item", "settings": [
+      { "type": "select", "id": "column", "label": "Column", "options": [
+        { "value": "ours", "label": "Our column (liposomal)" }, { "value": "other", "label": "Other column (standard)" }
+      ], "default": "ours" },
+      { "type": "text", "id": "text", "label": "Text", "default": "Protects the formula from breakdown" }
+    ]},
+    { "type": "ingredient", "name": "Ingredient feature", "settings": [
+      { "type": "image_picker", "id": "image", "label": "Image" },
+      { "type": "text", "id": "name", "label": "Name", "default": "NAD+" },
+      { "type": "textarea", "id": "text", "label": "Text", "default": "Supports cellular energy and healthy aging at the source." }
+    ]},
+    { "type": "survey", "name": "Survey stat", "settings": [
+      { "type": "image_picker", "id": "image", "label": "Image" },
+      { "type": "text", "id": "value", "label": "Stat value", "default": "92%" },
+      { "type": "text", "id": "text", "label": "Stat text", "default": "felt more energy throughout the day*" }
+    ]}
+  ],
+  "max_blocks": 20,
+  "presets": [
+    { "name": "NDL — Advanced absorption", "blocks": [
+      { "type": "science", "settings": { "icon": "shield-check", "title": "Protects NAD+", "text": "Designed to shield the formula through digestion." } },
+      { "type": "science", "settings": { "icon": "target", "title": "Enhances Absorption", "text": "Liposomal delivery supports efficient nutrient delivery." } },
+      { "type": "science", "settings": { "icon": "bolt-arrow", "title": "Maximizes Benefits", "text": "More efficient delivery supports daily energy, focus, and vitality." } },
+      { "type": "delivery_item", "settings": { "column": "ours", "text": "Protects the formula from breakdown" } },
+      { "type": "delivery_item", "settings": { "column": "ours", "text": "Designed for high absorption" } },
+      { "type": "delivery_item", "settings": { "column": "ours", "text": "Delivers nutrients efficiently" } },
+      { "type": "delivery_item", "settings": { "column": "other", "text": "More vulnerable during digestion" } },
+      { "type": "delivery_item", "settings": { "column": "other", "text": "Lower delivery efficiency" } },
+      { "type": "delivery_item", "settings": { "column": "other", "text": "Less predictable absorption" } },
+      { "type": "ingredient", "settings": { "name": "NAD+", "text": "Supports cellular energy and healthy aging at the source." } },
+      { "type": "ingredient", "settings": { "name": "NR", "text": "A precursor designed to support natural NAD+ pathways." } },
+      { "type": "ingredient", "settings": { "name": "RESVERATROL", "text": "An antioxidant ingredient supporting cellular wellness." } },
+      { "type": "survey", "settings": { "value": "92%", "text": "felt more energy throughout the day*" } },
+      { "type": "survey", "settings": { "value": "87%", "text": "experienced sharper focus*" } },
+      { "type": "survey", "settings": { "value": "89%", "text": "noticed improved recovery*" } },
+      { "type": "survey", "settings": { "value": "84%", "text": "saw healthier-looking skin*" } }
+    ]}
+  ]
+}
+{% endschema %}

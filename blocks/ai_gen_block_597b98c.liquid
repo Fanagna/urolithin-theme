@@ -1,0 +1,687 @@
+{% doc %}
+  @prompt
+    Create a full-width CTA section identical to the reference.
+    
+    ⚠️ Do not change any text, wording, prices, icons, or design elements.
+    ⚠️ Only adjust the layout to ensure full responsiveness.
+    
+    CONTENT (must remain exactly the same)
+    
+    Title (uppercase):
+    🚀 READY TO OPTIMIZE YOUR CELLULAR NAD+ LEVELS?
+    
+    Bullet points (centered, icons before text):
+    
+    Triple-pathway support
+    
+    90-day Guarantee
+    
+    Free shipping
+    
+    MAIN PRICING BOX
+    
+    Title:
+    BEST VALUE (60% OFF)
+    
+    Price (with strike-through original price):
+    Original Price: $139.99
+    Discounted Price: $56.24
+    You save: $83.74
+    
+    Button (centered, large):
+    START PROTOCOL
+    
+    SUBSCRIPTION OPTION (below the main CTA)
+    
+    Text:
+    Or subscribe & save 20% – $44.99/month
+    
+    LIMITED TIME OFFER (below subscription)
+    
+    Text:
+    LIMITED TIME: First 100 orders get free dosage tracker
+    
+    PAYMENT AND SECURE CHECKOUT INFO
+    
+    Text (small):
+    Secure SSL Checkout · All Payment Methods
+    
+    DESIGN AND STYLE RULES
+    
+    Dark blue background (same shade as reference)
+    
+    Text and button should be large, clear, and easy to read
+    
+    Price displayed prominently, with the discount and original price clearly visible
+    
+    Buttons styled to stand out (large, colorful with rounded corners)
+    
+    Use a clean, premium, high-conversion design that aligns with the reference
+    
+    RESPONSIVENESS (MANDATORY)
+    
+    Desktop:
+    
+    Display the title, pricing box, CTA button, and subscription option in a clean layout
+    
+    Tablet:
+    
+    Same layout with adjusted spacing
+    
+    Mobile:
+    
+    Stack content vertically with proper padding
+    
+    Ensure buttons are easy to tap and text remains readable
+    
+    No horizontal scrolling
+    
+    TECHNICAL CONSTRAINTS
+    
+    Use semantic HTML
+    
+    Use CSS Flexbox or Grid
+    
+    Mobile-first responsive design
+    
+    Fully compatible with Shopify Dawn theme
+    
+    No JavaScript required
+    
+    The final result must look exactly like the reference, with only layout changes for mobile stacking.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-cta-section-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    background-color: {{ block.settings.background_color }};
+    padding: 60px 20px;
+  }
+
+  .ai-cta-container-{{ ai_gen_id }} {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .ai-cta-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    font-weight: 700;
+    color: {{ block.settings.title_color }};
+    margin: 0 0 30px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    line-height: 1.3;
+  }
+
+  .ai-cta-benefits-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+  }
+
+  .ai-cta-benefit-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: {{ block.settings.benefit_size }}px;
+    color: {{ block.settings.benefit_color }};
+    font-weight: 500;
+  }
+
+  .ai-cta-pricing-box-{{ ai_gen_id }} {
+    background-color: {{ block.settings.box_background }};
+    border-radius: {{ block.settings.box_border_radius }}px;
+    padding: 40px;
+    max-width: 600px;
+    margin: 0 auto 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .ai-cta-badge-{{ ai_gen_id }} {
+    background-color: {{ block.settings.badge_color }};
+    color: {{ block.settings.badge_text_color }};
+    font-size: {{ block.settings.badge_size }}px;
+    font-weight: 700;
+    padding: 8px 20px;
+    border-radius: 25px;
+    display: inline-block;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .ai-cta-price-wrapper-{{ ai_gen_id }} {
+    margin-bottom: 25px;
+  }
+
+  .ai-cta-original-price-{{ ai_gen_id }} {
+    font-size: {{ block.settings.original_price_size }}px;
+    color: {{ block.settings.original_price_color }};
+    text-decoration: line-through;
+    margin-bottom: 5px;
+  }
+
+  .ai-cta-current-price-{{ ai_gen_id }} {
+    font-size: {{ block.settings.current_price_size }}px;
+    color: {{ block.settings.current_price_color }};
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .ai-cta-savings-{{ ai_gen_id }} {
+    font-size: {{ block.settings.savings_size }}px;
+    color: {{ block.settings.savings_color }};
+    font-weight: 600;
+  }
+
+  .ai-cta-button-{{ ai_gen_id }} {
+    display: inline-block;
+    background-color: {{ block.settings.button_color }};
+    color: {{ block.settings.button_text_color }};
+    font-size: {{ block.settings.button_size }}px;
+    font-weight: 700;
+    padding: 18px 60px;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .ai-cta-button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_color }};
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .ai-cta-subscription-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subscription_size }}px;
+    color: {{ block.settings.subscription_color }};
+    margin: 20px 0;
+    font-weight: 500;
+  }
+
+  .ai-cta-limited-{{ ai_gen_id }} {
+    font-size: {{ block.settings.limited_size }}px;
+    color: {{ block.settings.limited_color }};
+    margin: 15px 0 25px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .ai-cta-secure-{{ ai_gen_id }} {
+    font-size: {{ block.settings.secure_size }}px;
+    color: {{ block.settings.secure_color }};
+    margin-top: 20px;
+    opacity: 0.9;
+  }
+
+  @media screen and (max-width: 768px) {
+    .ai-cta-section-{{ ai_gen_id }} {
+      padding: 40px 16px;
+    }
+
+    .ai-cta-title-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.title_size }}px * 0.7);
+      margin-bottom: 25px;
+    }
+
+    .ai-cta-benefits-{{ ai_gen_id }} {
+      flex-direction: column;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .ai-cta-pricing-box-{{ ai_gen_id }} {
+      padding: 30px 20px;
+    }
+
+    .ai-cta-current-price-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.current_price_size }}px * 0.85);
+    }
+
+    .ai-cta-button-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.button_size }}px * 0.9);
+      padding: 16px 40px;
+      max-width: 100%;
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .ai-cta-title-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.title_size }}px * 0.55);
+    }
+
+    .ai-cta-benefit-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.benefit_size }}px * 0.9);
+    }
+  }
+{% endstyle %}
+
+<ai-cta-section-{{ ai_gen_id }} class="ai-cta-section-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-cta-container-{{ ai_gen_id }}">
+    <h2 class="ai-cta-title-{{ ai_gen_id }}">
+      {{ block.settings.title }}
+    </h2>
+
+    <div class="ai-cta-benefits-{{ ai_gen_id }}">
+      <div class="ai-cta-benefit-{{ ai_gen_id }}">
+        <span>{{ block.settings.benefit_icon_1 }}</span>
+        <span>{{ block.settings.benefit_text_1 }}</span>
+      </div>
+      <div class="ai-cta-benefit-{{ ai_gen_id }}">
+        <span>{{ block.settings.benefit_icon_2 }}</span>
+        <span>{{ block.settings.benefit_text_2 }}</span>
+      </div>
+      <div class="ai-cta-benefit-{{ ai_gen_id }}">
+        <span>{{ block.settings.benefit_icon_3 }}</span>
+        <span>{{ block.settings.benefit_text_3 }}</span>
+      </div>
+    </div>
+
+    <div class="ai-cta-pricing-box-{{ ai_gen_id }}">
+      <div class="ai-cta-badge-{{ ai_gen_id }}">
+        {{ block.settings.badge_text }}
+      </div>
+
+      <div class="ai-cta-price-wrapper-{{ ai_gen_id }}">
+        <div class="ai-cta-original-price-{{ ai_gen_id }}">
+          {{ block.settings.original_price_label }} {{ block.settings.original_price }}
+        </div>
+        <div class="ai-cta-current-price-{{ ai_gen_id }}">
+          {{ block.settings.current_price_label }} {{ block.settings.current_price }}
+        </div>
+        <div class="ai-cta-savings-{{ ai_gen_id }}">
+          {{ block.settings.savings_label }} {{ block.settings.savings_amount }}
+        </div>
+      </div>
+
+      <a href="{{ block.settings.button_link }}" class="ai-cta-button-{{ ai_gen_id }}">
+        {{ block.settings.button_text }}
+      </a>
+    </div>
+
+    <div class="ai-cta-subscription-{{ ai_gen_id }}">
+      {{ block.settings.subscription_text }}
+    </div>
+
+    <div class="ai-cta-limited-{{ ai_gen_id }}">
+      {{ block.settings.limited_text }}
+    </div>
+
+    <div class="ai-cta-secure-{{ ai_gen_id }}">
+      {{ block.settings.secure_text }}
+    </div>
+  </div>
+</ai-cta-section-{{ ai_gen_id }}>
+
+{% schema %}
+{
+  "name": "Full-width CTA section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Title"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "🚀 READY TO OPTIMIZE YOUR CELLULAR NAD+ LEVELS?"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Title size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 36
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Benefits"
+    },
+    {
+      "type": "text",
+      "id": "benefit_icon_1",
+      "label": "Benefit 1 icon",
+      "default": "✓"
+    },
+    {
+      "type": "text",
+      "id": "benefit_text_1",
+      "label": "Benefit 1 text",
+      "default": "Triple-pathway support"
+    },
+    {
+      "type": "text",
+      "id": "benefit_icon_2",
+      "label": "Benefit 2 icon",
+      "default": "✓"
+    },
+    {
+      "type": "text",
+      "id": "benefit_text_2",
+      "label": "Benefit 2 text",
+      "default": "90-day Guarantee"
+    },
+    {
+      "type": "text",
+      "id": "benefit_icon_3",
+      "label": "Benefit 3 icon",
+      "default": "✓"
+    },
+    {
+      "type": "text",
+      "id": "benefit_text_3",
+      "label": "Benefit 3 text",
+      "default": "Free shipping"
+    },
+    {
+      "type": "range",
+      "id": "benefit_size",
+      "label": "Benefit text size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "benefit_color",
+      "label": "Benefit text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Pricing box"
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge text",
+      "default": "BEST VALUE (60% OFF)"
+    },
+    {
+      "type": "range",
+      "id": "badge_size",
+      "label": "Badge size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "badge_color",
+      "label": "Badge background",
+      "default": "#FF6B35"
+    },
+    {
+      "type": "color",
+      "id": "badge_text_color",
+      "label": "Badge text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "text",
+      "id": "original_price_label",
+      "label": "Original price label",
+      "default": "Original Price:"
+    },
+    {
+      "type": "text",
+      "id": "original_price",
+      "label": "Original price",
+      "default": "$139.99"
+    },
+    {
+      "type": "range",
+      "id": "original_price_size",
+      "label": "Original price size",
+      "min": 14,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "color",
+      "id": "original_price_color",
+      "label": "Original price color",
+      "default": "#999999"
+    },
+    {
+      "type": "text",
+      "id": "current_price_label",
+      "label": "Current price label",
+      "default": "Discounted Price:"
+    },
+    {
+      "type": "text",
+      "id": "current_price",
+      "label": "Current price",
+      "default": "$56.24"
+    },
+    {
+      "type": "range",
+      "id": "current_price_size",
+      "label": "Current price size",
+      "min": 24,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 42
+    },
+    {
+      "type": "color",
+      "id": "current_price_color",
+      "label": "Current price color",
+      "default": "#00C853"
+    },
+    {
+      "type": "text",
+      "id": "savings_label",
+      "label": "Savings label",
+      "default": "You save:"
+    },
+    {
+      "type": "text",
+      "id": "savings_amount",
+      "label": "Savings amount",
+      "default": "$83.74"
+    },
+    {
+      "type": "range",
+      "id": "savings_size",
+      "label": "Savings text size",
+      "min": 14,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "color",
+      "id": "savings_color",
+      "label": "Savings text color",
+      "default": "#FF6B35"
+    },
+    {
+      "type": "color",
+      "id": "box_background",
+      "label": "Box background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "box_border_radius",
+      "label": "Box border radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "START PROTOCOL"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "range",
+      "id": "button_size",
+      "label": "Button text size",
+      "min": 14,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button background",
+      "default": "#00C853"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_color",
+      "label": "Button hover background",
+      "default": "#00A843"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "label": "Button border radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Additional text"
+    },
+    {
+      "type": "text",
+      "id": "subscription_text",
+      "label": "Subscription text",
+      "default": "Or subscribe & save 20% – $44.99/month"
+    },
+    {
+      "type": "range",
+      "id": "subscription_size",
+      "label": "Subscription text size",
+      "min": 12,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "subscription_color",
+      "label": "Subscription text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "text",
+      "id": "limited_text",
+      "label": "Limited offer text",
+      "default": "LIMITED TIME: First 100 orders get free dosage tracker"
+    },
+    {
+      "type": "range",
+      "id": "limited_size",
+      "label": "Limited text size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "limited_color",
+      "label": "Limited text color",
+      "default": "#FFD740"
+    },
+    {
+      "type": "text",
+      "id": "secure_text",
+      "label": "Secure checkout text",
+      "default": "Secure SSL Checkout · All Payment Methods"
+    },
+    {
+      "type": "range",
+      "id": "secure_size",
+      "label": "Secure text size",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "secure_color",
+      "label": "Secure text color",
+      "default": "#CCCCCC"
+    },
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#1A237E"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Full-width CTA section"
+    }
+  ]
+}
+{% endschema %}

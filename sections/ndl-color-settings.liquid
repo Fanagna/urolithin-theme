@@ -1,0 +1,52 @@
+{% comment %}
+  Controls colors for every ndl-* section on this page at once via CSS
+  custom properties (defined in ndl-liposomal.css :root, re-declared here
+  with whatever the merchant picks). Add this section once anywhere in the
+  template — position doesn't matter, it renders no visible content, only
+  a <style> tag. Position in the section list only matters relative to
+  page-load order if two copies were added with different colors (last one
+  wins) — normally there should be exactly one.
+{% endcomment %}
+<style>
+  :root{
+    --ndl-bg-top: {{ section.settings.bg_top }};
+    --ndl-bg-mid: {{ section.settings.bg_mid }};
+    --ndl-bg-bottom: {{ section.settings.bg_bottom }};
+    --ndl-white: {{ section.settings.heading_color }};
+    --ndl-lime: {{ section.settings.accent_color }};
+    --ndl-lime-2: {{ section.settings.accent_color_2 }};
+    --ndl-accent-text: {{ section.settings.accent_text_color }};
+    --ndl-gold: {{ section.settings.gold_color }};
+    --ndl-ink: {{ section.settings.card_text_color }};
+  }
+</style>
+{% if request.design_mode %}
+  <div class="ndl" style="padding:14px 20px;font-size:13px;opacity:.7">
+    NDL — Global color settings: no visible output on the storefront. Edit colors from this section's settings panel; they apply to every NDL section on the page.
+  </div>
+{% endif %}
+{% schema %}
+{
+  "name": "NDL — Color settings",
+  "tag": "section",
+  "class": "ndl-section-wrapper",
+  "settings": [
+    { "type": "header", "content": "Background" },
+    { "type": "color", "id": "bg_top", "label": "Background — top", "default": "#0453ae" },
+    { "type": "color", "id": "bg_mid", "label": "Background — middle", "default": "#003b86" },
+    { "type": "color", "id": "bg_bottom", "label": "Background — bottom", "default": "#032d6a" },
+    { "type": "header", "content": "Text" },
+    { "type": "color", "id": "heading_color", "label": "Heading & body text (on dark background)", "default": "#ffffff" },
+    { "type": "color", "id": "card_text_color", "label": "Text on white cards (facts, reviews, experts...)", "default": "#062152" },
+    { "type": "header", "content": "Accent" },
+    { "type": "color", "id": "accent_color", "label": "Accent color (icons, borders, highlights)", "default": "#baff3e" },
+    { "type": "color", "id": "accent_color_2", "label": "Accent color — secondary (button gradient)", "default": "#8de830" },
+    { "type": "color", "id": "accent_text_color", "label": "Text on accent color (buttons, badges)", "default": "#102a02" },
+    { "type": "header", "content": "Other" },
+    { "type": "color", "id": "gold_color", "label": "Gold highlight (comparison table)", "default": "#e9b443" }
+  ],
+  "presets": [
+    { "name": "NDL — Color settings" }
+  ]
+}
+{% endschema %}

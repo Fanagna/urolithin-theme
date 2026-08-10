@@ -1,0 +1,576 @@
+{% doc %}
+  @prompt
+    PROMPT SHOPIFY MAGIC (à copier-coller tel quel)
+    
+    Create a centered, premium dark-mode opt-in form section that visually matches the previous section and has the exact same container width (same max-width, padding, and alignment) as the previous “What’s Inside the Guide” card.
+    
+    This form must be fully connected to Omnisend newsletter signup using Shopify’s native Omnisend integration (email capture + first name).
+    
+    Requirements for Omnisend integration:
+    
+    Email field must be required and mapped to Omnisend email subscriber list
+    
+    First name field must be optional and mapped to Omnisend first name property
+    
+    Checkbox must be a consent checkbox compatible with Omnisend
+    
+    On submit, the contact is added to the Omnisend newsletter list
+    
+    Form must be valid and functional for email marketing automation
+    
+    Do not change the structure, spacing, or wording. Keep the section centered in the middle of the page, with a rounded container, subtle gradient background, soft shadow, and high-contrast typography.
+    
+    Form layout rules:
+    
+    Same outer card width as the previous section (match max-width exactly)
+    
+    Title centered at top
+    
+    Subtitle centered below title
+    
+    Labels left-aligned above inputs
+    
+    Two stacked input fields
+    
+    Checkbox row below the inputs
+    
+    Large full-width green CTA button
+    
+    Small feature row at the bottom (3 items)
+    
+    Content to display (do not edit):
+    
+    Get Instant Access
+    
+    Enter your email to download the guide + receive your 30% discount code
+    
+    Label: Email address
+    Placeholder: you@example.com
+    
+    Label: First name (optional)
+    Placeholder: John
+    
+    Checkbox text:
+    Send me the free guide, discount code, and recovery tips. Unsubscribe anytime.
+    
+    Button text (all caps):
+    DOWNLOAD FREE GUIDE NOW
+    
+    Bottom row (3 items, small text):
+    Instant download · 100% free · No spam
+    
+    Do not add extra fields, links, or additional copy.
+    Keep everything centered, premium, conversion-focused, and visually consistent with the previous section.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-omnisend-optin-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    padding: 40px 20px;
+  }
+
+  .ai-omnisend-optin-container-{{ ai_gen_id }} {
+    max-width: 700px;
+    margin: 0 auto;
+    background: {{ block.settings.background_color }};
+    background-image: {{ block.settings.background_gradient }};
+    border-radius: {{ block.settings.border_radius }}px;
+    padding: {{ block.settings.padding_vertical }}px {{ block.settings.padding_horizontal }}px;
+    box-shadow: 0 4px 20px {{ block.settings.shadow_color }};
+  }
+
+  .ai-omnisend-optin-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    font-weight: 700;
+    color: {{ block.settings.text_color }};
+    text-align: center;
+    margin: 0 0 16px 0;
+    line-height: 1.2;
+  }
+
+  .ai-omnisend-optin-subtitle-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subtitle_size }}px;
+    color: {{ block.settings.text_color }};
+    text-align: center;
+    margin: 0 0 32px 0;
+    line-height: 1.5;
+    opacity: 0.9;
+  }
+
+  .ai-omnisend-optin-field-{{ ai_gen_id }} {
+    margin-bottom: 20px;
+  }
+
+  .ai-omnisend-optin-label-{{ ai_gen_id }} {
+    display: block;
+    font-size: {{ block.settings.label_size }}px;
+    font-weight: 600;
+    color: {{ block.settings.text_color }};
+    margin-bottom: 8px;
+    text-align: left;
+  }
+
+  .ai-omnisend-optin-input-{{ ai_gen_id }} {
+    width: 100%;
+    padding: 14px 16px;
+    font-size: {{ block.settings.input_size }}px;
+    background-color: {{ block.settings.input_background }};
+    color: {{ block.settings.input_text_color }};
+    border: {{ block.settings.input_border_thickness }}px solid {{ block.settings.input_border_color }};
+    border-radius: {{ block.settings.input_border_radius }}px;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+
+  .ai-omnisend-optin-input-{{ ai_gen_id }}:focus {
+    border-color: {{ block.settings.input_focus_border_color }};
+  }
+
+  .ai-omnisend-optin-input-{{ ai_gen_id }}::placeholder {
+    color: {{ block.settings.placeholder_color }};
+    opacity: 0.7;
+  }
+
+  .ai-omnisend-optin-checkbox-wrapper-{{ ai_gen_id }} {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .ai-omnisend-optin-checkbox-{{ ai_gen_id }} {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    cursor: pointer;
+    accent-color: {{ block.settings.checkbox_color }};
+  }
+
+  .ai-omnisend-optin-checkbox-label-{{ ai_gen_id }} {
+    font-size: {{ block.settings.checkbox_text_size }}px;
+    color: {{ block.settings.text_color }};
+    line-height: 1.5;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .ai-omnisend-optin-button-{{ ai_gen_id }} {
+    width: 100%;
+    padding: {{ block.settings.button_padding }}px 32px;
+    font-size: {{ block.settings.button_text_size }}px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    background-color: {{ block.settings.button_background }};
+    color: {{ block.settings.button_text_color }};
+    border: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 24px;
+  }
+
+  .ai-omnisend-optin-button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_background }};
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .ai-omnisend-optin-features-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .ai-omnisend-optin-feature-{{ ai_gen_id }} {
+    font-size: {{ block.settings.feature_text_size }}px;
+    color: {{ block.settings.text_color }};
+    opacity: 0.8;
+    text-align: center;
+  }
+
+  .ai-omnisend-optin-feature-separator-{{ ai_gen_id }} {
+    color: {{ block.settings.text_color }};
+    opacity: 0.5;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-omnisend-optin-container-{{ ai_gen_id }} {
+      padding: {{ block.settings.padding_vertical | times: 0.7 }}px {{ block.settings.padding_horizontal | times: 0.7 }}px;
+    }
+
+    .ai-omnisend-optin-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_size | times: 0.8 }}px;
+    }
+
+    .ai-omnisend-optin-subtitle-{{ ai_gen_id }} {
+      font-size: {{ block.settings.subtitle_size | times: 0.9 }}px;
+    }
+
+    .ai-omnisend-optin-features-{{ ai_gen_id }} {
+      gap: 12px;
+    }
+  }
+{% endstyle %}
+
+<omnisend-optin-{{ ai_gen_id }}
+  class="ai-omnisend-optin-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="ai-omnisend-optin-container-{{ ai_gen_id }}">
+    {%- form 'customer', id: 'omnisend-contact-form', class: 'omnisend-form' -%}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      
+      <h2 class="ai-omnisend-optin-title-{{ ai_gen_id }}">
+        Get Instant Access
+      </h2>
+
+      <p class="ai-omnisend-optin-subtitle-{{ ai_gen_id }}">
+        Enter your email to download the guide + receive your 30% discount code
+      </p>
+
+      <div class="ai-omnisend-optin-field-{{ ai_gen_id }}">
+        <label for="omnisend-email-{{ ai_gen_id }}" class="ai-omnisend-optin-label-{{ ai_gen_id }}">
+          Email address
+        </label>
+        <input
+          type="email"
+          id="omnisend-email-{{ ai_gen_id }}"
+          name="contact[email]"
+          class="ai-omnisend-optin-input-{{ ai_gen_id }}"
+          placeholder="you@example.com"
+          required
+          autocomplete="email"
+        >
+      </div>
+
+      <div class="ai-omnisend-optin-field-{{ ai_gen_id }}">
+        <label for="omnisend-firstname-{{ ai_gen_id }}" class="ai-omnisend-optin-label-{{ ai_gen_id }}">
+          First name (optional)
+        </label>
+        <input
+          type="text"
+          id="omnisend-firstname-{{ ai_gen_id }}"
+          name="contact[first_name]"
+          class="ai-omnisend-optin-input-{{ ai_gen_id }}"
+          placeholder="John"
+          autocomplete="given-name"
+        >
+      </div>
+
+      <div class="ai-omnisend-optin-checkbox-wrapper-{{ ai_gen_id }}">
+        <input
+          type="checkbox"
+          id="omnisend-consent-{{ ai_gen_id }}"
+          name="contact[accepts_marketing]"
+          class="ai-omnisend-optin-checkbox-{{ ai_gen_id }}"
+          value="true"
+          required
+        >
+        <label for="omnisend-consent-{{ ai_gen_id }}" class="ai-omnisend-optin-checkbox-label-{{ ai_gen_id }}">
+          Send me the free guide, discount code, and recovery tips. Unsubscribe anytime.
+        </label>
+      </div>
+
+      <button type="submit" class="ai-omnisend-optin-button-{{ ai_gen_id }}">
+        Download Free Guide Now
+      </button>
+
+      <div class="ai-omnisend-optin-features-{{ ai_gen_id }}">
+        <span class="ai-omnisend-optin-feature-{{ ai_gen_id }}">Instant download</span>
+        <span class="ai-omnisend-optin-feature-separator-{{ ai_gen_id }}">·</span>
+        <span class="ai-omnisend-optin-feature-{{ ai_gen_id }}">100% free</span>
+        <span class="ai-omnisend-optin-feature-separator-{{ ai_gen_id }}">·</span>
+        <span class="ai-omnisend-optin-feature-{{ ai_gen_id }}">No spam</span>
+      </div>
+    {%- endform -%}
+  </div>
+</omnisend-optin-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class OmnisendOptin{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.form = this.querySelector('form');
+        if (this.form) {
+          this.form.addEventListener('submit', this.handleSubmit.bind(this));
+        }
+      }
+
+      handleSubmit(event) {
+        const checkbox = this.querySelector('input[type="checkbox"]');
+        if (!checkbox.checked) {
+          event.preventDefault();
+          alert('Please accept the consent checkbox to continue.');
+          return false;
+        }
+      }
+    }
+
+    customElements.define('omnisend-optin-{{ ai_gen_id }}', OmnisendOptin{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Omnisend opt-in form",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Container style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#1a1a2e"
+    },
+    {
+      "type": "color_background",
+      "id": "background_gradient",
+      "label": "Background gradient"
+    },
+    {
+      "type": "color",
+      "id": "shadow_color",
+      "label": "Shadow color",
+      "default": "rgba(0, 0, 0, 0.3)"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding_vertical",
+      "min": 20,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "label": "Vertical padding",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "padding_horizontal",
+      "min": 20,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "label": "Horizontal padding",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Title size",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Subtitle size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "label_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Label size",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Input fields"
+    },
+    {
+      "type": "color",
+      "id": "input_background",
+      "label": "Background color",
+      "default": "#2a2a3e"
+    },
+    {
+      "type": "color",
+      "id": "input_text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "placeholder_color",
+      "label": "Placeholder color",
+      "default": "#a0a0a0"
+    },
+    {
+      "type": "color",
+      "id": "input_border_color",
+      "label": "Border color",
+      "default": "#3a3a4e"
+    },
+    {
+      "type": "color",
+      "id": "input_focus_border_color",
+      "label": "Focus border color",
+      "default": "#5c1ada"
+    },
+    {
+      "type": "range",
+      "id": "input_border_thickness",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "label": "Border thickness",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "input_border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "input_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Checkbox"
+    },
+    {
+      "type": "color",
+      "id": "checkbox_color",
+      "label": "Checkbox color",
+      "default": "#5c1ada"
+    },
+    {
+      "type": "range",
+      "id": "checkbox_text_size",
+      "min": 11,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size",
+      "default": 13
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Background color",
+      "default": "#22c55e"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_background",
+      "label": "Hover background color",
+      "default": "#16a34a"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "button_padding",
+      "min": 12,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "button_text_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Features"
+    },
+    {
+      "type": "range",
+      "id": "feature_text_size",
+      "min": 10,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size",
+      "default": 12
+    }
+  ],
+  "presets": [
+    {
+      "name": "Omnisend opt-in form"
+    }
+  ]
+}
+{% endschema %}

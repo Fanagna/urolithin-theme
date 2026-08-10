@@ -1,0 +1,408 @@
+{% doc %}
+  @prompt
+    genere moi une section contenant  3 couches, 1er couche: title, 2eme couche :image qui prenne toute la longueur du page(avec un parametre de width et height), 3eme couche: paragraphe; le 1er et 2eme couche soient bien centrer au centre ; avec tous les parametrage de reglage
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-three-layer-section-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    padding: {{ block.settings.section_padding_top }}px 0 {{ block.settings.section_padding_bottom }}px;
+    background-color: {{ block.settings.background_color }};
+  }
+
+  .ai-three-layer-container-{{ ai_gen_id }} {
+    max-width: {{ block.settings.container_width }}px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .ai-three-layer-title-{{ ai_gen_id }} {
+    text-align: center;
+    margin: 0 0 {{ block.settings.title_margin_bottom }}px;
+    color: {{ block.settings.title_color }};
+    font-size: {{ block.settings.title_font_size }}px;
+    font-weight: {{ block.settings.title_font_weight }};
+    line-height: 1.2;
+  }
+
+  .ai-three-layer-image-wrapper-{{ ai_gen_id }} {
+    width: 100%;
+    margin: 0 0 {{ block.settings.image_margin_bottom }}px;
+    text-align: center;
+  }
+
+  .ai-three-layer-image-{{ ai_gen_id }} {
+    width: {{ block.settings.image_width }}%;
+    height: {{ block.settings.image_height }}px;
+    object-fit: {{ block.settings.image_fit }};
+    border-radius: {{ block.settings.image_border_radius }}px;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .ai-three-layer-image-placeholder-{{ ai_gen_id }} {
+    width: {{ block.settings.image_width }}%;
+    height: {{ block.settings.image_height }}px;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: {{ block.settings.image_border_radius }}px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .ai-three-layer-image-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: 500px;
+    max-height: 500px;
+  }
+
+  .ai-three-layer-empty-state-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 20px;
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .ai-three-layer-paragraph-{{ ai_gen_id }} {
+    text-align: {{ block.settings.paragraph_alignment }};
+    margin: 0;
+    color: {{ block.settings.paragraph_color }};
+    font-size: {{ block.settings.paragraph_font_size }}px;
+    line-height: {{ block.settings.paragraph_line_height }};
+    max-width: {{ block.settings.paragraph_max_width }}px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-three-layer-section-{{ ai_gen_id }} {
+      padding: {{ block.settings.section_padding_top | times: 0.6 }}px 0 {{ block.settings.section_padding_bottom | times: 0.6 }}px;
+    }
+
+    .ai-three-layer-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_font_size | times: 0.8 }}px;
+      margin-bottom: {{ block.settings.title_margin_bottom | times: 0.8 }}px;
+    }
+
+    .ai-three-layer-image-{{ ai_gen_id }},
+    .ai-three-layer-image-placeholder-{{ ai_gen_id }} {
+      height: {{ block.settings.image_height | times: 0.7 }}px;
+    }
+
+    .ai-three-layer-image-wrapper-{{ ai_gen_id }} {
+      margin-bottom: {{ block.settings.image_margin_bottom | times: 0.8 }}px;
+    }
+
+    .ai-three-layer-paragraph-{{ ai_gen_id }} {
+      font-size: {{ block.settings.paragraph_font_size | times: 0.9 }}px;
+    }
+  }
+{% endstyle %}
+
+<three-layer-section-{{ ai_gen_id }}
+  class="ai-three-layer-section-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="ai-three-layer-container-{{ ai_gen_id }}">
+    {% if block.settings.title != blank %}
+      <h2 class="ai-three-layer-title-{{ ai_gen_id }}">{{ block.settings.title }}</h2>
+    {% endif %}
+
+    <div class="ai-three-layer-image-wrapper-{{ ai_gen_id }}">
+      {% if block.settings.image %}
+        <img
+          src="{{ block.settings.image | image_url: width: 2000 }}"
+          alt="{{ block.settings.image.alt | escape }}"
+          loading="lazy"
+          width="{{ block.settings.image.width }}"
+          height="{{ block.settings.image.height }}"
+          class="ai-three-layer-image-{{ ai_gen_id }}"
+        >
+      {% else %}
+        <div class="ai-three-layer-image-placeholder-{{ ai_gen_id }}">
+          {{ 'image' | placeholder_svg_tag }}
+          <div class="ai-three-layer-empty-state-{{ ai_gen_id }}">
+            Ajoutez une image
+          </div>
+        </div>
+      {% endif %}
+    </div>
+
+    {% if block.settings.paragraph != blank %}
+      <div class="ai-three-layer-paragraph-{{ ai_gen_id }}">{{ block.settings.paragraph }}</div>
+    {% endif %}
+  </div>
+</three-layer-section-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class ThreeLayerSection{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+      }
+    }
+
+    customElements.define('three-layer-section-{{ ai_gen_id }}', ThreeLayerSection{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Section trois couches",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Titre"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Titre",
+      "default": "Titre de la section"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Couleur du titre",
+      "default": "#121212"
+    },
+    {
+      "type": "range",
+      "id": "title_font_size",
+      "min": 16,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Taille de police",
+      "default": 40
+    },
+    {
+      "type": "select",
+      "id": "title_font_weight",
+      "label": "Épaisseur de police",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Moyen"
+        },
+        {
+          "value": "600",
+          "label": "Semi-gras"
+        },
+        {
+          "value": "700",
+          "label": "Gras"
+        }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "range",
+      "id": "title_margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Marge inférieure",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "range",
+      "id": "image_width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Largeur",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "image_height",
+      "min": 200,
+      "max": 800,
+      "step": 20,
+      "unit": "px",
+      "label": "Hauteur",
+      "default": 400
+    },
+    {
+      "type": "select",
+      "id": "image_fit",
+      "label": "Ajustement de l'image",
+      "options": [
+        {
+          "value": "cover",
+          "label": "Couvrir"
+        },
+        {
+          "value": "contain",
+          "label": "Contenir"
+        },
+        {
+          "value": "fill",
+          "label": "Remplir"
+        }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Rayon de bordure",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "image_margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Marge inférieure",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Paragraphe"
+    },
+    {
+      "type": "richtext",
+      "id": "paragraph",
+      "label": "Paragraphe",
+      "default": "<p>Ajoutez votre texte ici. Ce paragraphe peut contenir plusieurs lignes de texte pour décrire votre contenu.</p>"
+    },
+    {
+      "type": "color",
+      "id": "paragraph_color",
+      "label": "Couleur du texte",
+      "default": "#121212"
+    },
+    {
+      "type": "range",
+      "id": "paragraph_font_size",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Taille de police",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "paragraph_line_height",
+      "min": 1,
+      "max": 2,
+      "step": 0.1,
+      "label": "Hauteur de ligne",
+      "default": 1.6
+    },
+    {
+      "type": "select",
+      "id": "paragraph_alignment",
+      "label": "Alignement",
+      "options": [
+        {
+          "value": "left",
+          "label": "Gauche"
+        },
+        {
+          "value": "center",
+          "label": "Centre"
+        },
+        {
+          "value": "right",
+          "label": "Droite"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "paragraph_max_width",
+      "min": 400,
+      "max": 1200,
+      "step": 50,
+      "unit": "px",
+      "label": "Largeur maximale",
+      "default": 800
+    },
+    {
+      "type": "header",
+      "content": "Section"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Couleur de fond",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "container_width",
+      "min": 800,
+      "max": 1600,
+      "step": 100,
+      "unit": "px",
+      "label": "Largeur du conteneur",
+      "default": 1200
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Espacement supérieur",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Espacement inférieur",
+      "default": 60
+    }
+  ],
+  "presets": [
+    {
+      "name": "Section trois couches"
+    }
+  ]
+}
+{% endschema %}

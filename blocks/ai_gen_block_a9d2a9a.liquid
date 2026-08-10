@@ -1,0 +1,722 @@
+{% doc %}
+  @prompt
+    PROMPT FOR SHOPIFY AI:
+    Create a custom product hero section with a two-column layout:
+    DESKTOP LAYOUT (768px and above):
+    
+    Two-column grid: 50% left content, 50% right image
+    Container max-width: 1200px, centered
+    Padding: 60px 40px
+    Gap between columns: 40px
+    
+    LEFT COLUMN:
+    
+    Badge at top: "Third-Party Tested - us USA" with checkmark icon, light green background
+    Main headline: "STEADY ENERGY HAPPY GUT" in bold dark green text (font-size: 48px)
+    Subheading: "The daily stack for stable energy and digestive comfort." (font-size: 18px, gray text)
+    Star rating display: 5 gold stars followed by "4.9/5 (2,847)" in bold
+    Social proof text: "8,000+ happy customers" (font-size: 22px, bold)
+    Pricing box with light gray background and rounded corners containing:
+    
+    "Start Today" label
+    Price "{{ product.price | money }}" in large text (font-size: 40px)
+    Product details: "{{ product.variants.first.title }} · 90-day supply"
+    
+    
+    Orange CTA button: "Start Today" with white text, rounded corners, full width, that executes this JavaScript onClick:
+    
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: {{ product.selected_or_first_available_variant.id }}, quantity: 1 })
+      }).then(() => window.location.href = '/cart')
+    
+    Trust badges below button: shipping icon "Ships in 72h" · shield icon "30-Day Guarantee"
+    
+    RIGHT COLUMN:
+    
+    Image container with dashed border and centered placeholder text "INSERT IMAGE HERE"
+    Image should display: {{ product.featured_image | img_url: '800x800' }}
+    
+    MOBILE-SPECIFIC PARAMETERS (767px and below):
+    
+    Layout: Single column, stacked vertically (image first, then content)
+    Padding: 30px 20px (reduce from desktop)
+    Headline font-size: 32px (reduce from 48px)
+    Subheading font-size: 16px (reduce from 18px)
+    Rating stars: Slightly smaller (scale: 0.9)
+    Social proof text: 18px (reduce from 22px)
+    Price font-size: 32px (reduce from 40px)
+    Pricing box: Full width, margin-bottom: 20px
+    CTA button:
+    
+    Height: 56px minimum (larger tap target)
+    Font-size: 18px
+    Full width: 100%
+    Sticky positioning at bottom of viewport (optional but recommended)
+    
+    
+    Trust badges: Stack vertically or reduce font-size to 14px
+    Image:
+    
+    Full width
+    Max-height: 400px
+    Display at TOP of section (above text content)
+    Remove dashed border on mobile (optional)
+    
+    
+    Spacing between elements: 15-20px (reduce from desktop 20-30px)
+    
+    MOBILE TOUCH OPTIMIZATIONS:
+    
+    All clickable elements minimum 44x44px touch target
+    Button hover effects replaced with active/pressed states
+    Increase line-height for better readability (1.6)
+    Ensure text doesn't touch screen edges (maintain 20px padding)
+    
+    STYLING REQUIREMENTS:
+    
+    Use Shopify's theme colors for green (#2d5016) and orange (#e67e22)
+    Button should have hover effect on desktop (darken background color)
+    Button should have pressed state on mobile (slightly darker + scale down 0.98)
+    Smooth transitions on breakpoint changes
+    
+    FUNCTIONALITY:
+    
+    Button must add the current product's first available variant to cart
+    Include loading state on button click (show spinner, disable button)
+    Show success notification after adding to cart
+    Make the section reusable across different product pages by using Liquid variables
+    
+    RESPONSIVE BREAKPOINT:
+    
+    Use media query: @media (max-width: 767px) for all mobile styles
+    
+    
+    KEY MOBILE-FIRST REMINDERS FOR SHOPIFY AI:
+    
+    Image appears FIRST on mobile (reverse stack order)
+    Text must be readable without zooming (minimum 16px)
+    Button must be easily tappable (56px height minimum)
+    Consider making button sticky/fixed at bottom on mobile for easy checkout
+    All padding and font sizes should scale down proportionally on mobile
+{% enddoc %}
+```liquid
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-product-hero-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    padding: 60px 40px;
+  }
+
+  .ai-product-hero-container-{{ ai_gen_id }} {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+  }
+
+  .ai-product-hero-content-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .ai-product-hero-badge-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: {{ block.settings.badge_bg_color }};
+    color: {{ block.settings.badge_text_color }};
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    width: fit-content;
+  }
+
+  .ai-product-hero-badge-icon-{{ ai_gen_id }} {
+    width: 16px;
+    height: 16px;
+  }
+
+  .ai-product-hero-headline-{{ ai_gen_id }} {
+    font-size: 48px;
+    font-weight: 700;
+    color: {{ block.settings.headline_color }};
+    line-height: 1.2;
+    margin: 0;
+  }
+
+  .ai-product-hero-subheading-{{ ai_gen_id }} {
+    font-size: 18px;
+    color: {{ block.settings.subheading_color }};
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .ai-product-hero-rating-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .ai-product-hero-stars-{{ ai_gen_id }} {
+    display: flex;
+    gap: 4px;
+  }
+
+  .ai-product-hero-star-{{ ai_gen_id }} {
+    width: 20px;
+    height: 20px;
+    color: {{ block.settings.star_color }};
+  }
+
+  .ai-product-hero-rating-text-{{ ai_gen_id }} {
+    font-weight: 700;
+    color: {{ block.settings.headline_color }};
+  }
+
+  .ai-product-hero-social-proof-{{ ai_gen_id }} {
+    font-size: 22px;
+    font-weight: 700;
+    color: {{ block.settings.headline_color }};
+  }
+
+  .ai-product-hero-pricing-box-{{ ai_gen_id }} {
+    background-color: {{ block.settings.pricing_box_bg }};
+    padding: 24px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .ai-product-hero-pricing-label-{{ ai_gen_id }} {
+    font-size: 14px;
+    font-weight: 600;
+    color: {{ block.settings.headline_color }};
+    margin: 0;
+  }
+
+  .ai-product-hero-price-{{ ai_gen_id }} {
+    font-size: 40px;
+    font-weight: 700;
+    color: {{ block.settings.headline_color }};
+    margin: 0;
+  }
+
+  .ai-product-hero-product-details-{{ ai_gen_id }} {
+    font-size: 14px;
+    color: {{ block.settings.subheading_color }};
+  }
+
+  .ai-product-hero-cta-button-{{ ai_gen_id }} {
+    background-color: {{ block.settings.cta_bg_color }};
+    color: {{ block.settings.cta_text_color }};
+    border: none;
+    padding: 16px 32px;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 56px;
+  }
+
+  .ai-product-hero-cta-button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.cta_hover_color }};
+  }
+
+  .ai-product-hero-cta-button-{{ ai_gen_id }}:active {
+    transform: scale(0.98);
+  }
+
+  .ai-product-hero-cta-button-{{ ai_gen_id }}:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .ai-product-hero-spinner-{{ ai_gen_id }} {
+    width: 20px;
+    height: 20px;
+    border: 3px solid {{ block.settings.cta_text_color }};
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: ai-product-hero-spin-{{ ai_gen_id }} 0.6s linear infinite;
+    display: none;
+  }
+
+  .ai-product-hero-cta-button-{{ ai_gen_id }}.loading .ai-product-hero-spinner-{{ ai_gen_id }} {
+    display: block;
+  }
+
+  .ai-product-hero-cta-button-{{ ai_gen_id }}.loading .ai-product-hero-button-text-{{ ai_gen_id }} {
+    display: none;
+  }
+
+  @keyframes ai-product-hero-spin-{{ ai_gen_id }} {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .ai-product-hero-trust-badges-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .ai-product-hero-trust-badge-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: {{ block.settings.subheading_color }};
+  }
+
+  .ai-product-hero-trust-icon-{{ ai_gen_id }} {
+    width: 20px;
+    height: 20px;
+  }
+
+  .ai-product-hero-image-container-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    height: auto;
+  }
+
+  .ai-product-hero-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 12px;
+  }
+
+  .ai-product-hero-image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    min-height: 400px;
+    border: 2px dashed #cccccc;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f9f9f9;
+  }
+
+  .ai-product-hero-placeholder-text-{{ ai_gen_id }} {
+    color: #999999;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .ai-product-hero-notification-{{ ai_gen_id }} {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #2d5016;
+    color: #ffffff;
+    padding: 16px 24px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 9999;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+  }
+
+  .ai-product-hero-notification-{{ ai_gen_id }}.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (max-width: 767px) {
+    .ai-product-hero-{{ ai_gen_id }} {
+      padding: 30px 20px;
+    }
+
+    .ai-product-hero-container-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .ai-product-hero-image-container-{{ ai_gen_id }} {
+      order: -1;
+    }
+
+    .ai-product-hero-image-{{ ai_gen_id }},
+    .ai-product-hero-image-placeholder-{{ ai_gen_id }} {
+      max-height: 400px;
+      object-fit: cover;
+    }
+
+    .ai-product-hero-image-placeholder-{{ ai_gen_id }} {
+      border: none;
+      min-height: 300px;
+    }
+
+    .ai-product-hero-headline-{{ ai_gen_id }} {
+      font-size: 32px;
+    }
+
+    .ai-product-hero-subheading-{{ ai_gen_id }} {
+      font-size: 16px;
+    }
+
+    .ai-product-hero-stars-{{ ai_gen_id }} {
+      transform: scale(0.9);
+      transform-origin: left;
+    }
+
+    .ai-product-hero-social-proof-{{ ai_gen_id }} {
+      font-size: 18px;
+    }
+
+    .ai-product-hero-price-{{ ai_gen_id }} {
+      font-size: 32px;
+    }
+
+    .ai-product-hero-pricing-box-{{ ai_gen_id }} {
+      margin-bottom: 20px;
+    }
+
+    .ai-product-hero-trust-badges-{{ ai_gen_id }} {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .ai-product-hero-trust-badge-{{ ai_gen_id }} {
+      font-size: 14px;
+    }
+
+    .ai-product-hero-content-{{ ai_gen_id }} {
+      gap: 15px;
+    }
+  }
+{% endstyle %}
+
+<product-hero-{{ ai_gen_id }} class="ai-product-hero-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-product-hero-container-{{ ai_gen_id }}">
+    <div class="ai-product-hero-content-{{ ai_gen_id }}">
+      <div class="ai-product-hero-badge-{{ ai_gen_id }}">
+        <svg class="ai-product-hero-badge-icon-{{ ai_gen_id }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <span>{{ block.settings.badge_text }}</span>
+      </div>
+
+      <h1 class="ai-product-hero-headline-{{ ai_gen_id }}">{{ block.settings.headline }}</h1>
+
+      <p class="ai-product-hero-subheading-{{ ai_gen_id }}">{{ block.settings.subheading }}</p>
+
+      <div class="ai-product-hero-rating-{{ ai_gen_id }}">
+        <div class="ai-product-hero-stars-{{ ai_gen_id }}">
+          {% for i in (1..5) %}
+            <svg class="ai-product-hero-star-{{ ai_gen_id }}" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+          {% endfor %}
+        </div>
+        <span class="ai-product-hero-rating-text-{{ ai_gen_id }}">{{ block.settings.rating_text }}</span>
+      </div>
+
+      <p class="ai-product-hero-social-proof-{{ ai_gen_id }}">{{ block.settings.social_proof }}</p>
+
+      <div class="ai-product-hero-pricing-box-{{ ai_gen_id }}">
+        <p class="ai-product-hero-pricing-label-{{ ai_gen_id }}">{{ block.settings.pricing_label }}</p>
+        <p class="ai-product-hero-price-{{ ai_gen_id }}">{{ product.price | money }}</p>
+        <p class="ai-product-hero-product-details-{{ ai_gen_id }}">
+          {{ product.variants.first.title }} · {{ block.settings.supply_text }}
+        </p>
+      </div>
+
+      <button
+        class="ai-product-hero-cta-button-{{ ai_gen_id }}"
+        data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+      >
+        <span class="ai-product-hero-spinner-{{ ai_gen_id }}"></span>
+        <span class="ai-product-hero-button-text-{{ ai_gen_id }}">{{ block.settings.cta_text }}</span>
+      </button>
+
+      <div class="ai-product-hero-trust-badges-{{ ai_gen_id }}">
+        <div class="ai-product-hero-trust-badge-{{ ai_gen_id }}">
+          <svg class="ai-product-hero-trust-icon-{{ ai_gen_id }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="1" y="3" width="15" height="13"></rect>
+            <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+            <circle cx="5.5" cy="18.5" r="2.5"></circle>
+            <circle cx="18.5" cy="18.5" r="2.5"></circle>
+          </svg>
+          <span>{{ block.settings.trust_badge_1 }}</span>
+        </div>
+        <div class="ai-product-hero-trust-badge-{{ ai_gen_id }}">
+          <svg class="ai-product-hero-trust-icon-{{ ai_gen_id }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          </svg>
+          <span>{{ block.settings.trust_badge_2 }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ai-product-hero-image-container-{{ ai_gen_id }}">
+      {% if product.featured_image %}
+        <img
+          src="{{ product.featured_image | image_url: width: 800 }}"
+          alt="{{ product.featured_image.alt | escape }}"
+          class="ai-product-hero-image-{{ ai_gen_id }}"
+          width="800"
+          height="800"
+          loading="lazy"
+        >
+      {% else %}
+        <div class="ai-product-hero-image-placeholder-{{ ai_gen_id }}">
+          <span class="ai-product-hero-placeholder-text-{{ ai_gen_id }}">INSERT IMAGE HERE</span>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="ai-product-hero-notification-{{ ai_gen_id }}">
+    Product added to cart!
+  </div>
+</product-hero-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class ProductHero{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.button = this.querySelector('.ai-product-hero-cta-button-{{ ai_gen_id }}');
+        this.notification = this.querySelector('.ai-product-hero-notification-{{ ai_gen_id }}');
+        
+        if (this.button) {
+          this.button.addEventListener('click', this.handleAddToCart.bind(this));
+        }
+      }
+
+      async handleAddToCart(event) {
+        event.preventDefault();
+        
+        const button = this.button;
+        const variantId = button.getAttribute('data-variant-id');
+        
+        if (!variantId) {
+          return;
+        }
+
+        button.classList.add('loading');
+        button.disabled = true;
+
+        try {
+          const response = await fetch('/cart/add.js', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              id: variantId,
+              quantity: 1
+            })
+          });
+
+          if (response.ok) {
+            this.showNotification();
+            setTimeout(() => {
+              window.location.href = '/cart';
+            }, 800);
+          } else {
+            throw new Error('Failed to add to cart');
+          }
+        } catch (error) {
+          console.error('Error adding to cart:', error);
+          button.classList.remove('loading');
+          button.disabled = false;
+        }
+      }
+
+      showNotification() {
+        this.notification.classList.add('show');
+        setTimeout(() => {
+          this.notification.classList.remove('show');
+        }, 3000);
+      }
+    }
+
+    customElements.define('product-hero-{{ ai_gen_id }}', ProductHero{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Product hero",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Badge"
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge text",
+      "default": "Third-Party Tested - USA"
+    },
+    {
+      "type": "color",
+      "id": "badge_bg_color",
+      "label": "Background color",
+      "default": "#d4edda"
+    },
+    {
+      "type": "color",
+      "id": "badge_text_color",
+      "label": "Text color",
+      "default": "#155724"
+    },
+    {
+      "type": "header",
+      "content": "Headline"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Headline",
+      "default": "STEADY ENERGY HAPPY GUT"
+    },
+    {
+      "type": "color",
+      "id": "headline_color",
+      "label": "Color",
+      "default": "#2d5016"
+    },
+    {
+      "type": "header",
+      "content": "Subheading"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "The daily stack for stable energy and digestive comfort."
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Color",
+      "default": "#666666"
+    },
+    {
+      "type": "header",
+      "content": "Rating"
+    },
+    {
+      "type": "text",
+      "id": "rating_text",
+      "label": "Rating text",
+      "default": "4.9/5 (2,847)"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star color",
+      "default": "#ffc107"
+    },
+    {
+      "type": "header",
+      "content": "Social proof"
+    },
+    {
+      "type": "text",
+      "id": "social_proof",
+      "label": "Social proof text",
+      "default": "8,000+ happy customers"
+    },
+    {
+      "type": "header",
+      "content": "Pricing box"
+    },
+    {
+      "type": "text",
+      "id": "pricing_label",
+      "label": "Label",
+      "default": "Start Today"
+    },
+    {
+      "type": "text",
+      "id": "supply_text",
+      "label": "Supply text",
+      "default": "90-day supply"
+    },
+    {
+      "type": "color",
+      "id": "pricing_box_bg",
+      "label": "Background color",
+      "default": "#f3f3f3"
+    },
+    {
+      "type": "header",
+      "content": "CTA button"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button text",
+      "default": "Start Today"
+    },
+    {
+      "type": "color",
+      "id": "cta_bg_color",
+      "label": "Background color",
+      "default": "#e67e22"
+    },
+    {
+      "type": "color",
+      "id": "cta_hover_color",
+      "label": "Hover color",
+      "default": "#d35400"
+    },
+    {
+      "type": "color",
+      "id": "cta_text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Trust badges"
+    },
+    {
+      "type": "text",
+      "id": "trust_badge_1",
+      "label": "Badge 1 text",
+      "default": "Ships in 72h"
+    },
+    {
+      "type": "text",
+      "id": "trust_badge_2",
+      "label": "Badge 2 text",
+      "default": "30-Day Guarantee"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product hero"
+    }
+  ]
+}
+{% endschema %}
+```

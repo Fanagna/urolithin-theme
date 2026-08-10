@@ -1,0 +1,599 @@
+{{ 'nmn-pdp.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign unm_variant = product.selected_or_first_available_variant
+  assign unm_price   = unm_variant.price | money
+  assign unm_compare = unm_variant.compare_at_price | money
+
+  assign has_packshot = false
+  if section.settings.hero_image != blank
+    assign has_packshot = true
+  endif
+
+  assign review_blocks = section.blocks | where: 'type', 'review'
+  assign faq_blocks    = section.blocks | where: 'type', 'faq_item'
+-%}
+
+<div class="unm-pdp" id="unm-pdp-{{ section.id }}">
+
+<!-- ══════════════════════════════════
+     HERO
+══════════════════════════════════ -->
+<section class="unm-hero" id="unm-hero-{{ section.id }}">
+
+  {%- if has_packshot -%}
+    {{ section.settings.hero_bg | image_url: width: 1920 | image_tag: class: 'unm-hero__bg', loading: 'eager', alt: '' }}
+  {%- else -%}
+    <img class="unm-hero__bg" src="{{ 'unm-hero-bg.png' | asset_url }}" alt="" loading="eager" width="1920" height="1080">
+  {%- endif -%}
+
+  <div class="unm-hero__grid">
+
+    <!-- Left: copy -->
+    <div class="unm-hero__copy">
+      <div class="unm-pill">{{ section.settings.hero_pill }}</div>
+      <h1>{{ section.settings.hero_h1 }}</h1>
+      <p>{{ section.settings.hero_subtitle }}</p>
+
+      <div class="unm-hero__icons">
+        <div class="unm-icon-item">
+          <img src="{{ 'unm-icon-molecule.png' | asset_url }}" alt="" width="48" height="48">
+          <span>NAD+<br>Support</span>
+        </div>
+        <div class="unm-icon-item">
+          <img src="{{ 'unm-icon-capsule.png' | asset_url }}" alt="" width="48" height="48">
+          <span>Cell<br>Energy</span>
+        </div>
+        <div class="unm-icon-item">
+          <img src="{{ 'unm-icon-bottle.png' | asset_url }}" alt="" width="48" height="48">
+          <span>30<br>Capsules</span>
+        </div>
+        <div class="unm-icon-item">
+          <img src="{{ 'unm-icon-shield.png' | asset_url }}" alt="" width="48" height="48">
+          <span>3rd-Party<br>Tested</span>
+        </div>
+      </div>
+
+      <div class="unm-hero__foot">{{ section.settings.hero_foot }}</div>
+    </div>
+
+    <!-- Centre: product bottle -->
+    <div class="unm-hero__product">
+      {%- if has_packshot -%}
+        {{ section.settings.hero_image | image_url: width: 840 | image_tag: loading: 'eager', alt: product.title }}
+      {%- else -%}
+        <img src="{{ 'unm-packshot.png' | asset_url }}" alt="{{ product.title }}" loading="eager" width="420" height="560">
+      {%- endif -%}
+    </div>
+
+    <!-- Right: buy card -->
+    <div class="unm-buy-card">
+      <div class="unm-card__name">{{ product.title }}</div>
+      <div class="unm-card__price">
+        {{ unm_price }}
+        {%- if unm_variant.compare_at_price > unm_variant.price -%}
+          <span class="unm-card__compare">{{ unm_compare }}</span>
+        {%- endif -%}
+      </div>
+      <div class="unm-card__meta">{{ section.settings.card_meta }}</div>
+
+      {%- form 'product', product, id: 'unm-hero-form-{{ section.id }}', novalidate: 'novalidate' -%}
+        <input type="hidden" name="id" value="{{ unm_variant.id }}">
+        <input type="hidden" name="quantity" value="1">
+        <button type="submit" name="add" class="unm-cta" id="unm-cta-{{ section.id }}">{{ section.settings.cta_text }}</button>
+      {%- endform -%}
+
+      <div class="unm-trust">
+        <div class="unm-trust-item">
+          <img src="{{ 'unm-icon-truck.png' | asset_url }}" alt="" width="18" height="18">
+          Free shipping
+        </div>
+        <div class="unm-trust-item">
+          <img src="{{ 'unm-icon-medal.png' | asset_url }}" alt="" width="18" height="18">
+          90-day guarantee
+        </div>
+        <div class="unm-trust-item">
+          <img src="{{ 'unm-icon-lock.png' | asset_url }}" alt="" width="18" height="18">
+          Secure checkout
+        </div>
+      </div>
+
+      <div class="unm-accordion">
+        <div class="unm-acc-row">
+          <button class="unm-acc-btn" type="button" aria-expanded="false">
+            <span class="unm-acc-label">
+              <img src="{{ 'unm-icon-heart.png' | asset_url }}" alt="" width="26" height="26">
+              Supports
+            </span>
+            <span class="unm-acc-chevron">⌄</span>
+          </button>
+          <div class="unm-acc-panel">
+            <div class="unm-support-grid">
+              <div class="unm-support-card">
+                <img src="{{ 'unm-icon-molecule.png' | asset_url }}" alt="" width="30" height="30">
+                <span>Cellular NAD+</span>
+              </div>
+              <div class="unm-support-card">
+                <img src="{{ 'unm-icon-heart.png' | asset_url }}" alt="" width="30" height="30">
+                <span>Healthy aging</span>
+              </div>
+              <div class="unm-support-card">
+                <img src="{{ 'unm-icon-capsule.png' | asset_url }}" alt="" width="30" height="30">
+                <span>Daily energy</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="unm-acc-row">
+          <button class="unm-acc-btn" type="button" aria-expanded="false">
+            <span class="unm-acc-label">
+              <img src="{{ 'unm-icon-molecule.png' | asset_url }}" alt="" width="26" height="26">
+              Ingredients
+            </span>
+            <span class="unm-acc-note">Full formula</span>
+            <span class="unm-acc-chevron">⌄</span>
+          </button>
+          <div class="unm-acc-panel">
+            <div class="unm-ing-panel">
+              <div class="unm-ing-tile"><img src="{{ 'unm-ing-nmn.png' | asset_url }}" alt="NMN"><span>NMN 500mg</span></div>
+              <div class="unm-ing-tile"><img src="{{ 'unm-ing-resveratrol.png' | asset_url }}" alt="Resveratrol"><span>Resveratrol 300mg</span></div>
+              <div class="unm-ing-tile"><img src="{{ 'unm-ing-quercetin.png' | asset_url }}" alt="Quercetin"><span>Quercetin 200mg</span></div>
+              <div class="unm-ing-tile"><img src="{{ 'unm-ing-bioperine.png' | asset_url }}" alt="BioPerine"><span>BioPerine® 10mg</span></div>
+              <div class="unm-ing-tile"><img src="{{ 'unm-ing-lecithin.png' | asset_url }}" alt="Lecithin"><span>Lecithin 300mg</span></div>
+              <div class="unm-ing-tile"><img src="{{ 'unm-ing-vitaminc.png' | asset_url }}" alt="Vitamin C"><span>Vitamin C 100mg</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="unm-acc-row">
+          <button class="unm-acc-btn" type="button" aria-expanded="false">
+            <span class="unm-acc-label">
+              <img src="{{ 'unm-icon-cert.png' | asset_url }}" alt="" width="26" height="26">
+              Certifications
+            </span>
+            <span class="unm-acc-note">Full transparency</span>
+            <span class="unm-acc-chevron">⌄</span>
+          </button>
+          <div class="unm-acc-panel">
+            <div class="unm-cert-grid">
+              <div class="unm-cert-card"><img src="{{ 'unm-icon-cert.png' | asset_url }}" alt="" width="38" height="38"><span>COA by Batch</span></div>
+              <div class="unm-cert-card"><img src="{{ 'unm-icon-flask.png' | asset_url }}" alt="" width="38" height="38"><span>cGMP Facility</span></div>
+              <div class="unm-cert-card"><img src="{{ 'unm-icon-medal.png' | asset_url }}" alt="" width="38" height="38"><span>3rd-Party Tested</span></div>
+              <div class="unm-cert-card"><img src="{{ 'unm-icon-shield.png' | asset_url }}" alt="" width="38" height="38"><span>Made in USA</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════
+     INGREDIENT CARDS
+══════════════════════════════════ -->
+<section class="unm-ingredients">
+  <div class="unm-ingredients__inner">
+    <div class="unm-ingredients__copy">
+      <span class="unm-eyebrow">{{ section.settings.ing_eyebrow }}</span>
+      <h2>{{ section.settings.ing_heading }}</h2>
+      <p>{{ section.settings.ing_sub }}</p>
+    </div>
+    <div class="unm-ing-cards">
+      <div class="unm-ing-card unm-ing-card--active">
+        <div class="unm-ing-card__img"><img src="{{ 'unm-ing-nmn.png' | asset_url }}" alt="NMN molecule" loading="lazy"></div>
+        <h3>NMN</h3><b>500mg</b><p>NAD+ precursor</p>
+      </div>
+      <div class="unm-ing-card">
+        <div class="unm-ing-card__img"><img src="{{ 'unm-ing-resveratrol.png' | asset_url }}" alt="Red grapes — Resveratrol" loading="lazy"></div>
+        <h3>Trans-Resveratrol</h3><b>300mg</b><p>Sirtuin activator</p>
+      </div>
+      <div class="unm-ing-card">
+        <div class="unm-ing-card__img"><img src="{{ 'unm-ing-quercetin.png' | asset_url }}" alt="Red onion — Quercetin" loading="lazy"></div>
+        <h3>Quercetin</h3><b>200mg</b><p>NAD+ booster</p>
+      </div>
+      <div class="unm-ing-card">
+        <div class="unm-ing-card__img"><img src="{{ 'unm-ing-bioperine.png' | asset_url }}" alt="Black pepper — BioPerine" loading="lazy"></div>
+        <h3>BioPerine®</h3><b>10mg</b><p>Absorption boost</p>
+      </div>
+      <div class="unm-ing-card">
+        <div class="unm-ing-card__img"><img src="{{ 'unm-ing-lecithin.png' | asset_url }}" alt="Sunflower — Lecithin" loading="lazy"></div>
+        <h3>Sunflower Lecithin</h3><b>300mg</b><p>Liposomal delivery</p>
+      </div>
+      <div class="unm-ing-card">
+        <div class="unm-ing-card__img"><img src="{{ 'unm-ing-vitaminc.png' | asset_url }}" alt="Orange — Vitamin C" loading="lazy"></div>
+        <h3>Vitamin C</h3><b>100mg</b><p>Antioxidant support</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════
+     VS COMPARE
+══════════════════════════════════ -->
+<section class="unm-compare">
+  <div class="unm-compare__inner">
+    <div class="unm-compare__copy">
+      <span class="unm-eyebrow">{{ section.settings.compare_eyebrow }}</span>
+      <h2>{{ section.settings.compare_heading }}</h2>
+      <p>{{ section.settings.compare_sub }}</p>
+    </div>
+
+    <div class="unm-compare__box">
+      <h3>PANSTELLAR NMN + RESVERATROL</h3>
+      <div class="unm-compare__box-img">
+        {%- if has_packshot -%}
+          {{ section.settings.hero_image | image_url: width: 300 | image_tag: loading: 'lazy', alt: product.title }}
+        {%- else -%}
+          <img src="{{ 'unm-packshot-2.png' | asset_url }}" alt="{{ product.title }}" loading="lazy" width="120" height="140">
+        {%- endif -%}
+      </div>
+      <ul class="unm-compare__list">
+        <li>500mg NMN per serving</li>
+        <li>300mg Trans-Resveratrol</li>
+        <li>6 synergistic actives</li>
+        <li>30 capsules, once-daily</li>
+        <li>3rd-party tested for purity</li>
+        <li>Liposomal technology</li>
+        <li>Made in USA</li>
+        <li>Complete stack, 1 bottle</li>
+      </ul>
+    </div>
+
+    <div class="unm-vs">VS</div>
+
+    <div class="unm-compare__typical">
+      <h3>Typical 6+ Bottles</h3>
+      <div class="unm-compare__typical-img">
+        <img src="{{ 'unm-compare-bottles.png' | asset_url }}" alt="Multiple supplement bottles" loading="lazy" style="height:130px;width:auto;object-fit:contain;">
+      </div>
+      <ul class="unm-compare__typical-list">
+        <li>Multiple separate products</li>
+        <li>More capsules per day</li>
+        <li>Harder to track & stack</li>
+        <li>More clutter, more cost</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════
+     SCIENCE
+══════════════════════════════════ -->
+<section class="unm-science">
+  <div class="unm-science__inner">
+    <div class="unm-science__img">
+      <img src="{{ 'unm-science-molecule.png' | asset_url }}" alt="NMN molecular structure" loading="lazy" width="300" height="300">
+    </div>
+    <div class="unm-science__copy">
+      <span class="unm-science__eyebrow">{{ section.settings.science_eyebrow }}</span>
+      <h2>{{ section.settings.science_heading }}</h2>
+      <p>{{ section.settings.science_sub }}</p>
+      <ul class="unm-science__bullets">
+        <li>
+          <img src="{{ 'unm-icon-molecule.png' | asset_url }}" alt="" width="32" height="32" loading="lazy">
+          Supports cellular NAD+ production
+        </li>
+        <li>
+          <img src="{{ 'unm-icon-flask.png' | asset_url }}" alt="" width="32" height="32" loading="lazy">
+          Supported by peer-reviewed science
+        </li>
+        <li>
+          <img src="{{ 'unm-icon-heart.png' | asset_url }}" alt="" width="32" height="32" loading="lazy">
+          Supports energy and healthy longevity
+        </li>
+      </ul>
+    </div>
+    <div class="unm-science__card">
+      <h3>Backed by<br>Real Research</h3>
+      <p>{{ section.settings.science_card_text }}</p>
+      <div class="unm-science__badge">NAD+</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════
+     QUALITY
+══════════════════════════════════ -->
+<section class="unm-quality">
+  <div class="unm-quality__inner">
+    <div class="unm-quality__copy">
+      <span class="unm-eyebrow">{{ section.settings.quality_eyebrow }}</span>
+      <h2>{{ section.settings.quality_heading }}</h2>
+    </div>
+    <div class="unm-quality__icons">
+      <div class="unm-quality__icon">
+        <img src="{{ 'unm-icon-cert.png' | asset_url }}" alt="" width="52" height="52" loading="lazy">
+        <span>Third-Party<br>Tested</span>
+      </div>
+      <div class="unm-quality__icon">
+        <img src="{{ 'unm-icon-shield.png' | asset_url }}" alt="" width="52" height="52" loading="lazy">
+        <span>USA<br>Formulated</span>
+      </div>
+      <div class="unm-quality__icon">
+        <img src="{{ 'unm-icon-flask.png' | asset_url }}" alt="" width="52" height="52" loading="lazy">
+        <span>Made in<br>USA</span>
+      </div>
+      <div class="unm-quality__icon">
+        <img src="{{ 'unm-icon-heart.png' | asset_url }}" alt="" width="52" height="52" loading="lazy">
+        <span>Vegan</span>
+      </div>
+      <div class="unm-quality__icon">
+        <img src="{{ 'unm-icon-medal.png' | asset_url }}" alt="" width="52" height="52" loading="lazy">
+        <span>GMO &amp; Gluten<br>Free</span>
+      </div>
+    </div>
+    <div class="unm-guarantee">
+      <div class="unm-guarantee__badge">
+        <img src="{{ 'unm-guarantee.png' | asset_url }}" alt="90-day money back guarantee" width="88" height="88" loading="lazy">
+      </div>
+      <h3>Try it Risk-Free</h3>
+      <p>Love it or get a full refund within 90 days of purchase.</p>
+      <a href="{{ section.settings.guarantee_url }}">LEARN MORE</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════
+     REVIEWS
+══════════════════════════════════ -->
+{%- if review_blocks.size > 0 -%}
+<section class="unm-reviews" id="unm-reviews-{{ section.id }}">
+  <div class="unm-reviews__top">
+    <div>
+      <span class="unm-eyebrow">{{ section.settings.reviews_eyebrow }}</span>
+      <h2>{{ section.settings.reviews_heading }}</h2>
+      <div class="unm-rating">
+        <span class="unm-stars">★★★★★</span>
+        {{ section.settings.reviews_score }} &bull; {{ section.settings.reviews_count }}
+      </div>
+    </div>
+    <div></div>
+  </div>
+  <div class="unm-review-row">
+    <div></div><!-- spacer column desktop -->
+    {%- for block in review_blocks -%}
+      <div class="unm-review-card" {{ block.shopify_attributes }}>
+        <span class="unm-stars">★★★★★</span>
+        <blockquote>{{ block.settings.quote }}</blockquote>
+        <cite>— {{ block.settings.author }}</cite>
+      </div>
+    {%- endfor -%}
+  </div>
+  {%- if section.settings.reviews_disclaimer != blank -%}
+    <p class="unm-disclaimer">{{ section.settings.reviews_disclaimer }}</p>
+  {%- endif -%}
+</section>
+{%- endif -%}
+
+
+<!-- ══════════════════════════════════
+     FAQ
+══════════════════════════════════ -->
+{%- if faq_blocks.size > 0 -%}
+<section class="unm-faq" id="unm-faq-{{ section.id }}">
+  <div class="unm-faq__inner">
+    <div class="unm-faq__copy">
+      <span class="unm-eyebrow">{{ section.settings.faq_eyebrow }}</span>
+      <h2>{{ section.settings.faq_heading }}</h2>
+    </div>
+    <div class="unm-faq__list">
+      {%- for block in faq_blocks -%}
+        <div class="unm-faq-item" {{ block.shopify_attributes }}>
+          <button class="unm-faq-btn" type="button" aria-expanded="false">
+            {{ block.settings.question }}
+            <span class="unm-faq-chevron">+</span>
+          </button>
+          <div class="unm-faq-panel">{{ block.settings.answer }}</div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+
+<!-- ══════════════════════════════════
+     STICKY BAR
+══════════════════════════════════ -->
+<aside class="unm-sticky" id="unm-sticky-{{ section.id }}" aria-label="Quick add to cart">
+  <div class="unm-sticky__img">
+    {%- if has_packshot -%}
+      {{ section.settings.hero_image | image_url: width: 100 | image_tag: loading: 'lazy', alt: product.title }}
+    {%- else -%}
+      <img src="{{ 'unm-packshot-2.png' | asset_url }}" alt="{{ product.title }}" loading="lazy" width="50" height="50">
+    {%- endif -%}
+  </div>
+  <div class="unm-sticky__copy">
+    <div class="unm-sticky__title">{{ section.settings.sticky_title }}</div>
+    <div class="unm-sticky__sub">{{ section.settings.card_meta }}</div>
+  </div>
+  <div class="unm-sticky__sep"></div>
+  <div>
+    <div class="unm-sticky__price">{{ unm_price }}</div>
+    <div class="unm-sticky__details">{{ section.settings.card_meta }}</div>
+  </div>
+  <div class="unm-sticky__trust">
+    <span>🚚 Free shipping</span>
+    <span>🛡 Secure checkout</span>
+    <span>↩ 90-day guarantee</span>
+  </div>
+  {%- form 'product', product, id: 'unm-sticky-form-{{ section.id }}', novalidate: 'novalidate' -%}
+    <input type="hidden" name="id" value="{{ unm_variant.id }}">
+    <input type="hidden" name="quantity" value="1">
+    <button type="submit" name="add" class="unm-sticky-cta">ADD TO CART</button>
+  {%- endform -%}
+</aside>
+
+</div><!-- /.unm-pdp -->
+
+<script>
+(function(){
+  var wrap = document.getElementById('unm-pdp-{{ section.id }}');
+  if (!wrap) return;
+
+  /* ── Accordions ── */
+  wrap.querySelectorAll('.unm-acc-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var open = this.getAttribute('aria-expanded') === 'true';
+      this.setAttribute('aria-expanded', open ? 'false' : 'true');
+    });
+  });
+
+  /* ── FAQ ── */
+  wrap.querySelectorAll('.unm-faq-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var open = this.getAttribute('aria-expanded') === 'true';
+      this.setAttribute('aria-expanded', open ? 'false' : 'true');
+      var panel = this.nextElementSibling;
+      if (panel) panel.style.display = open ? 'none' : 'block';
+    });
+  });
+
+  /* ── Sticky visibility ── */
+  var hero   = wrap.querySelector('.unm-hero');
+  var sticky = document.getElementById('unm-sticky-{{ section.id }}');
+  if (hero && sticky) {
+    new IntersectionObserver(function(entries){
+      sticky.classList.toggle('unm-sticky--visible', !entries[0].isIntersecting);
+    }, { threshold: 0 }).observe(hero);
+  }
+
+  /* ── AJAX ATC (Dawn cart drawer) ── */
+  function handleForm(form) {
+    if (!form) return;
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var btn = form.querySelector('[type="submit"]');
+      btn.disabled = true;
+      fetch(window.Shopify.routes.root + 'cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+        body: JSON.stringify({
+          id: form.querySelector('[name="id"]').value,
+          quantity: 1,
+          sections: ['cart-drawer', 'cart-icon-bubble'],
+          sections_url: window.location.pathname
+        })
+      })
+      .then(function(r){ return r.json(); })
+      .then(function(data){
+        if (data.sections) {
+          var drawer = document.getElementById('CartDrawer');
+          if (drawer && data.sections['cart-drawer']) {
+            var tmp = document.createElement('div');
+            tmp.innerHTML = data.sections['cart-drawer'];
+            var inner = tmp.querySelector('#CartDrawer');
+            if (inner) drawer.innerHTML = inner.innerHTML;
+          }
+          var bubble = document.querySelector('.shopify-section-header-inline #cart-icon-bubble, #cart-icon-bubble');
+          if (bubble && data.sections['cart-icon-bubble']) {
+            var tmp2 = document.createElement('div');
+            tmp2.innerHTML = data.sections['cart-icon-bubble'];
+            var cnt = tmp2.querySelector('#cart-icon-bubble');
+            if (cnt) bubble.innerHTML = cnt.innerHTML;
+          }
+        }
+        document.dispatchEvent(new CustomEvent('cart:refresh'));
+        if (typeof window.openCartDrawer === 'function') window.openCartDrawer();
+        else {
+          var toggle = document.querySelector('[data-cart-toggle], [aria-controls="CartDrawer"]');
+          if (toggle) toggle.click();
+        }
+      })
+      .catch(function(){ window.location = window.Shopify.routes.root + 'cart'; })
+      .finally(function(){ btn.disabled = false; });
+    });
+  }
+
+  handleForm(document.getElementById('unm-hero-form-{{ section.id }}'));
+  handleForm(document.getElementById('unm-sticky-form-{{ section.id }}'));
+})();
+</script>
+
+{% schema %}
+{
+  "name": "NMN + Resveratrol",
+  "tag": "div",
+  "class": "unm-pdp-wrapper",
+  "settings": [
+    { "type": "header", "content": "Hero" },
+    { "type": "image_picker", "id": "hero_bg",       "label": "Background image (landscape)" },
+    { "type": "image_picker", "id": "hero_image",    "label": "Product packshot" },
+    { "type": "text",  "id": "hero_pill",     "label": "Pill label",    "default": "VERIFIED NMN · DAILY NAD+ SUPPORT" },
+    { "type": "text",  "id": "hero_h1",       "label": "Heading (HTML allowed)", "default": "Real NMN.<br><em>Verified</em> Every Bottle." },
+    { "type": "textarea", "id": "hero_subtitle", "label": "Subtitle",   "default": "6 synergistic actives to support cellular energy and healthy aging." },
+    { "type": "text",  "id": "hero_foot",     "label": "Footer text",   "default": "cGMP compliant · Made in USA · 90-day guarantee" },
+    { "type": "text",  "id": "card_meta",     "label": "Card meta",     "default": "90 Capsules · 30 Servings · $0.39/day" },
+    { "type": "text",  "id": "cta_text",      "label": "CTA button",    "default": "ADD TO CART" },
+    { "type": "header", "content": "Ingredients" },
+    { "type": "text",  "id": "ing_eyebrow",   "label": "Eyebrow",       "default": "Premium formula" },
+    { "type": "text",  "id": "ing_heading",   "label": "Heading",       "default": "6 Powerful Actives.<br>1 Complete Stack." },
+    { "type": "textarea", "id": "ing_sub",    "label": "Subtitle",      "default": "Synergistic actives designed to work together to support energy and healthy aging." },
+    { "type": "header", "content": "Compare" },
+    { "type": "text",  "id": "compare_eyebrow", "label": "Eyebrow",     "default": "Simplify your routine" },
+    { "type": "text",  "id": "compare_heading", "label": "Heading",     "default": "One Bottle<br>vs. 6+ Bottles" },
+    { "type": "textarea", "id": "compare_sub", "label": "Subtitle",     "default": "One smart formula replaces your whole shelf." },
+    { "type": "header", "content": "Science" },
+    { "type": "text",  "id": "science_eyebrow", "label": "Eyebrow",     "default": "Backed by science" },
+    { "type": "text",  "id": "science_heading", "label": "Heading",     "default": "Science. Synergy.<br>Daily Support." },
+    { "type": "textarea", "id": "science_sub",  "label": "Subtitle",    "default": "NMN works at the cellular level to support energy, recovery, and healthy aging." },
+    { "type": "textarea", "id": "science_card_text", "label": "Research card text", "default": "NMN + resveratrol may support NAD+ levels and healthy cellular function according to published research." },
+    { "type": "header", "content": "Quality" },
+    { "type": "text",  "id": "quality_eyebrow", "label": "Eyebrow",     "default": "Quality you can trust" },
+    { "type": "text",  "id": "quality_heading", "label": "Heading",     "default": "Quality You<br>Can Trust" },
+    { "type": "url",   "id": "guarantee_url",  "label": "Guarantee URL" },
+    { "type": "header", "content": "Reviews" },
+    { "type": "text",  "id": "reviews_eyebrow",    "label": "Eyebrow",      "default": "Real customers" },
+    { "type": "text",  "id": "reviews_heading",    "label": "Heading",      "default": "Real People.<br>Real Routines." },
+    { "type": "text",  "id": "reviews_score",      "label": "Score",        "default": "4.8" },
+    { "type": "text",  "id": "reviews_count",      "label": "Count",        "default": "113 reviews" },
+    { "type": "text",  "id": "reviews_disclaimer", "label": "Disclaimer",   "default": "Reviews may vary. Testimonials reflect individual experiences and are not guaranteed." },
+    { "type": "header", "content": "FAQ" },
+    { "type": "text",  "id": "faq_eyebrow",  "label": "Eyebrow",        "default": "Got questions?" },
+    { "type": "text",  "id": "faq_heading",  "label": "Heading",        "default": "Frequently<br>Asked<br>Questions" },
+    { "type": "header", "content": "Sticky bar" },
+    { "type": "text",  "id": "sticky_title", "label": "Title",          "default": "Real NMN. Verified. Yours today." }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "textarea", "id": "quote",  "label": "Quote",  "default": "Love the clean ingredients. I feel consistent energy throughout the day." },
+        { "type": "text",     "id": "author", "label": "Author", "default": "Verified Buyer" }
+      ]
+    },
+    {
+      "type": "faq_item",
+      "name": "FAQ item",
+      "settings": [
+        { "type": "text",     "id": "question", "label": "Question", "default": "How long does one bottle last?" },
+        { "type": "textarea", "id": "answer",   "label": "Answer",   "default": "One bottle contains 90 capsules, providing a 30-day supply at 3 capsules per day." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "NMN + Resveratrol",
+      "blocks": [
+        { "type": "review",   "settings": { "quote": "Love the clean ingredients and how it fits 2-in-1. I feel consistent energy and clarity throughout the day.", "author": "Verified Buyer" }},
+        { "type": "review",   "settings": { "quote": "One capsule makes it easy. Better sleep, better focus. Feels like longevity.", "author": "Verified Buyer" }},
+        { "type": "review",   "settings": { "quote": "Finally a high quality all-in-one for aging. My skin, focus and energy are better.", "author": "Verified Buyer" }},
+        { "type": "review",   "settings": { "quote": "Great product! Feel like this is what longevity supplementation should be.", "author": "Verified Buyer" }},
+        { "type": "faq_item", "settings": { "question": "How long does one bottle last?", "answer": "One bottle contains 90 capsules, providing a 30-day supply at 3 capsules per day." }},
+        { "type": "faq_item", "settings": { "question": "How much NMN is in each serving?", "answer": "Each serving contains 500mg of pure NMN." }},
+        { "type": "faq_item", "settings": { "question": "How do you verify purity?", "answer": "Every batch is third-party tested for purity and potency. Certificate of Analysis available upon request." }},
+        { "type": "faq_item", "settings": { "question": "What are the other ingredients?", "answer": "Trans-Resveratrol 300mg, Quercetin 200mg, BioPerine® 10mg, Sunflower Lecithin 300mg, Vitamin C 100mg." }},
+        { "type": "faq_item", "settings": { "question": "Is it suitable for daily use?", "answer": "Yes, designed for daily use. Take with food for best absorption." }}
+      ]
+    }
+  ]
+}
+{% endschema %}

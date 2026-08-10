@@ -1,0 +1,567 @@
+{% doc %}
+  @prompt
+    Create a centered, premium dark-mode trust metrics section that uses the exact same container width as the previous two sections.
+    Important: The outer wrapper must reuse the same width rules (same max-width, same left/right padding, same centering) as the previous sections. Do NOT make it wider or narrower.
+    
+    Do not change the structure or wording. Keep the layout centered, with a dark subtle gradient background, rounded outer container, soft shadow, and thin border.
+    
+    Title (centered, do not edit):
+    Trusted by Athletes & Biohackers
+    
+    Inside the same-width container, add a 3-column grid of metric cards (equal width), with the exact text and hierarchy:
+    
+    Card 1:
+    10,000+
+    Active users
+    
+    Card 2:
+    4.8★
+    Average rating
+    
+    Card 3:
+    Third-party
+    Lab tested
+    
+    Styling rules:
+    
+    Metric cards: rounded corners, thin border, subtle inner shadow
+    
+    Main metric text is large and bright blue
+    
+    Subtext smaller and muted
+    
+    Even spacing between cards
+    
+    Responsive: stack 1 column on mobile, 3 columns on desktop, without changing container width
+    
+    Do not add icons, buttons, extra copy, or animations. Keep everything consistent with the previous sections and match the width exactly.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-trust-metrics-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    padding: {{ block.settings.section_padding_top }}px 0 {{ block.settings.section_padding_bottom }}px;
+  }
+
+  .ai-trust-metrics-outer-{{ ai_gen_id }} {
+    max-width: {{ block.settings.container_max_width }}px;
+    margin: 0 auto;
+    padding: 0 {{ block.settings.container_padding_horizontal }}px;
+  }
+
+  .ai-trust-metrics-container-{{ ai_gen_id }} {
+    background: {{ block.settings.background_gradient }};
+    border-radius: {{ block.settings.container_border_radius }}px;
+    border: {{ block.settings.container_border_thickness }}px solid {{ block.settings.container_border_color }};
+    box-shadow: {{ block.settings.container_shadow_horizontal }}px {{ block.settings.container_shadow_vertical }}px {{ block.settings.container_shadow_blur }}px {{ block.settings.container_shadow_color }};
+    padding: {{ block.settings.inner_padding_vertical }}px {{ block.settings.inner_padding_horizontal }}px;
+  }
+
+  .ai-trust-metrics-title-{{ ai_gen_id }} {
+    text-align: center;
+    font-size: {{ block.settings.title_font_size }}px;
+    font-weight: {{ block.settings.title_font_weight }};
+    color: {{ block.settings.title_color }};
+    margin: 0 0 {{ block.settings.title_margin_bottom }}px;
+  }
+
+  .ai-trust-metrics-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: {{ block.settings.card_gap }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ai-trust-metrics-grid-{{ ai_gen_id }} {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .ai-trust-metrics-card-{{ ai_gen_id }} {
+    background: {{ block.settings.card_background }};
+    border: {{ block.settings.card_border_thickness }}px solid {{ block.settings.card_border_color }};
+    border-radius: {{ block.settings.card_border_radius }}px;
+    box-shadow: inset {{ block.settings.card_inner_shadow_horizontal }}px {{ block.settings.card_inner_shadow_vertical }}px {{ block.settings.card_inner_shadow_blur }}px {{ block.settings.card_inner_shadow_color }};
+    padding: {{ block.settings.card_padding_vertical }}px {{ block.settings.card_padding_horizontal }}px;
+    text-align: center;
+  }
+
+  .ai-trust-metrics-metric-{{ ai_gen_id }} {
+    font-size: {{ block.settings.metric_font_size }}px;
+    font-weight: {{ block.settings.metric_font_weight }};
+    color: {{ block.settings.metric_color }};
+    margin: 0 0 {{ block.settings.metric_margin_bottom }}px;
+    line-height: 1.2;
+  }
+
+  .ai-trust-metrics-subtext-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subtext_font_size }}px;
+    font-weight: {{ block.settings.subtext_font_weight }};
+    color: {{ block.settings.subtext_color }};
+    margin: 0;
+    line-height: 1.4;
+  }
+{% endstyle %}
+
+<trust-metrics-{{ ai_gen_id }} class="ai-trust-metrics-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-trust-metrics-outer-{{ ai_gen_id }}">
+    <div class="ai-trust-metrics-container-{{ ai_gen_id }}">
+      <h2 class="ai-trust-metrics-title-{{ ai_gen_id }}">{{ block.settings.title }}</h2>
+      
+      <div class="ai-trust-metrics-grid-{{ ai_gen_id }}">
+        <div class="ai-trust-metrics-card-{{ ai_gen_id }}">
+          <div class="ai-trust-metrics-metric-{{ ai_gen_id }}">{{ block.settings.metric_1 }}</div>
+          <div class="ai-trust-metrics-subtext-{{ ai_gen_id }}">{{ block.settings.subtext_1 }}</div>
+        </div>
+
+        <div class="ai-trust-metrics-card-{{ ai_gen_id }}">
+          <div class="ai-trust-metrics-metric-{{ ai_gen_id }}">{{ block.settings.metric_2 }}</div>
+          <div class="ai-trust-metrics-subtext-{{ ai_gen_id }}">{{ block.settings.subtext_2 }}</div>
+        </div>
+
+        <div class="ai-trust-metrics-card-{{ ai_gen_id }}">
+          <div class="ai-trust-metrics-metric-{{ ai_gen_id }}">{{ block.settings.metric_3 }}</div>
+          <div class="ai-trust-metrics-subtext-{{ ai_gen_id }}">{{ block.settings.subtext_3 }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</trust-metrics-{{ ai_gen_id }}>
+
+<script>
+(function() {
+  class TrustMetrics{{ ai_gen_id }} extends HTMLElement {
+    constructor() {
+      super();
+    }
+
+    connectedCallback() {
+    }
+  }
+
+  customElements.define('trust-metrics-{{ ai_gen_id }}', TrustMetrics{{ ai_gen_id }});
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Trust metrics",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Container width"
+    },
+    {
+      "type": "range",
+      "id": "container_max_width",
+      "label": "Maximum width",
+      "min": 600,
+      "max": 1600,
+      "step": 50,
+      "unit": "px",
+      "default": 1200
+    },
+    {
+      "type": "range",
+      "id": "container_padding_horizontal",
+      "label": "Horizontal padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Section spacing"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Title"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Trusted by Athletes & Biohackers"
+    },
+    {
+      "type": "range",
+      "id": "title_font_size",
+      "label": "Font size",
+      "min": 16,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "title_font_weight",
+      "label": "Font weight",
+      "min": 300,
+      "max": 900,
+      "step": 100,
+      "default": 700
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "title_margin_bottom",
+      "label": "Bottom margin",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Outer container style"
+    },
+    {
+      "type": "color",
+      "id": "background_gradient",
+      "label": "Background",
+      "default": "#1a1a2e"
+    },
+    {
+      "type": "range",
+      "id": "container_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "container_border_thickness",
+      "label": "Border thickness",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "color",
+      "id": "container_border_color",
+      "label": "Border color",
+      "default": "#333344"
+    },
+    {
+      "type": "range",
+      "id": "inner_padding_vertical",
+      "label": "Vertical padding",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "inner_padding_horizontal",
+      "label": "Horizontal padding",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Container shadow"
+    },
+    {
+      "type": "range",
+      "id": "container_shadow_horizontal",
+      "label": "Horizontal offset",
+      "min": -20,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "container_shadow_vertical",
+      "label": "Vertical offset",
+      "min": -20,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "container_shadow_blur",
+      "label": "Blur",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "container_shadow_color",
+      "label": "Shadow color",
+      "default": "#00000033"
+    },
+    {
+      "type": "header",
+      "content": "Metric cards"
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "label": "Gap between cards",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Background",
+      "default": "#0f0f1e"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "card_border_thickness",
+      "label": "Border thickness",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Border color",
+      "default": "#2a2a3e"
+    },
+    {
+      "type": "range",
+      "id": "card_padding_vertical",
+      "label": "Vertical padding",
+      "min": 15,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "card_padding_horizontal",
+      "label": "Horizontal padding",
+      "min": 15,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 25
+    },
+    {
+      "type": "header",
+      "content": "Card inner shadow"
+    },
+    {
+      "type": "range",
+      "id": "card_inner_shadow_horizontal",
+      "label": "Horizontal offset",
+      "min": -10,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "card_inner_shadow_vertical",
+      "label": "Vertical offset",
+      "min": -10,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "card_inner_shadow_blur",
+      "label": "Blur",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "color",
+      "id": "card_inner_shadow_color",
+      "label": "Shadow color",
+      "default": "#00000066"
+    },
+    {
+      "type": "header",
+      "content": "Metric 1"
+    },
+    {
+      "type": "text",
+      "id": "metric_1",
+      "label": "Metric text",
+      "default": "10,000+"
+    },
+    {
+      "type": "text",
+      "id": "subtext_1",
+      "label": "Subtext",
+      "default": "Active users"
+    },
+    {
+      "type": "header",
+      "content": "Metric 2"
+    },
+    {
+      "type": "text",
+      "id": "metric_2",
+      "label": "Metric text",
+      "default": "4.8★"
+    },
+    {
+      "type": "text",
+      "id": "subtext_2",
+      "label": "Subtext",
+      "default": "Average rating"
+    },
+    {
+      "type": "header",
+      "content": "Metric 3"
+    },
+    {
+      "type": "text",
+      "id": "metric_3",
+      "label": "Metric text",
+      "default": "Third-party"
+    },
+    {
+      "type": "text",
+      "id": "subtext_3",
+      "label": "Subtext",
+      "default": "Lab tested"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "metric_font_size",
+      "label": "Metric font size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "metric_font_weight",
+      "label": "Metric font weight",
+      "min": 300,
+      "max": 900,
+      "step": 100,
+      "default": 700
+    },
+    {
+      "type": "color",
+      "id": "metric_color",
+      "label": "Metric color",
+      "default": "#4a9eff"
+    },
+    {
+      "type": "range",
+      "id": "metric_margin_bottom",
+      "label": "Metric bottom margin",
+      "min": 5,
+      "max": 30,
+      "step": 5,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "subtext_font_size",
+      "label": "Subtext font size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "subtext_font_weight",
+      "label": "Subtext font weight",
+      "min": 300,
+      "max": 700,
+      "step": 100,
+      "default": 400
+    },
+    {
+      "type": "color",
+      "id": "subtext_color",
+      "label": "Subtext color",
+      "default": "#a0a0b0"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust metrics"
+    }
+  ]
+}
+{% endschema %}

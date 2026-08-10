@@ -1,0 +1,908 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "slideshow_UYxyKg": {
+      "type": "slideshow",
+      "blocks": {
+        "slide_w7Wd4r": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/pexels-readymade-3850731.webp",
+            "heading": "Affordable Supplements for Everyone",
+            "heading_size": "h2",
+            "subheading": "Shop High Quality Dietary Supplements Online",
+            "button_label": "Shop Now",
+            "link": "shopify://collections/vitamins-supplements",
+            "button_style_secondary": false,
+            "box_align": "middle-center",
+            "show_text_box": false,
+            "text_alignment": "center",
+            "image_overlay_opacity": 10,
+            "color_scheme": "accent-2",
+            "text_alignment_mobile": "center"
+          }
+        },
+        "slide_X7kx7r": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/uro-JKL-1.jpg",
+            "heading": "Get Better Every Day",
+            "heading_size": "h1",
+            "subheading": "Our catalog ranges from anti-aging to gut health supplements.",
+            "button_label": "Shop Now",
+            "link": "shopify://collections/vitamins-supplements",
+            "button_style_secondary": false,
+            "box_align": "middle-center",
+            "show_text_box": false,
+            "text_alignment": "center",
+            "image_overlay_opacity": 30,
+            "color_scheme": "scheme-a7a72134-3c6c-4a1c-873a-17ca0c69b097",
+            "text_alignment_mobile": "center"
+          }
+        }
+      },
+      "block_order": [
+        "slide_w7Wd4r",
+        "slide_X7kx7r"
+      ],
+      "settings": {
+        "layout": "full_bleed",
+        "slide_height": "medium",
+        "slider_visual": "counter",
+        "auto_rotate": false,
+        "change_slides_speed": 3,
+        "image_behavior": "none",
+        "show_text_below": false,
+        "accessibility_info": "Discover the rotating shoe rack"
+      }
+    },
+    "rich_text_iQbeHi": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_fHERJV": {
+          "type": "heading",
+          "settings": {
+            "heading": "Improve Gut Health with Akkermansia",
+            "heading_size": "h1"
+          }
+        },
+        "text_ACgY7b": {
+          "type": "text",
+          "disabled": true,
+          "settings": {
+            "text": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>"
+          }
+        },
+        "button_UCidkx": {
+          "type": "button",
+          "disabled": true,
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "button_style_secondary": false,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_fHERJV",
+        "text_ACgY7b",
+        "button_UCidkx"
+      ],
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
+    "featured_product_zwecRr": {
+      "type": "featured-product",
+      "blocks": {
+        "text_zmWn6P": {
+          "type": "text",
+          "settings": {
+            "text": "{{ section.settings.product.vendor }}",
+            "text_style": "uppercase"
+          }
+        },
+        "title_QC9UNM": {
+          "type": "title",
+          "settings": {
+            "heading_size": "h1"
+          }
+        },
+        "price_Cr79Lj": {
+          "type": "price",
+          "settings": {}
+        },
+        "variant_picker_AATebi": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "swatch_shape": "circle"
+          }
+        },
+        "quantity_selector_ganV9L": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons_kPpFqa": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": true
+          }
+        },
+        "share_NdUtNQ": {
+          "type": "share",
+          "settings": {
+            "share_label": "Share"
+          }
+        }
+      },
+      "block_order": [
+        "text_zmWn6P",
+        "title_QC9UNM",
+        "price_Cr79Lj",
+        "variant_picker_AATebi",
+        "quantity_selector_ganV9L",
+        "buy_buttons_kPpFqa",
+        "share_NdUtNQ"
+      ],
+      "settings": {
+        "product": "akkermansia-akkermansia-muciniphila-180-caps",
+        "color_scheme": "",
+        "secondary_background": false,
+        "media_size": "medium",
+        "constrain_to_viewport": true,
+        "media_fit": "contain",
+        "media_position": "left",
+        "image_zoom": "lightbox",
+        "hide_variants": false,
+        "enable_video_looping": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "image_with_text_UHqXgd": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_xzUTqx": {
+          "type": "heading",
+          "settings": {
+            "heading": "Save Space",
+            "heading_size": "h1"
+          }
+        },
+        "text_4mGAxT": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Tall, vertical, and compact, this shoe rack occupies minimal space, making it suitable for placement in any area, including small rooms.</p>",
+            "text_style": "body"
+          }
+        },
+        "button_4jCRBc": {
+          "type": "button",
+          "settings": {
+            "button_label": "Order Today",
+            "button_link": "shopify://products/8-tier-rotating-shoe-rack",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_xzUTqx",
+        "text_4mGAxT",
+        "button_4jCRBc"
+      ],
+      "disabled": true,
+      "settings": {
+        "image": "shopify://shop_images/shoe_rack_8-3.webp",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "content_layout": "no-overlap",
+        "section_color_scheme": "scheme-38145155-c8bf-4e2e-981a-f5088a4a813b",
+        "color_scheme": "background-1",
+        "image_behavior": "none",
+        "mobile_content_alignment": "left",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "image_with_text_TwFeDc": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_dPmqrt": {
+          "type": "heading",
+          "settings": {
+            "heading": "Built to Last",
+            "heading_size": "h1"
+          }
+        },
+        "text_CkcYAb": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Enjoy the strength of cedar wood construction. Feel the smooth, luxurious finish that looks great for years.</p>",
+            "text_style": "body"
+          }
+        },
+        "button_hKUnGa": {
+          "type": "button",
+          "settings": {
+            "button_label": "Order Now",
+            "button_link": "shopify://products/8-tier-rotating-shoe-rack",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_dPmqrt",
+        "text_CkcYAb",
+        "button_hKUnGa"
+      ],
+      "disabled": true,
+      "settings": {
+        "image": "shopify://shop_images/shoer6-3.jpg",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "text_first",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "content_layout": "no-overlap",
+        "section_color_scheme": "scheme-38145155-c8bf-4e2e-981a-f5088a4a813b",
+        "color_scheme": "",
+        "image_behavior": "none",
+        "mobile_content_alignment": "left",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "image_with_text_fr3KaC": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_jEkHry": {
+          "type": "heading",
+          "settings": {
+            "heading": "Fits any Shoe Size",
+            "heading_size": "h1"
+          }
+        },
+        "text_Uzg4ET": {
+          "type": "text",
+          "settings": {
+            "text": "<p>No matter if you own boots, heels, flip-flops, or shoes of any size or height, you can be assured that the shoe rack is designed to accommodate any shoe size.</p>",
+            "text_style": "body"
+          }
+        },
+        "button_CJp9Yh": {
+          "type": "button",
+          "settings": {
+            "button_label": "Order Now",
+            "button_link": "shopify://products/8-tier-rotating-shoe-rack",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_jEkHry",
+        "text_Uzg4ET",
+        "button_CJp9Yh"
+      ],
+      "disabled": true,
+      "settings": {
+        "image": "shopify://shop_images/Fits_any_shoes_aize_1.jpg",
+        "height": "medium",
+        "desktop_image_width": "medium",
+        "layout": "text_first",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "content_layout": "no-overlap",
+        "section_color_scheme": "scheme-38145155-c8bf-4e2e-981a-f5088a4a813b",
+        "color_scheme": "",
+        "image_behavior": "none",
+        "mobile_content_alignment": "left",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "image_with_text_BK9eDd": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_f9UdwD": {
+          "type": "heading",
+          "settings": {
+            "heading": "Place it Anywhere",
+            "heading_size": "h1"
+          }
+        },
+        "text_UrJqYT": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Place it where you need it most. Works in bedrooms, entryways, stairs, or closets thanks to its compact size. </p>",
+            "text_style": "body"
+          }
+        },
+        "button_EKTndF": {
+          "type": "button",
+          "settings": {
+            "button_label": "Buy Now",
+            "button_link": "shopify://products/8-tier-rotating-shoe-rack",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_f9UdwD",
+        "text_UrJqYT",
+        "button_EKTndF"
+      ],
+      "disabled": true,
+      "settings": {
+        "image": "shopify://shop_images/shoe_rack_8-1.webp",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "content_layout": "no-overlap",
+        "section_color_scheme": "scheme-38145155-c8bf-4e2e-981a-f5088a4a813b",
+        "color_scheme": "",
+        "image_behavior": "none",
+        "mobile_content_alignment": "left",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "image_with_text_HdnJiY": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_aRQj8h": {
+          "type": "heading",
+          "settings": {
+            "heading": "Smooth Rotation",
+            "heading_size": "h1"
+          }
+        },
+        "text_GrcV4c": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Easily and swiftly access your shoes with the shoe rack, which features smooth and effortless rotation.</p>",
+            "text_style": "body"
+          }
+        }
+      },
+      "block_order": [
+        "heading_aRQj8h",
+        "text_GrcV4c"
+      ],
+      "disabled": true,
+      "settings": {
+        "image": "shopify://shop_images/Smooth_spining_2_2d985ca4-79cb-4daf-88ba-7b9443cfea62.jpg",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "text_first",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "content_layout": "no-overlap",
+        "section_color_scheme": "",
+        "color_scheme": "",
+        "image_behavior": "none",
+        "mobile_content_alignment": "left",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "multicolumn_HA9E4L": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_3KNpiD": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/SHOE_RACK_REVIEWS_2.webp",
+            "title": "<a href=\"https://www.amazon.com/gp/customer-reviews/R1W87PULMKTVQX/ref=cm_cr_dp_d_rvw_ttl?ie=UTF8&ASIN=B0CYL8TMJ5\">Perfect! I need 1 more.</a>",
+            "text": "<p>\"Very sturdy. No flimsy parts. There are a lot of parts, but it's very easy to put to together. Spins smoothly.<br/>Please be sure it will fit through your closet door prior to assembly if you plan to assemble outside of the closet and then slide it in. If not, either assemble in the closet or assemble 2-3 tiers at a time, turn sideways and carry into the closet to stack and attach. Just measure your doorway.<br/>Please get more in stock. I need another.\" </p><p>Cheryl C.</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_bfTDd7": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/SHOE_RACK_REVIEWS_6.webp",
+            "title": "<a href=\"https://www.amazon.com/gp/customer-reviews/R1J8X1SB2DVSBS/ref=cm_cr_dp_d_rvw_ttl?ie=UTF8&ASIN=B0CYL8TMJ5\">Best purchase!</a>",
+            "text": "<p>\"This is such a good product, it's just what we needed. Very heavy, made of partical board and covered in what appears to be formica. It spins well, tried to pull it over and couldn't so should be safe. Thanks to the person who came up with this design.\" </p><p>Justin A.</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_TJFLQP": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/SHOE_RACK_REVIEWS_9.webp",
+            "title": "Love it!",
+            "text": "<p>\"This is great for displaying shoes or handbags. The quality is decent. It is decent and pretty good quality. I like that it spins. Assembly was simple and no tools were required. When adding parts A & B I used a rubber mallet. I do recommend the shelf.\" </p><p>Terrie Allen</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_nHFAfx": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/SHOE_RACK_REVIEWS.webp",
+            "title": "Top Quality!",
+            "text": "<p>\"This is my second purchase: the first was for me and this one is for my little girl, who really loves it. She's lucky to have this shoe kit. The quality is still excellent, with real wood, and it's heavy enough to be safe for children, as it's difficult to move around.\" </p><p>Chloe Anderson</p>",
+            "link_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "column_3KNpiD",
+        "column_bfTDd7",
+        "column_TJFLQP",
+        "column_nHFAfx"
+      ],
+      "disabled": true,
+      "settings": {
+        "title": "Happy Customers",
+        "heading_size": "h1",
+        "image_width": "half",
+        "image_ratio": "adapt",
+        "columns_desktop": 4,
+        "column_alignment": "left",
+        "background_style": "none",
+        "button_label": "",
+        "button_link": "",
+        "color_scheme": "",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "featured_collection_QRRBXn": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "Featured Products",
+        "heading_size": "h1",
+        "description": "<p><strong>Check our best sellers</strong></p>",
+        "show_description": false,
+        "description_style": "body",
+        "collection": "vitamins-supplements",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "full_width": true,
+        "show_view_all": false,
+        "view_all_style": "solid",
+        "enable_desktop_slider": true,
+        "color_scheme": "",
+        "image_ratio": "portrait",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": true,
+        "quick_add": "standard",
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "f23a79bb-efa5-4223-98b2-2e8831397e36": {
+      "type": "multicolumn",
+      "blocks": {
+        "template--20721375805724__f23a79bb-efa5-4223-98b2-2e8831397e36-column-1": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/shipping.webp",
+            "title": "Free Shipping",
+            "text": "",
+            "link_label": "Learn more",
+            "link": "shopify://policies/shipping-policy"
+          }
+        },
+        "template--20721375805724__f23a79bb-efa5-4223-98b2-2e8831397e36-column-2": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/distribution.png",
+            "title": "Easy Refunds",
+            "text": "",
+            "link_label": "Learn more",
+            "link": "shopify://policies/refund-policy"
+          }
+        },
+        "column_nqwFri": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/images.png",
+            "title": "Ships from Florida",
+            "text": "",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "16132de8-4096-453d-9867-0ad7ccac7610": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/secure-payment.png",
+            "title": "Pay in 4 Installements With Shop Pay",
+            "text": "",
+            "link_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "template--20721375805724__f23a79bb-efa5-4223-98b2-2e8831397e36-column-1",
+        "template--20721375805724__f23a79bb-efa5-4223-98b2-2e8831397e36-column-2",
+        "column_nqwFri",
+        "16132de8-4096-453d-9867-0ad7ccac7610"
+      ],
+      "settings": {
+        "title": "Why Choose Us?",
+        "heading_size": "h1",
+        "image_width": "third",
+        "image_ratio": "square",
+        "columns_desktop": 4,
+        "column_alignment": "center",
+        "background_style": "primary",
+        "button_label": "",
+        "button_link": "",
+        "color_scheme": "scheme-38145155-c8bf-4e2e-981a-f5088a4a813b",
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "image_banner_MrBda8": {
+      "type": "image-banner",
+      "blocks": {
+        "heading_dpp76C": {
+          "type": "heading",
+          "settings": {
+            "heading": "Declutter your Home Today",
+            "heading_size": "h0"
+          }
+        },
+        "buttons_YUDUbM": {
+          "type": "buttons",
+          "settings": {
+            "button_label_1": "Buy Now",
+            "button_link_1": "shopify://products/8-tier-rotating-shoe-rack",
+            "button_style_secondary_1": false,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_dpp76C",
+        "buttons_YUDUbM"
+      ],
+      "disabled": true,
+      "settings": {
+        "image": "shopify://shop_images/shoe_rack_8-4.webp",
+        "image_overlay_opacity": 20,
+        "image_height": "adapt",
+        "desktop_content_position": "middle-center",
+        "show_text_box": false,
+        "desktop_content_alignment": "center",
+        "color_scheme": "scheme-a0c26615-2013-444d-92c2-fbee36c22136",
+        "image_behavior": "none",
+        "mobile_content_alignment": "center",
+        "stack_images_on_mobile": true,
+        "show_text_below": false
+      }
+    },
+    "collapsible_content_HgJPQd": {
+      "type": "collapsible-content",
+      "blocks": {
+        "collapsible_row_jfpEPQ": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "How many pairs of shoes can this rack hold?",
+            "icon": "none",
+            "row_content": "<p>This rotating shoe rack can store up to 45 pairs of shoes</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_C94GVr": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What are the dimensions of the shoe rack?",
+            "icon": "none",
+            "row_content": "<p>The shoe rack has a height of 52 inches and a diameter of 24 inches. It has a round shape.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_dhtpbK": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What material is the shoe rack made from?",
+            "icon": "none",
+            "row_content": "<p>The shoe rack is constructed from cedar wood MDF (Medium Density Fiberboard).</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_mUqbqU": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What are the main features of this shoe rack?",
+            "icon": "none",
+            "row_content": "<p>The main features include:</p><p>Rotating design for easy access to all shoes</p><p>Easy installation</p><p>Heavy-duty construction</p><p>Large capacity (45 pairs)</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_8LJwie": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Does the shoe rack require assembly?",
+            "icon": "none",
+            "row_content": "<p>Yes, some assembly is required.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_FwW4Xc": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Are tools needed for assembly?",
+            "icon": "none",
+            "row_content": "<p>You only need a screw driver to install the shoe rack. All necessary accessories for assembly are included with the shoe rack.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_hCGRcG": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What is the weight limit for this shoe rack?",
+            "icon": "none",
+            "row_content": "<p>The shoe rack has a weight limit of 45 kg (approximately 99 lbs).</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_MkaDkT": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What kind of warranty comes with this shoe rack?",
+            "icon": "none",
+            "row_content": "<p>The shoe rack comes with a 30-day money-back guarantee.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_dfNhCH": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What if the product arrives damaged?",
+            "icon": "none",
+            "row_content": "<p> If the shoe rack arrives broken or damaged, returns are accepted. In such cases, the return shipping is free.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_8xjnBN": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Can I return the product if I'm not satisfied?",
+            "icon": "none",
+            "row_content": "<p>Yes, you can return the product within 30 days if you're not satisfied, as per the money-back guarantee.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_xBrMkj": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "How do I clean the shoe rack?",
+            "icon": "none",
+            "row_content": "<p>To clean the cedar wood MDF, use a soft, dry cloth to dust regularly. For more thorough cleaning, slightly dampen the cloth with water or a mild wood cleaner. Avoid excessive moisture.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_Vgtqp6": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Will the cedar wood help with odor control?",
+            "icon": "none",
+            "row_content": "<p>Yes, cedar wood naturally has properties that can help absorb odors and moisture, which can be beneficial for shoe storage.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_row_U3EB3L": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Can children easily use this shoe rack?",
+            "icon": "none",
+            "row_content": "<p>While the rack is designed to be easy to use, younger children might need assistance due to its height and the force required to rotate it when fully loaded.</p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_row_jfpEPQ",
+        "collapsible_row_C94GVr",
+        "collapsible_row_dhtpbK",
+        "collapsible_row_mUqbqU",
+        "collapsible_row_8LJwie",
+        "collapsible_row_FwW4Xc",
+        "collapsible_row_hCGRcG",
+        "collapsible_row_MkaDkT",
+        "collapsible_row_dfNhCH",
+        "collapsible_row_8xjnBN",
+        "collapsible_row_xBrMkj",
+        "collapsible_row_Vgtqp6",
+        "collapsible_row_U3EB3L"
+      ],
+      "disabled": true,
+      "settings": {
+        "caption": "",
+        "heading": "FAQ",
+        "heading_size": "h1",
+        "heading_alignment": "center",
+        "layout": "none",
+        "color_scheme": "",
+        "container_color_scheme": "",
+        "open_first_collapsible_row": false,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "video_UjG433": {
+      "type": "video",
+      "disabled": true,
+      "settings": {
+        "heading": "How to Install the Shoe Rack?",
+        "heading_size": "h1",
+        "enable_video_looping": false,
+        "video_url": "https://youtu.be/yAwBt815VjY",
+        "cover_image": "shopify://shop_images/Capture_d_ecran_19-9-2024_92553_www.youtube.com.jpg",
+        "description": "",
+        "full_width": false,
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "image_banner_hf3yAi": {
+      "type": "image-banner",
+      "blocks": {
+        "heading_XKzjzN": {
+          "type": "heading",
+          "settings": {
+            "heading": "",
+            "heading_size": "h1"
+          }
+        },
+        "text_TPhFAe": {
+          "type": "text",
+          "settings": {
+            "text": "",
+            "text_style": "body"
+          }
+        },
+        "buttons_x4YWzf": {
+          "type": "buttons",
+          "settings": {
+            "button_label_1": "",
+            "button_link_1": "",
+            "button_style_secondary_1": false,
+            "button_label_2": "Shop Now",
+            "button_link_2": "shopify://collections/all",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_XKzjzN",
+        "text_TPhFAe",
+        "buttons_x4YWzf"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/woman-in-glasses-in-yellow-ball-pool.jpg",
+        "image_overlay_opacity": 0,
+        "image_height": "small",
+        "desktop_content_position": "bottom-center",
+        "show_text_box": false,
+        "desktop_content_alignment": "center",
+        "color_scheme": "",
+        "image_behavior": "none",
+        "mobile_content_alignment": "center",
+        "stack_images_on_mobile": true,
+        "show_text_below": true
+      }
+    },
+    "collection_list_eimE8F": {
+      "type": "collection-list",
+      "blocks": {
+        "featured_collection_78fynn": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "vitamins-supplements"
+          }
+        },
+        "featured_collection_Gpk7ge": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "storage-organization"
+          }
+        },
+        "featured_collection_enAnUC": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "humdifiers"
+          }
+        },
+        "featured_collection_9xLQkC": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "pet-supplies-1"
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_78fynn",
+        "featured_collection_Gpk7ge",
+        "featured_collection_enAnUC",
+        "featured_collection_9xLQkC"
+      ],
+      "settings": {
+        "title": "Collections",
+        "heading_size": "h1",
+        "image_ratio": "square",
+        "columns_desktop": 4,
+        "color_scheme": "",
+        "show_view_all": true,
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "f5692506-5170-4604-ba01-740e17dd315f": {
+      "type": "contact-form",
+      "settings": {
+        "heading": "Feel free to contact us!",
+        "heading_size": "h1",
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "slideshow_UYxyKg",
+    "rich_text_iQbeHi",
+    "featured_product_zwecRr",
+    "image_with_text_UHqXgd",
+    "image_with_text_TwFeDc",
+    "image_with_text_fr3KaC",
+    "image_with_text_BK9eDd",
+    "image_with_text_HdnJiY",
+    "multicolumn_HA9E4L",
+    "featured_collection_QRRBXn",
+    "f23a79bb-efa5-4223-98b2-2e8831397e36",
+    "image_banner_MrBda8",
+    "collapsible_content_HgJPQd",
+    "video_UjG433",
+    "image_banner_hf3yAi",
+    "collection_list_eimE8F",
+    "f5692506-5170-4604-ba01-740e17dd315f"
+  ]
+}

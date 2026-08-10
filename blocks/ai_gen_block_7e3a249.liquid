@@ -1,0 +1,117 @@
+{% doc %}
+  @prompt
+    Create a cart subtotal line at the bottom of the cart card:
+    
+    CONTENT:
+    - Text: "Subtotal (X items):" followed by the cart total price in bold
+    - Use Shopify Liquid: "Subtotal ({{ cart.item_count }} items): {{ cart.total_price | money }}"
+    
+    DESIGN:
+    - Padding: 16px 24px
+    - Text-align: right
+    - Font-size: 15px for the label
+    - Price: font-weight 700, font-size 17px
+    - White background, no border-top (it sits inside the same white card as the items)
+    
+    RESPONSIVE (under 768px):
+    - Padding: 12px 16px
+    - Font-size: 14px for label, 16px for price
+    
+    HTML, CSS, and Liquid only.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-cart-subtotal-{{ ai_gen_id }} {
+    display: block;
+    padding: 16px 24px;
+    background-color: #ffffff;
+    text-align: right;
+    width: 100%;
+  }
+
+  .ai-cart-subtotal__label-{{ ai_gen_id }} {
+    font-size: 15px;
+    color: #000000;
+  }
+
+  .ai-cart-subtotal__price-{{ ai_gen_id }} {
+    font-weight: 700;
+    font-size: 17px;
+    color: #000000;
+  }
+
+  @media screen and (max-width: 767px) {
+    .ai-cart-subtotal-{{ ai_gen_id }} {
+      padding: 12px 16px;
+    }
+
+    .ai-cart-subtotal__label-{{ ai_gen_id }} {
+      font-size: 14px;
+    }
+
+    .ai-cart-subtotal__price-{{ ai_gen_id }} {
+      font-size: 16px;
+    }
+  }
+{% endstyle %}
+
+<cart-subtotal-{{ ai_gen_id }} class="ai-cart-subtotal-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <span class="ai-cart-subtotal__label-{{ ai_gen_id }}">
+    Subtotal ({{ cart.item_count }} {% if cart.item_count == 1 %}item{% else %}items{% endif %}):
+  </span>
+  <span class="ai-cart-subtotal__price-{{ ai_gen_id }}">
+    {{ cart.total_price | money }}
+  </span>
+</cart-subtotal-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class CartSubtotal{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+    }
+
+    customElements.define('cart-subtotal-{{ ai_gen_id }}', CartSubtotal{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Cart subtotal",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Cart subtotal"
+    }
+  ]
+}
+{% endschema %}

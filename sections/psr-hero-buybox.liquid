@@ -1,0 +1,459 @@
+{{ 'psr-panstellar-v11.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'psr-panstellar-v11.js' | asset_url }}" defer></script>
+{% liquid
+  assign psr_product = product
+  if section.settings.product != blank
+    assign psr_product = section.settings.product
+  endif
+  assign psr_variant = psr_product.selected_or_first_available_variant
+  assign psr_product_images = psr_product.media | where: 'media_type', 'image'
+  assign psr_lifestyle_src = 'psr-v10-image-hero-woman-product.webp' | asset_url
+  assign psr_lifestyle_alt = section.settings.hero_alt | default: psr_product.title
+  if section.settings.hero_image != blank
+    assign psr_lifestyle_src = section.settings.hero_image | image_url: width: 1800
+    assign psr_lifestyle_alt = section.settings.hero_image.alt | default: psr_lifestyle_alt
+  endif
+  assign psr_initial_src = psr_lifestyle_src
+  assign psr_initial_alt = psr_lifestyle_alt
+  if section.settings.show_lifestyle_first == false and psr_product_images.size > 0
+    assign psr_first_media = psr_product_images.first
+    assign psr_initial_src = psr_first_media.preview_image | image_url: width: 2000
+    assign psr_initial_alt = psr_first_media.alt | default: psr_product.title
+  endif
+%}
+{% render 'panstellar-product-schema', product: psr_product %}
+<section id="PSR-Hero-{{ section.id }}" class="psr psr-hero psr-shell" data-psr-product data-product-handle="{{ psr_product.handle | escape }}" data-product-url="{% if psr_product != blank %}{{ psr_product.url }}{% else %}{{ section.settings.fallback_product_url }}{% endif %}" data-variant-id="{{ psr_variant.id }}" style="--psr-section-bg:{{ section.settings.background }}">
+  <div class="psr-hero__media" data-product-gallery>
+    <div class="psr-hero__visual psr-photo-frame psr-product-gallery__stage">
+      {% if section.settings.show_gallery_arrows %}<button class="psr-product-gallery__arrow psr-product-gallery__arrow--prev" type="button" data-gallery-prev aria-label="Previous product image"><span aria-hidden="true">‹</span></button>{% endif %}
+      <img alt="{{ psr_initial_alt | escape }}" fetchpriority="high" src="{{ psr_initial_src }}" data-gallery-main>
+      {% if section.settings.show_gallery_arrows %}<button class="psr-product-gallery__arrow psr-product-gallery__arrow--next" type="button" data-gallery-next aria-label="Next product image"><span aria-hidden="true">›</span></button>{% endif %}
+    </div>
+    {% if section.settings.show_thumbnails %}
+    <div class="psr-product-gallery__rail">
+      <button class="psr-product-gallery__rail-arrow" type="button" data-gallery-rail-prev aria-label="Scroll thumbnails left"><span aria-hidden="true">‹</span></button>
+      <div class="psr-product-gallery__thumbs" data-gallery-thumbs aria-label="Product image carousel">
+        {% if section.settings.show_lifestyle_first or psr_product_images.size == 0 %}
+          <button class="psr-product-gallery__thumb is-active" type="button" data-gallery-thumb data-gallery-src="{{ psr_lifestyle_src }}" data-gallery-alt="{{ psr_lifestyle_alt | escape }}" data-gallery-fit="cover" aria-selected="true">
+            {% if section.settings.hero_image != blank %}{{ section.settings.hero_image | image_url: width: 220 | image_tag: loading: 'lazy', alt: psr_lifestyle_alt, widths: '80,120,160,220', sizes: '88px' }}{% else %}<img src="{{ 'psr-v10-image-hero-woman-product.webp' | asset_url }}" alt="{{ psr_lifestyle_alt | escape }}" loading="lazy">{% endif %}
+          </button>
+        {% endif %}
+        {% if section.settings.include_product_images %}
+          {% for media in psr_product_images %}
+            {% assign psr_media_alt = media.alt | default: psr_product.title %}
+            <button class="psr-product-gallery__thumb{% unless section.settings.show_lifestyle_first %}{% if forloop.first %} is-active{% endif %}{% endunless %}" type="button" data-gallery-thumb data-gallery-src="{{ media.preview_image | image_url: width: 2000 }}" data-gallery-alt="{{ psr_media_alt | escape }}" data-gallery-fit="{{ section.settings.product_media_fit }}" aria-selected="false">{{ media.preview_image | image_url: width: 220 | image_tag: loading: 'lazy', alt: psr_media_alt, widths: '80,120,160,220', sizes: '88px' }}</button>
+          {% endfor %}
+        {% endif %}
+        {% for block in section.blocks %}{% if block.type == 'gallery_image' and block.settings.image != blank %}
+          <button class="psr-product-gallery__thumb" type="button" data-gallery-thumb data-gallery-src="{{ block.settings.image | image_url: width: 2000 }}" data-gallery-alt="{{ block.settings.alt | escape }}" data-gallery-fit="{{ block.settings.fit }}" aria-selected="false" {{ block.shopify_attributes }}>{{ block.settings.image | image_url: width: 220 | image_tag: loading: 'lazy', alt: block.settings.alt, widths: '80,120,160,220', sizes: '88px' }}</button>
+        {% endif %}{% endfor %}
+      </div>
+      <button class="psr-product-gallery__rail-arrow" type="button" data-gallery-rail-next aria-label="Scroll thumbnails right"><span aria-hidden="true">›</span></button>
+    </div>
+    {% endif %}
+    {% if section.settings.gallery_caption != blank %}<p class="psr-product-gallery__caption">{{ section.settings.gallery_caption }}</p>{% endif %}
+  </div>
+  <div class="psr-hero__content">
+    <h1 class="psr-title psr-hook-title">{{ section.settings.heading_before }}{% if section.settings.heading_highlight != blank %} <em>{{ section.settings.heading_highlight }}</em>{% endif %}</h1>
+    <div class="psr-rating-sales">
+      <div class="psr-rating-line"><span aria-hidden="true" class="psr-stars">{{ section.settings.stars_text }}</span><a class="psr-review-link" href="{{ section.settings.reviews_link }}">{{ section.settings.review_count }}</a></div>
+      {% if section.settings.sold_badge != blank %}<span class="psr-sold-badge">{{ section.settings.sold_badge }}</span>{% endif %}
+    </div>
+    <div class="psr-lead rte">{{ section.settings.lead }}</div>
+    <ul aria-label="Product benefits" class="psr-checklist">
+      {% for block in section.blocks %}{% if block.type == 'benefit' %}
+        <li {{ block.shopify_attributes }}>{% case forloop.index %}{% when 1 %}{% assign psr_fallback_icon = 'psr-v10-premium-energy.webp' %}{% when 2 %}{% assign psr_fallback_icon = 'psr-v10-premium-radiance.webp' %}{% when 3 %}{% assign psr_fallback_icon = 'psr-v10-premium-brain.webp' %}{% else %}{% assign psr_fallback_icon = 'psr-v10-premium-leaf.webp' %}{% endcase %}{% render 'psr-editable-icon', custom_image: block.settings.icon, fallback_asset: psr_fallback_icon, class: 'psr-bullet-icon', alt: '' %}<span>{{ block.settings.text }}</span></li>
+      {% endif %}{% endfor %}
+    </ul>
+    <div class="psr-proof-grid">
+      {% for block in section.blocks %}{% if block.type == 'proof' %}
+        <div {{ block.shopify_attributes }}>{% case forloop.index %}{% when 1 %}{% assign psr_proof_fallback = 'psr-v10-premium-heart.webp' %}{% when 2 %}{% assign psr_proof_fallback = 'psr-v10-premium-shield.png' %}{% else %}{% assign psr_proof_fallback = 'psr-v10-premium-cart.png' %}{% endcase %}{% render 'psr-editable-icon', custom_image: block.settings.icon, fallback_asset: psr_proof_fallback, class: 'psr-proof-icon psr-premium-icon', alt: '' %}<strong>{{ block.settings.heading }}</strong><span>{{ block.settings.text }}</span></div>
+      {% endif %}{% endfor %}
+    </div>
+    {% if section.settings.show_price %}<div aria-label="Product price" class="psr-price-block"><div class="psr-price-line"><strong>{% if section.settings.use_product_price and psr_variant != blank %}{{ psr_variant.price | money }}{% else %}{{ section.settings.current_price }}{% endif %}</strong>{% if section.settings.compare_price != blank %}<del>{{ section.settings.compare_price }}</del>{% endif %}{% if section.settings.savings_text != blank %}<span>{{ section.settings.savings_text }}</span>{% endif %}</div>{% if section.settings.installment_text != blank %}<p>{{ section.settings.installment_text }}</p>{% endif %}</div>{% endif %}
+    <div aria-label="Choose a bundle" class="psr-bundle-grid" data-bundle-group="hero" role="radiogroup">
+      {% for block in section.blocks %}{% if block.type == 'bundle' %}
+        <button aria-checked="{% if block.settings.selected %}true{% else %}false{% endif %}" class="psr-bundle{% if block.settings.selected %} is-selected{% endif %}" data-quantity="{{ block.settings.quantity }}" role="radio" type="button" {{ block.shopify_attributes }}>
+          {% if block.settings.badge != blank %}<b>{{ block.settings.badge }}</b>{% endif %}
+          <span aria-hidden="true" class="psr-bundle__bottles">{% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 480 | image_tag: loading: 'lazy', alt: block.settings.title, class: 'psr-bundle-photo' }}{% else %}{% capture psr_bundle_asset %}psr-v10-bundle-bundle-{{ block.settings.quantity }}.png{% endcapture %}<img alt="{{ block.settings.title | escape }}" class="psr-bundle-photo" loading="lazy" src="{{ psr_bundle_asset | asset_url }}">{% endif %}</span>
+          <span class="psr-bundle__title">{{ block.settings.title }}</span><span>{{ block.settings.subtitle }}</span><strong>{{ block.settings.price }}</strong><small>{{ block.settings.price_note }}</small>{% if block.settings.save_text != blank %}<em>{{ block.settings.save_text }}</em>{% endif %}
+        </button>
+      {% endif %}{% endfor %}
+    </div>
+    <div class="psr-actions"><button class="psr-btn psr-btn--primary" data-buy type="button">{% render 'psr-editable-icon', custom_image: section.settings.primary_button_icon, fallback_asset: 'psr-v10-icon-cart.svg', class: 'psr-btn__icon', alt: '' %}<span class="psr-btn__label">{{ section.settings.primary_button_label }}</span></button><button class="psr-btn psr-btn--ghost" data-scroll="{{ section.settings.secondary_button_link }}" type="button"><span class="psr-btn__label">{{ section.settings.secondary_button_label }}</span></button></div>
+    {% if section.settings.microcopy != blank %}<p class="psr-microcopy">{{ section.settings.microcopy }}</p>{% endif %}
+    <div class="psr-buybox-accordions">
+      {% for block in section.blocks %}{% if block.type == 'accordion' %}<details {{ block.shopify_attributes }}><summary>{{ block.settings.title }}</summary><div class="rte">{{ block.settings.content }}</div></details>{% endif %}{% endfor %}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "PSR — Hero & buy box",
+  "tag": "section",
+  "class": "psr-section-wrapper",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    },
+    {
+      "type": "url",
+      "id": "fallback_product_url",
+      "label": "Fallback product URL"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero lifestyle image"
+    },
+    {
+      "type": "text",
+      "id": "hero_alt",
+      "label": "Hero image alt text",
+      "default": "Radiant woman beside the product"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_lifestyle_first",
+      "label": "Show lifestyle image first",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "include_product_images",
+      "label": "Include Shopify product images",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_thumbnails",
+      "label": "Show gallery thumbnails",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_gallery_arrows",
+      "label": "Show gallery arrows",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "product_media_fit",
+      "label": "Product image fit",
+      "default": "contain",
+      "options": [
+        {
+          "value": "contain",
+          "label": "Contain"
+        },
+        {
+          "value": "cover",
+          "label": "Cover"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "gallery_caption",
+      "label": "Gallery caption",
+      "default": "Swipe or select a thumbnail to view certificates, lifestyle images and product details."
+    },
+    {
+      "type": "text",
+      "id": "heading_before",
+      "label": "Heading — first part",
+      "default": "Clear in the morning…"
+    },
+    {
+      "type": "text",
+      "id": "heading_highlight",
+      "label": "Heading — highlighted part",
+      "default": "drained by mid-afternoon?"
+    },
+    {
+      "type": "text",
+      "id": "stars_text",
+      "label": "Stars text",
+      "default": "★★★★★"
+    },
+    {
+      "type": "text",
+      "id": "review_count",
+      "label": "Review count",
+      "default": "(5,128 Reviews)"
+    },
+    {
+      "type": "text",
+      "id": "reviews_link",
+      "label": "Reviews link",
+      "default": "#reviews"
+    },
+    {
+      "type": "text",
+      "id": "sold_badge",
+      "label": "Sold badge",
+      "default": "1 Million+ Sold"
+    },
+    {
+      "type": "richtext",
+      "id": "lead",
+      "label": "Lead text",
+      "default": "<p>You eat well, sleep enough, but still feel tired, foggy, and notice your skin losing its glow. It’s not laziness — it’s your cells losing energy with age.</p>"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_price",
+      "label": "Show price block",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "use_product_price",
+      "label": "Use selected product price",
+      "info": "Recommended: on. If off, the price shown here is plain text and won't automatically match what the customer is actually charged at checkout when the real product price changes.",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "current_price",
+      "label": "Custom current price",
+      "default": "$79.00"
+    },
+    {
+      "type": "text",
+      "id": "compare_price",
+      "label": "Compare-at price",
+      "default": "$99.00"
+    },
+    {
+      "type": "text",
+      "id": "savings_text",
+      "label": "Savings text",
+      "default": "You Save $20.00"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "installment_text",
+      "label": "Installment text",
+      "default": "or 4 interest-free payments of $19.75 with Shop Pay"
+    },
+    {
+      "type": "image_picker",
+      "id": "primary_button_icon",
+      "label": "Primary button icon"
+    },
+    {
+      "type": "text",
+      "id": "primary_button_label",
+      "label": "Primary button label",
+      "default": "Add to Cart"
+    },
+    {
+      "type": "text",
+      "id": "secondary_button_label",
+      "label": "Secondary button label",
+      "default": "Choose My Bundle"
+    },
+    {
+      "type": "text",
+      "id": "secondary_button_link",
+      "label": "Secondary button anchor",
+      "default": "#bundle-offer"
+    },
+    {
+      "type": "text",
+      "id": "microcopy",
+      "label": "Microcopy",
+      "default": "Secure checkout · 90-day guarantee · Ships from the U.S."
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Background",
+      "default": "#fffaf6"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "gallery_image",
+      "name": "Manual gallery image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "alt",
+          "label": "Alt text"
+        },
+        {
+          "type": "select",
+          "id": "fit",
+          "label": "Fit",
+          "default": "cover",
+          "options": [
+            {
+              "value": "cover",
+              "label": "Cover"
+            },
+            {
+              "value": "contain",
+              "label": "Contain"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "benefit",
+      "name": "Benefit bullet",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Stronger, longer-lasting cellular energy"
+        }
+      ]
+    },
+    {
+      "type": "proof",
+      "name": "Trust item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "90-Day Guarantee"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Love it or your money back"
+        }
+      ]
+    },
+    {
+      "type": "bundle",
+      "name": "Bundle option",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Bundle photo"
+        },
+        {
+          "type": "range",
+          "id": "quantity",
+          "label": "Quantity",
+          "info": "Only 1, 3 and 6 have a matching bundle photo bundled with this package. Pick another value only if you also upload a custom bundle photo above.",
+          "type": "select",
+          "options": [
+            { "value": "1", "label": "1 bottle" },
+            { "value": "3", "label": "3 bottles" },
+            { "value": "6", "label": "6 bottles" }
+          ],
+          "default": "3"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "3 Bottles"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "270-day supply"
+        },
+        {
+          "type": "text",
+          "id": "price",
+          "label": "Price",
+          "default": "$199"
+        },
+        {
+          "type": "text",
+          "id": "price_note",
+          "label": "Price note",
+          "default": "bundle total"
+        },
+        {
+          "type": "text",
+          "id": "save_text",
+          "label": "Savings text",
+          "default": "Save $38"
+        },
+        {
+          "type": "text",
+          "id": "badge",
+          "label": "Badge",
+          "default": "Most Popular"
+        },
+        {
+          "type": "checkbox",
+          "id": "selected",
+          "label": "Selected by default",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "accordion",
+      "name": "Buy box accordion",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "What’s Inside?"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content",
+          "default": "<p>Add the content for this accordion.</p>"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 30,
+  "presets": [
+    {
+      "name": "PSR — Hero & buy box",
+      "blocks": [
+        { "type": "benefit", "settings": { "text": "Stronger, longer-lasting cellular energy" } },
+        { "type": "benefit", "settings": { "text": "Supports a more youthful and radiant appearance" } },
+        { "type": "benefit", "settings": { "text": "Promotes mental clarity and focus" } },
+        { "type": "benefit", "settings": { "text": "Helps with healthy aging from within" } },
+        { "type": "proof", "settings": { "heading": "500K+ Happy Customers", "text": "Trusted by women worldwide" } },
+        { "type": "proof", "settings": { "heading": "90-Day Guarantee", "text": "Love it or your money back" } },
+        { "type": "proof", "settings": { "heading": "Ships Today", "text": "Fast & reliable delivery" } },
+        { "type": "bundle", "settings": { "quantity": "1", "title": "1 Bottle", "subtitle": "90-day supply", "price": "$79", "price_note": "per bottle", "save_text": "", "badge": "", "selected": false } },
+        { "type": "bundle", "settings": { "quantity": "3", "title": "3 Bottles", "subtitle": "270-day supply", "price": "$199", "price_note": "bundle total", "save_text": "Save $38", "badge": "Most Popular", "selected": true } },
+        { "type": "bundle", "settings": { "quantity": "6", "title": "6 Bottles", "subtitle": "540-day supply", "price": "$349", "price_note": "bundle total", "save_text": "Save $125", "badge": "", "selected": false } },
+        { "type": "accordion", "settings": { "title": "What’s Inside?", "content": "<p><strong>500mg NMN</strong> + <strong>600mg Trans-Resveratrol</strong>, supported by phosphatidylcholine, quercetin, vitamin C and piperine in a liposomal delivery system.</p>" } },
+        { "type": "accordion", "settings": { "title": "How To Take?", "content": "<p>Take the serving shown on the product label once daily with water, preferably with a meal. Use consistently and do not exceed the labeled serving.</p>" } },
+        { "type": "accordion", "settings": { "title": "Ingredients", "content": "<p>NMN, Trans-Resveratrol, phosphatidylcholine, quercetin, vitamin C, piperine and a vegetable capsule. Refer to the current Supplement Facts label for the complete formula.</p>" } },
+        { "type": "accordion", "settings": { "title": "Shipping & Returns", "content": "<p>Orders ship from the United States. Most orders are processed within 1–2 business days. Eligible purchases are protected by our 90-day money-back guarantee.</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

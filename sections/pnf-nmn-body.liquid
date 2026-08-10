@@ -1,0 +1,162 @@
+{{ 'section-pnf-nmn.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign science_blocks = section.blocks | where: 'type', 'science_card'
+  assign phase_blocks = section.blocks | where: 'type', 'phase'
+  assign result_blocks = section.blocks | where: 'type', 'result'
+  assign compare_blocks = section.blocks | where: 'type', 'compare_row'
+  assign first_gallery_image = product.featured_image
+  if first_gallery_image == blank
+    for image in product.images limit: 1
+      assign first_gallery_image = image
+    endfor
+  endif
+-%}
+
+<section class="pnf" id="pnf-nmn-body-{{ section.id }}">
+  {%- if science_blocks.size > 0 -%}
+    <div class="pnf__section pnf__science">
+      <div class="pnf__container">
+        <h2 class="pnf__title">{{ section.settings.science_heading }}</h2>
+        {%- if section.settings.science_subheading != blank -%}<p class="pnf__subcopy">{{ section.settings.science_subheading }}</p>{%- endif -%}
+        <div class="pnf__science-grid">
+          {%- for block in science_blocks -%}
+            <article class="pnf__science-card" {{ block.shopify_attributes }}>
+              <div class="pnf__science-icon">{{ block.settings.icon_text }}</div>
+              <h3>{{ block.settings.title }}</h3>
+              <p>{{ block.settings.text }}</p>
+            </article>
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- if phase_blocks.size > 0 -%}
+    <div class="pnf__section">
+      <div class="pnf__container">
+        <h2 class="pnf__title">{{ section.settings.timeline_heading }}</h2>
+        <div class="pnf__timeline">
+          {%- for block in phase_blocks -%}
+            <article class="pnf__phase" {{ block.shopify_attributes }}>
+              <div class="pnf__phase-copy"><h3>{{ block.settings.title }}</h3><p>{{ block.settings.subtitle }}</p></div>
+              <div class="pnf__phase-marker">{{ forloop.index }}</div>
+              <div class="pnf__phase-card"><p>{{ block.settings.text }}</p></div>
+            </article>
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- if result_blocks.size > 0 -%}
+    <div class="pnf__section">
+      <div class="pnf__container">
+        <h2 class="pnf__title">{{ section.settings.results_heading }}</h2>
+        <div class="pnf__result-grid">
+          {%- for block in result_blocks -%}
+            <article class="pnf__result-card" {{ block.shopify_attributes }}><strong>{{ block.settings.value }}</strong><p>{{ block.settings.text }}</p></article>
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- if compare_blocks.size > 0 -%}
+    <div class="pnf__section pnf__comparison">
+      <div class="pnf__container">
+        <h2 class="pnf__title">{{ section.settings.compare_heading }}</h2>
+        <div class="pnf__guarantee-badge">90-Day<br>Return<br>Policy</div>
+        <div class="pnf__compare-stage">
+          <div class="pnf__compare-bottle">
+            {%- if first_gallery_image != blank -%}
+              <img src="{{ first_gallery_image | image_url: width: 700 }}" alt="{{ first_gallery_image.alt | default: product.title | escape }}" loading="lazy" width="700" height="700">
+            {%- else -%}
+              <div class="pnf__compare-product-placeholder">PANSTELLAR</div>
+            {%- endif -%}
+          </div>
+          <div class="pnf__versus">VS.</div>
+          <div class="pnf__compare-bottle pnf__compare-bottle--generic">
+            {%- if section.settings.compare_generic_image != blank -%}
+              <img
+                class="pnf__compare-generic-image"
+                src="{{ section.settings.compare_generic_image | image_url: width: 700 }}"
+                alt="{{ section.settings.compare_generic_image_alt | default: 'Typical supplement bottle' | escape }}"
+                loading="lazy"
+                width="700"
+                height="700">
+            {%- else -%}
+              <div class="pnf__generic-bottle" aria-label="Crossed-out generic bottle"></div>
+            {%- endif -%}
+          </div>
+        </div>
+        <div class="pnf__compare-table">
+          {%- for block in compare_blocks -%}
+            <div class="pnf__compare-row" {{ block.shopify_attributes }}>
+              <div class="pnf__compare-yes">{{ block.settings.yes_text }}</div>
+              <div class="pnf__compare-no">{{ block.settings.no_text }}</div>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  <div class="pnf__section pnf__mission">
+    <div class="pnf__container pnf__mission-grid">
+      <h2>{{ section.settings.mission_heading }}</h2>
+      <p>{{ section.settings.mission_text }}</p>
+    </div>
+  </div>
+
+  {%- if section.settings.disclaimer != blank -%}
+    <div class="pnf__container">
+      <p class="pnf__disclaimer">{{ section.settings.disclaimer }}</p>
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "PNF NMN body",
+  "tag": "section",
+  "class": "shopify-section--pnf-nmn-body",
+  "enabled_on": { "templates": ["product"] },
+  "max_blocks": 50,
+  "settings": [
+    { "type": "html", "id": "science_heading", "label": "Science heading", "default": "The <span class=\"pnf__accent\">Formula Logic</span> Behind It" },
+    { "type": "textarea", "id": "science_subheading", "label": "Science subheading" },
+    { "type": "text", "id": "timeline_heading", "label": "Timeline heading", "default": "A Simple Routine Built for Consistency" },
+    { "type": "text", "id": "results_heading", "label": "Results heading", "default": "The Formula Speaks for Itself" },
+    { "type": "html", "id": "compare_heading", "label": "Comparison heading", "default": "Why PANSTELLAR Stands Above <span class=\"pnf__accent\">Ordinary NMN</span>" },
+    { "type": "image_picker", "id": "compare_generic_image", "label": "Comparison typical bottle image" },
+    { "type": "text", "id": "compare_generic_image_alt", "label": "Comparison typical bottle alt text", "default": "Typical supplement bottle" },
+    { "type": "html", "id": "mission_heading", "label": "Mission heading", "default": "Our <span class=\"pnf__accent\">Mission:</span>" },
+    { "type": "textarea", "id": "mission_text", "label": "Mission text", "default": "PANSTELLAR is designed to make a premium cellular wellness routine simpler and more transparent." },
+    { "type": "textarea", "id": "disclaimer", "label": "Disclaimer", "default": "These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease." }
+  ],
+  "blocks": [
+    { "type": "science_card", "name": "Science card", "settings": [
+      { "type": "text", "id": "icon_text", "label": "Icon text", "default": "450" },
+      { "type": "text", "id": "title", "label": "Title", "default": "NMN" },
+      { "type": "textarea", "id": "text", "label": "Text", "default": "Supports cellular energy production." }
+    ] },
+    { "type": "phase", "name": "Timeline phase", "settings": [
+      { "type": "text", "id": "title", "label": "Title", "default": "Step 1:" },
+      { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Start Your Routine" },
+      { "type": "textarea", "id": "text", "label": "Text", "default": "Follow the labeled serving and make the formula part of a consistent daily wellness routine." }
+    ] },
+    { "type": "result", "name": "Result", "settings": [
+      { "type": "text", "id": "value", "label": "Value", "default": "450" },
+      { "type": "text", "id": "text", "label": "Text", "default": "NMN at the center of the formula" }
+    ] },
+    { "type": "compare_row", "name": "Comparison row", "settings": [
+      { "type": "text", "id": "yes_text", "label": "Panstellar text", "default": "Complete 10-ingredient formula" },
+      { "type": "text", "id": "no_text", "label": "Typical text", "default": "Single-ingredient positioning" }
+    ] }
+  ],
+  "presets": [
+    { "name": "PNF NMN body" }
+  ]
+}
+{% endschema %}

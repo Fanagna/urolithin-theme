@@ -1,0 +1,239 @@
+{% doc %}
+  @prompt
+    créer moi une section qui contient un titre et un sous titre (Tout les contenus sont centrer au centre )
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-heading-block-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    padding: {{ block.settings.padding_top }}px 20px {{ block.settings.padding_bottom }}px;
+    background-color: {{ block.settings.background_color }};
+  }
+
+  .ai-heading-content-{{ ai_gen_id }} {
+    max-width: {{ block.settings.content_width }}px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .ai-heading-title-{{ ai_gen_id }} {
+    margin: 0 0 {{ block.settings.spacing }}px;
+    color: {{ block.settings.title_color }};
+    font-size: {{ block.settings.title_size }}px;
+    font-weight: {{ block.settings.title_weight }};
+    line-height: 1.2;
+  }
+
+  .ai-heading-subtitle-{{ ai_gen_id }} {
+    margin: 0;
+    color: {{ block.settings.subtitle_color }};
+    font-size: {{ block.settings.subtitle_size }}px;
+    font-weight: {{ block.settings.subtitle_weight }};
+    line-height: 1.5;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-heading-title-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.title_size }}px * 0.8);
+    }
+
+    .ai-heading-subtitle-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.subtitle_size }}px * 0.9);
+    }
+  }
+
+  @media screen and (min-width: 750px) {
+    .ai-heading-block-{{ ai_gen_id }} {
+      width: {{ block.settings.desktop_width_percent }}%;
+      margin: 0 auto;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-heading-block-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-heading-content-{{ ai_gen_id }}">
+    {% if block.settings.title != blank %}
+      <h2 class="ai-heading-title-{{ ai_gen_id }}">
+        {{ block.settings.title }}
+      </h2>
+    {% endif %}
+
+    {% if block.settings.subtitle != blank %}
+      <div class="ai-heading-subtitle-{{ ai_gen_id }}">
+        {{ block.settings.subtitle }}
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Titre et sous-titre",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Titre"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Titre",
+      "default": "Votre titre ici"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 16,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Taille du titre",
+      "default": 40
+    },
+    {
+      "type": "select",
+      "id": "title_weight",
+      "label": "Épaisseur du titre",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Moyen"
+        },
+        {
+          "value": "600",
+          "label": "Semi-gras"
+        },
+        {
+          "value": "700",
+          "label": "Gras"
+        }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Couleur du titre",
+      "default": "#121212"
+    },
+    {
+      "type": "header",
+      "content": "Sous-titre"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subtitle",
+      "label": "Sous-titre",
+      "default": "Votre sous-titre ici"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "min": 12,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Taille du sous-titre",
+      "default": 18
+    },
+    {
+      "type": "select",
+      "id": "subtitle_weight",
+      "label": "Épaisseur du sous-titre",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Moyen"
+        },
+        {
+          "value": "600",
+          "label": "Semi-gras"
+        }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Couleur du sous-titre",
+      "default": "#121212"
+    },
+    {
+      "type": "header",
+      "content": "Mise en page"
+    },
+    {
+      "type": "range",
+      "id": "spacing",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Espacement entre titre et sous-titre",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "content_width",
+      "min": 400,
+      "max": 1200,
+      "step": 50,
+      "unit": "px",
+      "label": "Largeur maximale du contenu",
+      "default": 800
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Espacement haut",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Espacement bas",
+      "default": 40
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Couleur de fond",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Largeur sur ordinateur",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Titre et sous-titre"
+    }
+  ]
+}
+{% endschema %}

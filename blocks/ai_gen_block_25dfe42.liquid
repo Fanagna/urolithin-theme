@@ -1,0 +1,488 @@
+{% doc %}
+  @prompt
+    Create a two-column layout for the "HOW TO USE" section, identical to the reference.
+    
+    ⚠️ Do not change any text, wording, images, or design elements.
+    ⚠️ Only adjust layout to ensure full responsiveness.
+    
+    CONTENT (must remain exactly the same)
+    
+    Title (uppercase):
+    📝 HOW TO USE (IT'S EASY)
+    
+    LEFT COLUMN (Lifestyle Image)
+    
+    Image placeholder (left side):
+    
+    [LIFESTYLE PHOTO]
+    
+    Caption: MORNING ROUTINE / BREAKFAST
+    
+    RIGHT COLUMN (Instructions and Timeline)
+    
+    Title (bold):
+    ⏳ WHAT TO EXPECT
+    
+    Timeline (bullet points):
+    
+    Week 1–2: Getting started. Foundation building.
+    
+    Week 3–4: More energy, clearer thinking.
+    
+    Week 6–8: Noticeable improvements in recovery & mood.
+    
+    Month 3+: You’ll wonder how you lived without it.
+    
+    BELOW INSTRUCTIONS (Bullet Points)
+    
+    Every Morning (bold):
+    Take with breakfast:
+    
+    NAD+ Complex: 2 capsules
+    
+    NMN Stack: 2 capsules
+    
+    Footer line (italicized):
+    That’s it. Done.
+    
+    DESIGN & STYLE RULES
+    
+    Left Column (Image):
+    
+    Image centered in its column
+    
+    Caption aligned properly below the image
+    
+    Right Column (Text):
+    
+    Bullet points properly aligned
+    
+    Clean, minimal design with equal spacing between sections
+    
+    Clear font sizes and readability
+    
+    RESPONSIVENESS (MANDATORY)
+    
+    Desktop:
+    
+    Two columns: image on the left, text on the right
+    
+    Equal column widths and clean spacing
+    
+    Tablet:
+    
+    Same layout with reduced spacing
+    
+    Ensure that text and image remain readable and well-aligned
+    
+    Mobile:
+    
+    Stack content vertically (image on top, text below)
+    
+    Maintain equal padding around text and image
+    
+    Text should be readable on smaller screens
+    
+    No horizontal scrolling
+    
+    TECHNICAL CONSTRAINTS
+    
+    Use semantic HTML
+    
+    Use Flexbox for content alignment
+    
+    Use media queries for mobile responsiveness
+    
+    Shopify Dawn theme compatible
+    
+    No JavaScript required
+    
+    The final result must look exactly like the reference, with only layout changes for mobile stacking.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-how-to-use-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    padding: 40px 20px;
+    background-color: {{ block.settings.background_color }};
+  }
+
+  .ai-how-to-use-container-{{ ai_gen_id }} {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .ai-how-to-use-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin: 0 0 40px;
+    text-align: center;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-how-to-use-content-{{ ai_gen_id }} {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+  }
+
+  .ai-how-to-use-left-{{ ai_gen_id }} {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .ai-how-to-use-image-wrapper-{{ ai_gen_id }} {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+
+  .ai-how-to-use-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: {{ block.settings.image_border_radius }}px;
+  }
+
+  .ai-how-to-use-image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: {{ block.settings.image_border_radius }}px;
+  }
+
+  .ai-how-to-use-image-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: 300px;
+    max-height: 300px;
+  }
+
+  .ai-how-to-use-caption-{{ ai_gen_id }} {
+    font-size: {{ block.settings.caption_size }}px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: {{ block.settings.text_color }};
+    text-align: center;
+  }
+
+  .ai-how-to-use-right-{{ ai_gen_id }} {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .ai-how-to-use-section-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.section_title_size }}px;
+    font-weight: 700;
+    margin: 0 0 16px;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-how-to-use-timeline-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  .ai-how-to-use-timeline-item-{{ ai_gen_id }} {
+    font-size: {{ block.settings.body_text_size }}px;
+    line-height: 1.6;
+    color: {{ block.settings.text_color }};
+    padding-left: 20px;
+    position: relative;
+  }
+
+  .ai-how-to-use-timeline-item-{{ ai_gen_id }}::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    font-weight: 700;
+    color: {{ block.settings.bullet_color }};
+  }
+
+  .ai-how-to-use-instructions-{{ ai_gen_id }} {
+    margin-top: 8px;
+  }
+
+  .ai-how-to-use-instructions-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.section_title_size }}px;
+    font-weight: 700;
+    margin: 0 0 12px;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-how-to-use-instructions-list-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .ai-how-to-use-instructions-item-{{ ai_gen_id }} {
+    font-size: {{ block.settings.body_text_size }}px;
+    line-height: 1.6;
+    color: {{ block.settings.text_color }};
+    padding-left: 20px;
+    position: relative;
+  }
+
+  .ai-how-to-use-instructions-item-{{ ai_gen_id }}::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    font-weight: 700;
+    color: {{ block.settings.bullet_color }};
+  }
+
+  .ai-how-to-use-footer-{{ ai_gen_id }} {
+    font-size: {{ block.settings.body_text_size }}px;
+    font-style: italic;
+    color: {{ block.settings.text_color }};
+    margin-top: 8px;
+  }
+
+  @media screen and (max-width: 989px) {
+    .ai-how-to-use-{{ ai_gen_id }} {
+      padding: 32px 16px;
+    }
+
+    .ai-how-to-use-title-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.title_size }}px * 0.85);
+      margin-bottom: 32px;
+    }
+
+    .ai-how-to-use-content-{{ ai_gen_id }} {
+      gap: 32px;
+    }
+
+    .ai-how-to-use-section-title-{{ ai_gen_id }},
+    .ai-how-to-use-instructions-title-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.section_title_size }}px * 0.9);
+    }
+
+    .ai-how-to-use-timeline-item-{{ ai_gen_id }},
+    .ai-how-to-use-instructions-item-{{ ai_gen_id }},
+    .ai-how-to-use-footer-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.body_text_size }}px * 0.95);
+    }
+
+    .ai-how-to-use-caption-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.caption_size }}px * 0.9);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-how-to-use-{{ ai_gen_id }} {
+      padding: 24px 16px;
+    }
+
+    .ai-how-to-use-title-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.title_size }}px * 0.7);
+      margin-bottom: 24px;
+    }
+
+    .ai-how-to-use-content-{{ ai_gen_id }} {
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .ai-how-to-use-section-title-{{ ai_gen_id }},
+    .ai-how-to-use-instructions-title-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.section_title_size }}px * 0.85);
+    }
+
+    .ai-how-to-use-timeline-item-{{ ai_gen_id }},
+    .ai-how-to-use-instructions-item-{{ ai_gen_id }},
+    .ai-how-to-use-footer-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.body_text_size }}px * 0.9);
+    }
+
+    .ai-how-to-use-caption-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.caption_size }}px * 0.85);
+    }
+  }
+{% endstyle %}
+
+<div class="ai-how-to-use-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-how-to-use-container-{{ ai_gen_id }}">
+    <h2 class="ai-how-to-use-title-{{ ai_gen_id }}">
+      📝 HOW TO USE (IT'S EASY)
+    </h2>
+
+    <div class="ai-how-to-use-content-{{ ai_gen_id }}">
+      <div class="ai-how-to-use-left-{{ ai_gen_id }}">
+        <div class="ai-how-to-use-image-wrapper-{{ ai_gen_id }}">
+          {% if block.settings.lifestyle_image %}
+            <img
+              src="{{ block.settings.lifestyle_image | image_url: width: 800 }}"
+              alt="{{ block.settings.lifestyle_image.alt | escape }}"
+              class="ai-how-to-use-image-{{ ai_gen_id }}"
+              loading="lazy"
+              width="{{ block.settings.lifestyle_image.width }}"
+              height="{{ block.settings.lifestyle_image.height }}"
+            >
+          {% else %}
+            <div class="ai-how-to-use-image-placeholder-{{ ai_gen_id }}">
+              {{ 'lifestyle-1' | placeholder_svg_tag }}
+            </div>
+          {% endif %}
+        </div>
+        <div class="ai-how-to-use-caption-{{ ai_gen_id }}">
+          MORNING ROUTINE / BREAKFAST
+        </div>
+      </div>
+
+      <div class="ai-how-to-use-right-{{ ai_gen_id }}">
+        <div>
+          <h3 class="ai-how-to-use-section-title-{{ ai_gen_id }}">
+            ⏳ WHAT TO EXPECT
+          </h3>
+          <div class="ai-how-to-use-timeline-{{ ai_gen_id }}">
+            <div class="ai-how-to-use-timeline-item-{{ ai_gen_id }}">
+              Week 1–2: Getting started. Foundation building.
+            </div>
+            <div class="ai-how-to-use-timeline-item-{{ ai_gen_id }}">
+              Week 3–4: More energy, clearer thinking.
+            </div>
+            <div class="ai-how-to-use-timeline-item-{{ ai_gen_id }}">
+              Week 6–8: Noticeable improvements in recovery & mood.
+            </div>
+            <div class="ai-how-to-use-timeline-item-{{ ai_gen_id }}">
+              Month 3+: You'll wonder how you lived without it.
+            </div>
+          </div>
+        </div>
+
+        <div class="ai-how-to-use-instructions-{{ ai_gen_id }}">
+          <h3 class="ai-how-to-use-instructions-title-{{ ai_gen_id }}">
+            Every Morning
+          </h3>
+          <div class="ai-how-to-use-instructions-list-{{ ai_gen_id }}">
+            <div class="ai-how-to-use-instructions-item-{{ ai_gen_id }}">
+              Take with breakfast:
+            </div>
+            <div class="ai-how-to-use-instructions-item-{{ ai_gen_id }}">
+              NAD+ Complex: 2 capsules
+            </div>
+            <div class="ai-how-to-use-instructions-item-{{ ai_gen_id }}">
+              NMN Stack: 2 capsules
+            </div>
+          </div>
+          <div class="ai-how-to-use-footer-{{ ai_gen_id }}">
+            That's it. Done.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "How to use",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "lifestyle_image",
+      "label": "Lifestyle image"
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Image border radius",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "bullet_color",
+      "label": "Bullet points",
+      "default": "#5c1ada"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 20,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Main title size",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "section_title_size",
+      "min": 16,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Section title size",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "body_text_size",
+      "min": 14,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Body text size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "caption_size",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Caption size",
+      "default": 14
+    }
+  ],
+  "presets": [
+    {
+      "name": "How to use"
+    }
+  ]
+}
+{% endschema %}

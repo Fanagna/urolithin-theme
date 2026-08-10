@@ -1,0 +1,264 @@
+{% doc %}
+  @prompt
+    créer moi une section contenant un bloc de(tritre, paragraphe, puis un textre en bleu); un bloc d image à  droite  en format carré
+    
+    
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-text-image-section-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .ai-text-content-{{ ai_gen_id }} {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .ai-text-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    color: {{ block.settings.title_color }};
+    margin: 0;
+    font-weight: 700;
+  }
+
+  .ai-text-paragraph-{{ ai_gen_id }} {
+    font-size: {{ block.settings.paragraph_size }}px;
+    color: {{ block.settings.paragraph_color }};
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .ai-text-blue-{{ ai_gen_id }} {
+    font-size: {{ block.settings.blue_text_size }}px;
+    color: {{ block.settings.blue_text_color }};
+    font-weight: 500;
+    margin: 0;
+  }
+
+  .ai-image-wrapper-{{ ai_gen_id }} {
+    flex: 0 0 {{ block.settings.image_size }}px;
+    width: {{ block.settings.image_size }}px;
+    height: {{ block.settings.image_size }}px;
+  }
+
+  .ai-image-wrapper-{{ ai_gen_id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: {{ block.settings.image_border_radius }}px;
+  }
+
+  .ai-image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: {{ block.settings.image_border_radius }}px;
+    position: relative;
+  }
+
+  .ai-image-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: 200px;
+    max-height: 200px;
+  }
+
+  .ai-empty-state-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 8px 16px;
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-text-image-section-{{ ai_gen_id }} {
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .ai-image-wrapper-{{ ai_gen_id }} {
+      flex: 0 0 auto;
+      width: 100%;
+      max-width: {{ block.settings.image_size }}px;
+      height: auto;
+      aspect-ratio: 1 / 1;
+    }
+
+    .ai-image-wrapper-{{ ai_gen_id }} img {
+      height: auto;
+      aspect-ratio: 1 / 1;
+    }
+
+    .ai-image-placeholder-{{ ai_gen_id }} {
+      height: auto;
+      aspect-ratio: 1 / 1;
+    }
+  }
+{% endstyle %}
+
+<div
+  class="ai-text-image-section-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="ai-text-content-{{ ai_gen_id }}">
+    {% if block.settings.title != blank %}
+      <h2 class="ai-text-title-{{ ai_gen_id }}">{{ block.settings.title }}</h2>
+    {% endif %}
+
+    {% if block.settings.paragraph != blank %}
+      <div class="ai-text-paragraph-{{ ai_gen_id }}">{{ block.settings.paragraph }}</div>
+    {% endif %}
+
+    {% if block.settings.blue_text != blank %}
+      <p class="ai-text-blue-{{ ai_gen_id }}">{{ block.settings.blue_text }}</p>
+    {% endif %}
+  </div>
+
+  <div class="ai-image-wrapper-{{ ai_gen_id }}">
+    {% if block.settings.image %}
+      <img
+        src="{{ block.settings.image | image_url: width: 800 }}"
+        alt="{{ block.settings.image.alt | escape }}"
+        loading="lazy"
+        width="{{ block.settings.image.width }}"
+        height="{{ block.settings.image.height }}"
+      >
+    {% else %}
+      <div class="ai-image-placeholder-{{ ai_gen_id }}">
+        {{ 'image' | placeholder_svg_tag }}
+        <div class="ai-empty-state-{{ ai_gen_id }}">
+          Ajouter une image
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Texte et image",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Contenu texte"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Titre",
+      "default": "Votre titre ici"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 16,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Taille du titre",
+      "default": 32
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Couleur du titre",
+      "default": "#121212"
+    },
+    {
+      "type": "richtext",
+      "id": "paragraph",
+      "label": "Paragraphe",
+      "default": "<p>Votre paragraphe ici. Ajoutez votre contenu pour décrire votre produit ou service.</p>"
+    },
+    {
+      "type": "range",
+      "id": "paragraph_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Taille du paragraphe",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "paragraph_color",
+      "label": "Couleur du paragraphe",
+      "default": "#121212"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "blue_text",
+      "label": "Texte en bleu",
+      "default": "Texte important en bleu"
+    },
+    {
+      "type": "range",
+      "id": "blue_text_size",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Taille du texte bleu",
+      "default": 18
+    },
+    {
+      "type": "color",
+      "id": "blue_text_color",
+      "label": "Couleur du texte bleu",
+      "default": "#0048dc"
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "range",
+      "id": "image_size",
+      "min": 200,
+      "max": 600,
+      "step": 20,
+      "unit": "px",
+      "label": "Taille de l'image",
+      "default": 400
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Arrondi des coins",
+      "default": 10
+    }
+  ],
+  "presets": [
+    {
+      "name": "Texte et image"
+    }
+  ]
+}
+{% endschema %}

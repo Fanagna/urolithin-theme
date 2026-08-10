@@ -1,0 +1,724 @@
+{{ 'uas-pdp.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign ual_variant = product.selected_or_first_available_variant
+  assign ual_price = ual_variant.price | money
+  assign ual_compare_price = ual_variant.compare_at_price | money
+
+  assign has_hero_desktop = false
+  if section.settings.hero_image_desktop != blank
+    assign has_hero_desktop = true
+  endif
+  assign has_hero_mobile = false
+  if section.settings.hero_image_mobile != blank
+    assign has_hero_mobile = true
+  endif
+  assign has_product_img = false
+  if section.settings.product_image != blank
+    assign has_product_img = true
+  endif
+
+  assign ual_plan_15 = nil
+  assign ual_plan_23 = nil
+  assign ual_plan_31 = nil
+  for group in product.selling_plan_groups
+    for plan in group.selling_plans
+      if plan.name contains '15%'
+        assign ual_plan_15 = plan
+      endif
+      if plan.name contains '23%'
+        assign ual_plan_23 = plan
+      endif
+      if plan.name contains '31%'
+        assign ual_plan_31 = plan
+      endif
+    endfor
+  endfor
+
+  assign ual_plan_15_price = section.settings.sub_price
+  assign ual_plan_23_price = section.settings.plan_6m_price
+  assign ual_plan_31_price = section.settings.plan_12m_price
+  for allocation in ual_variant.selling_plan_allocations
+    if ual_plan_15 != nil and allocation.selling_plan.id == ual_plan_15.id
+      assign ual_plan_15_price = allocation.price | money
+    endif
+    if ual_plan_23 != nil and allocation.selling_plan.id == ual_plan_23.id
+      assign ual_plan_23_price = allocation.price | money
+    endif
+    if ual_plan_31 != nil and allocation.selling_plan.id == ual_plan_31.id
+      assign ual_plan_31_price = allocation.price | money
+    endif
+  endfor
+-%}
+
+{% render 'panstellar-product-schema', product: product %}
+<div class="uas-pdp" id="uas-pdp-{{ section.id }}">
+
+  <!-- ══ HERO ══ -->
+  <section class="uas-hero" id="uas-buy-{{ section.id }}">
+
+    <picture class="uas-hero__bg-picture">
+      {%- if has_hero_mobile -%}
+        <source media="(max-width: 767px)" srcset="{{ section.settings.hero_image_mobile | image_url: width: 800 }}">
+      {%- else -%}
+        <source media="(max-width: 767px)" srcset="{{ 'uas-hero.webp' | asset_url }}">
+      {%- endif -%}
+      {%- if has_hero_desktop -%}
+        {{ section.settings.hero_image_desktop | image_url: width: 1920 | image_tag: class: 'uas-hero__bg', loading: 'eager', alt: '' }}
+      {%- else -%}
+        <img class="uas-hero__bg" src="{{ 'uas-hero.webp' | asset_url }}" alt="" loading="eager" width="1920" height="820">
+      {%- endif -%}
+    </picture>
+
+    <div class="uas-pill">{{ section.settings.pill_text }}</div>
+
+    <div class="uas-wrap uas-hero__grid">
+
+      <div class="uas-hero__copy">
+        <h1>{{ section.settings.hero_title }}</h1>
+        <p>{{ section.settings.hero_subtitle }}</p>
+        <div class="uas-hero__icons" aria-label="Points clés produit">
+          <div><img src="{{ 'uas-icon-flask.png' | asset_url }}" alt="Third-party tested" width="34" height="34"><span>Third-Party<br>Tested</span></div>
+          <div><img src="{{ 'uas-icon-factory.png' | asset_url }}" alt="cGMP Manufactured" width="34" height="34"><span>cGMP<br>Manufactured</span></div>
+          <div><img src="{{ 'uas-icon-coa-document.png' | asset_url }}" alt="COA By Batch" width="34" height="34"><span>COA<br>By Batch</span></div>
+          <div><img src="{{ 'uas-icon-leaf.png' | asset_url }}" alt="Non-GMO" width="34" height="34"><span>Non-GMO</span></div>
+        </div>
+      </div>
+
+      <!-- BUY CARD -->
+      <aside class="uas-buy-card">
+        <h2>{{ section.settings.card_title }}</h2>
+
+        {%- if product.variants.size > 1 -%}
+          <div class="uas-variant-select">
+            <select id="uas-variant-{{ section.id }}" aria-label="Variante">
+              {%- for variant in product.variants -%}
+                <option
+                  value="{{ variant.id }}"
+                  data-price="{{ variant.price | money }}"
+                  data-available="{{ variant.available }}"
+                  {%- if variant == ual_variant %} selected{%- endif -%}>
+                  {{ variant.title }}{%- unless variant.available %} — Épuisé{%- endunless %}
+                </option>
+              {%- endfor -%}
+            </select>
+          </div>
+        {%- endif -%}
+
+        <!-- One-time -->
+        <div class="uas-choice" id="uas-choice-once-{{ section.id }}" role="button" tabindex="0" aria-label="Achat unique">
+          <div class="uas-choice__head">
+            <span class="uas-radio" aria-hidden="true"></span>
+            <div>
+              <div class="uas-choice__title">{{ section.settings.onetime_label }}</div>
+              <div class="uas-choice__price"><span id="uas-price-{{ section.id }}">{{ ual_price }}</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Subscribe -->
+        <div class="uas-choice uas-choice--active" id="uas-choice-sub-{{ section.id }}" role="button" tabindex="0" aria-label="Abonnement">
+          <span class="uas-popular">MOST POPULAR</span>
+          <div class="uas-choice__head">
+            <span class="uas-radio" aria-hidden="true"></span>
+            <div>
+              <div class="uas-choice__title" style="color:#9a0010">{{ section.settings.sub_label }}</div>
+              <div class="uas-choice__ship">{{ section.settings.sub_period }}</div>
+              <div class="uas-choice__price">{{ ual_plan_15_price }} <small>/ {{ section.settings.sub_unit }}</small></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Benefits -->
+        <div class="uas-benefit-grid">
+          <div class="uas-benefit"><img src="{{ 'uas-icon-medal.png' | asset_url }}" alt="45 servings" width="15" height="15"><span>{{ section.settings.benefit_1 }}</span></div>
+          <div class="uas-benefit"><img src="{{ 'uas-icon-molecule.png' | asset_url }}" alt="Single active" width="15" height="15"><span>{{ section.settings.benefit_2 }}</span></div>
+          <div class="uas-benefit"><img src="{{ 'uas-icon-liposomal.png' | asset_url }}" alt="Liposomal" width="15" height="15"><span>{{ section.settings.benefit_3 }}</span></div>
+          <div class="uas-benefit"><img src="{{ 'uas-icon-no-blend.png' | asset_url }}" alt="No blend" width="15" height="15"><span>{{ section.settings.benefit_4 }}</span></div>
+          <div class="uas-benefit"><img src="{{ 'uas-icon-shield.png' | asset_url }}" alt="Guarantee" width="15" height="15"><span>{{ section.settings.benefit_5 }}</span></div>
+        </div>
+
+        {%- assign uas_form_id = 'uas-form-' | append: section.id -%}{% form 'product', product, id: uas_form_id, novalidate: 'novalidate' -%}
+          <input type="hidden" name="id" value="{{ ual_variant.id }}">
+          <input type="hidden" name="quantity" value="1">
+          {%- if ual_plan_15 -%}
+            <input type="hidden" name="selling_plan" id="uas-hero-sp-{{ section.id }}" value="{{ ual_plan_15.id }}">
+          {%- endif -%}
+          <button type="submit" name="add" class="uas-cta" id="uas-cta-{{ section.id }}"
+            {%- unless ual_variant.available %} disabled{%- endunless -%}>
+            {%- if ual_variant.available -%}SUBSCRIBE &amp; SAVE{%- else -%}Sold Out{%- endif -%}
+          </button>
+        {%- endform -%}
+
+        <div class="uas-card-foot">
+          <span><img src="{{ 'uas-icon-lock.svg' | asset_url }}" alt="" width="17" height="17">Secure Checkout</span>
+          <span><img src="{{ 'uas-icon-clock.svg' | asset_url }}" alt="" width="17" height="17">Cancel Anytime</span>
+        </div>
+
+        <div class="uas-shipping">
+          <img src="{{ 'uas-icon-truck.webp' | asset_url }}" alt="Livraison" width="20" height="20">
+          {{ section.settings.shipping_text }}
+        </div>
+
+        <!-- Visual accordions -->
+        <div class="uas-accordion">
+
+          <!-- Supports -->
+          <div class="uas-acc-row">
+            <button class="uas-acc-btn" type="button" aria-expanded="false">
+              <span class="uas-acc-label">
+                <img src="{{ 'uas-icon-heart.png' | asset_url }}" alt="" width="31" height="31">
+                Supports
+              </span>
+              <span class="uas-acc-note">Designed to support.</span>
+              <span class="uas-acc-chevron" aria-hidden="true">⌄</span>
+            </button>
+            <div class="uas-acc-panel">
+              <div class="uas-support-grid">
+                <div class="uas-support-card"><img src="{{ 'uas-icon-bolt.webp' | asset_url }}" alt="" width="34" height="34"><span>Felt energy</span></div>
+                <div class="uas-support-card"><img src="{{ 'uas-icon-battery.webp' | asset_url }}" alt="" width="34" height="34"><span>Less afternoon slump</span></div>
+                <div class="uas-support-card"><img src="{{ 'uas-icon-brain.webp' | asset_url }}" alt="" width="34" height="34"><span>Daily focus</span></div>
+                <div class="uas-support-card"><img src="{{ 'uas-icon-leaf-circle.webp' | asset_url }}" alt="" width="34" height="34"><span>Healthy aging</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ingredients -->
+          <div class="uas-acc-row">
+            <button class="uas-acc-btn" type="button" aria-expanded="false">
+              <span class="uas-acc-label">
+                <img src="{{ 'uas-acc-title-flask.webp' | asset_url }}" alt="" width="31" height="31">
+                Ingredients
+              </span>
+              <span class="uas-acc-note">Full list inside.</span>
+              <span class="uas-acc-chevron" aria-hidden="true">⌄</span>
+            </button>
+            <div class="uas-acc-panel">
+              <div class="uas-ing-acc-grid">
+                <div class="uas-ing-acc-card"><img src="{{ 'uas-acc-ing-urolithin.webp' | asset_url }}" alt="" width="48" height="48"><span>Urolithin A</span></div>
+                <div class="uas-ing-acc-card"><img src="{{ 'uas-acc-ing-liposomal.webp' | asset_url }}" alt="" width="48" height="48"><span>Liposomal</span></div>
+                <div class="uas-ing-acc-card"><img src="{{ 'uas-acc-ing-pomegranate.webp' | asset_url }}" alt="" width="48" height="48"><span>Derived from<br>pomegranate</span></div>
+                <div class="uas-ing-acc-card"><img src="{{ 'uas-acc-ing-2000.webp' | asset_url }}" alt="" width="48" height="48"><span>2000 mg</span></div>
+                <div class="uas-ing-acc-card"><img src="{{ 'uas-acc-ing-capsule.webp' | asset_url }}" alt="" width="48" height="48"><span>90 capsules</span></div>
+                <div class="uas-ing-acc-card"><img src="{{ 'uas-acc-ing-45.png' | asset_url }}" alt="" width="48" height="48"><span>45 servings</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Certificates -->
+          <div class="uas-acc-row">
+            <button class="uas-acc-btn" type="button" aria-expanded="false">
+              <span class="uas-acc-label">
+                <img src="{{ 'uas-acc-title-shield.webp' | asset_url }}" alt="" width="31" height="31">
+                Certificates
+              </span>
+              <span class="uas-acc-note">Verified quality. Total transparency.</span>
+              <span class="uas-acc-chevron" aria-hidden="true">⌄</span>
+            </button>
+            <div class="uas-acc-panel">
+              <div class="uas-cert-layout">
+                <div class="uas-cert-icons">
+                  <div><img src="{{ 'uas-acc-cert-thirdparty.webp' | asset_url }}" alt="" width="26" height="26"><span>Third-Party Tested</span></div>
+                  <div><img src="{{ 'uas-acc-cert-coa.png' | asset_url }}" alt="" width="26" height="26"><span>COA available by batch</span></div>
+                  <div><img src="{{ 'uas-acc-cert-cgmp.png' | asset_url }}" alt="" width="26" height="26"><span>cGMP</span></div>
+                  <div><img src="{{ 'uas-acc-cert-usa.png' | asset_url }}" alt="" width="26" height="26"><span>USA</span></div>
+                </div>
+                <img class="uas-coa-paper" src="{{ 'uas-acc-cert-paper.png' | asset_url }}" alt="Certificate of Analysis" loading="lazy">
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /.uas-accordion -->
+      </aside><!-- /.uas-buy-card -->
+
+    </div><!-- /.uas-hero__grid -->
+  </section><!-- /.uas-hero -->
+
+  <!-- ══ ICON STRIP ══ -->
+  <section class="uas-strip">
+    <div class="uas-wrap">
+      <div class="uas-strip__grid">
+        <div class="uas-strip__item"><img src="{{ 'uas-icon-bolt.webp' | asset_url }}" alt="Felt energy" width="42" height="42"><b>Felt<br>energy</b></div>
+        <div class="uas-strip__item"><img src="{{ 'uas-icon-battery.webp' | asset_url }}" alt="Less afternoon slump" width="42" height="42"><b>Less afternoon<br>slump</b></div>
+        <div class="uas-strip__item"><img src="{{ 'uas-icon-brain.webp' | asset_url }}" alt="Daily focus" width="42" height="42"><b>Daily<br>focus</b></div>
+        <div class="uas-strip__item"><img src="{{ 'uas-icon-leaf-circle.webp' | asset_url }}" alt="Healthy aging" width="42" height="42"><b>Healthy<br>aging</b></div>
+      </div>
+      <div class="uas-strip__cta">
+        Power you can feel. The 4-Active Stack.
+        <a href="#uas-buy-{{ section.id }}">Add to Cart →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ DELIVERY SECTION ══ -->
+  <section class="uas-delivery">
+    <div class="uas-delivery__copy">
+      <h2>Most of It<br>Is Wasted.</h2>
+      <p>Liposomal delivery protects every dose.</p>
+      {%- if section.settings.library_url != blank -%}
+        <a href="{{ section.settings.library_url }}">View library →</a>
+      {%- endif -%}
+    </div>
+    <div class="uas-step">
+      <img src="{{ 'uas-ingredient-5.webp' | asset_url }}" alt="Encapsulated" height="84" loading="lazy">
+      <div><strong>1. Encapsulated</strong><span>Each active is wrapped in a lipid shield.</span></div>
+    </div>
+    <div class="uas-step">
+      <img src="{{ 'uas-ingredient-liposome.webp' | asset_url }}" alt="Protected" height="84" loading="lazy">
+      <div><strong>2. Protected</strong><span>Shield protects actives from stomach acids.</span></div>
+    </div>
+    <div class="uas-step">
+      <img src="{{ 'uas-icon-truck.webp' | asset_url }}" alt="Delivered" height="84" loading="lazy">
+      <div><strong>3. Delivered</strong><span>Safely reaches the intestinal lining.</span></div>
+    </div>
+    <div class="uas-step">
+      <img src="{{ 'uas-ingredient-1.webp' | asset_url }}" alt="Absorbed" height="84" loading="lazy">
+      <div><strong>4. Absorbed</strong><span>Actives released for maximum use.</span></div>
+    </div>
+  </section>
+
+  <!-- ══ INGREDIENT STACK + VS COMPARISON ══ -->
+  <section class="uas-stack-compare">
+    <div class="uas-stack-compare__inner">
+      <section class="uas-stack">
+        <div class="uas-stack__box">
+          <h2 class="uas-section-title">The 4-Active Stack.</h2>
+          <div class="uas-ingredient-cards">
+            <div class="uas-ing-card uas-ing-card--active">
+              <div class="uas-ing-card__img"><img src="{{ 'uas-ingredient-3.webp' | asset_url }}" alt="Urolithin A" loading="lazy"></div>
+              <h3>Urolithin A</h3><b>2000mg</b><p>Mitochondrial renewal</p>
+            </div>
+            <div class="uas-ing-card">
+              <div class="uas-ing-card__img"><img src="{{ 'uas-ingredient-nmn.webp' | asset_url }}" alt="NMN" loading="lazy"></div>
+              <h3>NMN</h3><b>1000mg</b><p>NAD+ precursor</p>
+            </div>
+            <div class="uas-ing-card">
+              <div class="uas-ing-card__img"><img src="{{ 'uas-ingredient-2.webp' | asset_url }}" alt="Trans-resveratrol" loading="lazy"></div>
+              <h3>Trans-resveratrol</h3><b>500mg</b><p>Sirtuin support</p>
+            </div>
+            <div class="uas-ing-card">
+              <div class="uas-ing-card__img"><img src="{{ 'uas-ingredient-4.webp' | asset_url }}" alt="BioPerine" loading="lazy"></div>
+              <h3>BioPerine®</h3><b>10mg</b><p>Absorption boost</p>
+            </div>
+          </div>
+          <div class="uas-stack__link">
+            Get the stack <span aria-hidden="true">→</span>
+            <a href="#uas-buy-{{ section.id }}">Add to Cart</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="uas-compare" aria-label="Comparaison produits">
+        <div class="uas-compare__side uas-compare__side--left">
+          {%- if has_product_img -%}
+            {{ section.settings.product_image | image_url: width: 760 | image_tag: class: 'uas-compare__product', loading: 'lazy', alt: product.title }}
+          {%- else -%}
+            <img class="uas-compare__product" src="{{ 'uas-packshot.webp' | asset_url }}" alt="{{ product.title }}" loading="lazy" width="760" height="900">
+          {%- endif -%}
+          <h3>Panstellar Urolithin Liposomal</h3>
+          <div class="uas-compare__list">
+            <div><span class="uas-check" aria-hidden="true">✓</span>Single-Active (No Blend)</div>
+            <div><span class="uas-check" aria-hidden="true">✓</span>Liposomal Delivery</div>
+            <div><span class="uas-check" aria-hidden="true">✓</span>Clinically Dosed 2000mg</div>
+            <div><span class="uas-check" aria-hidden="true">✓</span>COA Verified</div>
+            <div><span class="uas-check" aria-hidden="true">✓</span>Third-Party Tested</div>
+            <div><span class="uas-check" aria-hidden="true">✓</span>90-Day Guarantee</div>
+          </div>
+        </div>
+        <div class="uas-vs-col" aria-hidden="true"><div class="uas-vs">VS</div></div>
+        <div class="uas-compare__side">
+          <img class="uas-compare__bottles" src="{{ 'uas-comparison-bottles.webp' | asset_url }}" alt="Typical supplement approach" loading="lazy" width="920" height="600">
+          <h3>Typical Approach</h3>
+          <div class="uas-compare__list">
+            <div><span class="uas-cross" aria-hidden="true">×</span>Multi-Ingredient Blends</div>
+            <div><span class="uas-cross" aria-hidden="true">×</span>No Liposomal Delivery</div>
+            <div><span class="uas-cross" aria-hidden="true">×</span>Underdosed</div>
+            <div><span class="uas-cross" aria-hidden="true">×</span>COA Varies</div>
+            <div><span class="uas-cross" aria-hidden="true">×</span>Testing Often Missing</div>
+            <div><span class="uas-cross" aria-hidden="true">×</span>No Guarantee</div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <!-- ══ INGREDIENTS ══ -->
+  <section class="uas-ingredients">
+    <div class="uas-wrap uas-ing-grid">
+      <div class="uas-ing-title"><h2>From Nature,<br>Backed by Science.</h2></div>
+      <div class="uas-ing-scroll">
+        <div class="uas-ing-card"><img src="{{ 'uas-ingredient-pomegranate.webp' | asset_url }}" alt="Pomegranate" loading="lazy" width="136" height="86"><b>Urolithin A<br>(2000mg)</b><small>Derived from<br>pomegranate</small></div>
+        <div class="uas-ing-card"><img src="{{ 'uas-ingredient-phosphatidylcholine.webp' | asset_url }}" alt="Phosphatidylcholine" loading="lazy" width="136" height="86"><b>Phosphatidylcholine<br>(Liposomal Matrix)</b><small>Supports delivery</small></div>
+        <div class="uas-ing-card"><img src="{{ 'uas-ingredient-sunflower.webp' | asset_url }}" alt="Sunflower lecithin" loading="lazy" width="136" height="86"><b>Sunflower Lecithin<br>(Helps encapsulation)</b><small>Plant-based carrier</small></div>
+        <div class="uas-ing-card"><img src="{{ 'uas-ingredient-rice-flour.webp' | asset_url }}" alt="Rice flour" loading="lazy" width="136" height="86"><b>Rice Flour<br>(Filler)</b><small>Clean &amp; simple</small></div>
+        <div class="uas-ing-card"><img src="{{ 'uas-ingredient-vegetable-capsule.webp' | asset_url }}" alt="Vegetable capsule" loading="lazy" width="136" height="86"><b>Vegetable Capsule<br>(Vegan)</b><small>Plant-based capsule</small></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ QUALITY ══ -->
+  <section class="uas-quality">
+    <div class="uas-wrap uas-quality-grid">
+      <h2>Quality You<br>Can Trust.</h2>
+      <div class="uas-quality-icons">
+        <div class="uas-q-item"><img src="{{ 'uas-icon-coa-document.png' | asset_url }}" alt="COA" width="34" height="34"><div><b>COA by Batch</b><small>Transparency you can see</small></div></div>
+        <div class="uas-q-item"><img src="{{ 'uas-icon-factory.png' | asset_url }}" alt="cGMP" width="34" height="34"><div><b>cGMP</b><small>Quality you can trust</small></div></div>
+        <div class="uas-q-item"><img src="{{ 'uas-icon-flask.png' | asset_url }}" alt="Purity tested" width="34" height="34"><div><b>Purity Tested</b><small>Third-party verified</small></div></div>
+        <div class="uas-q-item"><img src="{{ 'uas-icon-shield.png' | asset_url }}" alt="Made in USA" width="34" height="34"><div><b>Made in USA</b><small>With globally sourced ingredients</small></div></div>
+      </div>
+      <div class="uas-lab-card">
+        <img src="{{ 'uas-lab-results.webp' | asset_url }}" alt="Lab results" loading="lazy" width="720" height="400">
+        <div>
+          <h3>Lab results.<br>Real data.</h3>
+          {%- if section.settings.lab_url != blank -%}
+            <a href="{{ section.settings.lab_url }}">View library →</a>
+          {%- else -%}
+            <span style="color:#e9c488;font-size:13px;font-weight:800;">View library →</span>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ SUBSCRIBE / PLANS ══ -->
+  <section class="uas-subscribe" id="uas-plans-{{ section.id }}">
+    <div class="uas-wrap uas-sub-grid">
+      <div class="uas-sub-left">
+        <h2>Commit. Save.<br>Skip Anytime.</h2>
+        <ul class="uas-sub-list">
+          <li>Subscribe &amp; save on every order</li>
+          <li>Ships every 90 days</li>
+          <li>Cancel or pause anytime</li>
+          <li>COA access included</li>
+        </ul>
+      </div>
+
+      <div class="uas-plans">
+        <div class="uas-plan uas-plan--popular uas-plan--selected"
+          data-plan-id="{{ ual_plan_15.id }}"
+          role="button" tabindex="0" aria-pressed="true">
+          <div class="uas-plan__tag">MOST POPULAR</div>
+          <h3>3 Months</h3>
+          <small>1 bottle • 2 refills</small>
+          <div class="uas-plan__monthly">{{ ual_plan_15_price }} / delivery</div>
+          <div class="uas-plan__off">{{ section.settings.plan_3m_off }}</div>
+        </div>
+        <div class="uas-plan"
+          data-plan-id="{{ ual_plan_23.id }}"
+          role="button" tabindex="0" aria-pressed="false">
+          <h3>6 Months</h3>
+          <small>1 bottle • 5 refills</small>
+          <div class="uas-plan__monthly">{{ ual_plan_23_price }} / delivery</div>
+          <div class="uas-plan__off">{{ section.settings.plan_6m_off }}</div>
+        </div>
+        <div class="uas-plan"
+          data-plan-id="{{ ual_plan_31.id }}"
+          role="button" tabindex="0" aria-pressed="false">
+          <h3>12 Months</h3>
+          <small>1 bottle • 11 refills</small>
+          <div class="uas-plan__monthly">{{ ual_plan_31_price }} / delivery</div>
+          <div class="uas-plan__off">{{ section.settings.plan_12m_off }}</div>
+        </div>
+      </div>
+
+      <div class="uas-lock">
+        <h3>Lock your routine.</h3>
+        {%- assign uas_sub_form_id = 'uas-sub-form-' | append: section.id -%}{% form 'product', product, id: uas_sub_form_id, novalidate: 'novalidate' -%}
+          <input type="hidden" name="id" value="{{ ual_variant.id }}">
+          <input type="hidden" name="quantity" value="1">
+          {%- if ual_plan_15 -%}
+            <input type="hidden" name="selling_plan" id="uas-selling-plan-{{ section.id }}" value="{{ ual_plan_15.id }}">
+          {%- endif -%}
+          <button type="submit" name="add" class="uas-cta" id="uas-sub-btn-{{ section.id }}"
+            {%- unless ual_variant.available %} disabled{%- endunless -%}>
+            {%- if ual_variant.available -%}SUBSCRIBE — 3 MONTHS (SAVE 15%){%- else -%}Sold Out{%- endif -%}
+          </button>
+        {%- endform -%}
+        <small>Cancel or skip anytime</small>
+      </div>
+    </div>
+
+    <div class="uas-wrap uas-bottom-row">
+      <div class="uas-guarantee">
+        <div class="uas-seal">90</div>
+        <div>
+          <h3>90 Days. No Risk.</h3>
+          <p>Not a fit? Full refund.</p>
+          {%- if section.settings.guarantee_url != blank -%}
+            <p><a href="{{ section.settings.guarantee_url }}" style="color:var(--gold);">View guarantee details →</a></p>
+          {%- else -%}
+            <p style="text-decoration:underline;cursor:default;">View guarantee details →</p>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <div class="uas-reviews">
+        <div class="uas-review"><div class="uas-stars">★★★★★</div><b>"Clean labels. No fillers. Exactly why I switched."</b><br><small>— Verified reviewer</small></div>
+        <div class="uas-review"><div class="uas-stars">★★★★★</div><b>"COA transparency is a huge plus for me."</b><br><small>— Review from website</small></div>
+        <div class="uas-review"><div class="uas-stars">★★★★★</div><b>"Finally a single-active I can trust."</b><br><small>— All our guarantees</small></div>
+      </div>
+
+      <div class="uas-faq-mini" aria-label="FAQ rapide">
+        <div class="uas-faq-mini__item">
+          <button class="uas-faq-mini__btn" type="button" aria-expanded="false">
+            Why single-active? <span class="uas-faq-mini__chevron" aria-hidden="true">⌄</span>
+          </button>
+          <div class="uas-faq-mini__panel">
+            Most Urolithin A products blend multiple compounds, which dilutes each individual dose and makes it harder to know what's actually working. Single-active means 100% of the dose is Urolithin A — nothing competing, nothing diluted.
+          </div>
+        </div>
+        <div class="uas-faq-mini__item">
+          <button class="uas-faq-mini__btn" type="button" aria-expanded="false">
+            Is it pure? <span class="uas-faq-mini__chevron" aria-hidden="true">⌄</span>
+          </button>
+          <div class="uas-faq-mini__panel">
+            Yes. Each batch is COA-verified by an independent third-party lab. Beyond Urolithin A, the only other ingredients are rice flour (filler), phosphatidylcholine (liposomal matrix), sunflower lecithin, and a vegetable capsule.
+          </div>
+        </div>
+        <div class="uas-faq-mini__item">
+          <button class="uas-faq-mini__btn" type="button" aria-expanded="false">
+            Is it tested? <span class="uas-faq-mini__chevron" aria-hidden="true">⌄</span>
+          </button>
+          <div class="uas-faq-mini__panel">
+            Every batch is sent to a third-party laboratory and tested for purity, potency, and contaminants. Certificates of Analysis are available by batch on request.
+          </div>
+        </div>
+        <div class="uas-faq-mini__item">
+          <button class="uas-faq-mini__btn" type="button" aria-expanded="false">
+            What is the guarantee? <span class="uas-faq-mini__chevron" aria-hidden="true">⌄</span>
+          </button>
+          <div class="uas-faq-mini__panel">
+            We offer a 90-day money-back guarantee. If you're not satisfied for any reason within 90 days of purchase, contact us for a full refund — no questions asked.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /.uas-pdp -->
+
+<!-- STICKY ATC -->
+<div class="uas-sticky" id="uas-sticky-{{ section.id }}" aria-label="Achat rapide">
+  <div class="uas-wrap uas-sticky__inner">
+    <div class="uas-sticky__info">
+      <span class="uas-sticky__name">{{ product.title }}</span>
+      <span class="uas-sticky__price" id="uas-sticky-price-{{ section.id }}">{{ ual_price }}</span>
+    </div>
+    {%- assign uas_sticky_form_id = 'uas-sticky-form-' | append: section.id -%}{% form 'product', product, id: uas_sticky_form_id, novalidate: 'novalidate' -%}
+      <input type="hidden" name="id" value="{{ ual_variant.id }}">
+      <input type="hidden" name="quantity" value="1">
+      <button type="submit" name="add" class="uas-sticky__btn" id="uas-sticky-btn-{{ section.id }}"
+        {%- unless ual_variant.available %} disabled{%- endunless -%}>
+        {%- if ual_variant.available -%}{{ section.settings.cta_text }}{%- else -%}Sold Out{%- endif -%}
+      </button>
+    {%- endform -%}
+  </div>
+</div>
+
+<script>
+(function(){
+  var pdp = document.getElementById('uas-pdp-{{ section.id }}');
+  if(!pdp) return;
+
+  /* ── AJAX Add to Cart ─────────────────────────────────────────────── */
+  function ualAddToCart(formEl, btn) {
+    if(!btn || btn.dataset.loading) return;
+    btn.dataset.loading = '1';
+    var origText = btn.textContent;
+    btn.textContent = 'Adding…';
+
+    var fd = new FormData(formEl);
+    fd.append('sections', 'cart-drawer,cart-icon-bubble');
+    fd.append('sections_url', window.location.pathname);
+
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 'Accept': 'application/json' },
+      body: fd
+    })
+    .then(function(res) {
+      if(!res.ok) return res.json().then(function(d){ throw d; });
+      return res.json();
+    })
+    .then(function(response) {
+      if (btn) { btn.dataset.added = '1'; }
+        var drawer = document.querySelector('cart-drawer');
+      if(drawer && typeof drawer.renderContents === 'function') {
+        drawer.renderContents(response);
+      } else {
+        window.location.href = '/cart';
+      }
+    })
+    .catch(function(err) {
+      var msg = (err && err.description) ? err.description : 'Could not add to cart. Please try again.';
+      alert(msg);
+    })
+    .finally(function() {
+      delete btn.dataset.loading;
+      if (btn.dataset.added) { delete btn.dataset.added; btn.textContent = '\u2713 Added'; setTimeout(function(){ btn.textContent = origText; }, 1600); } else { btn.textContent = origText; }
+    });
+  }
+
+  ['uas-form-{{ section.id }}','uas-sub-form-{{ section.id }}','uas-sticky-form-{{ section.id }}'].forEach(function(fid){
+    var f = document.getElementById(fid);
+    if(!f) return;
+    f.addEventListener('submit', function(e){
+      e.preventDefault();
+      ualAddToCart(f, f.querySelector('[name="add"]'));
+    });
+  });
+
+  /* ── Buy card accordion ───────────────────────────────────────────── */
+  pdp.querySelectorAll('.uas-acc-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var row = this.closest('.uas-acc-row');
+      var isOpen = row.classList.toggle('open');
+      this.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+  });
+
+  /* ── One-time vs Subscribe toggle ────────────────────────────────── */
+  var choiceOnce  = pdp.querySelector('#uas-choice-once-{{ section.id }}');
+  var choiceSub   = pdp.querySelector('#uas-choice-sub-{{ section.id }}');
+  var heroSpInput = document.getElementById('uas-hero-sp-{{ section.id }}');
+  var ctaBtn      = document.getElementById('uas-cta-{{ section.id }}');
+  var ctaText     = {{ section.settings.cta_text | json }};
+
+  function selectChoice(selected, other) {
+    selected.classList.add('uas-choice--active');
+    other.classList.remove('uas-choice--active');
+  }
+
+  if(choiceOnce && choiceSub){
+    choiceOnce.addEventListener('click', function(){
+      selectChoice(choiceOnce, choiceSub);
+      if(heroSpInput) heroSpInput.disabled = true;
+      if(ctaBtn && !ctaBtn.disabled) ctaBtn.textContent = ctaText;
+    });
+    choiceSub.addEventListener('click', function(){
+      selectChoice(choiceSub, choiceOnce);
+      if(heroSpInput) heroSpInput.disabled = false;
+      if(ctaBtn && !ctaBtn.disabled) ctaBtn.textContent = 'SUBSCRIBE & SAVE';
+    });
+  }
+
+  /* ── Variant selector ────────────────────────────────────────────── */
+  var variantSel = document.getElementById('uas-variant-{{ section.id }}');
+  if(variantSel){
+    variantSel.addEventListener('change', function(){
+      var opt = this.options[this.selectedIndex];
+      var vid = this.value;
+      var price = opt.dataset.price;
+      var available = opt.dataset.available === 'true';
+
+      ['uas-form-{{ section.id }}','uas-sub-form-{{ section.id }}','uas-sticky-form-{{ section.id }}'].forEach(function(fid){
+        var f = document.getElementById(fid);
+        if(f){ var inp = f.querySelector('[name="id"]'); if(inp) inp.value = vid; }
+      });
+
+      var priceEl = document.getElementById('uas-price-{{ section.id }}');
+      var stickyPriceEl = document.getElementById('uas-sticky-price-{{ section.id }}');
+      if(priceEl) priceEl.textContent = price;
+      if(stickyPriceEl) stickyPriceEl.textContent = price;
+
+      if(ctaBtn) {
+        ctaBtn.disabled = !available;
+        if(!available) ctaBtn.textContent = 'Sold Out';
+        else ctaBtn.textContent = (choiceSub && choiceSub.classList.contains('uas-choice--active')) ? 'SUBSCRIBE & SAVE' : ctaText;
+      }
+      var stickyBtn = document.getElementById('uas-sticky-btn-{{ section.id }}');
+      if(stickyBtn){ stickyBtn.disabled = !available; stickyBtn.textContent = available ? ctaText : 'Sold Out'; }
+      var subBtn = document.getElementById('uas-sub-btn-{{ section.id }}');
+      if(subBtn){ subBtn.disabled = !available; }
+    });
+  }
+
+  /* ── Subscription plan selector ──────────────────────────────────── */
+  var planLabels = {
+    '{{ ual_plan_15.id }}': '3 MONTHS (SAVE 15%)',
+    '{{ ual_plan_23.id }}': '6 MONTHS (SAVE 23%)',
+    '{{ ual_plan_31.id }}': '12 MONTHS (SAVE 31%)'
+  };
+  var planBtns = document.querySelectorAll('#uas-plans-{{ section.id }} .uas-plan[data-plan-id]');
+  var sellingPlanInput = document.getElementById('uas-selling-plan-{{ section.id }}');
+  var subBtn = document.getElementById('uas-sub-btn-{{ section.id }}');
+
+  planBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      planBtns.forEach(function(b){ b.classList.remove('uas-plan--selected'); b.setAttribute('aria-pressed','false'); });
+      this.classList.add('uas-plan--selected');
+      this.setAttribute('aria-pressed','true');
+      var pid = this.dataset.planId;
+      if(sellingPlanInput) sellingPlanInput.value = pid;
+      if(heroSpInput) heroSpInput.value = pid;
+      var label = planLabels[pid] || '';
+      if(subBtn && !subBtn.disabled) subBtn.textContent = 'SUBSCRIBE — ' + label;
+    });
+  });
+
+  /* ── FAQ mini accordions ─────────────────────────────────────────── */
+  document.querySelectorAll('.uas-faq-mini__btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var item = this.closest('.uas-faq-mini__item');
+      var isOpen = item.classList.toggle('open');
+      this.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+  });
+
+  /* ── Sticky ATC — show when hero buy card scrolls out of view ────── */
+  var sentinel = document.getElementById('uas-buy-{{ section.id }}');
+  var sticky   = document.getElementById('uas-sticky-{{ section.id }}');
+  if(sentinel && sticky && 'IntersectionObserver' in window){
+    new IntersectionObserver(function(entries){
+      sticky.classList.toggle('uas-sticky--visible', !entries[0].isIntersecting);
+    }, { threshold: 0 }).observe(sentinel);
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "UA Stack PDP",
+  "tag": "div",
+  "class": "uas-pdp-wrapper",
+  "settings": [
+    { "type": "header", "content": "Hero" },
+    { "type": "image_picker", "id": "hero_image_desktop", "label": "Image hero (desktop)" },
+    { "type": "image_picker", "id": "hero_image_mobile",  "label": "Image hero (mobile)" },
+    { "type": "text",     "id": "pill_text",    "label": "Pill badge",   "default": "Liposomal · 4-Active Stack" },
+    { "type": "text",     "id": "hero_title",   "label": "Titre hero",   "default": "Power<br>You Can Feel." },
+    { "type": "textarea", "id": "hero_subtitle","label": "Sous-titre",   "default": "Liposomal Urolithin A derived from pomegranate." },
+    { "type": "header", "content": "Buy card" },
+    { "type": "text", "id": "card_title",    "label": "Titre carte",         "default": "Urolithin A — Single-Active" },
+    { "type": "text", "id": "onetime_label", "label": "One-time label",      "default": "One-time purchase" },
+    { "type": "text", "id": "sub_label",     "label": "Subscribe label",     "default": "Subscribe & Save 15%" },
+    { "type": "text", "id": "sub_period",    "label": "Période abonnement",  "default": "Ships every 90 days • Cancel anytime" },
+    { "type": "text", "id": "sub_price",     "label": "Prix abonnement",     "default": "$118.15" },
+    { "type": "text", "id": "sub_unit",      "label": "Unité abonnement",    "default": "delivery" },
+    { "type": "text", "id": "benefit_1",     "label": "Bénéfice 1",          "default": "45 Servings" },
+    { "type": "text", "id": "benefit_2",     "label": "Bénéfice 2",          "default": "Single-Active" },
+    { "type": "text", "id": "benefit_3",     "label": "Bénéfice 3",          "default": "Liposomal" },
+    { "type": "text", "id": "benefit_4",     "label": "Bénéfice 4",          "default": "No Blend" },
+    { "type": "text", "id": "benefit_5",     "label": "Bénéfice 5",          "default": "90-Day Guarantee" },
+    { "type": "text", "id": "cta_text",      "label": "CTA texte",           "default": "ADD TO CART" },
+    { "type": "text", "id": "shipping_text", "label": "Texte livraison",     "default": "Free U.S. shipping · 1-2 day delivery" },
+    { "type": "header", "content": "Image produit (comparaison)" },
+    { "type": "image_picker", "id": "product_image", "label": "Packshot produit" },
+    { "type": "header", "content": "Plans d'abonnement" },
+    { "type": "text", "id": "plan_3m_price",  "label": "3 mois — prix/mois", "default": "$118.15" },
+    { "type": "text", "id": "plan_3m_off",    "label": "3 mois — remise",    "default": "15% OFF" },
+    { "type": "text", "id": "plan_6m_price",  "label": "6 mois — prix/mois", "default": "$107.03" },
+    { "type": "text", "id": "plan_6m_off",    "label": "6 mois — remise",    "default": "23% OFF" },
+    { "type": "text", "id": "plan_12m_price", "label": "12 mois — prix/mois","default": "$95.91" },
+    { "type": "text", "id": "plan_12m_off",   "label": "12 mois — remise",   "default": "31% OFF" },
+    { "type": "header", "content": "Liens" },
+    { "type": "url", "id": "lab_url",       "label": "Lien résultats labo" },
+    { "type": "url", "id": "guarantee_url", "label": "Lien garantie" },
+    { "type": "url", "id": "library_url", "label": "Lien librairie science" }
+  ],
+  "blocks": [],
+  "presets": [
+    { "name": "UA Stack PDP" }
+  ]
+}
+{% endschema %}

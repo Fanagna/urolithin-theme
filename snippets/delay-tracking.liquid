@@ -1,0 +1,62 @@
+{%- comment -%}
+  delay-tracking — defers marketing tracking scripts (GTM, Facebook Pixel,
+  PostHog) until the first user interaction, or a timeout fallback, so they
+  don't compete for the main thread during LCP. Scoped to marketing domains
+  ONLY — Shopify core / Web Pixel Manager / checkout scripts are untouched.
+
+  ⚠️ Trade-off: events for visitors who bounce before ANY interaction fire only
+  at the fallback timeout (below). Verify GA4 Realtime + Facebook Events Manager
+  after deploying. To disable: remove the {% render 'delay-tracking' %} line in
+  layout/theme.liquid.
+{%- endcomment -%}
+<script>
+(function () {
+  try {
+    var TRACK = /googletagmanager\.com|google-analytics\.com|analytics\.google\.com|connect\.facebook\.net|\.posthog\.com/i;
+    var FALLBACK_MS = 3500;
+    var fired = false;
+    var queue = [];
+    var origCreate = document.createElement.bind(document);
+
+    document.createElement = function (tag) {
+      var el = origCreate(tag);
+      if (('' + tag).toLowerCase() === 'script') {
+        try {
+          var proto = Object.getOwnPropertyDescriptor(HTMLScriptElement.prototype, 'src');
+          Object.defineProperty(el, 'src', {
+            configurable: true,
+            get: function () { return el.__delayedSrc || ''; },
+            set: function (v) {
+              if (!fired && TRACK.test(v)) { el.__delayedSrc = v; queue.push([el, proto.set]); return; }
+              proto.set.call(el, v);
+            }
+          });
+        } catch (e) {}
+      }
+      return el;
+    };
+
+    function fire() {
+      if (fired) return;
+      fired = true;
+      try { document.createElement = origCreate; } catch (e) {}
+      queue.forEach(function (pair) {
+        try {
+          var el = pair[0], setter = pair[1];
+          Object.defineProperty(el, 'src', { configurable: true, writable: true, value: '' });
+          setter.call(el, el.__delayedSrc);
+        } catch (e) {}
+      });
+      queue = [];
+    }
+
+    ['scroll', 'pointerdown', 'mousemove', 'touchstart', 'keydown', 'click'].forEach(function (ev) {
+      window.addEventListener(ev, fire, { once: true, passive: true });
+    });
+    setTimeout(fire, FALLBACK_MS);
+  } catch (e) { /* never break the page over tracking timing */ }
+})();
+</script>
+<link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+<link rel="preconnect" href="https://connect.facebook.net" crossorigin>
+<link rel="dns-prefetch" href="https://us-assets.i.posthog.com">

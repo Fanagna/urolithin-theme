@@ -1,0 +1,413 @@
+{% doc %}
+  @prompt
+    Create a full-width feature bar section identical to the reference.
+    
+    ⚠️ DO NOT change any text, wording, icons, colors, background, font sizes, or visual style.
+    ⚠️ DO NOT change the order of items.
+    
+    CONTENT (must remain EXACTLY the same)
+    
+    🧪 Lab Tested
+    
+    ⚡ 500B CFU
+    
+    🛡️ 90 Days Supply
+    
+    DESIGN (DESKTOP / TABLET / MOBILE)
+    
+    Full-width horizontal bar
+    
+    Dark green background (same exact shade as reference)
+    
+    White text
+    
+    Icons displayed before each label (same as reference)
+    
+    Clean, minimal, premium supplement-brand aesthetic
+    
+    LAYOUT RULE (VERY IMPORTANT)
+    
+    Desktop:
+    
+    All items displayed on a single horizontal row
+    
+    Tablet:
+    
+    Same horizontal row
+    
+    Reduced spacing if needed
+    
+    Mobile (CRITICAL REQUIREMENT):
+    
+    Items must stay on the SAME horizontal line
+    
+    No stacking or vertical layout
+    
+    Content scales responsively (smaller spacing / font size if needed)
+    
+    No horizontal scrolling
+    
+    Icons and text remain aligned
+    
+    RESPONSIVENESS
+    
+    Use responsive spacing and font scaling
+    
+    Items may compress slightly on small screens
+    
+    Maintain readability
+    
+    Keep everything centered vertically
+    
+    TECHNICAL CONSTRAINTS
+    
+    Use semantic HTML
+    
+    Use CSS Flexbox
+    
+    Disable wrapping on mobile (flex-wrap: nowrap)
+    
+    Use responsive font sizes if needed
+    
+    Shopify Dawn compatible
+    
+    No JavaScript
+    
+    The final result must visually match the reference exactly, with all items remaining on a single horizontal line on all screen sizes, including mobile.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-feature-bar-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    background-color: {{ block.settings.background_color }};
+    padding: {{ block.settings.padding_vertical }}px 20px;
+  }
+
+  .ai-feature-bar-container-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: {{ block.settings.gap_desktop }}px;
+    flex-wrap: nowrap;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .ai-feature-bar-item-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: {{ block.settings.icon_text_gap }}px;
+    white-space: nowrap;
+    flex-shrink: 1;
+  }
+
+  .ai-feature-bar-icon-{{ ai_gen_id }} {
+    font-size: {{ block.settings.icon_size }}px;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .ai-feature-bar-text-{{ ai_gen_id }} {
+    color: {{ block.settings.text_color }};
+    font-size: {{ block.settings.font_size }}px;
+    font-weight: {{ block.settings.font_weight }};
+    line-height: 1.2;
+  }
+
+  @media screen and (max-width: 989px) {
+    .ai-feature-bar-container-{{ ai_gen_id }} {
+      gap: {{ block.settings.gap_tablet }}px;
+    }
+
+    .ai-feature-bar-icon-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.icon_size }}px * 0.9);
+    }
+
+    .ai-feature-bar-text-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.font_size }}px * 0.9);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-feature-bar-{{ ai_gen_id }} {
+      padding: {{ block.settings.padding_vertical_mobile }}px 12px;
+    }
+
+    .ai-feature-bar-container-{{ ai_gen_id }} {
+      gap: {{ block.settings.gap_mobile }}px;
+    }
+
+    .ai-feature-bar-item-{{ ai_gen_id }} {
+      gap: {{ block.settings.icon_text_gap_mobile }}px;
+    }
+
+    .ai-feature-bar-icon-{{ ai_gen_id }} {
+      font-size: {{ block.settings.icon_size_mobile }}px;
+    }
+
+    .ai-feature-bar-text-{{ ai_gen_id }} {
+      font-size: {{ block.settings.font_size_mobile }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-feature-bar-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-feature-bar-container-{{ ai_gen_id }}">
+    {% if block.settings.item_1_enabled %}
+      <div class="ai-feature-bar-item-{{ ai_gen_id }}">
+        <span class="ai-feature-bar-icon-{{ ai_gen_id }}">{{ block.settings.item_1_icon }}</span>
+        <span class="ai-feature-bar-text-{{ ai_gen_id }}">{{ block.settings.item_1_text }}</span>
+      </div>
+    {% endif %}
+
+    {% if block.settings.item_2_enabled %}
+      <div class="ai-feature-bar-item-{{ ai_gen_id }}">
+        <span class="ai-feature-bar-icon-{{ ai_gen_id }}">{{ block.settings.item_2_icon }}</span>
+        <span class="ai-feature-bar-text-{{ ai_gen_id }}">{{ block.settings.item_2_text }}</span>
+      </div>
+    {% endif %}
+
+    {% if block.settings.item_3_enabled %}
+      <div class="ai-feature-bar-item-{{ ai_gen_id }}">
+        <span class="ai-feature-bar-icon-{{ ai_gen_id }}">{{ block.settings.item_3_icon }}</span>
+        <span class="ai-feature-bar-text-{{ ai_gen_id }}">{{ block.settings.item_3_text }}</span>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Feature bar",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Item 1"
+    },
+    {
+      "type": "checkbox",
+      "id": "item_1_enabled",
+      "label": "Enable item 1",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "item_1_icon",
+      "label": "Icon",
+      "default": "🧪"
+    },
+    {
+      "type": "text",
+      "id": "item_1_text",
+      "label": "Text",
+      "default": "Lab Tested"
+    },
+    {
+      "type": "header",
+      "content": "Item 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "item_2_enabled",
+      "label": "Enable item 2",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "item_2_icon",
+      "label": "Icon",
+      "default": "⚡"
+    },
+    {
+      "type": "text",
+      "id": "item_2_text",
+      "label": "Text",
+      "default": "500B CFU"
+    },
+    {
+      "type": "header",
+      "content": "Item 3"
+    },
+    {
+      "type": "checkbox",
+      "id": "item_3_enabled",
+      "label": "Enable item 3",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "item_3_icon",
+      "label": "Icon",
+      "default": "🛡️"
+    },
+    {
+      "type": "text",
+      "id": "item_3_text",
+      "label": "Text",
+      "default": "90 Days Supply"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#1a4d2e"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "font_size_mobile",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size mobile",
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "font_weight",
+      "label": "Font weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi-bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "min": 14,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Icon size",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "icon_size_mobile",
+      "min": 12,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Icon size mobile",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_vertical",
+      "min": 8,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Vertical padding",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "padding_vertical_mobile",
+      "min": 6,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Vertical padding mobile",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "gap_desktop",
+      "min": 20,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Gap between items desktop",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "gap_tablet",
+      "min": 16,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Gap between items tablet",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "gap_mobile",
+      "min": 8,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Gap between items mobile",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "icon_text_gap",
+      "min": 4,
+      "max": 16,
+      "step": 2,
+      "unit": "px",
+      "label": "Gap between icon and text",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "icon_text_gap_mobile",
+      "min": 2,
+      "max": 12,
+      "step": 2,
+      "unit": "px",
+      "label": "Gap between icon and text mobile",
+      "default": 6
+    }
+  ],
+  "presets": [
+    {
+      "name": "Feature bar"
+    }
+  ]
+}
+{% endschema %}

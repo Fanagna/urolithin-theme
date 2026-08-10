@@ -1,0 +1,1055 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "colors": {
+      "type": "ndl-color-settings",
+      "settings": {
+        "bg_top": "#0453ae",
+        "bg_mid": "#003b86",
+        "bg_bottom": "#032d6a",
+        "heading_color": "#ffffff",
+        "card_text_color": "#062152",
+        "accent_color": "#baff3e",
+        "accent_color_2": "#8de830",
+        "accent_text_color": "#102a02",
+        "gold_color": "#e9b443"
+      }
+    },
+    "hero": {
+      "type": "ndl-hero",
+      "blocks": {
+        "b1": {
+          "type": "benefit",
+          "settings": {
+            "icon": "battery",
+            "title": "Boost Energy",
+            "text": "Feel more energized all day long."
+          }
+        },
+        "b2": {
+          "type": "benefit",
+          "settings": {
+            "icon": "molecule",
+            "title": "Cellular Health",
+            "text": "Support healthy aging at the cellular level."
+          }
+        },
+        "b3": {
+          "type": "benefit",
+          "settings": {
+            "icon": "brain-web",
+            "title": "Mental Clarity",
+            "text": "Sharpen focus and clarity."
+          }
+        },
+        "b4": {
+          "type": "bundle",
+          "settings": {
+            "bottles": 1,
+            "bottle_image": "shopify://shop_images/nad-bottle.webp",
+            "title": "1 BOTTLE",
+            "subtitle": "30 Day Supply",
+            "price": "$69",
+            "save_text": "$2.30 per day",
+            "short_label": "1 bottle",
+            "badge": "",
+            "selected": false
+          }
+        },
+        "b5": {
+          "type": "bundle",
+          "settings": {
+            "bottles": 2,
+            "bottle_image": "shopify://shop_images/nad-bottle.webp",
+            "title": "2 BOTTLES",
+            "subtitle": "60 Day Supply",
+            "price": "$119",
+            "save_text": "$2.00 per day · You Save $19",
+            "short_label": "2 bottles",
+            "badge": "BEST VALUE",
+            "selected": true
+          }
+        },
+        "b6": {
+          "type": "bundle",
+          "settings": {
+            "bottles": 3,
+            "bottle_image": "shopify://shop_images/nad-bottle.webp",
+            "title": "3 BOTTLES",
+            "subtitle": "90 Day Supply",
+            "price": "$159",
+            "save_text": "$1.77 per day · You Save $48",
+            "short_label": "3 bottles",
+            "badge": "",
+            "selected": false
+          }
+        },
+        "b7": {
+          "type": "trust",
+          "settings": {
+            "icon": "shield-check",
+            "text": "180-Day Money Back Guarantee"
+          }
+        },
+        "b8": {
+          "type": "trust",
+          "settings": {
+            "icon": "truck",
+            "text": "Free U.S. Shipping \u00b7 1-2 Days"
+          }
+        },
+        "b9": {
+          "type": "trust",
+          "settings": {
+            "icon": "root",
+            "text": "Third-Party Tested"
+          }
+        },
+        "b10": {
+          "type": "trust",
+          "settings": {
+            "icon": "circle-plus",
+            "text": "Made in USA · GMP Certified"
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3",
+        "b4",
+        "b5",
+        "b6",
+        "b7",
+        "b8",
+        "b9",
+        "b10"
+      ],
+      "settings": {
+        "product": "",
+        "announcement": "🌿 Free U.S. Shipping (1-2 Days) · 180-Day Money Back Guarantee",
+        "hero_bg": "shopify://shop_images/mountain-blue_1.webp",
+        "hero_bg_mobile": "shopify://shop_images/mountain-blue_1.webp",
+        "eyebrow": "NAD+ support • cellular energy",
+        "heading": "Look Younger.\nFeel Amazing.\nGet Noticed.",
+        "subtext": "Advanced liposomal NAD+ designed for cellular energy, healthy aging, and peak daily performance.",
+        "cta_text": "ADD TO CART",
+        "sold_out_text": "SOLD OUT"
+      }
+    },
+    "routines": {
+      "type": "ndl-routines",
+      "blocks": {
+        "b1": {
+          "type": "routine",
+          "settings": {
+            "image": "shopify://shop_images/video-1.webp",
+            "name": "Mark, 52",
+            "quote": "More energy in the morning, better focus all day.",
+            "tag": "☀ Daily Routine"
+          }
+        },
+        "b2": {
+          "type": "routine",
+          "settings": {
+            "image": "shopify://shop_images/review-2.webp",
+            "name": "Sarah, 48",
+            "quote": "My skin looks brighter and I feel years younger.",
+            "tag": "☀ Morning Ritual"
+          }
+        },
+        "b3": {
+          "type": "routine",
+          "settings": {
+            "image": "shopify://shop_images/review-3.webp",
+            "name": "James, 55",
+            "quote": "Supports my recovery and keeps me performing.",
+            "tag": "🏋 Post-Workout"
+          }
+        },
+        "b4": {
+          "type": "routine",
+          "settings": {
+            "image": "shopify://shop_images/review-4.webp",
+            "name": "Lisa, 50",
+            "quote": "Clearer mind, better sleep, better me.",
+            "tag": "☾ Night Routine"
+          }
+        },
+        "b5": {
+          "type": "routine",
+          "settings": {
+            "image": "shopify://shop_images/review-5.webp",
+            "name": "David, 57",
+            "quote": "I feel more like myself than I have in years.",
+            "tag": "☀ Daily Routine"
+          }
+        },
+        "b6": {
+          "type": "routine",
+          "settings": {
+            "image": "shopify://shop_images/review-6.webp",
+            "name": "Nicole, 46",
+            "quote": "Easy to take, easy to love. My new daily essential.",
+            "tag": "☀ Morning Ritual"
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3",
+        "b4",
+        "b5",
+        "b6"
+      ],
+      "settings": {
+        "heading": "How It Fits Into Their Daily Routine"
+      }
+    },
+    "results": {
+      "type": "ndl-results",
+      "blocks": {
+        "b1": {
+          "type": "video",
+          "settings": {
+            "video_url": "",
+            "quote": "More energy in the morning and way less midday fatigue.",
+            "name": "Mark, 52"
+          }
+        },
+        "b2": {
+          "type": "video",
+          "settings": {
+            "video_url": "",
+            "quote": "My skin looks healthier and I feel years younger.",
+            "name": "Sarah, 48"
+          }
+        },
+        "b3": {
+          "type": "video",
+          "settings": {
+            "video_url": "",
+            "quote": "Supports my recovery and helps me stay active every day.",
+            "name": "James, 55"
+          }
+        },
+        "b4": {
+          "type": "video",
+          "settings": {
+            "video_url": "",
+            "quote": "Clearer mind, better focus, and deeper sleep.",
+            "name": "Lisa, 50"
+          }
+        },
+        "b5": {
+          "type": "benefit",
+          "settings": {
+            "title": "More Energy",
+            "text": "Feel more energized all day long."
+          }
+        },
+        "b6": {
+          "type": "benefit",
+          "settings": {
+            "title": "Healthier Skin",
+            "text": "Support youthful, radiant-looking skin."
+          }
+        },
+        "b7": {
+          "type": "benefit",
+          "settings": {
+            "title": "Faster Recovery",
+            "text": "Aid muscle recovery and reduce fatigue."
+          }
+        },
+        "b8": {
+          "type": "benefit",
+          "settings": {
+            "title": "Sharper Focus",
+            "text": "Support memory, focus, and clarity."
+          }
+        },
+        "b9": {
+          "type": "benefit",
+          "settings": {
+            "title": "Stronger Daily Performance",
+            "text": "Perform at your best mentally and physically."
+          }
+        },
+        "b10": {
+          "type": "benefit",
+          "settings": {
+            "title": "Healthy Aging",
+            "text": "Support cellular health and longevity."
+          }
+        },
+        "b11": {
+          "type": "gallery_image",
+          "settings": {
+            "alt": ""
+          }
+        },
+        "b12": {
+          "type": "gallery_image",
+          "settings": {
+            "alt": ""
+          }
+        },
+        "b13": {
+          "type": "gallery_image",
+          "settings": {
+            "alt": ""
+          }
+        },
+        "b14": {
+          "type": "gallery_image",
+          "settings": {
+            "alt": ""
+          }
+        },
+        "b15": {
+          "type": "gallery_image",
+          "settings": {
+            "alt": ""
+          }
+        },
+        "b16": {
+          "type": "gallery_image",
+          "settings": {
+            "alt": ""
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3",
+        "b4",
+        "b5",
+        "b6",
+        "b7",
+        "b8",
+        "b9",
+        "b10",
+        "b11",
+        "b12",
+        "b13",
+        "b14",
+        "b15",
+        "b16"
+      ],
+      "disabled": true,
+      "settings": {
+        "eyebrow": "🌿 Trusted by real people",
+        "heading": "REAL WORLD RESULTS",
+        "subheading": "Daily support for energy, focus, recovery, and healthy aging.",
+        "show_charts": true,
+        "chart1_title": "NAD+ LEVELS DECLINE WITH AGE",
+        "chart1_subtitle": "NAD+ naturally decreases as we age.",
+        "chart1_labels": "20, 30, 40, 50, 60, 70, 80+",
+        "chart2_title": "LIPOSOMAL ABSORPTION MAKES THE DIFFERENCE",
+        "chart2_subtitle": "Superior delivery. Better results.",
+        "chart2_value_a": 20,
+        "chart2_label_a": "Traditional NAD+",
+        "chart2_value_b": 90,
+        "chart2_label_b": "PANSTELLAR Liposomal"
+      }
+    },
+    "absorption": {
+      "type": "ndl-absorption",
+      "blocks": {
+        "b1": {
+          "type": "science",
+          "settings": {
+            "icon": "shield-check",
+            "title": "Protects NAD+",
+            "text": "Designed to shield the formula through digestion."
+          }
+        },
+        "b2": {
+          "type": "science",
+          "settings": {
+            "icon": "target",
+            "title": "Enhances Absorption",
+            "text": "Liposomal delivery supports efficient nutrient delivery."
+          }
+        },
+        "b3": {
+          "type": "science",
+          "settings": {
+            "icon": "bolt-arrow",
+            "title": "Maximizes Benefits",
+            "text": "More efficient delivery supports daily energy, focus, and vitality."
+          }
+        },
+        "b4": {
+          "type": "delivery_item",
+          "settings": {
+            "column": "ours",
+            "text": "Protects the formula from breakdown"
+          }
+        },
+        "b5": {
+          "type": "delivery_item",
+          "settings": {
+            "column": "ours",
+            "text": "Designed for high absorption"
+          }
+        },
+        "b6": {
+          "type": "delivery_item",
+          "settings": {
+            "column": "ours",
+            "text": "Delivers nutrients efficiently"
+          }
+        },
+        "b7": {
+          "type": "delivery_item",
+          "settings": {
+            "column": "other",
+            "text": "More vulnerable during digestion"
+          }
+        },
+        "b8": {
+          "type": "delivery_item",
+          "settings": {
+            "column": "other",
+            "text": "Lower delivery efficiency"
+          }
+        },
+        "b9": {
+          "type": "delivery_item",
+          "settings": {
+            "column": "other",
+            "text": "Less predictable absorption"
+          }
+        },
+        "b10": {
+          "type": "ingredient",
+          "settings": {
+            "image": "shopify://shop_images/ingredient-nmn.webp",
+            "name": "NAD+",
+            "text": "Supports cellular energy and healthy aging at the source."
+          }
+        },
+        "b11": {
+          "type": "ingredient",
+          "settings": {
+            "image": "shopify://shop_images/ingredient-nr.webp",
+            "name": "NR",
+            "text": "A precursor designed to support natural NAD+ pathways."
+          }
+        },
+        "b12": {
+          "type": "ingredient",
+          "settings": {
+            "image": "shopify://shop_images/ingredient-resveratrol.webp",
+            "name": "RESVERATROL",
+            "text": "An antioxidant ingredient supporting cellular wellness."
+          }
+        },
+        "b13": {
+          "type": "survey",
+          "settings": {
+            "image": "shopify://shop_images/survey-1.webp",
+            "value": "92%",
+            "text": "felt more energy throughout the day*"
+          }
+        },
+        "b14": {
+          "type": "survey",
+          "settings": {
+            "image": "shopify://shop_images/survey-2.webp",
+            "value": "87%",
+            "text": "experienced sharper focus*"
+          }
+        },
+        "b15": {
+          "type": "survey",
+          "settings": {
+            "image": "shopify://shop_images/survey-3.webp",
+            "value": "89%",
+            "text": "noticed improved recovery*"
+          }
+        },
+        "b16": {
+          "type": "survey",
+          "settings": {
+            "image": "shopify://shop_images/survey-4.webp",
+            "value": "84%",
+            "text": "saw healthier-looking skin*"
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3",
+        "b4",
+        "b5",
+        "b6",
+        "b7",
+        "b8",
+        "b9",
+        "b10",
+        "b11",
+        "b12",
+        "b13",
+        "b14",
+        "b15",
+        "b16"
+      ],
+      "settings": {
+        "heading": "Advanced Absorption.\nReal Daily Benefits.",
+        "subheading": "Our dual-shield liposomal delivery system is designed to protect the formula and deliver it deeper—so your body can absorb more and you can feel the difference every day.",
+        "scene_bg": "shopify://shop_images/mountain-blue_1.webp",
+        "scene_bg_mobile": "shopify://shop_images/mountain-blue_1.webp",
+        "bottle_image": "shopify://shop_images/liposomal-delivery.webp",
+        "bottle_alt": "PANSTELLAR NAD+ Liposomal bottle",
+        "liposome_title": "DUAL-SHIELD LIPOSOMAL DELIVERY",
+        "delivery_ours_title": "LIPOSOMAL DELIVERY",
+        "delivery_other_title": "STANDARD DELIVERY",
+        "survey_heading": "Feel the Difference. Every Day.",
+        "survey_note": ""
+      }
+    },
+    "data": {
+      "type": "ndl-data",
+      "blocks": {
+        "b1": {
+          "type": "compare_row",
+          "settings": {
+            "label": "NAD+ Per Serving",
+            "our_value": "2000mg",
+            "other_value": "250–500mg"
+          }
+        },
+        "b2": {
+          "type": "compare_row",
+          "settings": {
+            "label": "Absorption Technology",
+            "our_value": "Liposomal",
+            "other_value": "Standard"
+          }
+        },
+        "b3": {
+          "type": "compare_row",
+          "settings": {
+            "label": "Bioavailability",
+            "our_value": "Advanced Delivery",
+            "other_value": "Standard"
+          }
+        },
+        "b4": {
+          "type": "compare_row",
+          "settings": {
+            "label": "Daily Dosage",
+            "our_value": "2 Capsules",
+            "other_value": "3+ Capsules"
+          }
+        },
+        "b5": {
+          "type": "compare_row",
+          "settings": {
+            "label": "Third-Party Tested",
+            "our_value": "✓",
+            "other_value": "✓"
+          }
+        },
+        "b6": {
+          "type": "compare_row",
+          "settings": {
+            "label": "Made in USA",
+            "our_value": "✓",
+            "other_value": "✓"
+          }
+        },
+        "b7": {
+          "type": "compare_row",
+          "settings": {
+            "label": "GMP Certified",
+            "our_value": "✓",
+            "other_value": "✕"
+          }
+        },
+        "b8": {
+          "type": "compare_row",
+          "settings": {
+            "label": "Transparent Formula",
+            "our_value": "✓",
+            "other_value": "✕"
+          }
+        },
+        "b9": {
+          "type": "compare_row",
+          "settings": {
+            "label": "Money Back Guarantee",
+            "our_value": "90-Day",
+            "other_value": "30-Day"
+          }
+        },
+        "b10": {
+          "type": "fact_row",
+          "settings": {
+            "label": "NAD+",
+            "value": "500 mg"
+          }
+        },
+        "b11": {
+          "type": "fact_row",
+          "settings": {
+            "label": "Proprietary NAD+ Boost Liposomal Blend",
+            "value": "1500 mg"
+          }
+        },
+        "b12": {
+          "type": "quality",
+          "disabled": true,
+          "settings": {
+            "icon": "shield-check",
+            "title": "THIRD-PARTY TESTED",
+            "text": "For purity and potency."
+          }
+        },
+        "b13": {
+          "type": "quality",
+          "disabled": true,
+          "settings": {
+            "icon": "circle-plus",
+            "title": "GMP CERTIFIED",
+            "text": "Manufactured to quality standards."
+          }
+        },
+        "b14": {
+          "type": "quality",
+          "disabled": true,
+          "settings": {
+            "icon": "box",
+            "title": "MADE IN USA",
+            "text": "Proudly made in the United States."
+          }
+        },
+        "b15": {
+          "type": "quality",
+          "disabled": true,
+          "settings": {
+            "icon": "leaf-glow",
+            "title": "TRANSPARENT FORMULA",
+            "text": "No hidden blends. No compromises."
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3",
+        "b4",
+        "b5",
+        "b6",
+        "b7",
+        "b8",
+        "b9",
+        "b10",
+        "b11",
+        "b12",
+        "b13",
+        "b14",
+        "b15"
+      ],
+      "settings": {
+        "heading": "Real Results. Real Data.",
+        "subheading": "See how PANSTELLAR NAD+ Liposomal compares with simpler formulas.",
+        "our_column": "PANSTELLAR\nNAD+ LIPOSOMAL",
+        "other_column": "Ordinary NAD+",
+        "facts_title": "Supplement Facts",
+        "serving_size": "Serving Size: 2 Capsules",
+        "servings_per_container": "Servings Per Container: 90",
+        "blend_note": "NR, Resveratrol, Phosphatidylcholine, Coq10, Niacinamide, Thiamine and Piperine",
+        "other_ingredients": "Hypromellose capsule, rice flour, silicon dioxide, magnesium stearate.",
+        "expert_image": "shopify://shop_images/formulation-expert.webp",
+        "expert_alt": "Formulation specialist holding PANSTELLAR"
+      }
+    },
+    "journey": {
+      "type": "ndl-journey",
+      "blocks": {
+        "b1": {
+          "type": "step",
+          "settings": {
+            "emoji": "⚡",
+            "week": "WEEK 1–2",
+            "title": "More Energy",
+            "text": "Feel more energized throughout your day.",
+            "image": "shopify://shop_images/timeline-1.webp"
+          }
+        },
+        "b2": {
+          "type": "step",
+          "settings": {
+            "emoji": "✨",
+            "week": "WEEK 3–4",
+            "title": "Better Skin",
+            "text": "Support a healthy, radiant-looking glow.",
+            "image": "shopify://shop_images/timeline-2.webp"
+          }
+        },
+        "b3": {
+          "type": "step",
+          "settings": {
+            "emoji": "🏋",
+            "week": "WEEK 5–8",
+            "title": "Stronger Recovery",
+            "text": "Support workout recovery and daily stamina.",
+            "image": "shopify://shop_images/timeline-3.webp"
+          }
+        },
+        "b4": {
+          "type": "step",
+          "settings": {
+            "emoji": "◎",
+            "week": "WEEK 9–12",
+            "title": "Daily Performance",
+            "text": "Feel sharper, perform better, and stay consistent.",
+            "image": "shopify://shop_images/timeline-4.webp"
+          }
+        },
+        "b5": {
+          "type": "main_review",
+          "settings": {
+            "image": "shopify://shop_images/testimonial-main-1.webp",
+            "quote": "I feel more energized in the morning and stay focused all day.",
+            "name": "Mark, 52"
+          }
+        },
+        "b6": {
+          "type": "main_review",
+          "settings": {
+            "image": "shopify://shop_images/testimonial-main-2.webp",
+            "quote": "My skin looks brighter and I feel years younger.",
+            "name": "Sarah, 48"
+          }
+        },
+        "b7": {
+          "type": "main_review",
+          "settings": {
+            "image": "shopify://shop_images/testimonial-main-3.webp",
+            "quote": "Recovery is faster and I have more energy than ever.",
+            "name": "James, 55"
+          }
+        },
+        "b8": {
+          "type": "small_review",
+          "settings": {
+            "avatar": "shopify://shop_images/timeline-2.webp",
+            "name": "Lisa R., 50",
+            "quote": "Clearer mind and better focus. This is now part of my nightly routine."
+          }
+        },
+        "b9": {
+          "type": "small_review",
+          "settings": {
+            "avatar": "shopify://shop_images/video-1.webp",
+            "name": "David T., 57",
+            "quote": "I feel more like myself than I have in years."
+          }
+        },
+        "b10": {
+          "type": "small_review",
+          "settings": {
+            "avatar": "shopify://shop_images/review-4.webp",
+            "name": "Nicole W., 46",
+            "quote": "Easy to take and easy to love. My new daily essential."
+          }
+        },
+        "b11": {
+          "type": "small_review",
+          "settings": {
+            "avatar": "shopify://shop_images/timeline-3.webp",
+            "name": "Tom B., 60",
+            "quote": "I have tried several NAD+ products. PANSTELLAR fits my routine best."
+          }
+        },
+        "b12": {
+          "type": "small_review",
+          "settings": {
+            "avatar": "shopify://shop_images/review-6.webp",
+            "name": "Amanda L., 44",
+            "quote": "More energy, better focus, and my skin looks refreshed."
+          }
+        },
+        "b13": {
+          "type": "small_review",
+          "settings": {
+            "avatar": "shopify://shop_images/timeline-4.webp",
+            "name": "Ryan M., 51",
+            "quote": "Great quality and a simple daily routine."
+          }
+        },
+        "b14": {
+          "type": "small_review",
+          "settings": {
+            "avatar": "shopify://shop_images/review-2.webp",
+            "name": "Jessica P., 49",
+            "quote": "My workouts feel stronger and recovery feels easier."
+          }
+        },
+        "b15": {
+          "type": "small_review",
+          "settings": {
+            "avatar": "shopify://shop_images/review-3.webp",
+            "name": "Brian K., 53",
+            "quote": "This product has helped me show up better at work and home."
+          }
+        },
+        "b16": {
+          "type": "metric",
+          "settings": {
+            "value": "4.8 / 5",
+            "label": "Average Rating"
+          }
+        },
+        "b17": {
+          "type": "metric",
+          "settings": {
+            "value": "12,500+",
+            "label": "Verified Reviews"
+          }
+        },
+        "b18": {
+          "type": "metric",
+          "settings": {
+            "value": "25,000+",
+            "label": "Happy Customers"
+          }
+        },
+        "b19": {
+          "type": "metric",
+          "settings": {
+            "value": "909 Days",
+            "label": "Money Back Guarantee"
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3",
+        "b4",
+        "b5",
+        "b6",
+        "b7",
+        "b8",
+        "b9",
+        "b10",
+        "b11",
+        "b12",
+        "b13",
+        "b14",
+        "b15",
+        "b16",
+        "b17",
+        "b18",
+        "b19"
+      ],
+      "settings": {
+        "eyebrow": "🌿 Consistency is key",
+        "heading": "What You Can Expect",
+        "subheading": "Your NAD+ journey starts now.",
+        "consistency_title": "✓ CONSISTENCY MATTERS",
+        "consistency_text": "Take daily and stay consistent for the best long-term routine.",
+        "reviews_heading": "What Our Customers Are Saying",
+        "reviews_subheading": "Thousands are already making PANSTELLAR part of their routine."
+      }
+    },
+    "experts_faq": {
+      "type": "ndl-experts-faq",
+      "blocks": {
+        "b1": {
+          "type": "expert",
+          "settings": {
+            "image": "shopify://shop_images/expert-1.webp",
+            "name": "Wellness Specialist",
+            "title": "Healthy Aging",
+            "quote": "A premium addition to a consistent cellular wellness routine."
+          }
+        },
+        "b2": {
+          "type": "expert",
+          "settings": {
+            "image": "shopify://shop_images/expert-2.webp",
+            "name": "Performance Coach",
+            "title": "Strength & Conditioning",
+            "quote": "Supports a simple daily routine built around energy and recovery."
+          }
+        },
+        "b3": {
+          "type": "expert",
+          "settings": {
+            "image": "shopify://shop_images/expert-3.webp",
+            "name": "Ryan, 34",
+            "title": "Endurance Athlete",
+            "quote": "More energy, better focus, and a smoother recovery routine."
+          }
+        },
+        "b4": {
+          "type": "expert",
+          "settings": {
+            "image": "shopify://shop_images/expert-4.webp",
+            "name": "Sarah, 48",
+            "title": "Morning Ritual",
+            "quote": "My skin looks brighter and I feel more refreshed."
+          }
+        },
+        "b5": {
+          "type": "expert",
+          "settings": {
+            "image": "shopify://shop_images/expert-5.webp",
+            "name": "David, 57",
+            "title": "Daily Wellness",
+            "quote": "I feel more consistent in my everyday routine."
+          }
+        },
+        "b6": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What is NAD+ and why is it important?",
+            "answer": "<p>NAD+ is a naturally occurring coenzyme involved in cellular energy processes. This product is designed as a daily dietary supplement supporting general wellness.</p>",
+            "open": false
+          }
+        },
+        "b7": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How does liposomal NAD+ work?",
+            "answer": "<p>Liposomal delivery surrounds ingredients with phospholipid structures designed to support stability and delivery through digestion.</p>",
+            "open": false
+          }
+        },
+        "b8": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What are the benefits of taking NAD+?",
+            "answer": "<p>The formula is positioned to support cellular energy, daily performance, mental clarity, and healthy aging as part of a consistent wellness routine.</p>",
+            "open": false
+          }
+        },
+        "b9": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Who should take NAD+ Liposomal?",
+            "answer": "<p>Adults seeking a convenient daily wellness supplement may consider it. Consult a qualified healthcare professional before use, especially when pregnant, nursing, taking medication, or managing a health condition.</p>",
+            "open": false
+          }
+        },
+        "b10": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How many capsules should I take?",
+            "answer": "<p>Follow the directions printed on the final product label. Replace this placeholder with the confirmed suggested-use instruction before publishing.</p>",
+            "open": false
+          }
+        },
+        "b11": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Is PANSTELLAR NAD+ third-party tested?",
+            "answer": "<p>The supplied mockup states third-party testing. Link the final page to the relevant current certificate of analysis or batch documentation.</p>",
+            "open": false
+          }
+        },
+        "b12": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What is your return policy?",
+            "answer": "<p>The mockup displays a 180-day money-back guarantee. Replace this text with the final store policy and eligibility conditions.</p>",
+            "open": false
+          }
+        },
+        "b13": {
+          "type": "trust",
+          "settings": {
+            "icon": "truck",
+            "title": "Free Shipping",
+            "text": "on orders over $75"
+          }
+        },
+        "b14": {
+          "type": "trust",
+          "settings": {
+            "icon": "shield-check",
+            "title": "180-Day",
+            "text": "Money Back Guarantee"
+          }
+        },
+        "b15": {
+          "type": "trust",
+          "settings": {
+            "icon": "root",
+            "title": "Third-Party",
+            "text": "Tested"
+          }
+        },
+        "b16": {
+          "type": "trust",
+          "settings": {
+            "icon": "lock-box",
+            "title": "Secure",
+            "text": "Checkout"
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3",
+        "b4",
+        "b5",
+        "b6",
+        "b7",
+        "b8",
+        "b9",
+        "b10",
+        "b11",
+        "b12",
+        "b13",
+        "b14",
+        "b15",
+        "b16"
+      ],
+      "settings": {
+        "experts_heading": "Trusted by Experts & Active Adults",
+        "faq_heading": "Frequently Asked Questions"
+      }
+    },
+    "sticky": {
+      "type": "ndl-sticky-cart",
+      "settings": {
+        "product": "",
+        "default_label": "2 bottles — 60 days",
+        "default_price": "$119",
+        "cta_text": "ADD TO CART",
+        "sold_out_text": "SOLD OUT"
+      }
+    }
+  },
+  "order": [
+    "colors",
+    "hero",
+    "routines",
+    "results",
+    "absorption",
+    "data",
+    "journey",
+    "experts_faq",
+    "sticky"
+  ]
+}

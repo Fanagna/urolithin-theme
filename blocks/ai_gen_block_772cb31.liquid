@@ -1,0 +1,712 @@
+{% doc %}
+  @prompt
+    Create a full-width premium hero section identical to the reference visual.
+    
+    Do NOT change any wording, text hierarchy, colors, layout proportions, spacing, or visual tone.
+    
+    🔹 CONTENT (must remain exactly the same)
+    
+    Small badge at the top:
+    “✦ EXCLUSIVE PROGRAM”
+    
+    Main headline (large, elegant serif font):
+    “Panstellar VIP Membership”
+    
+    Subtext below headline:
+    “Unlock 30% off every order, free shipping, and priority access to new releases. One membership — savings on everything, every time.”
+    
+    Pricing section:
+    “$9.99 /month”
+    
+    Small disclaimer text below price:
+    “3-month minimum commitment · Cancel anytime after”
+    
+    CTA Button text:
+    “BECOME A VIP MEMBER →”
+    
+    🔹 DESIGN REQUIREMENTS
+    
+    Background: deep black with subtle gold gradient glow (premium aesthetic)
+    
+    Headline color: soft gold
+    
+    Subtext color: muted light grey
+    
+    Price: large white "$9.99" with smaller "/month"
+    
+    Badge:
+    
+    Rounded pill shape
+    
+    Thin gold border
+    
+    Gold text
+    
+    CTA button:
+    
+    Gold gradient background
+    
+    Black text
+    
+    Rounded corners
+    
+    Subtle hover glow (premium effect)
+    
+    No additional elements.
+    No redesign.
+    No extra animations beyond subtle hover.
+    
+    🔹 LAYOUT
+    
+    Fully centered content
+    
+    Generous vertical spacing
+    
+    Clean luxury composition
+    
+    Balanced typography scale
+    
+    🔹 RESPONSIVE RULES (very important)
+    
+    Headline scales smoothly on mobile
+    
+    Subtext wraps naturally
+    
+    Price remains visually dominant
+    
+    Button remains centered and full-width on small screens
+    
+    Preserve premium spacing on all devices
+    
+    🔹 TECHNICAL REQUIREMENTS
+    
+    Semantic HTML
+    
+    Clean, minimal CSS
+    
+    No JavaScript required
+    
+    Fully compatible with Shopify Dawn theme
+    
+    The final result must visually match the reference exactly.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-vip-hero-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    background: {{ block.settings.background_color }};
+    background: linear-gradient(135deg, 
+      {{ block.settings.background_color }} 0%, 
+      {{ block.settings.background_color }} 40%, 
+      rgba(184, 134, 11, 0.15) 70%, 
+      {{ block.settings.background_color }} 100%);
+    padding: {{ block.settings.padding_top }}px 20px {{ block.settings.padding_bottom }}px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ai-vip-hero-container-{{ ai_gen_id }} {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: {{ block.settings.content_spacing }}px;
+  }
+
+  .ai-vip-hero-badge-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 20px;
+    border: 1px solid {{ block.settings.badge_border_color }};
+    border-radius: 50px;
+    color: {{ block.settings.badge_text_color }};
+    font-size: {{ block.settings.badge_font_size }}px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .ai-vip-hero-headline-{{ ai_gen_id }} {
+    font-family: {{ block.settings.headline_font.family }}, {{ block.settings.headline_font.fallback_families }};
+    font-weight: {{ block.settings.headline_font.weight }};
+    font-style: {{ block.settings.headline_font.style }};
+    font-size: {{ block.settings.headline_font_size }}px;
+    line-height: 1.1;
+    color: {{ block.settings.headline_color }};
+    margin: 0;
+    letter-spacing: -0.5px;
+  }
+
+  .ai-vip-hero-subtext-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subtext_font_size }}px;
+    line-height: 1.6;
+    color: {{ block.settings.subtext_color }};
+    max-width: 600px;
+    margin: 0;
+  }
+
+  .ai-vip-hero-pricing-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin: {{ block.settings.pricing_spacing }}px 0;
+  }
+
+  .ai-vip-hero-price-{{ ai_gen_id }} {
+    font-size: {{ block.settings.price_font_size }}px;
+    font-weight: 700;
+    color: {{ block.settings.price_color }};
+    line-height: 1;
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+  }
+
+  .ai-vip-hero-price-period-{{ ai_gen_id }} {
+    font-size: {{ block.settings.price_period_font_size }}px;
+    font-weight: 400;
+    color: {{ block.settings.price_color }};
+  }
+
+  .ai-vip-hero-disclaimer-{{ ai_gen_id }} {
+    font-size: {{ block.settings.disclaimer_font_size }}px;
+    color: {{ block.settings.disclaimer_color }};
+    line-height: 1.4;
+  }
+
+  .ai-vip-hero-cta-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: {{ block.settings.button_padding_vertical }}px {{ block.settings.button_padding_horizontal }}px;
+    background: {{ block.settings.button_background }};
+    background: linear-gradient(135deg, 
+      {{ block.settings.button_background }} 0%, 
+      {{ block.settings.button_background_end }} 100%);
+    color: {{ block.settings.button_text_color }};
+    font-size: {{ block.settings.button_font_size }}px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .ai-vip-hero-cta-{{ ai_gen_id }}:hover {
+    box-shadow: 0 0 30px rgba(184, 134, 11, 0.4);
+    transform: translateY(-2px);
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-vip-hero-{{ ai_gen_id }} {
+      padding: {{ block.settings.padding_top_mobile }}px 16px {{ block.settings.padding_bottom_mobile }}px;
+    }
+
+    .ai-vip-hero-container-{{ ai_gen_id }} {
+      gap: {{ block.settings.content_spacing_mobile }}px;
+    }
+
+    .ai-vip-hero-badge-{{ ai_gen_id }} {
+      font-size: {{ block.settings.badge_font_size_mobile }}px;
+      padding: 6px 16px;
+    }
+
+    .ai-vip-hero-headline-{{ ai_gen_id }} {
+      font-size: {{ block.settings.headline_font_size_mobile }}px;
+    }
+
+    .ai-vip-hero-subtext-{{ ai_gen_id }} {
+      font-size: {{ block.settings.subtext_font_size_mobile }}px;
+    }
+
+    .ai-vip-hero-price-{{ ai_gen_id }} {
+      font-size: {{ block.settings.price_font_size_mobile }}px;
+    }
+
+    .ai-vip-hero-price-period-{{ ai_gen_id }} {
+      font-size: {{ block.settings.price_period_font_size_mobile }}px;
+    }
+
+    .ai-vip-hero-disclaimer-{{ ai_gen_id }} {
+      font-size: {{ block.settings.disclaimer_font_size_mobile }}px;
+    }
+
+    .ai-vip-hero-cta-{{ ai_gen_id }} {
+      width: 100%;
+      font-size: {{ block.settings.button_font_size_mobile }}px;
+      padding: {{ block.settings.button_padding_vertical_mobile }}px {{ block.settings.button_padding_horizontal_mobile }}px;
+    }
+
+    .ai-vip-hero-pricing-{{ ai_gen_id }} {
+      margin: {{ block.settings.pricing_spacing_mobile }}px 0;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-vip-hero-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-vip-hero-container-{{ ai_gen_id }}">
+    {% if block.settings.show_badge %}
+      <div class="ai-vip-hero-badge-{{ ai_gen_id }}">
+        {{ block.settings.badge_text }}
+      </div>
+    {% endif %}
+
+    <h1 class="ai-vip-hero-headline-{{ ai_gen_id }}">
+      {{ block.settings.headline }}
+    </h1>
+
+    <p class="ai-vip-hero-subtext-{{ ai_gen_id }}">
+      {{ block.settings.subtext }}
+    </p>
+
+    <div class="ai-vip-hero-pricing-{{ ai_gen_id }}">
+      <div class="ai-vip-hero-price-{{ ai_gen_id }}">
+        <span>{{ block.settings.price_amount }}</span>
+        <span class="ai-vip-hero-price-period-{{ ai_gen_id }}">{{ block.settings.price_period }}</span>
+      </div>
+      <p class="ai-vip-hero-disclaimer-{{ ai_gen_id }}">
+        {{ block.settings.disclaimer_text }}
+      </p>
+    </div>
+
+    <a href="{{ block.settings.cta_link }}" class="ai-vip-hero-cta-{{ ai_gen_id }}">
+      {{ block.settings.cta_text }}
+    </a>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "VIP membership hero",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Badge"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_badge",
+      "label": "Show badge",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge text",
+      "default": "✦ EXCLUSIVE PROGRAM"
+    },
+    {
+      "type": "color",
+      "id": "badge_text_color",
+      "label": "Text color",
+      "default": "#D4AF37"
+    },
+    {
+      "type": "color",
+      "id": "badge_border_color",
+      "label": "Border color",
+      "default": "#D4AF37"
+    },
+    {
+      "type": "range",
+      "id": "badge_font_size",
+      "label": "Font size (desktop)",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "badge_font_size_mobile",
+      "label": "Font size (mobile)",
+      "min": 8,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Headline"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Headline",
+      "default": "Panstellar VIP Membership"
+    },
+    {
+      "type": "font_picker",
+      "id": "headline_font",
+      "label": "Font",
+      "default": "serif"
+    },
+    {
+      "type": "color",
+      "id": "headline_color",
+      "label": "Color",
+      "default": "#D4AF37"
+    },
+    {
+      "type": "range",
+      "id": "headline_font_size",
+      "label": "Font size (desktop)",
+      "min": 30,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "headline_font_size_mobile",
+      "label": "Font size (mobile)",
+      "min": 24,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 36
+    },
+    {
+      "type": "header",
+      "content": "Subtext"
+    },
+    {
+      "type": "textarea",
+      "id": "subtext",
+      "label": "Subtext",
+      "default": "Unlock 30% off every order, free shipping, and priority access to new releases. One membership — savings on everything, every time."
+    },
+    {
+      "type": "color",
+      "id": "subtext_color",
+      "label": "Color",
+      "default": "#B0B0B0"
+    },
+    {
+      "type": "range",
+      "id": "subtext_font_size",
+      "label": "Font size (desktop)",
+      "min": 14,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "subtext_font_size_mobile",
+      "label": "Font size (mobile)",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "header",
+      "content": "Pricing"
+    },
+    {
+      "type": "text",
+      "id": "price_amount",
+      "label": "Price amount",
+      "default": "$9.99"
+    },
+    {
+      "type": "text",
+      "id": "price_period",
+      "label": "Price period",
+      "default": "/month"
+    },
+    {
+      "type": "color",
+      "id": "price_color",
+      "label": "Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "price_font_size",
+      "label": "Amount font size (desktop)",
+      "min": 30,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "price_font_size_mobile",
+      "label": "Amount font size (mobile)",
+      "min": 24,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "price_period_font_size",
+      "label": "Period font size (desktop)",
+      "min": 16,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "price_period_font_size_mobile",
+      "label": "Period font size (mobile)",
+      "min": 14,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "text",
+      "id": "disclaimer_text",
+      "label": "Disclaimer text",
+      "default": "3-month minimum commitment · Cancel anytime after"
+    },
+    {
+      "type": "color",
+      "id": "disclaimer_color",
+      "label": "Disclaimer color",
+      "default": "#808080"
+    },
+    {
+      "type": "range",
+      "id": "disclaimer_font_size",
+      "label": "Disclaimer font size (desktop)",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "disclaimer_font_size_mobile",
+      "label": "Disclaimer font size (mobile)",
+      "min": 9,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 11
+    },
+    {
+      "type": "range",
+      "id": "pricing_spacing",
+      "label": "Pricing spacing (desktop)",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "pricing_spacing_mobile",
+      "label": "Pricing spacing (mobile)",
+      "min": 5,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "header",
+      "content": "Call to action"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button text",
+      "default": "BECOME A VIP MEMBER →"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button link"
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Background start",
+      "default": "#D4AF37"
+    },
+    {
+      "type": "color",
+      "id": "button_background_end",
+      "label": "Background end",
+      "default": "#B8860B"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "label": "Font size (desktop)",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "button_font_size_mobile",
+      "label": "Font size (mobile)",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "button_padding_vertical",
+      "label": "Vertical padding (desktop)",
+      "min": 10,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "button_padding_horizontal",
+      "label": "Horizontal padding (desktop)",
+      "min": 20,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "button_padding_vertical_mobile",
+      "label": "Vertical padding (mobile)",
+      "min": 10,
+      "max": 25,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "button_padding_horizontal_mobile",
+      "label": "Horizontal padding (mobile)",
+      "min": 20,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding (desktop)",
+      "min": 40,
+      "max": 150,
+      "step": 10,
+      "unit": "px",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding (desktop)",
+      "min": 40,
+      "max": 150,
+      "step": 10,
+      "unit": "px",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Top padding (mobile)",
+      "min": 30,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Bottom padding (mobile)",
+      "min": 30,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "content_spacing",
+      "label": "Content spacing (desktop)",
+      "min": 15,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "content_spacing_mobile",
+      "label": "Content spacing (mobile)",
+      "min": 10,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    }
+  ],
+  "presets": [
+    {
+      "name": "VIP membership hero"
+    }
+  ]
+}
+{% endschema %}

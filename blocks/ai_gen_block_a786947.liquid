@@ -1,0 +1,269 @@
+{% doc %}
+  @prompt
+    Create a "Customers who bought BPC-157 also added" cross-sell section:
+    
+    CARD CONTAINER:
+    - White background, border-radius 8px
+    - Box-shadow: 0 2px 5px rgba(15,17,17,0.08)
+    - Padding: 18px 20px
+    - Margin-top: 12px
+    
+    TITLE:
+    - "Customers who bought BPC-157 also added"
+    - Font-size: 15px, font-weight 700
+    - Margin-bottom: 12px
+    
+    PRODUCT LIST — 3 items stacked vertically with 10px gap:
+    
+    Each item is a horizontal row:
+    - LEFT: small product image placeholder (50px x 50px, background #f7f7f7, border-radius 6px, centered emoji)
+    - CENTER: product info
+      - Product name: font-size 12px, font-weight 600
+      - Price below: font-size 13px, font-weight 700, color #b12704 (Amazon red price)
+    - RIGHT: "Add to Cart" button
+      - Padding: 6px 12px
+      - Background: linear-gradient(to bottom, #f7dfa5, #f0c14b)
+      - Border: 1px solid #a88734
+      - Border-radius: 16px (pill)
+      - Font-size: 11px, font-weight 600
+      - White-space: nowrap
+      - Cursor: pointer
+      - On hover: gradient darkens
+    
+    EACH ROW:
+    - Display: flex, align-items center, gap 10px
+    - Padding: 8px
+    - Border: 1px solid #ededed
+    - Border-radius: 8px
+    - On hover: border-color changes to #0d6e4f
+    
+    3 PRODUCTS TO SHOW:
+    1. ⚡ TB-500 Capsules — 500mcg → $49.99
+    2. 🔋 NAD+ 250mg — Sublingual → $54.99
+    3. 🦠 Probiotic 50 Billion CFU → $24.99
+    
+    RESPONSIVE (under 768px):
+    - Padding: 14px 16px
+    - Title: 14px
+    - Product image: 42px x 42px
+    - Item padding: 6px
+    - "Add to Cart" button stays same size (important for touch targets)
+    
+    HTML and CSS only. The "Add to Cart" buttons should be <form> elements that POST to /cart/add with the correct variant ID (leave variant ID as a placeholder to fill in later).
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-crosssell-container-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+  }
+
+  .ai-crosssell-card-{{ ai_gen_id }} {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(15, 17, 17, 0.08);
+    padding: 18px 20px;
+    margin-top: 12px;
+  }
+
+  .ai-crosssell-title-{{ ai_gen_id }} {
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0 0 12px 0;
+    color: #121212;
+  }
+
+  .ai-crosssell-list-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .ai-crosssell-item-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px;
+    border: 1px solid #ededed;
+    border-radius: 8px;
+    transition: border-color 0.2s ease;
+  }
+
+  .ai-crosssell-item-{{ ai_gen_id }}:hover {
+    border-color: #0d6e4f;
+  }
+
+  .ai-crosssell-image-{{ ai_gen_id }} {
+    width: 50px;
+    height: 50px;
+    flex-shrink: 0;
+    background: #f7f7f7;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+  }
+
+  .ai-crosssell-info-{{ ai_gen_id }} {
+    flex-grow: 1;
+    min-width: 0;
+  }
+
+  .ai-crosssell-name-{{ ai_gen_id }} {
+    font-size: 12px;
+    font-weight: 600;
+    margin: 0 0 4px 0;
+    color: #121212;
+  }
+
+  .ai-crosssell-price-{{ ai_gen_id }} {
+    font-size: 13px;
+    font-weight: 700;
+    color: #b12704;
+    margin: 0;
+  }
+
+  .ai-crosssell-button-{{ ai_gen_id }} {
+    padding: 6px 12px;
+    background: linear-gradient(to bottom, #f7dfa5, #f0c14b);
+    border: 1px solid #a88734;
+    border-radius: 16px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+    color: #111111;
+    flex-shrink: 0;
+    transition: background 0.2s ease;
+  }
+
+  .ai-crosssell-button-{{ ai_gen_id }}:hover {
+    background: linear-gradient(to bottom, #f0d78f, #e9b93f);
+  }
+
+  @media screen and (max-width: 767px) {
+    .ai-crosssell-card-{{ ai_gen_id }} {
+      padding: 14px 16px;
+    }
+
+    .ai-crosssell-title-{{ ai_gen_id }} {
+      font-size: 14px;
+    }
+
+    .ai-crosssell-image-{{ ai_gen_id }} {
+      width: 42px;
+      height: 42px;
+      font-size: 20px;
+    }
+
+    .ai-crosssell-item-{{ ai_gen_id }} {
+      padding: 6px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-crosssell-container-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-crosssell-card-{{ ai_gen_id }}">
+    <h3 class="ai-crosssell-title-{{ ai_gen_id }}">{{ block.settings.title }}</h3>
+    
+    <ul class="ai-crosssell-list-{{ ai_gen_id }}">
+      {% for i in (1..3) %}
+        {% liquid
+          assign product_key = 'product_' | append: i
+          assign emoji_key = 'emoji_' | append: i
+          assign product = block.settings[product_key]
+          assign emoji = block.settings[emoji_key]
+        %}
+        
+        {% if product != blank %}
+          <li class="ai-crosssell-item-{{ ai_gen_id }}">
+            <div class="ai-crosssell-image-{{ ai_gen_id }}">
+              {{ emoji }}
+            </div>
+            
+            <div class="ai-crosssell-info-{{ ai_gen_id }}">
+              <p class="ai-crosssell-name-{{ ai_gen_id }}">{{ product.title }}</p>
+              <p class="ai-crosssell-price-{{ ai_gen_id }}">{{ product.price | money }}</p>
+            </div>
+            
+            {% form 'product', product %}
+              <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+              <button type="submit" class="ai-crosssell-button-{{ ai_gen_id }}">
+                Add to Cart
+              </button>
+            {% endform %}
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "BPC-157 cross-sell",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Customers who bought BPC-157 also added"
+    },
+    {
+      "type": "header",
+      "content": "Product 1"
+    },
+    {
+      "type": "text",
+      "id": "emoji_1",
+      "label": "Emoji",
+      "default": "⚡"
+    },
+    {
+      "type": "product",
+      "id": "product_1",
+      "label": "Product"
+    },
+    {
+      "type": "header",
+      "content": "Product 2"
+    },
+    {
+      "type": "text",
+      "id": "emoji_2",
+      "label": "Emoji",
+      "default": "🔋"
+    },
+    {
+      "type": "product",
+      "id": "product_2",
+      "label": "Product"
+    },
+    {
+      "type": "header",
+      "content": "Product 3"
+    },
+    {
+      "type": "text",
+      "id": "emoji_3",
+      "label": "Emoji",
+      "default": "🦠"
+    },
+    {
+      "type": "product",
+      "id": "product_3",
+      "label": "Product"
+    }
+  ],
+  "presets": [
+    {
+      "name": "BPC-157 cross-sell"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,328 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "description_wUFXL9": {
+          "type": "description",
+          "settings": {}
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "swatch_shape": "circle"
+          }
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": true
+          }
+        }
+      },
+      "block_order": [
+        "title",
+        "price",
+        "description_wUFXL9",
+        "variant_picker",
+        "quantity_selector",
+        "buy_buttons"
+      ],
+      "settings": {
+        "enable_sticky_info": true,
+        "color_scheme": "scheme-8157f136-ffa3-4f27-8dff-3f47984d2975",
+        "media_size": "medium",
+        "constrain_to_viewport": true,
+        "media_fit": "contain",
+        "gallery_layout": "thumbnail_slider",
+        "media_position": "left",
+        "image_zoom": "hover",
+        "mobile_thumbnails": "hide",
+        "hide_variants": true,
+        "enable_video_looping": false,
+        "padding_top": 24,
+        "padding_bottom": 12
+      }
+    },
+    "17647689290a298062": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_bec2fdb_zDCQrC": {
+          "type": "ai_gen_block_bec2fdb",
+          "settings": {
+            "title": "The Bulletproof Routine",
+            "subtitle": "A simplified daily protocol to ensure maximum absorption and consistency.",
+            "am_title": "AM: Repair & Prime",
+            "am_step_1": "Take 2 Capsules BPC-157",
+            "am_step_2": "Take 3 Capsules Creatine",
+            "am_timing": "With breakfast",
+            "pm_title": "PM: Refill & Saturate",
+            "pm_step_1": "Take 3 Capsules Creatine",
+            "pm_timing": "Post-workout or dinner",
+            "card_title": "Bundle Contents",
+            "product_1_name": "1x BPC-157 (60 Capsules – 500mcg)",
+            "product_1_price": "$79.99",
+            "product_2_name": "1x Creatine (180 Capsules – Micronized)",
+            "product_2_price": "$34.99",
+            "bundle_label": "Bundle Price",
+            "bundle_price": "$89.99",
+            "cta_text": "Save $25 Today",
+            "cta_link": "",
+            "background_color": "#000000",
+            "gradient_color": "#1a1a1a",
+            "title_color": "#ffffff",
+            "subtitle_color": "#cccccc",
+            "text_color": "#e0e0e0",
+            "accent_color": "#0048dc",
+            "icon_background": "#1a1a1a",
+            "icon_color": "#d6e001",
+            "card_background": "#0a0a0a",
+            "card_text_color": "#ffffff",
+            "card_border_color": "#2a2a2a",
+            "card_divider_color": "#1a1a1a",
+            "card_shadow_color": "#00000080",
+            "button_background": "#ffffff",
+            "button_hover_background": "#f0f0f0",
+            "button_text_color": "#000000",
+            "button_glow_color": "#ffffff4d",
+            "title_size": 48,
+            "subtitle_size": 16,
+            "section_title_size": 20,
+            "step_size": 15,
+            "timing_size": 13,
+            "card_title_size": 14,
+            "product_name_size": 14,
+            "product_price_size": 14,
+            "bundle_label_size": 14,
+            "bundle_price_size": 28,
+            "button_size": 16,
+            "max_width": 1400,
+            "padding_vertical": 80,
+            "padding_horizontal": 40,
+            "icon_size": 48,
+            "card_radius": 12,
+            "button_radius": 6
+          },
+          "blocks": {}
+        },
+        "ai_gen_block_56562cb_PaU7UX": {
+          "type": "ai_gen_block_56562cb",
+          "settings": {
+            "title": "The \"Structural Gap\"",
+            "paragraph": "<p>Your muscles adapt to training in weeks. Your tendons and ligaments take months. This lag creates a dangerous<strong>\"Structural Gap\"</strong>where your engine becomes too powerful for your chassis. That's when injury strikes.<br/><br/></p>",
+            "blue_text": "<p><strong>This stack bridges that gap.</strong></p>",
+            "image": "shopify://shop_images/structural_gap.png",
+            "title_size": 32,
+            "title_color": "#ffffff",
+            "title_spacing": 16,
+            "paragraph_size": 16,
+            "paragraph_color": "#f6e8e8",
+            "paragraph_spacing": 16,
+            "blue_text_size": 16,
+            "blue_text_color": "#1965ff",
+            "image_size": 400,
+            "image_border_radius": 10,
+            "section_background_color": "#121212",
+            "section_padding_top": 40,
+            "section_padding_bottom": 40,
+            "container_width": 1200,
+            "content_gap": 60
+          },
+          "blocks": {}
+        },
+        "ai_gen_block_d353d2a_dFVyM3": {
+          "type": "ai_gen_block_d353d2a",
+          "settings": {
+            "main_title": "Engineered for Synergy",
+            "title_size": 36,
+            "title_color": "#121212",
+            "title_spacing": 40,
+            "container_width": 1200,
+            "cards_gap": 30,
+            "background_color": "#ffffff",
+            "section_padding_top": 50,
+            "section_padding_bottom": 50,
+            "card_background": "#00143e",
+            "card_border_radius": 12,
+            "card_min_height": 300,
+            "card_padding": 30,
+            "badge_background": "#5c1ada",
+            "badge_text_color": "#ffffff",
+            "badge_border_color": "#5c1ada",
+            "badge_border_width": 2,
+            "badge_font_size": 14,
+            "badge_padding_vertical": 8,
+            "badge_padding_horizontal": 20,
+            "badge_border_radius": 8,
+            "card_title_size": 24,
+            "card_title_color": "#ffffff",
+            "card_title_spacing": 10,
+            "card_subtitle_size": 16,
+            "card_subtitle_color": "#0048dc",
+            "card_subtitle_spacing": 10,
+            "card_description_size": 14,
+            "card_description_color": "#efdddd",
+            "card_1_enabled": true,
+            "card_1_badge": "",
+            "card_1_image": "shopify://shop_images/image_cea9467e-fc92-4abf-bfc0-5f8e6d56d839.jpg",
+            "card_1_title": "BPC-157 (Oral)",
+            "card_1_subtitle": "Systemic Repair",
+            "card_1_description": "Increases blood flow to tendons and ligaments. Keeps your joints feeling \"lubricated\" and strong so you can grip heavier and push harder without fear.",
+            "card_2_enabled": true,
+            "card_2_badge": "",
+            "card_2_image": "shopify://shop_images/CREATINEMONOHYDRATEnewdesignPanstellar-_1_dd98e4ef-97a6-455d-a694-4035044a28d4.jpg",
+            "card_2_title": "Creatine Capsules",
+            "card_2_subtitle": "1500mg Micronized",
+            "card_2_description": "While BPC reinforces the frame, Creatine fuels the engine. It hydrates muscle cells and provides raw power for that extra rep. Convenient capsules mean no messy powders."
+          },
+          "blocks": {}
+        },
+        "ai_gen_block_c83b196_twgYgM": {
+          "type": "ai_gen_block_c83b196",
+          "name": "Customer reviews",
+          "settings": {
+            "title": "Athlete Reviews",
+            "rating_text": "4.9/5",
+            "title_size": 36,
+            "header_star_size": 24,
+            "review_1_image": "shopify://shop_images/alex_bpc_creatine_testimonial.png",
+            "review_1_text": "\"I usually get tennis elbow when I increase my bench press volume. Since taking this stack, my joints feel bulletproof even on heavy days.\"",
+            "review_1_author": "Alex D.",
+            "review_2_image": "shopify://shop_images/marcus_bpc_creatine_testimonial.png",
+            "review_2_text": "\"The capsules are a game changer. I hate mixing powders. Taking the BPC and Creatine together in the morning is just effortless.\"",
+            "review_2_author": "Marcus T.",
+            "review_3_image": "shopify://shop_images/sara_bpc_creatine_testimonial.png",
+            "review_3_text": "\"Recovery speed is noticeable. I'm less sore and my nagging shoulder pain has practically vanished after 3 weeks.\"",
+            "review_3_author": "Sarah L.",
+            "background_color": "#121212",
+            "title_color": "#ffffff",
+            "text_color": "#ffffff",
+            "star_color": "#ffd700",
+            "verified_color": "#00a651",
+            "card_background": "#554f4f",
+            "separator_color": "#e0e0e0",
+            "card_radius": 12,
+            "image_radius": 8,
+            "card_star_size": 18,
+            "review_text_size": 14,
+            "avatar_size": 50,
+            "author_name_size": 16
+          },
+          "blocks": {}
+        },
+        "ai_gen_block_75e4c0b_jFzJWX": {
+          "type": "ai_gen_block_75e4c0b",
+          "settings": {
+            "heading": "Quality You Can Verify",
+            "heading_size": 40,
+            "heading_color": "#ffffff",
+            "heading_spacing": 48,
+            "card_1_enabled": true,
+            "card_1_title": "MADE IN USA",
+            "card_1_subtitle": "FDA Registered Facility",
+            "card_2_enabled": true,
+            "card_2_title": "LAB TESTED",
+            "card_2_subtitle": "Purity Verified",
+            "card_3_enabled": true,
+            "card_3_title": "GMP CERTIFIED",
+            "card_3_subtitle": "Manufacturing Standards",
+            "card_4_enabled": true,
+            "card_4_title": "GUARANTEED",
+            "card_4_subtitle": "60-Day Return Policy",
+            "card_background": "#1a1a1a",
+            "card_radius": 12,
+            "card_padding": 32,
+            "card_gap": 24,
+            "card_border_width": 1,
+            "card_border_color": "#333333",
+            "card_shadow_horizontal": 0,
+            "card_shadow_vertical": 8,
+            "card_shadow_blur": 24,
+            "card_shadow_opacity": 30,
+            "icon_size": 48,
+            "icon_color": "#3b82f6",
+            "icon_spacing": 16,
+            "card_title_size": 16,
+            "card_title_color": "#ffffff",
+            "title_spacing": 8,
+            "card_subtitle_size": 14,
+            "card_subtitle_color": "#a0a0a0",
+            "background_color": "#000000",
+            "background_gradient": "",
+            "container_width": 1200,
+            "padding_top": 60,
+            "padding_bottom": 60
+          },
+          "blocks": {}
+        },
+        "ai_gen_block_b2da166_kRenrD": {
+          "type": "ai_gen_block_b2da166",
+          "settings": {},
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_bec2fdb_zDCQrC",
+        "ai_gen_block_56562cb_PaU7UX",
+        "ai_gen_block_d353d2a_dFVyM3",
+        "ai_gen_block_c83b196_twgYgM",
+        "ai_gen_block_75e4c0b_jFzJWX",
+        "ai_gen_block_b2da166_kRenrD"
+      ],
+      "settings": {}
+    },
+    "related-products": {
+      "type": "related-products",
+      "settings": {
+        "heading": "You may also like",
+        "heading_size": "h2",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "color_scheme": "background-1",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "columns_mobile": "2",
+        "padding_top": 36,
+        "padding_bottom": 28
+      }
+    },
+    "17353057539fcb7e83": {
+      "type": "apps",
+      "settings": {
+        "include_margins": true
+      }
+    }
+  },
+  "order": [
+    "main",
+    "17647689290a298062",
+    "related-products",
+    "17353057539fcb7e83"
+  ]
+}

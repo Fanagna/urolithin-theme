@@ -1,0 +1,492 @@
+{% doc %}
+  @prompt
+    genere moi une section contenant                                                                                                                                                                          une image (en format carré à gauche) et un titre , des bouton 5 bouton avec des lien vers le produit) et noublie pas tous les parametrage des reglage
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-image-buttons-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+  }
+
+  .ai-image-buttons-container-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: {{ block.settings.spacing }}px;
+    padding: {{ block.settings.padding }}px;
+    background-color: {{ block.settings.background_color }};
+    border-radius: {{ block.settings.border_radius }}px;
+  }
+
+  .ai-image-buttons-image-wrapper-{{ ai_gen_id }} {
+    flex-shrink: 0;
+    width: {{ block.settings.image_size }}px;
+    height: {{ block.settings.image_size }}px;
+  }
+
+  .ai-image-buttons-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: {{ block.settings.image_border_radius }}px;
+  }
+
+  .ai-image-buttons-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: {{ block.settings.image_border_radius }}px;
+    position: relative;
+  }
+
+  .ai-image-buttons-placeholder-{{ ai_gen_id }} svg {
+    width: 60%;
+    height: 60%;
+    opacity: 0.3;
+  }
+
+  .ai-image-buttons-content-{{ ai_gen_id }} {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: {{ block.settings.content_spacing }}px;
+  }
+
+  .ai-image-buttons-title-{{ ai_gen_id }} {
+    margin: 0;
+    font-size: {{ block.settings.title_size }}px;
+    color: {{ block.settings.title_color }};
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .ai-image-buttons-list-{{ ai_gen_id }} {
+    display: flex;
+    flex-wrap: wrap;
+    gap: {{ block.settings.button_spacing }}px;
+  }
+
+  .ai-image-buttons-button-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: {{ block.settings.button_padding_vertical }}px {{ block.settings.button_padding_horizontal }}px;
+    background-color: {{ block.settings.button_background }};
+    color: {{ block.settings.button_text_color }};
+    text-decoration: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-size: {{ block.settings.button_font_size }}px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: {{ block.settings.button_border_width }}px solid {{ block.settings.button_border_color }};
+  }
+
+  .ai-image-buttons-button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_background }};
+    color: {{ block.settings.button_hover_text_color }};
+    transform: translateY(-2px);
+  }
+
+  .ai-image-buttons-empty-state-{{ ai_gen_id }} {
+    font-size: 14px;
+    color: #999;
+    font-style: italic;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-image-buttons-container-{{ ai_gen_id }} {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .ai-image-buttons-image-wrapper-{{ ai_gen_id }} {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1;
+    }
+
+    .ai-image-buttons-list-{{ ai_gen_id }} {
+      width: 100%;
+    }
+
+    .ai-image-buttons-button-{{ ai_gen_id }} {
+      flex: 1 1 auto;
+      min-width: calc(50% - {{ block.settings.button_spacing | divided_by: 2 }}px);
+    }
+  }
+
+  @media screen and (min-width: 750px) {
+    .ai-image-buttons-container-{{ ai_gen_id }} {
+      width: {{ block.settings.desktop_width_percent }}%;
+    }
+  }
+{% endstyle %}
+
+<ai-image-buttons-{{ ai_gen_id }} class="ai-image-buttons-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-image-buttons-container-{{ ai_gen_id }}">
+    <div class="ai-image-buttons-image-wrapper-{{ ai_gen_id }}">
+      {% if block.settings.image %}
+        <img
+          src="{{ block.settings.image | image_url: width: 800 }}"
+          alt="{{ block.settings.image.alt | escape }}"
+          loading="lazy"
+          width="{{ block.settings.image.width }}"
+          height="{{ block.settings.image.height }}"
+          class="ai-image-buttons-image-{{ ai_gen_id }}"
+        >
+      {% else %}
+        <div class="ai-image-buttons-placeholder-{{ ai_gen_id }}">
+          {{ 'image' | placeholder_svg_tag }}
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="ai-image-buttons-content-{{ ai_gen_id }}">
+      {% if block.settings.title != blank %}
+        <h2 class="ai-image-buttons-title-{{ ai_gen_id }}">{{ block.settings.title }}</h2>
+      {% endif %}
+
+      <div class="ai-image-buttons-list-{{ ai_gen_id }}">
+        {% liquid
+          assign has_buttons = false
+          for i in (1..5)
+            assign button_text_key = 'button_' | append: i | append: '_text'
+            assign button_link_key = 'button_' | append: i | append: '_link'
+            assign button_text = block.settings[button_text_key]
+            assign button_link = block.settings[button_link_key]
+            
+            if button_text != blank
+              assign has_buttons = true
+            endif
+          endfor
+        %}
+
+        {% if has_buttons %}
+          {% for i in (1..5) %}
+            {% liquid
+              assign button_text_key = 'button_' | append: i | append: '_text'
+              assign button_link_key = 'button_' | append: i | append: '_link'
+              assign button_text = block.settings[button_text_key]
+              assign button_link = block.settings[button_link_key]
+            %}
+
+            {% if button_text != blank %}
+              <a
+                href="{{ button_link }}"
+                class="ai-image-buttons-button-{{ ai_gen_id }}"
+              >
+                {{ button_text }}
+              </a>
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          <div class="ai-image-buttons-empty-state-{{ ai_gen_id }}">
+            Ajoutez du texte et des liens pour vos boutons
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</ai-image-buttons-{{ ai_gen_id }}>
+
+{% schema %}
+{
+  "name": "Image et boutons",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "range",
+      "id": "image_size",
+      "min": 100,
+      "max": 500,
+      "step": 20,
+      "unit": "px",
+      "label": "Taille de l'image",
+      "default": 300
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Arrondi de l'image",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Titre"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Titre",
+      "default": "Découvrez nos produits"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 16,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Taille du titre",
+      "default": 28
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Couleur du titre",
+      "default": "#121212"
+    },
+    {
+      "type": "header",
+      "content": "Bouton 1"
+    },
+    {
+      "type": "text",
+      "id": "button_1_text",
+      "label": "Texte du bouton 1",
+      "default": "Produit 1"
+    },
+    {
+      "type": "url",
+      "id": "button_1_link",
+      "label": "Lien du bouton 1"
+    },
+    {
+      "type": "header",
+      "content": "Bouton 2"
+    },
+    {
+      "type": "text",
+      "id": "button_2_text",
+      "label": "Texte du bouton 2",
+      "default": "Produit 2"
+    },
+    {
+      "type": "url",
+      "id": "button_2_link",
+      "label": "Lien du bouton 2"
+    },
+    {
+      "type": "header",
+      "content": "Bouton 3"
+    },
+    {
+      "type": "text",
+      "id": "button_3_text",
+      "label": "Texte du bouton 3",
+      "default": "Produit 3"
+    },
+    {
+      "type": "url",
+      "id": "button_3_link",
+      "label": "Lien du bouton 3"
+    },
+    {
+      "type": "header",
+      "content": "Bouton 4"
+    },
+    {
+      "type": "text",
+      "id": "button_4_text",
+      "label": "Texte du bouton 4",
+      "default": "Produit 4"
+    },
+    {
+      "type": "url",
+      "id": "button_4_link",
+      "label": "Lien du bouton 4"
+    },
+    {
+      "type": "header",
+      "content": "Bouton 5"
+    },
+    {
+      "type": "text",
+      "id": "button_5_text",
+      "label": "Texte du bouton 5",
+      "default": "Produit 5"
+    },
+    {
+      "type": "url",
+      "id": "button_5_link",
+      "label": "Lien du bouton 5"
+    },
+    {
+      "type": "header",
+      "content": "Style des boutons"
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Couleur de fond",
+      "default": "#5c1ada"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_background",
+      "label": "Couleur de fond au survol",
+      "default": "#b600ff"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Couleur du texte",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_text_color",
+      "label": "Couleur du texte au survol",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Taille de police",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "button_padding_vertical",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Espacement vertical",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "button_padding_horizontal",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "label": "Espacement horizontal",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Arrondi des boutons",
+      "default": 6
+    },
+    {
+      "type": "range",
+      "id": "button_border_width",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "label": "Épaisseur de bordure",
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "button_border_color",
+      "label": "Couleur de bordure",
+      "default": "#5c1ada"
+    },
+    {
+      "type": "range",
+      "id": "button_spacing",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Espacement entre boutons",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Mise en page"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Couleur de fond",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Espacement intérieur",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "spacing",
+      "min": 16,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Espacement image/contenu",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "content_spacing",
+      "min": 8,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Espacement titre/boutons",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Arrondi du conteneur",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Largeur sur desktop",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image et boutons"
+    }
+  ]
+}
+{% endschema %}

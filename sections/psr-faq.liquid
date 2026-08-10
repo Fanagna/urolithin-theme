@@ -1,0 +1,98 @@
+{{ 'psr-panstellar-v11.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'psr-panstellar-v11.js' | asset_url }}" defer></script>
+<section class="psr psr-section psr-faq" id="faq" style="background:{{ section.settings.background }}"><div class="psr-shell psr-faq__layout"><div class="psr-faq__intro"><p class="psr-kicker"><span class="psr-kicker__badge">{% render 'psr-editable-icon', custom_image: section.settings.kicker_icon, fallback_asset: 'psr-v10-icon-leaf.svg', class: 'psr-svg-icon', alt: '' %}</span><span class="psr-kicker__label">{{ section.settings.kicker }}</span><span class="psr-kicker__rule"></span></p><h2 class="psr-title">{{ section.settings.heading_before }} <em>{{ section.settings.heading_highlight }}</em></h2><div class="rte">{{ section.settings.body }}</div>{% if section.settings.image != blank %}{{ section.settings.image | image_url: width: 1100 | image_tag: loading: 'lazy', alt: section.settings.image_alt }}{% else %}<img alt="{{ section.settings.image_alt | escape }}" loading="lazy" src="{{ 'psr-v10-image-product-bottle.webp' | asset_url }}">{% endif %}</div><div class="psr-accordion">{% for block in section.blocks %}<details {{ block.shopify_attributes }} {% if block.settings.open %}open{% endif %}><summary>{{ block.settings.question }}</summary><div class="rte">{{ block.settings.answer }}</div></details>{% endfor %}</div></div></section>
+{% schema %}
+{
+  "name": "PSR — FAQ",
+  "tag": "section",
+  "class": "psr-section-wrapper",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "kicker_icon",
+      "label": "Kicker icon"
+    },
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker",
+      "default": "FAQ"
+    },
+    {
+      "type": "text",
+      "id": "heading_before",
+      "label": "Heading first part",
+      "default": "Questions Many"
+    },
+    {
+      "type": "text",
+      "id": "heading_highlight",
+      "label": "Highlighted part",
+      "default": "Women Ask Us"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Intro text",
+      "default": "<p>We’re here to make things simple. Here are answers to common questions about NMN + Trans-Resveratrol Complex.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "FAQ image"
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Image alt text",
+      "default": "Panstellar product bottle"
+    },
+    {
+      "type": "color_background",
+      "id": "background",
+      "label": "Background",
+      "default": "linear-gradient(135deg,#fff9f4,#f9e9e2)"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Question",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "How soon will I notice results?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Many customers notice subtle changes within the first few weeks. Individual experiences vary.</p>"
+        },
+        {
+          "type": "checkbox",
+          "id": "open",
+          "label": "Open by default",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "PSR — FAQ",
+      "blocks": [
+        { "type": "item", "settings": { "question": "How soon will I notice results?", "answer": "<p>Many customers notice subtle changes in energy or focus within the first few weeks. Individual experiences vary, and consistent daily use matters.</p>", "open": true } },
+        { "type": "item", "settings": { "question": "How do I take NMN + Resveratrol Complex?", "answer": "<p>Follow the serving directions shown on the product label. Many people prefer taking their serving with water as part of their morning routine.</p>" } },
+        { "type": "item", "settings": { "question": "Is this safe to take every day?", "answer": "<p>The formula is designed for daily use as directed. Speak with a qualified healthcare professional before use if you are pregnant, nursing, taking medication or managing a medical condition.</p>" } },
+        { "type": "item", "settings": { "question": "What makes your formula different?", "answer": "<p>It combines NMN and Trans-Resveratrol in a 1600mg complex with liposomal technology, rather than relying on a single ingredient alone.</p>" } },
+        { "type": "item", "settings": { "question": "What if I don’t love it?", "answer": "<p>Your purchase is covered by our 90-day money-back guarantee. Review the store’s current refund policy for eligibility and instructions.</p>" } },
+        { "type": "item", "settings": { "question": "Can I take this with other supplements or medications?", "answer": "<p>Because supplement and medication combinations are personal, consult your healthcare professional before combining products.</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,881 @@
+{% doc %}
+  @prompt
+    Role:
+    Act as a senior Shopify theme developer and conversion-focused UX designer.
+    
+    Goal:
+    Generate a responsive HERO section for a product bundle page (Longevity Bundle) that visually matches the provided reference and is fully connected to Shopify dynamic data.
+    
+    Layout & Design:
+    
+    Two-column layout (desktop), stacked layout (mobile-first).
+    
+    Left column: text, rating, price, CTA.
+    
+    Right column: a single static image block representing the “Longevity Stack” (one image only, not separate products).
+    
+    Clean, premium, biotech-inspired design.
+    
+    White background, soft shadows, rounded corners.
+    
+    Typography: bold headline with gradient emphasis on keywords.
+    
+    Headline (editable text block):
+    “CELLULAR ENERGY MEETS RENEWAL”
+    
+    Emphasize “MEETS” and “RENEWAL” with a blue-to-purple gradient.
+    
+    Subheadline:
+    “Dual-action protocol for mitochondrial health and sustained vitality.”
+    
+    Trust badge (top, small text):
+    “Third-party lab tested | US cGMP certified”
+    
+    Product data (MUST be dynamic from Shopify):
+    
+    Product title from the bundle product
+    
+    ⭐ Star rating and review count using Shopify reviews / metaobjects
+    
+    Price pulled dynamically from Shopify
+    
+    Compare-at price displayed if available
+    
+    Automatic savings badge if compare-at price exists
+    
+    Pricing block:
+    
+    Show original price (strikethrough) if present
+    
+    Show current price dynamically
+    
+    Display “Save $X” automatically calculated by Shopify
+    
+    CTA Button (CRITICAL):
+    
+    Primary CTA button text: “Start Your Protocol — {{ product.price | money }}”
+    
+    Button must be a real Shopify Add to Cart button, not a visual button
+    
+    Must use product_form and form 'product'
+    
+    On click: add bundle to cart and open cart drawer (or redirect to cart)
+    
+    Below CTA micro-reassurance:
+    
+    Icons + text (editable):
+    
+    Free Shipping
+    
+    Cancel Anytime
+    
+    Secure Checkout
+    
+    Right-side image block:
+    
+    Single image container
+    
+    Image source selectable via section settings
+    
+    Caption below image: “Complete Longevity Stack”
+    
+    Image must NOT affect product logic (visual only)
+    
+    Technical requirements:
+    
+    Use
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-longevity-hero-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    background-color: {{ block.settings.background_color }};
+    padding: {{ block.settings.section_padding_top }}px 20px {{ block.settings.section_padding_bottom }}px;
+  }
+
+  .ai-longevity-hero-container-{{ ai_gen_id }} {
+    max-width: {{ block.settings.max_width }}px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+
+  .ai-longevity-hero-content-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .ai-longevity-hero-trust-badge-{{ ai_gen_id }} {
+    font-size: 12px;
+    color: {{ block.settings.trust_badge_color }};
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+  }
+
+  .ai-longevity-hero-headline-{{ ai_gen_id }} {
+    font-size: {{ block.settings.headline_size }}px;
+    font-weight: 700;
+    line-height: 1.1;
+    color: {{ block.settings.headline_color }};
+    margin: 0;
+  }
+
+  .ai-longevity-hero-gradient-text-{{ ai_gen_id }} {
+    background: {{ block.settings.gradient_color }};
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .ai-longevity-hero-subheadline-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subheadline_size }}px;
+    color: {{ block.settings.subheadline_color }};
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .ai-longevity-hero-rating-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-longevity-hero-stars-{{ ai_gen_id }} {
+    display: flex;
+    gap: 2px;
+    color: {{ block.settings.star_color }};
+  }
+
+  .ai-longevity-hero-pricing-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .ai-longevity-hero-price-row-{{ ai_gen_id }} {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+
+  .ai-longevity-hero-current-price-{{ ai_gen_id }} {
+    font-size: {{ block.settings.price_size }}px;
+    font-weight: 700;
+    color: {{ block.settings.price_color }};
+  }
+
+  .ai-longevity-hero-compare-price-{{ ai_gen_id }} {
+    font-size: {{ block.settings.compare_price_size }}px;
+    color: {{ block.settings.compare_price_color }};
+    text-decoration: line-through;
+  }
+
+  .ai-longevity-hero-savings-badge-{{ ai_gen_id }} {
+    display: inline-block;
+    background-color: {{ block.settings.savings_badge_bg }};
+    color: {{ block.settings.savings_badge_text }};
+    padding: 4px 12px;
+    border-radius: {{ block.settings.savings_badge_radius }}px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .ai-longevity-hero-form-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .ai-longevity-hero-cta-{{ ai_gen_id }} {
+    background-color: {{ block.settings.button_bg_color }};
+    color: {{ block.settings.button_text_color }};
+    border: none;
+    padding: 18px 32px;
+    font-size: {{ block.settings.button_text_size }}px;
+    font-weight: 600;
+    border-radius: {{ block.settings.button_radius }}px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    text-align: center;
+  }
+
+  .ai-longevity-hero-cta-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_bg }};
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .ai-longevity-hero-reassurance-{{ ai_gen_id }} {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .ai-longevity-hero-reassurance-item-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: {{ block.settings.reassurance_color }};
+  }
+
+  .ai-longevity-hero-reassurance-icon-{{ ai_gen_id }} {
+    width: 20px;
+    height: 20px;
+    color: {{ block.settings.reassurance_icon_color }};
+  }
+
+  .ai-longevity-hero-image-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    background-color: {{ block.settings.image_bg_color }};
+    border-radius: {{ block.settings.image_radius }}px;
+    padding: {{ block.settings.image_padding }}px;
+    box-shadow: {{ block.settings.image_shadow }};
+  }
+
+  .ai-longevity-hero-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: {{ block.settings.image_radius }}px;
+  }
+
+  .ai-longevity-hero-image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f4f4f4;
+    border-radius: {{ block.settings.image_radius }}px;
+    position: relative;
+  }
+
+  .ai-longevity-hero-image-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: 300px;
+    max-height: 300px;
+    opacity: 0.3;
+  }
+
+  .ai-longevity-hero-empty-state-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 20px;
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .ai-longevity-hero-image-caption-{{ ai_gen_id }} {
+    text-align: center;
+    margin-top: 16px;
+    font-size: 14px;
+    color: {{ block.settings.caption_color }};
+    font-style: italic;
+  }
+
+  @media screen and (max-width: 989px) {
+    .ai-longevity-hero-container-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    .ai-longevity-hero-headline-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.headline_size }}px * 0.75);
+    }
+
+    .ai-longevity-hero-subheadline-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.subheadline_size }}px * 0.9);
+    }
+
+    .ai-longevity-hero-current-price-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.price_size }}px * 0.85);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-longevity-hero-{{ ai_gen_id }} {
+      padding: {{ block.settings.section_padding_top | times: 0.6 }}px 16px {{ block.settings.section_padding_bottom | times: 0.6 }}px;
+    }
+
+    .ai-longevity-hero-reassurance-{{ ai_gen_id }} {
+      gap: 16px;
+    }
+
+    .ai-longevity-hero-reassurance-item-{{ ai_gen_id }} {
+      font-size: 12px;
+    }
+  }
+{% endstyle %}
+
+<longevity-hero-{{ ai_gen_id }} class="ai-longevity-hero-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-longevity-hero-container-{{ ai_gen_id }}">
+    <div class="ai-longevity-hero-content-{{ ai_gen_id }}">
+      {% if block.settings.show_trust_badge %}
+        <div class="ai-longevity-hero-trust-badge-{{ ai_gen_id }}">
+          {{ block.settings.trust_badge_text }}
+        </div>
+      {% endif %}
+
+      <h1 class="ai-longevity-hero-headline-{{ ai_gen_id }}">
+        {% assign headline_parts = block.settings.headline | split: '|' %}
+        {% for part in headline_parts %}
+          {% if part contains '*' %}
+            <span class="ai-longevity-hero-gradient-text-{{ ai_gen_id }}">{{ part | remove: '*' }}</span>
+          {% else %}
+            {{ part }}
+          {% endif %}
+        {% endfor %}
+      </h1>
+
+      {% if block.settings.subheadline != blank %}
+        <p class="ai-longevity-hero-subheadline-{{ ai_gen_id }}">
+          {{ block.settings.subheadline }}
+        </p>
+      {% endif %}
+
+      {% if block.settings.show_rating %}
+        <div class="ai-longevity-hero-rating-{{ ai_gen_id }}">
+          <div class="ai-longevity-hero-stars-{{ ai_gen_id }}">
+            {% for i in (1..5) %}
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+            {% endfor %}
+          </div>
+          <span>{{ block.settings.rating_text }}</span>
+        </div>
+      {% endif %}
+
+      <div class="ai-longevity-hero-pricing-{{ ai_gen_id }}">
+        <div class="ai-longevity-hero-price-row-{{ ai_gen_id }}">
+          <span class="ai-longevity-hero-current-price-{{ ai_gen_id }}">
+            {{ product.price | money }}
+          </span>
+          {% if product.compare_at_price > product.price %}
+            <span class="ai-longevity-hero-compare-price-{{ ai_gen_id }}">
+              {{ product.compare_at_price | money }}
+            </span>
+          {% endif %}
+        </div>
+        {% if product.compare_at_price > product.price %}
+          {% assign savings = product.compare_at_price | minus: product.price %}
+          <div>
+            <span class="ai-longevity-hero-savings-badge-{{ ai_gen_id }}">
+              Save {{ savings | money }}
+            </span>
+          </div>
+        {% endif %}
+      </div>
+
+      {% form 'product', product %}
+        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+        <div class="ai-longevity-hero-form-{{ ai_gen_id }}">
+          <button
+            type="submit"
+            name="add"
+            class="ai-longevity-hero-cta-{{ ai_gen_id }}"
+            {% if product.selected_or_first_available_variant.available == false %}disabled{% endif %}
+          >
+            {% if product.selected_or_first_available_variant.available %}
+              {{ block.settings.button_text }} — {{ product.price | money }}
+            {% else %}
+              Sold Out
+            {% endif %}
+          </button>
+
+          <div class="ai-longevity-hero-reassurance-{{ ai_gen_id }}">
+            {% if block.settings.show_free_shipping %}
+              <div class="ai-longevity-hero-reassurance-item-{{ ai_gen_id }}">
+                <svg class="ai-longevity-hero-reassurance-icon-{{ ai_gen_id }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="1" y="3" width="15" height="13"></rect>
+                  <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                  <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                  <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                </svg>
+                <span>{{ block.settings.free_shipping_text }}</span>
+              </div>
+            {% endif %}
+
+            {% if block.settings.show_cancel_anytime %}
+              <div class="ai-longevity-hero-reassurance-item-{{ ai_gen_id }}">
+                <svg class="ai-longevity-hero-reassurance-icon-{{ ai_gen_id }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="1 4 1 10 7 10"></polyline>
+                  <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+                </svg>
+                <span>{{ block.settings.cancel_anytime_text }}</span>
+              </div>
+            {% endif %}
+
+            {% if block.settings.show_secure_checkout %}
+              <div class="ai-longevity-hero-reassurance-item-{{ ai_gen_id }}">
+                <svg class="ai-longevity-hero-reassurance-icon-{{ ai_gen_id }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+                <span>{{ block.settings.secure_checkout_text }}</span>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      {% endform %}
+    </div>
+
+    <div class="ai-longevity-hero-image-wrapper-{{ ai_gen_id }}">
+      {% if block.settings.bundle_image %}
+        <img
+          src="{{ block.settings.bundle_image | image_url: width: 1000 }}"
+          alt="{{ block.settings.bundle_image.alt | escape }}"
+          loading="lazy"
+          width="{{ block.settings.bundle_image.width }}"
+          height="{{ block.settings.bundle_image.height }}"
+          class="ai-longevity-hero-image-{{ ai_gen_id }}"
+        >
+      {% else %}
+        <div class="ai-longevity-hero-image-placeholder-{{ ai_gen_id }}">
+          {{ 'product-1' | placeholder_svg_tag }}
+          <div class="ai-longevity-hero-empty-state-{{ ai_gen_id }}">
+            Add your Longevity Stack image
+          </div>
+        </div>
+      {% endif %}
+
+      {% if block.settings.image_caption != blank %}
+        <div class="ai-longevity-hero-image-caption-{{ ai_gen_id }}">
+          {{ block.settings.image_caption }}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</longevity-hero-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class LongevityHero{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        const form = this.querySelector('form');
+        if (form) {
+          form.addEventListener('submit', this.handleSubmit.bind(this));
+        }
+      }
+
+      handleSubmit(event) {
+        const cartType = '{{ settings.cart_type }}';
+        if (cartType === 'drawer' || cartType === 'notification') {
+          event.preventDefault();
+          const formData = new FormData(event.target);
+          
+          fetch('/cart/add.js', {
+            method: 'POST',
+            body: formData
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (cartType === 'drawer') {
+              document.querySelector('cart-drawer')?.open();
+            } else {
+              window.location.href = '/cart';
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+        }
+      }
+    }
+
+    customElements.define('longevity-hero-{{ ai_gen_id }}', LongevityHero{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Longevity bundle hero",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 1000,
+      "max": 1600,
+      "step": 100,
+      "unit": "px",
+      "label": "Maximum width",
+      "default": 1400
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 60
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Trust badge"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_trust_badge",
+      "label": "Show trust badge",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "trust_badge_text",
+      "label": "Trust badge text",
+      "default": "Third-party lab tested | US cGMP certified"
+    },
+    {
+      "type": "color",
+      "id": "trust_badge_color",
+      "label": "Trust badge color",
+      "default": "#666666"
+    },
+    {
+      "type": "header",
+      "content": "Headline"
+    },
+    {
+      "type": "textarea",
+      "id": "headline",
+      "label": "Headline",
+      "info": "Use | to separate parts and wrap gradient text with * (e.g., CELLULAR ENERGY *MEETS* RENEWAL)",
+      "default": "CELLULAR ENERGY *MEETS* RENEWAL"
+    },
+    {
+      "type": "range",
+      "id": "headline_size",
+      "min": 24,
+      "max": 72,
+      "step": 2,
+      "unit": "px",
+      "label": "Headline size",
+      "default": 48
+    },
+    {
+      "type": "color",
+      "id": "headline_color",
+      "label": "Headline color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color",
+      "label": "Gradient color",
+      "default": "#5c1ada"
+    },
+    {
+      "type": "header",
+      "content": "Subheadline"
+    },
+    {
+      "type": "textarea",
+      "id": "subheadline",
+      "label": "Subheadline",
+      "default": "Dual-action protocol for mitochondrial health and sustained vitality."
+    },
+    {
+      "type": "range",
+      "id": "subheadline_size",
+      "min": 14,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Subheadline size",
+      "default": 18
+    },
+    {
+      "type": "color",
+      "id": "subheadline_color",
+      "label": "Subheadline color",
+      "default": "#666666"
+    },
+    {
+      "type": "header",
+      "content": "Rating"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Show rating",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "rating_text",
+      "label": "Rating text",
+      "default": "4.9 (2,847 reviews)"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star color",
+      "default": "#FFB800"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#121212"
+    },
+    {
+      "type": "header",
+      "content": "Pricing"
+    },
+    {
+      "type": "range",
+      "id": "price_size",
+      "min": 20,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Price size",
+      "default": 36
+    },
+    {
+      "type": "color",
+      "id": "price_color",
+      "label": "Price color",
+      "default": "#121212"
+    },
+    {
+      "type": "range",
+      "id": "compare_price_size",
+      "min": 14,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Compare price size",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "compare_price_color",
+      "label": "Compare price color",
+      "default": "#999999"
+    },
+    {
+      "type": "color",
+      "id": "savings_badge_bg",
+      "label": "Savings badge background",
+      "default": "#5c1ada"
+    },
+    {
+      "type": "color",
+      "id": "savings_badge_text",
+      "label": "Savings badge text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "savings_badge_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Savings badge radius",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "CTA button"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Start Your Protocol"
+    },
+    {
+      "type": "range",
+      "id": "button_text_size",
+      "min": 14,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Button text size",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button background",
+      "default": "#5c1ada"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg",
+      "label": "Button hover background",
+      "default": "#4a15b8"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "button_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Button radius",
+      "default": 6
+    },
+    {
+      "type": "header",
+      "content": "Reassurance"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_free_shipping",
+      "label": "Show free shipping",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "free_shipping_text",
+      "label": "Free shipping text",
+      "default": "Free Shipping"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cancel_anytime",
+      "label": "Show cancel anytime",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "cancel_anytime_text",
+      "label": "Cancel anytime text",
+      "default": "Cancel Anytime"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_secure_checkout",
+      "label": "Show secure checkout",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "secure_checkout_text",
+      "label": "Secure checkout text",
+      "default": "Secure Checkout"
+    },
+    {
+      "type": "color",
+      "id": "reassurance_color",
+      "label": "Reassurance text color",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "reassurance_icon_color",
+      "label": "Reassurance icon color",
+      "default": "#5c1ada"
+    },
+    {
+      "type": "header",
+      "content": "Bundle image"
+    },
+    {
+      "type": "image_picker",
+      "id": "bundle_image",
+      "label": "Bundle image"
+    },
+    {
+      "type": "text",
+      "id": "image_caption",
+      "label": "Image caption",
+      "default": "Complete Longevity Stack"
+    },
+    {
+      "type": "color",
+      "id": "image_bg_color",
+      "label": "Image background",
+      "default": "#f9f9f9"
+    },
+    {
+      "type": "range",
+      "id": "image_padding",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Image padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "image_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Image radius",
+      "default": 10
+    },
+    {
+      "type": "text",
+      "id": "image_shadow",
+      "label": "Image shadow",
+      "default": "0 4px 20px rgba(0, 0, 0, 0.08)"
+    },
+    {
+      "type": "color",
+      "id": "caption_color",
+      "label": "Caption color",
+      "default": "#666666"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Longevity bundle hero"
+    }
+  ]
+}
+{% endschema %}

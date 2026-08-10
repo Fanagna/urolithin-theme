@@ -1,0 +1,703 @@
+{% doc %}
+  @prompt
+    Create a custom Shopify section based on the visual layout provided. Ensure the accordion style and text content match exactly as shown in the reference image.
+    
+    ⚠️ Do not change or rewrite any text.
+    ⚠️ Do not alter the structure or order of the FAQ items.
+    
+    The section should contain:
+    
+    1. Section Structure
+    
+    Full-width section
+    
+    Background: white
+    
+    Centered content
+    
+    Max content width: 1100px to 1200px
+    
+    Padding: 64px top/bottom for desktop, 40px top/bottom for mobile
+    
+    2. Title
+    
+    Text: “Strategic FAQ”
+    
+    Font size: 32px–36px (desktop), 24px–28px (mobile)
+    
+    Font weight: bold
+    
+    Text color: dark blue (similar to #003366)
+    
+    Text alignment: center
+    
+    Margin-bottom: 40px
+    
+    3. Accordion Layout
+    
+    Use an accordion-style layout with expandable/collapsible sections for each FAQ
+    
+    Each accordion item should have:
+    
+    A question (clickable, expands the answer)
+    
+    A short description (answer to the question, hidden until expanded)
+    
+    Accordion style:
+    
+    Background: white with a light gray border
+    
+    When expanded, change background to a light blue with white text
+    
+    Active item should have a bold heading and expanded answer visible
+    
+    Font size for FAQ title: 16px–18px
+    
+    Font size for FAQ answer: 14px–16px
+    
+    Text color for FAQ question: dark blue
+    
+    Text color for FAQ answer: dark gray
+    
+    4. FAQ Items
+    
+    Each FAQ item should contain the following questions and answers:
+    
+    FAQ 1:
+    Question: “What’s the difference vs a regular grocery store probiotic?”
+    Answer: “Generic probiotics often contain poorly studied strains at low dosages. Our formula combines L. reuteri DSM 17648 and L. gasseri at 150B CFU—that’s 7-15x more concentrated than average.”
+    
+    FAQ 2:
+    Question: “How long before I see results?”
+    Answer: [Provide answer text based on your content]
+    
+    FAQ 3:
+    Question: “Do I need to refrigerate it?”
+    Answer: [Provide answer text based on your content]
+    
+    FAQ 4:
+    Question: “Is it compatible with my diet (vegan/keto)?”
+    Answer: [Provide answer text based on your content]
+    
+    FAQ 5:
+    Question: “Can I take it with other supplements?”
+    Answer: [
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-strategic-faq-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    background-color: {{ block.settings.background_color }};
+    padding: {{ block.settings.padding_top_desktop }}px 20px {{ block.settings.padding_bottom_desktop }}px;
+  }
+
+  .ai-strategic-faq-container-{{ ai_gen_id }} {
+    max-width: {{ block.settings.max_width }}px;
+    margin: 0 auto;
+  }
+
+  .ai-strategic-faq-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size_desktop }}px;
+    font-weight: 700;
+    color: {{ block.settings.title_color }};
+    text-align: center;
+    margin: 0 0 {{ block.settings.title_margin_bottom }}px;
+  }
+
+  .ai-strategic-faq-accordion-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: {{ block.settings.item_spacing }}px;
+  }
+
+  .ai-strategic-faq-item-{{ ai_gen_id }} {
+    border: {{ block.settings.item_border_width }}px solid {{ block.settings.item_border_color }};
+    border-radius: {{ block.settings.item_border_radius }}px;
+    background-color: {{ block.settings.item_background }};
+    overflow: hidden;
+    transition: background-color 0.3s ease;
+  }
+
+  .ai-strategic-faq-item-{{ ai_gen_id }}.active {
+    background-color: {{ block.settings.item_active_background }};
+  }
+
+  .ai-strategic-faq-question-{{ ai_gen_id }} {
+    width: 100%;
+    padding: {{ block.settings.question_padding }}px;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    font-size: {{ block.settings.question_size }}px;
+    font-weight: 600;
+    color: {{ block.settings.question_color }};
+    transition: color 0.3s ease;
+  }
+
+  .ai-strategic-faq-item-{{ ai_gen_id }}.active .ai-strategic-faq-question-{{ ai_gen_id }} {
+    color: {{ block.settings.question_active_color }};
+    font-weight: 700;
+  }
+
+  .ai-strategic-faq-icon-{{ ai_gen_id }} {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+  }
+
+  .ai-strategic-faq-item-{{ ai_gen_id }}.active .ai-strategic-faq-icon-{{ ai_gen_id }} {
+    transform: rotate(180deg);
+  }
+
+  .ai-strategic-faq-icon-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    stroke: currentColor;
+  }
+
+  .ai-strategic-faq-answer-wrapper-{{ ai_gen_id }} {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .ai-strategic-faq-item-{{ ai_gen_id }}.active .ai-strategic-faq-answer-wrapper-{{ ai_gen_id }} {
+    max-height: 500px;
+  }
+
+  .ai-strategic-faq-answer-{{ ai_gen_id }} {
+    padding: 0 {{ block.settings.question_padding }}px {{ block.settings.question_padding }}px;
+    font-size: {{ block.settings.answer_size }}px;
+    line-height: 1.6;
+    color: {{ block.settings.answer_color }};
+  }
+
+  .ai-strategic-faq-item-{{ ai_gen_id }}.active .ai-strategic-faq-answer-{{ ai_gen_id }} {
+    color: {{ block.settings.answer_active_color }};
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-strategic-faq-{{ ai_gen_id }} {
+      padding: {{ block.settings.padding_top_mobile }}px 16px {{ block.settings.padding_bottom_mobile }}px;
+    }
+
+    .ai-strategic-faq-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_size_mobile }}px;
+    }
+
+    .ai-strategic-faq-question-{{ ai_gen_id }} {
+      font-size: {{ block.settings.question_size_mobile }}px;
+    }
+
+    .ai-strategic-faq-answer-{{ ai_gen_id }} {
+      font-size: {{ block.settings.answer_size_mobile }}px;
+    }
+  }
+{% endstyle %}
+
+<strategic-faq-{{ ai_gen_id }} class="ai-strategic-faq-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-strategic-faq-container-{{ ai_gen_id }}">
+    <h2 class="ai-strategic-faq-title-{{ ai_gen_id }}">{{ block.settings.section_title }}</h2>
+    
+    <div class="ai-strategic-faq-accordion-{{ ai_gen_id }}">
+      {% if block.settings.faq_1_enabled %}
+        <div class="ai-strategic-faq-item-{{ ai_gen_id }}" data-faq-item>
+          <button class="ai-strategic-faq-question-{{ ai_gen_id }}" aria-expanded="false">
+            <span>{{ block.settings.faq_1_question }}</span>
+            <span class="ai-strategic-faq-icon-{{ ai_gen_id }}">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </span>
+          </button>
+          <div class="ai-strategic-faq-answer-wrapper-{{ ai_gen_id }}">
+            <div class="ai-strategic-faq-answer-{{ ai_gen_id }}">{{ block.settings.faq_1_answer }}</div>
+          </div>
+        </div>
+      {% endif %}
+
+      {% if block.settings.faq_2_enabled %}
+        <div class="ai-strategic-faq-item-{{ ai_gen_id }}" data-faq-item>
+          <button class="ai-strategic-faq-question-{{ ai_gen_id }}" aria-expanded="false">
+            <span>{{ block.settings.faq_2_question }}</span>
+            <span class="ai-strategic-faq-icon-{{ ai_gen_id }}">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </span>
+          </button>
+          <div class="ai-strategic-faq-answer-wrapper-{{ ai_gen_id }}">
+            <div class="ai-strategic-faq-answer-{{ ai_gen_id }}">{{ block.settings.faq_2_answer }}</div>
+          </div>
+        </div>
+      {% endif %}
+
+      {% if block.settings.faq_3_enabled %}
+        <div class="ai-strategic-faq-item-{{ ai_gen_id }}" data-faq-item>
+          <button class="ai-strategic-faq-question-{{ ai_gen_id }}" aria-expanded="false">
+            <span>{{ block.settings.faq_3_question }}</span>
+            <span class="ai-strategic-faq-icon-{{ ai_gen_id }}">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </span>
+          </button>
+          <div class="ai-strategic-faq-answer-wrapper-{{ ai_gen_id }}">
+            <div class="ai-strategic-faq-answer-{{ ai_gen_id }}">{{ block.settings.faq_3_answer }}</div>
+          </div>
+        </div>
+      {% endif %}
+
+      {% if block.settings.faq_4_enabled %}
+        <div class="ai-strategic-faq-item-{{ ai_gen_id }}" data-faq-item>
+          <button class="ai-strategic-faq-question-{{ ai_gen_id }}" aria-expanded="false">
+            <span>{{ block.settings.faq_4_question }}</span>
+            <span class="ai-strategic-faq-icon-{{ ai_gen_id }}">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </span>
+          </button>
+          <div class="ai-strategic-faq-answer-wrapper-{{ ai_gen_id }}">
+            <div class="ai-strategic-faq-answer-{{ ai_gen_id }}">{{ block.settings.faq_4_answer }}</div>
+          </div>
+        </div>
+      {% endif %}
+
+      {% if block.settings.faq_5_enabled %}
+        <div class="ai-strategic-faq-item-{{ ai_gen_id }}" data-faq-item>
+          <button class="ai-strategic-faq-question-{{ ai_gen_id }}" aria-expanded="false">
+            <span>{{ block.settings.faq_5_question }}</span>
+            <span class="ai-strategic-faq-icon-{{ ai_gen_id }}">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </span>
+          </button>
+          <div class="ai-strategic-faq-answer-wrapper-{{ ai_gen_id }}">
+            <div class="ai-strategic-faq-answer-{{ ai_gen_id }}">{{ block.settings.faq_5_answer }}</div>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</strategic-faq-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class StrategicFaq{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.items = this.querySelectorAll('[data-faq-item]');
+        this.setupEventListeners();
+      }
+
+      setupEventListeners() {
+        this.items.forEach((item) => {
+          const button = item.querySelector('.ai-strategic-faq-question-{{ ai_gen_id }}');
+          
+          button.addEventListener('click', () => {
+            const isActive = item.classList.contains('active');
+            
+            this.items.forEach((otherItem) => {
+              if (otherItem !== item) {
+                otherItem.classList.remove('active');
+                const otherButton = otherItem.querySelector('.ai-strategic-faq-question-{{ ai_gen_id }}');
+                otherButton.setAttribute('aria-expanded', 'false');
+              }
+            });
+            
+            if (isActive) {
+              item.classList.remove('active');
+              button.setAttribute('aria-expanded', 'false');
+            } else {
+              item.classList.add('active');
+              button.setAttribute('aria-expanded', 'true');
+            }
+          });
+        });
+      }
+    }
+
+    customElements.define('strategic-faq-{{ ai_gen_id }}', StrategicFaq{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Strategic FAQ",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section"
+    },
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Title",
+      "default": "Strategic FAQ"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 800,
+      "max": 1600,
+      "step": 100,
+      "unit": "px",
+      "label": "Max content width",
+      "default": 1200
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Title style"
+    },
+    {
+      "type": "range",
+      "id": "title_size_desktop",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Desktop font size",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "title_size_mobile",
+      "min": 16,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Mobile font size",
+      "default": 28
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#003366"
+    },
+    {
+      "type": "range",
+      "id": "title_margin_bottom",
+      "min": 20,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Margin bottom",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Accordion style"
+    },
+    {
+      "type": "range",
+      "id": "item_spacing",
+      "min": 4,
+      "max": 32,
+      "step": 4,
+      "unit": "px",
+      "label": "Item spacing",
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "item_background",
+      "label": "Item background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "item_active_background",
+      "label": "Active item background",
+      "default": "#0048dc"
+    },
+    {
+      "type": "color",
+      "id": "item_border_color",
+      "label": "Border color",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "range",
+      "id": "item_border_width",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "label": "Border width",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "item_border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Question style"
+    },
+    {
+      "type": "range",
+      "id": "question_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Desktop font size",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "question_size_mobile",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Mobile font size",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "question_color",
+      "label": "Question color",
+      "default": "#003366"
+    },
+    {
+      "type": "color",
+      "id": "question_active_color",
+      "label": "Active question color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "question_padding",
+      "min": 12,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Answer style"
+    },
+    {
+      "type": "range",
+      "id": "answer_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Desktop font size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "answer_size_mobile",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Mobile font size",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "answer_color",
+      "label": "Answer color",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "answer_active_color",
+      "label": "Active answer color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "min": 20,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Desktop top padding",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "min": 20,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Desktop bottom padding",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 20,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Mobile top padding",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 20,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Mobile bottom padding",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "FAQ 1"
+    },
+    {
+      "type": "checkbox",
+      "id": "faq_1_enabled",
+      "label": "Enable FAQ 1",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "faq_1_question",
+      "label": "Question",
+      "default": "What's the difference vs a regular grocery store probiotic?"
+    },
+    {
+      "type": "textarea",
+      "id": "faq_1_answer",
+      "label": "Answer",
+      "default": "Generic probiotics often contain poorly studied strains at low dosages. Our formula combines L. reuteri DSM 17648 and L. gasseri at 150B CFU—that's 7-15x more concentrated than average."
+    },
+    {
+      "type": "header",
+      "content": "FAQ 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "faq_2_enabled",
+      "label": "Enable FAQ 2",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "faq_2_question",
+      "label": "Question",
+      "default": "How long before I see results?"
+    },
+    {
+      "type": "textarea",
+      "id": "faq_2_answer",
+      "label": "Answer",
+      "default": "Most customers notice improvements in digestion within 1-2 weeks. For skin, mood, and metabolic benefits, allow 4-6 weeks of consistent use."
+    },
+    {
+      "type": "header",
+      "content": "FAQ 3"
+    },
+    {
+      "type": "checkbox",
+      "id": "faq_3_enabled",
+      "label": "Enable FAQ 3",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "faq_3_question",
+      "label": "Question",
+      "default": "Do I need to refrigerate it?"
+    },
+    {
+      "type": "textarea",
+      "id": "faq_3_answer",
+      "label": "Answer",
+      "default": "No refrigeration required. Our probiotics are shelf-stable and maintain potency at room temperature thanks to advanced encapsulation technology."
+    },
+    {
+      "type": "header",
+      "content": "FAQ 4"
+    },
+    {
+      "type": "checkbox",
+      "id": "faq_4_enabled",
+      "label": "Enable FAQ 4",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "faq_4_question",
+      "label": "Question",
+      "default": "Is it compatible with my diet (vegan/keto)?"
+    },
+    {
+      "type": "textarea",
+      "id": "faq_4_answer",
+      "label": "Answer",
+      "default": "Yes, our probiotic is vegan-friendly, keto-compatible, gluten-free, and contains no artificial additives or common allergens."
+    },
+    {
+      "type": "header",
+      "content": "FAQ 5"
+    },
+    {
+      "type": "checkbox",
+      "id": "faq_5_enabled",
+      "label": "Enable FAQ 5",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "faq_5_question",
+      "label": "Question",
+      "default": "Can I take it with other supplements?"
+    },
+    {
+      "type": "textarea",
+      "id": "faq_5_answer",
+      "label": "Answer",
+      "default": "Absolutely. Our probiotic works synergistically with most supplements. For best results, take it with or after meals."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Strategic FAQ"
+    }
+  ]
+}
+{% endschema %}

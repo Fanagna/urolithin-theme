@@ -1,0 +1,343 @@
+{% doc %}
+  @prompt
+    Create a clean two-column instruction and timeline section identical to the reference.
+    ⚠️ DO NOT change any text, wording, punctuation, emojis, icons, colors, spacing, or hierarchy.
+    ⚠️ DO NOT rewrite, summarize, or optimize the copy.
+    LAYOUT
+    Display a two-column layout on desktop.
+    LEFT COLUMN (visual placeholder)
+    Create an image container placeholder with:
+    Light grey background
+    Dashed border
+    Rounded corners
+    Centered icon + text: INSERT IMAGE HERE
+    Same proportions and alignment as the reference
+    RIGHT COLUMN (content – keep exactly as written)
+    Section 1
+    Title:
+    📋 SUPER SIMPLE
+    Subtitle:
+    🔒 EVERY MORNING
+    
+    Text:
+    Take with breakfast: 2 capsules with water
+    That’s it.
+    
+    Section 2
+    
+    Title:
+    ⏱ WHAT TO EXPECT
+    
+    Timeline (keep order and wording):
+    
+    Week 1–2: Your body adjusts
+    
+    Week 2–3: Digestion feels better
+    
+    Week 3–4: Energy more stable, cravings easier to manage
+    
+    Month 2–3: Benefits continue to build
+    
+    Footer line (italic style):
+    💡 Take it every day. Results build over time.
+    
+    DESIGN & STYLE RULES
+    
+    White background
+    
+    Clean, premium supplement-brand aesthetic
+    
+    Text left-aligned
+    
+    Clear vertical spacing between sections
+    
+    Green accent lines next to timeline items (same style as reference)
+    
+    RESPONSIVENESS (MANDATORY)
+    
+    Desktop: two columns (image left, text right)
+    
+    Tablet: two columns with reduced gap
+    
+    Mobile:
+    
+    Stack vertically
+    
+    Image placeholder first
+    
+    Content block below, full width
+    
+    No horizontal scrolling
+    
+    TECHNICAL CONSTRAINTS
+    
+    Use semantic HTML
+    
+    Use Flexbox or CSS Grid
+    
+    Mobile-first responsive CSS
+    
+    Fully compatible with Shopify Dawn theme
+    
+    No JavaScript
+    
+    The final result must visually match the reference exactly, only adapting layout for smaller screens.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-instruction-timeline-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    background-color: #ffffff;
+    padding: 40px 20px;
+  }
+
+  .ai-instruction-timeline-container-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .ai-instruction-timeline-image-column-{{ ai_gen_id }} {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  .ai-instruction-timeline-image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    background-color: #f5f5f5;
+    border: 2px dashed #cccccc;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .ai-instruction-timeline-image-placeholder-{{ ai_gen_id }} svg {
+    width: 60px;
+    height: 60px;
+    color: #999999;
+  }
+
+  .ai-instruction-timeline-placeholder-text-{{ ai_gen_id }} {
+    font-size: 14px;
+    color: #999999;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .ai-instruction-timeline-content-column-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .ai-instruction-timeline-section-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .ai-instruction-timeline-title-{{ ai_gen_id }} {
+    font-size: 18px;
+    font-weight: 700;
+    color: #121212;
+    margin: 0;
+    line-height: 1.3;
+  }
+
+  .ai-instruction-timeline-subtitle-{{ ai_gen_id }} {
+    font-size: 16px;
+    font-weight: 600;
+    color: #121212;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  .ai-instruction-timeline-text-{{ ai_gen_id }} {
+    font-size: 15px;
+    color: #121212;
+    margin: 0;
+    line-height: 1.6;
+    white-space: pre-line;
+  }
+
+  .ai-instruction-timeline-list-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .ai-instruction-timeline-list-item-{{ ai_gen_id }} {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .ai-instruction-timeline-list-marker-{{ ai_gen_id }} {
+    width: 4px;
+    height: 20px;
+    background-color: #22c55e;
+    border-radius: 2px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .ai-instruction-timeline-list-text-{{ ai_gen_id }} {
+    font-size: 15px;
+    color: #121212;
+    line-height: 1.6;
+    flex: 1;
+  }
+
+  .ai-instruction-timeline-footer-{{ ai_gen_id }} {
+    font-size: 15px;
+    color: #121212;
+    font-style: italic;
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  @media screen and (max-width: 989px) {
+    .ai-instruction-timeline-container-{{ ai_gen_id }} {
+      gap: 30px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-instruction-timeline-{{ ai_gen_id }} {
+      padding: 30px 16px;
+    }
+
+    .ai-instruction-timeline-container-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .ai-instruction-timeline-image-placeholder-{{ ai_gen_id }} {
+      aspect-ratio: 3 / 4;
+    }
+
+    .ai-instruction-timeline-content-column-{{ ai_gen_id }} {
+      gap: 28px;
+    }
+
+    .ai-instruction-timeline-title-{{ ai_gen_id }} {
+      font-size: 17px;
+    }
+
+    .ai-instruction-timeline-subtitle-{{ ai_gen_id }} {
+      font-size: 15px;
+    }
+
+    .ai-instruction-timeline-text-{{ ai_gen_id }} {
+      font-size: 14px;
+    }
+
+    .ai-instruction-timeline-list-text-{{ ai_gen_id }} {
+      font-size: 14px;
+    }
+
+    .ai-instruction-timeline-footer-{{ ai_gen_id }} {
+      font-size: 14px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-instruction-timeline-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-instruction-timeline-container-{{ ai_gen_id }}">
+    <div class="ai-instruction-timeline-image-column-{{ ai_gen_id }}">
+      {% if block.settings.image %}
+        <img
+          src="{{ block.settings.image | image_url: width: 800 }}"
+          alt="{{ block.settings.image.alt | escape }}"
+          loading="lazy"
+          width="{{ block.settings.image.width }}"
+          height="{{ block.settings.image.height }}"
+        >
+      {% else %}
+        <div class="ai-instruction-timeline-image-placeholder-{{ ai_gen_id }}">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          <span class="ai-instruction-timeline-placeholder-text-{{ ai_gen_id }}">INSERT IMAGE HERE</span>
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="ai-instruction-timeline-content-column-{{ ai_gen_id }}">
+      <div class="ai-instruction-timeline-section-{{ ai_gen_id }}">
+        <h2 class="ai-instruction-timeline-title-{{ ai_gen_id }}">📋 SUPER SIMPLE</h2>
+        <h3 class="ai-instruction-timeline-subtitle-{{ ai_gen_id }}">🔒 EVERY MORNING</h3>
+        <p class="ai-instruction-timeline-text-{{ ai_gen_id }}">Take with breakfast: 2 capsules with water
+That's it.</p>
+      </div>
+
+      <div class="ai-instruction-timeline-section-{{ ai_gen_id }}">
+        <h2 class="ai-instruction-timeline-title-{{ ai_gen_id }}">⏱ WHAT TO EXPECT</h2>
+        <ul class="ai-instruction-timeline-list-{{ ai_gen_id }}">
+          <li class="ai-instruction-timeline-list-item-{{ ai_gen_id }}">
+            <span class="ai-instruction-timeline-list-marker-{{ ai_gen_id }}"></span>
+            <span class="ai-instruction-timeline-list-text-{{ ai_gen_id }}">Week 1–2: Your body adjusts</span>
+          </li>
+          <li class="ai-instruction-timeline-list-item-{{ ai_gen_id }}">
+            <span class="ai-instruction-timeline-list-marker-{{ ai_gen_id }}"></span>
+            <span class="ai-instruction-timeline-list-text-{{ ai_gen_id }}">Week 2–3: Digestion feels better</span>
+          </li>
+          <li class="ai-instruction-timeline-list-item-{{ ai_gen_id }}">
+            <span class="ai-instruction-timeline-list-marker-{{ ai_gen_id }}"></span>
+            <span class="ai-instruction-timeline-list-text-{{ ai_gen_id }}">Week 3–4: Energy more stable, cravings easier to manage</span>
+          </li>
+          <li class="ai-instruction-timeline-list-item-{{ ai_gen_id }}">
+            <span class="ai-instruction-timeline-list-marker-{{ ai_gen_id }}"></span>
+            <span class="ai-instruction-timeline-list-text-{{ ai_gen_id }}">Month 2–3: Benefits continue to build</span>
+          </li>
+        </ul>
+        <p class="ai-instruction-timeline-footer-{{ ai_gen_id }}">💡 Take it every day. Results build over time.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Instruction timeline",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Instruction timeline"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,107 @@
+{% doc %}
+  @prompt
+    Create a trust signals card for the cart sidebar:
+    
+    DESIGN:
+    - White background card
+    - Border-radius: 8px
+    - Box-shadow: 0 2px 5px rgba(15,17,17,0.08)
+    - Padding: 16px 20px
+    
+    CONTENT — 4 trust items stacked vertically, each one is a row:
+    1. 🧪 icon (color #0d6e4f) + "3rd-party tested — COA every batch"
+    2. 🚚 icon (color #0d6e4f) + "Ships in 24h — USPS Priority"
+    3. ↩️ icon (color #0d6e4f) + "60-day money-back guarantee"
+    4. ⭐ icon (color #0d6e4f) + "4.8/5 from 2,400+ customers"
+    
+    EACH ROW:
+    - Display: flex, align-items center, gap 10px
+    - Padding: 7px 0
+    - Font-size: 12px, color #565959
+    - Icon: font-size 14px, width 18px, text-align center, color #0d6e4f
+    - The key phrase in each line (e.g. "3rd-party tested", "Ships in 24h") should be bold and color #0f1111
+    
+    Use Font Awesome icons if available, or emoji fallbacks:
+    - fa-flask, fa-shipping-fast, fa-undo-alt, fa-star
+    
+    RESPONSIVE:
+    - No changes needed, works at any width
+    
+    HTML and CSS only.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-trust-card-{{ ai_gen_id }} {
+    display: block;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(15, 17, 17, 0.08);
+    padding: 16px 20px;
+    width: 100%;
+  }
+
+  .ai-trust-card__item-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 0;
+    font-size: 12px;
+    color: #565959;
+  }
+
+  .ai-trust-card__icon-{{ ai_gen_id }} {
+    font-size: 14px;
+    width: 18px;
+    text-align: center;
+    color: #0d6e4f;
+    flex-shrink: 0;
+  }
+
+  .ai-trust-card__text-{{ ai_gen_id }} strong {
+    font-weight: 600;
+    color: #0f1111;
+  }
+{% endstyle %}
+
+<div class="ai-trust-card-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-trust-card__item-{{ ai_gen_id }}">
+    <span class="ai-trust-card__icon-{{ ai_gen_id }}">🧪</span>
+    <span class="ai-trust-card__text-{{ ai_gen_id }}">
+      <strong>3rd-party tested</strong> — COA every batch
+    </span>
+  </div>
+
+  <div class="ai-trust-card__item-{{ ai_gen_id }}">
+    <span class="ai-trust-card__icon-{{ ai_gen_id }}">🚚</span>
+    <span class="ai-trust-card__text-{{ ai_gen_id }}">
+      <strong>Ships in 24h</strong> — USPS Priority
+    </span>
+  </div>
+
+  <div class="ai-trust-card__item-{{ ai_gen_id }}">
+    <span class="ai-trust-card__icon-{{ ai_gen_id }}">↩️</span>
+    <span class="ai-trust-card__text-{{ ai_gen_id }}">
+      <strong>60-day money-back guarantee</strong>
+    </span>
+  </div>
+
+  <div class="ai-trust-card__item-{{ ai_gen_id }}">
+    <span class="ai-trust-card__icon-{{ ai_gen_id }}">⭐</span>
+    <span class="ai-trust-card__text-{{ ai_gen_id }}">
+      <strong>4.8/5</strong> from 2,400+ customers
+    </span>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Trust signals card",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Trust signals card"
+    }
+  ]
+}
+{% endschema %}

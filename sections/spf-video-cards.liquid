@@ -1,0 +1,57 @@
+{{ 'spf.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'spf.js' | asset_url }}" defer></script>
+<div class="spf spf-videos spf-carousel" data-spf-carousel style="--spf-bg:{{ section.settings.bg }};--spf-ink:{{ section.settings.ink }};--spf-line:{{ section.settings.line }}">
+  {%- if section.settings.heading != blank -%}<h2 class="spf-heading" style="color:{{ section.settings.ink }}">{{ section.settings.heading }}</h2>{%- endif -%}
+  <button class="spf-btn prev" type="button" aria-label="Previous" data-spf-scroll="-1" data-spf-ratio="0.85">‹</button>
+  <div class="spf-video-grid" data-spf-track>
+    {%- for block in section.blocks -%}
+      {%- assign tag = 'article' -%}
+      {%- if block.settings.link != blank -%}{%- assign tag = 'a' -%}{%- endif -%}
+      <{{ tag }} class="spf-video"{% if block.settings.link != blank %} href="{{ block.settings.link }}" target="_blank" rel="noopener"{% endif %} {{ block.shopify_attributes }}>
+        {%- render 'spf-img', img: block.settings.thumb, file: block.settings.thumb_file, w: 640, wid: 480, hei: 209, alt: block.settings.title -%}
+        <div class="spf-video-copy">
+          <div class="spf-video-title">{{ block.settings.title }}</div>
+          <div class="spf-video-channel">{{ block.settings.channel }}</div>
+        </div>
+      </{{ tag }}>
+    {%- endfor -%}
+  </div>
+  <button class="spf-btn next" type="button" aria-label="Next" data-spf-scroll="1" data-spf-ratio="0.85">›</button>
+</div>
+
+{% schema %}
+{
+  "name": "SPF · Video cards",
+  "tag": "section",
+  "class": "spf-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading (blank = hidden)" },
+    { "type": "color", "id": "bg", "label": "Background", "default": "#031a2a" },
+    { "type": "color", "id": "ink", "label": "Text", "default": "#ffffff" },
+    { "type": "color", "id": "line", "label": "Border", "default": "#082537" }
+  ],
+  "blocks": [
+    {
+      "type": "video",
+      "name": "Video card",
+      "settings": [
+        { "type": "image_picker", "id": "thumb", "label": "Thumbnail" },
+        { "type": "text", "id": "thumb_file", "label": "…or asset filename", "info": "e.g. spf-youtube-1.webp" },
+        { "type": "text", "id": "title", "label": "Title", "default": "I tried it for 30 days — here are the results!" },
+        { "type": "text", "id": "channel", "label": "Channel", "default": "WELLNESS HUB" },
+        { "type": "url", "id": "link", "label": "Video link (optional)" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "SPF · Video cards",
+      "blocks": [
+        { "type": "video", "settings": { "thumb_file": "spf-youtube-1.webp", "title": "I tried Akkermansia for 30 days — here are the results!", "channel": "WELLNESS HUB" } },
+        { "type": "video", "settings": { "thumb_file": "spf-youtube-2.webp", "title": "This probiotic changed my digestion, skin, and energy", "channel": "LISA VLOGS" } },
+        { "type": "video", "settings": { "thumb_file": "spf-youtube-3.webp", "title": "Akkermansia: honest review after 2 months of use", "channel": "THOMAS FITNESS" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

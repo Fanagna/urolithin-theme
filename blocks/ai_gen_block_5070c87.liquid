@@ -1,0 +1,849 @@
+{% doc %}
+  @prompt
+    genere moi une section 'product information' contenant à gauche un bloc d image carousel (format carrée)et en deuxieme lieu un bloc à droite contenant ( un titre du produit; un sous titre ; short description ; un text en rouge avec émojie feu; le prix ,prix barré,prix sauvé; un text en vert dans un cadre en rectangle; boutton add to cart; les bage: free shipping, 30 Day Returns; 2-year warranty; et en fin un texte;
+    chaque ';' veut dire à la ligne
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-product-info-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    padding: 40px 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .ai-product-info-carousel-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: {{ block.settings.image_border_radius }}px;
+  }
+
+  .ai-product-info-carousel-wrapper-{{ ai_gen_id }} {
+    display: flex;
+    transition: transform 0.3s ease;
+    height: 100%;
+  }
+
+  .ai-product-info-carousel-slide-{{ ai_gen_id }} {
+    min-width: 100%;
+    height: 100%;
+  }
+
+  .ai-product-info-carousel-slide-{{ ai_gen_id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-product-info-carousel-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-product-info-carousel-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: 300px;
+    max-height: 300px;
+  }
+
+  .ai-product-info-carousel-nav-{{ ai_gen_id }} {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(255, 255, 255, 0.9);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+
+  .ai-product-info-carousel-nav-{{ ai_gen_id }}:hover {
+    background-color: rgba(255, 255, 255, 1);
+  }
+
+  .ai-product-info-carousel-nav-prev-{{ ai_gen_id }} {
+    left: 10px;
+  }
+
+  .ai-product-info-carousel-nav-next-{{ ai_gen_id }} {
+    right: 10px;
+  }
+
+  .ai-product-info-carousel-dots-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 2;
+  }
+
+  .ai-product-info-carousel-dot-{{ ai_gen_id }} {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .ai-product-info-carousel-dot-{{ ai_gen_id }}.active {
+    background-color: rgba(255, 255, 255, 1);
+  }
+
+  .ai-product-info-details-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .ai-product-info-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    font-weight: 700;
+    margin: 0;
+    color: {{ block.settings.title_color }};
+  }
+
+  .ai-product-info-subtitle-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subtitle_size }}px;
+    font-weight: 500;
+    margin: 0;
+    color: {{ block.settings.subtitle_color }};
+  }
+
+  .ai-product-info-description-{{ ai_gen_id }} {
+    font-size: {{ block.settings.description_size }}px;
+    line-height: 1.6;
+    color: {{ block.settings.description_color }};
+  }
+
+  .ai-product-info-hot-text-{{ ai_gen_id }} {
+    font-size: {{ block.settings.hot_text_size }}px;
+    font-weight: 600;
+    color: {{ block.settings.hot_text_color }};
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .ai-product-info-price-wrapper-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .ai-product-info-price-{{ ai_gen_id }} {
+    font-size: {{ block.settings.price_size }}px;
+    font-weight: 700;
+    color: {{ block.settings.price_color }};
+  }
+
+  .ai-product-info-compare-price-{{ ai_gen_id }} {
+    font-size: {{ block.settings.compare_price_size }}px;
+    text-decoration: line-through;
+    color: {{ block.settings.compare_price_color }};
+  }
+
+  .ai-product-info-save-price-{{ ai_gen_id }} {
+    font-size: {{ block.settings.save_price_size }}px;
+    font-weight: 600;
+    color: {{ block.settings.save_price_color }};
+  }
+
+  .ai-product-info-guarantee-{{ ai_gen_id }} {
+    padding: 12px 16px;
+    background-color: {{ block.settings.guarantee_bg_color }};
+    border: 1px solid {{ block.settings.guarantee_border_color }};
+    border-radius: {{ block.settings.guarantee_border_radius }}px;
+    color: {{ block.settings.guarantee_text_color }};
+    font-size: {{ block.settings.guarantee_text_size }}px;
+    text-align: center;
+  }
+
+  .ai-product-info-add-to-cart-{{ ai_gen_id }} {
+    padding: 16px 32px;
+    background-color: {{ block.settings.button_bg_color }};
+    color: {{ block.settings.button_text_color }};
+    border: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-size: {{ block.settings.button_text_size }}px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .ai-product-info-add-to-cart-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_bg_color }};
+  }
+
+  .ai-product-info-badges-{{ ai_gen_id }} {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .ai-product-info-badge-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background-color: {{ block.settings.badge_bg_color }};
+    border-radius: {{ block.settings.badge_border_radius }}px;
+    font-size: {{ block.settings.badge_text_size }}px;
+    color: {{ block.settings.badge_text_color }};
+  }
+
+  .ai-product-info-badge-icon-{{ ai_gen_id }} {
+    width: 20px;
+    height: 20px;
+  }
+
+  .ai-product-info-footer-text-{{ ai_gen_id }} {
+    font-size: {{ block.settings.footer_text_size }}px;
+    color: {{ block.settings.footer_text_color }};
+    line-height: 1.5;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-product-info-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+      gap: 24px;
+      padding: 20px;
+    }
+  }
+{% endstyle %}
+
+<product-info-{{ ai_gen_id }} class="ai-product-info-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-product-info-carousel-{{ ai_gen_id }}">
+    <div class="ai-product-info-carousel-wrapper-{{ ai_gen_id }}">
+      {% if block.settings.image_1 or block.settings.image_2 or block.settings.image_3 or block.settings.image_4 %}
+        {% for i in (1..4) %}
+          {% assign image_key = 'image_' | append: i %}
+          {% assign image = block.settings[image_key] %}
+          {% if image %}
+            <div class="ai-product-info-carousel-slide-{{ ai_gen_id }}">
+              <img
+                src="{{ image | image_url: width: 800 }}"
+                alt="{{ image.alt | escape }}"
+                loading="lazy"
+                width="{{ image.width }}"
+                height="{{ image.height }}"
+              >
+            </div>
+          {% endif %}
+        {% endfor %}
+      {% else %}
+        <div class="ai-product-info-carousel-slide-{{ ai_gen_id }}">
+          <div class="ai-product-info-carousel-placeholder-{{ ai_gen_id }}">
+            {{ 'product-1' | placeholder_svg_tag }}
+          </div>
+        </div>
+      {% endif %}
+    </div>
+
+    {% assign total_images = 0 %}
+    {% for i in (1..4) %}
+      {% assign image_key = 'image_' | append: i %}
+      {% if block.settings[image_key] %}
+        {% assign total_images = total_images | plus: 1 %}
+      {% endif %}
+    {% endfor %}
+
+    {% if total_images > 1 %}
+      <button class="ai-product-info-carousel-nav-{{ ai_gen_id }} ai-product-info-carousel-nav-prev-{{ ai_gen_id }}" aria-label="Previous image">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+      <button class="ai-product-info-carousel-nav-{{ ai_gen_id }} ai-product-info-carousel-nav-next-{{ ai_gen_id }}" aria-label="Next image">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+
+      <div class="ai-product-info-carousel-dots-{{ ai_gen_id }}">
+        {% for i in (1..total_images) %}
+          <button class="ai-product-info-carousel-dot-{{ ai_gen_id }} {% if i == 1 %}active{% endif %}" data-index="{{ i | minus: 1 }}" aria-label="Go to image {{ i }}"></button>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="ai-product-info-details-{{ ai_gen_id }}">
+    {% if block.settings.product_title != blank %}
+      <h1 class="ai-product-info-title-{{ ai_gen_id }}">{{ block.settings.product_title }}</h1>
+    {% endif %}
+
+    {% if block.settings.product_subtitle != blank %}
+      <h2 class="ai-product-info-subtitle-{{ ai_gen_id }}">{{ block.settings.product_subtitle }}</h2>
+    {% endif %}
+
+    {% if block.settings.product_description != blank %}
+      <div class="ai-product-info-description-{{ ai_gen_id }}">{{ block.settings.product_description }}</div>
+    {% endif %}
+
+    {% if block.settings.hot_text != blank %}
+      <div class="ai-product-info-hot-text-{{ ai_gen_id }}">
+        <span>🔥</span>
+        <span>{{ block.settings.hot_text }}</span>
+      </div>
+    {% endif %}
+
+    <div class="ai-product-info-price-wrapper-{{ ai_gen_id }}">
+      {% if block.settings.product_price != blank %}
+        <span class="ai-product-info-price-{{ ai_gen_id }}">{{ block.settings.product_price }}</span>
+      {% endif %}
+      {% if block.settings.compare_price != blank %}
+        <span class="ai-product-info-compare-price-{{ ai_gen_id }}">{{ block.settings.compare_price }}</span>
+      {% endif %}
+      {% if block.settings.save_price != blank %}
+        <span class="ai-product-info-save-price-{{ ai_gen_id }}">{{ block.settings.save_price }}</span>
+      {% endif %}
+    </div>
+
+    {% if block.settings.guarantee_text != blank %}
+      <div class="ai-product-info-guarantee-{{ ai_gen_id }}">{{ block.settings.guarantee_text }}</div>
+    {% endif %}
+
+    <button class="ai-product-info-add-to-cart-{{ ai_gen_id }}">
+      {{ block.settings.button_text }}
+    </button>
+
+    <div class="ai-product-info-badges-{{ ai_gen_id }}">
+      {% if block.settings.show_free_shipping %}
+        <div class="ai-product-info-badge-{{ ai_gen_id }}">
+          <svg class="ai-product-info-badge-icon-{{ ai_gen_id }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="1" y="3" width="15" height="13"></rect>
+            <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+            <circle cx="5.5" cy="18.5" r="2.5"></circle>
+            <circle cx="18.5" cy="18.5" r="2.5"></circle>
+          </svg>
+          <span>{{ block.settings.free_shipping_text }}</span>
+        </div>
+      {% endif %}
+
+      {% if block.settings.show_returns %}
+        <div class="ai-product-info-badge-{{ ai_gen_id }}">
+          <svg class="ai-product-info-badge-icon-{{ ai_gen_id }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="1 4 1 10 7 10"></polyline>
+            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+          </svg>
+          <span>{{ block.settings.returns_text }}</span>
+        </div>
+      {% endif %}
+
+      {% if block.settings.show_warranty %}
+        <div class="ai-product-info-badge-{{ ai_gen_id }}">
+          <svg class="ai-product-info-badge-icon-{{ ai_gen_id }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          </svg>
+          <span>{{ block.settings.warranty_text }}</span>
+        </div>
+      {% endif %}
+    </div>
+
+    {% if block.settings.footer_text != blank %}
+      <div class="ai-product-info-footer-text-{{ ai_gen_id }}">{{ block.settings.footer_text }}</div>
+    {% endif %}
+  </div>
+</product-info-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class ProductInfo{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.currentSlide = 0;
+        this.totalSlides = 0;
+      }
+
+      connectedCallback() {
+        this.carousel = this.querySelector('.ai-product-info-carousel-wrapper-{{ ai_gen_id }}');
+        this.slides = this.querySelectorAll('.ai-product-info-carousel-slide-{{ ai_gen_id }}');
+        this.prevButton = this.querySelector('.ai-product-info-carousel-nav-prev-{{ ai_gen_id }}');
+        this.nextButton = this.querySelector('.ai-product-info-carousel-nav-next-{{ ai_gen_id }}');
+        this.dots = this.querySelectorAll('.ai-product-info-carousel-dot-{{ ai_gen_id }}');
+        
+        this.totalSlides = this.slides.length;
+
+        if (this.totalSlides > 1) {
+          this.setupEventListeners();
+        }
+      }
+
+      setupEventListeners() {
+        if (this.prevButton) {
+          this.prevButton.addEventListener('click', () => this.goToPrevSlide());
+        }
+
+        if (this.nextButton) {
+          this.nextButton.addEventListener('click', () => this.goToNextSlide());
+        }
+
+        this.dots.forEach((dot) => {
+          dot.addEventListener('click', (e) => {
+            const index = parseInt(e.target.dataset.index);
+            this.goToSlide(index);
+          });
+        });
+      }
+
+      goToSlide(index) {
+        this.currentSlide = index;
+        this.updateCarousel();
+      }
+
+      goToPrevSlide() {
+        this.currentSlide = (this.currentSlide - 1 + this.totalSlides) % this.totalSlides;
+        this.updateCarousel();
+      }
+
+      goToNextSlide() {
+        this.currentSlide = (this.currentSlide + 1) % this.totalSlides;
+        this.updateCarousel();
+      }
+
+      updateCarousel() {
+        if (this.carousel) {
+          this.carousel.style.transform = `translateX(-${this.currentSlide * 100}%)`;
+        }
+
+        this.dots.forEach((dot, index) => {
+          if (index === this.currentSlide) {
+            dot.classList.add('active');
+          } else {
+            dot.classList.remove('active');
+          }
+        });
+      }
+    }
+
+    customElements.define('product-info-{{ ai_gen_id }}', ProductInfo{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Product information",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Carousel images"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Image 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Image 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_3",
+      "label": "Image 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_4",
+      "label": "Image 4"
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Image border radius",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Product details"
+    },
+    {
+      "type": "text",
+      "id": "product_title",
+      "label": "Product title",
+      "default": "Premium Product Name"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 16,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Title size",
+      "default": 32
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#121212"
+    },
+    {
+      "type": "text",
+      "id": "product_subtitle",
+      "label": "Product subtitle",
+      "default": "High-quality supplement"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "min": 12,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Subtitle size",
+      "default": 18
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle color",
+      "default": "#666666"
+    },
+    {
+      "type": "textarea",
+      "id": "product_description",
+      "label": "Short description",
+      "default": "Experience the benefits of our premium formula designed for optimal health and wellness."
+    },
+    {
+      "type": "range",
+      "id": "description_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Description size",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Description color",
+      "default": "#121212"
+    },
+    {
+      "type": "header",
+      "content": "Hot text"
+    },
+    {
+      "type": "text",
+      "id": "hot_text",
+      "label": "Hot text",
+      "default": "Limited time offer!"
+    },
+    {
+      "type": "range",
+      "id": "hot_text_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Hot text size",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "hot_text_color",
+      "label": "Hot text color",
+      "default": "#ff0000"
+    },
+    {
+      "type": "header",
+      "content": "Pricing"
+    },
+    {
+      "type": "text",
+      "id": "product_price",
+      "label": "Price",
+      "default": "$49.99"
+    },
+    {
+      "type": "range",
+      "id": "price_size",
+      "min": 16,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Price size",
+      "default": 28
+    },
+    {
+      "type": "color",
+      "id": "price_color",
+      "label": "Price color",
+      "default": "#121212"
+    },
+    {
+      "type": "text",
+      "id": "compare_price",
+      "label": "Compare at price",
+      "default": "$79.99"
+    },
+    {
+      "type": "range",
+      "id": "compare_price_size",
+      "min": 12,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Compare price size",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "compare_price_color",
+      "label": "Compare price color",
+      "default": "#999999"
+    },
+    {
+      "type": "text",
+      "id": "save_price",
+      "label": "Save price",
+      "default": "Save $30"
+    },
+    {
+      "type": "range",
+      "id": "save_price_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Save price size",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "save_price_color",
+      "label": "Save price color",
+      "default": "#008060"
+    },
+    {
+      "type": "header",
+      "content": "Guarantee box"
+    },
+    {
+      "type": "text",
+      "id": "guarantee_text",
+      "label": "Guarantee text",
+      "default": "100% Satisfaction Guaranteed"
+    },
+    {
+      "type": "range",
+      "id": "guarantee_text_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "guarantee_bg_color",
+      "label": "Background color",
+      "default": "#e8f5e9"
+    },
+    {
+      "type": "color",
+      "id": "guarantee_border_color",
+      "label": "Border color",
+      "default": "#4caf50"
+    },
+    {
+      "type": "color",
+      "id": "guarantee_text_color",
+      "label": "Text color",
+      "default": "#2e7d32"
+    },
+    {
+      "type": "range",
+      "id": "guarantee_border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Add to cart button"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Add to Cart"
+    },
+    {
+      "type": "range",
+      "id": "button_text_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Button text size",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button background",
+      "default": "#5c1ada"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg_color",
+      "label": "Button hover background",
+      "default": "#4a15b0"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Button border radius",
+      "default": 6
+    },
+    {
+      "type": "header",
+      "content": "Badges"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_free_shipping",
+      "label": "Show free shipping badge",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "free_shipping_text",
+      "label": "Free shipping text",
+      "default": "Free Shipping"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_returns",
+      "label": "Show returns badge",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "returns_text",
+      "label": "Returns text",
+      "default": "30 Day Returns"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_warranty",
+      "label": "Show warranty badge",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "warranty_text",
+      "label": "Warranty text",
+      "default": "2-Year Warranty"
+    },
+    {
+      "type": "range",
+      "id": "badge_text_size",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Badge text size",
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "badge_bg_color",
+      "label": "Badge background",
+      "default": "#f3f3f3"
+    },
+    {
+      "type": "color",
+      "id": "badge_text_color",
+      "label": "Badge text color",
+      "default": "#121212"
+    },
+    {
+      "type": "range",
+      "id": "badge_border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Badge border radius",
+      "default": 6
+    },
+    {
+      "type": "header",
+      "content": "Footer text"
+    },
+    {
+      "type": "textarea",
+      "id": "footer_text",
+      "label": "Footer text",
+      "default": "All products are backed by our quality guarantee and shipped with care."
+    },
+    {
+      "type": "range",
+      "id": "footer_text_size",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Footer text size",
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "footer_text_color",
+      "label": "Footer text color",
+      "default": "#666666"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product information"
+    }
+  ]
+}
+{% endschema %}

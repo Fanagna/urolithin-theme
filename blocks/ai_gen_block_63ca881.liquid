@@ -1,0 +1,574 @@
+{% doc %}
+  @prompt
+    genere moi une section contenant un titre  un  tableau de 3 lignes et 4colonnes; la 3eme ligne de tous les colonnes ont une background color  different des autres, et ensuite une bloc d image en format carré juste à coté du tableau
+    
+    
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-table-image-{{ ai_gen_id }} {
+    padding: {{ block.settings.section_padding }}px 20px;
+    background-color: {{ block.settings.background_color }};
+  }
+
+  .ai-table-image-container-{{ ai_gen_id }} {
+    max-width: {{ block.settings.max_width }}px;
+    margin: 0 auto;
+  }
+
+  .ai-table-image-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    color: {{ block.settings.title_color }};
+    margin: 0 0 {{ block.settings.title_spacing }}px;
+    text-align: {{ block.settings.title_alignment }};
+  }
+
+  .ai-table-image-content-{{ ai_gen_id }} {
+    display: flex;
+    gap: {{ block.settings.content_gap }}px;
+    align-items: flex-start;
+  }
+
+  .ai-table-wrapper-{{ ai_gen_id }} {
+    flex: 1;
+    overflow-x: auto;
+  }
+
+  .ai-table-{{ ai_gen_id }} {
+    width: 100%;
+    border-collapse: collapse;
+    border: {{ block.settings.table_border_width }}px solid {{ block.settings.table_border_color }};
+    border-radius: {{ block.settings.table_border_radius }}px;
+    overflow: hidden;
+  }
+
+  .ai-table-{{ ai_gen_id }} th,
+  .ai-table-{{ ai_gen_id }} td {
+    padding: {{ block.settings.cell_padding }}px;
+    text-align: {{ block.settings.cell_alignment }};
+    border: {{ block.settings.cell_border_width }}px solid {{ block.settings.cell_border_color }};
+  }
+
+  .ai-table-{{ ai_gen_id }} th {
+    background-color: {{ block.settings.header_bg_color }};
+    color: {{ block.settings.header_text_color }};
+    font-weight: 600;
+    font-size: {{ block.settings.header_font_size }}px;
+  }
+
+  .ai-table-{{ ai_gen_id }} td {
+    background-color: {{ block.settings.cell_bg_color }};
+    color: {{ block.settings.cell_text_color }};
+    font-size: {{ block.settings.cell_font_size }}px;
+  }
+
+  .ai-table-{{ ai_gen_id }} tr:nth-child(3) td {
+    background-color: {{ block.settings.row_3_bg_color }};
+    color: {{ block.settings.row_3_text_color }};
+    font-weight: 500;
+  }
+
+  .ai-table-image-block-{{ ai_gen_id }} {
+    flex-shrink: 0;
+    width: {{ block.settings.image_size }}px;
+    height: {{ block.settings.image_size }}px;
+  }
+
+  .ai-table-image-block-{{ ai_gen_id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: {{ block.settings.image_border_radius }}px;
+  }
+
+  .ai-table-image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: {{ block.settings.image_border_radius }}px;
+    position: relative;
+  }
+
+  .ai-table-image-placeholder-{{ ai_gen_id }} svg {
+    width: 60%;
+    height: 60%;
+    opacity: 0.3;
+  }
+
+  .ai-table-empty-state-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    color: #666;
+    text-align: center;
+    padding: 0 10px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-table-image-content-{{ ai_gen_id }} {
+      flex-direction: column;
+    }
+
+    .ai-table-image-block-{{ ai_gen_id }} {
+      width: 100%;
+      max-width: {{ block.settings.image_size }}px;
+      height: auto;
+      aspect-ratio: 1;
+    }
+
+    .ai-table-wrapper-{{ ai_gen_id }} {
+      width: 100%;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-table-image-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-table-image-container-{{ ai_gen_id }}">
+    {% if block.settings.title != blank %}
+      <h2 class="ai-table-image-title-{{ ai_gen_id }}">{{ block.settings.title }}</h2>
+    {% endif %}
+
+    <div class="ai-table-image-content-{{ ai_gen_id }}">
+      <div class="ai-table-wrapper-{{ ai_gen_id }}">
+        <table class="ai-table-{{ ai_gen_id }}">
+          <thead>
+            <tr>
+              <th>{{ block.settings.header_col_1 }}</th>
+              <th>{{ block.settings.header_col_2 }}</th>
+              <th>{{ block.settings.header_col_3 }}</th>
+              <th>{{ block.settings.header_col_4 }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ block.settings.row_1_col_1 }}</td>
+              <td>{{ block.settings.row_1_col_2 }}</td>
+              <td>{{ block.settings.row_1_col_3 }}</td>
+              <td>{{ block.settings.row_1_col_4 }}</td>
+            </tr>
+            <tr>
+              <td>{{ block.settings.row_2_col_1 }}</td>
+              <td>{{ block.settings.row_2_col_2 }}</td>
+              <td>{{ block.settings.row_2_col_3 }}</td>
+              <td>{{ block.settings.row_2_col_4 }}</td>
+            </tr>
+            <tr>
+              <td>{{ block.settings.row_3_col_1 }}</td>
+              <td>{{ block.settings.row_3_col_2 }}</td>
+              <td>{{ block.settings.row_3_col_3 }}</td>
+              <td>{{ block.settings.row_3_col_4 }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="ai-table-image-block-{{ ai_gen_id }}">
+        {% if block.settings.image %}
+          <img
+            src="{{ block.settings.image | image_url: width: 800 }}"
+            alt="{{ block.settings.image.alt | escape }}"
+            loading="lazy"
+            width="{{ block.settings.image.width }}"
+            height="{{ block.settings.image.height }}"
+          >
+        {% else %}
+          <div class="ai-table-image-placeholder-{{ ai_gen_id }}">
+            {{ 'image' | placeholder_svg_tag }}
+            <div class="ai-table-empty-state-{{ ai_gen_id }}">
+              Add an image
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Table with image",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Title"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Product comparison"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 16,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Title size",
+      "default": 32
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#121212"
+    },
+    {
+      "type": "select",
+      "id": "title_alignment",
+      "label": "Title alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "title_spacing",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Title spacing",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Table headers"
+    },
+    {
+      "type": "text",
+      "id": "header_col_1",
+      "label": "Column 1",
+      "default": "Feature"
+    },
+    {
+      "type": "text",
+      "id": "header_col_2",
+      "label": "Column 2",
+      "default": "Basic"
+    },
+    {
+      "type": "text",
+      "id": "header_col_3",
+      "label": "Column 3",
+      "default": "Pro"
+    },
+    {
+      "type": "text",
+      "id": "header_col_4",
+      "label": "Column 4",
+      "default": "Premium"
+    },
+    {
+      "type": "header",
+      "content": "Row 1"
+    },
+    {
+      "type": "text",
+      "id": "row_1_col_1",
+      "label": "Column 1",
+      "default": "Price"
+    },
+    {
+      "type": "text",
+      "id": "row_1_col_2",
+      "label": "Column 2",
+      "default": "$29"
+    },
+    {
+      "type": "text",
+      "id": "row_1_col_3",
+      "label": "Column 3",
+      "default": "$49"
+    },
+    {
+      "type": "text",
+      "id": "row_1_col_4",
+      "label": "Column 4",
+      "default": "$99"
+    },
+    {
+      "type": "header",
+      "content": "Row 2"
+    },
+    {
+      "type": "text",
+      "id": "row_2_col_1",
+      "label": "Column 1",
+      "default": "Support"
+    },
+    {
+      "type": "text",
+      "id": "row_2_col_2",
+      "label": "Column 2",
+      "default": "Email"
+    },
+    {
+      "type": "text",
+      "id": "row_2_col_3",
+      "label": "Column 3",
+      "default": "Priority"
+    },
+    {
+      "type": "text",
+      "id": "row_2_col_4",
+      "label": "Column 4",
+      "default": "24/7"
+    },
+    {
+      "type": "header",
+      "content": "Row 3 (highlighted)"
+    },
+    {
+      "type": "text",
+      "id": "row_3_col_1",
+      "label": "Column 1",
+      "default": "Storage"
+    },
+    {
+      "type": "text",
+      "id": "row_3_col_2",
+      "label": "Column 2",
+      "default": "10GB"
+    },
+    {
+      "type": "text",
+      "id": "row_3_col_3",
+      "label": "Column 3",
+      "default": "100GB"
+    },
+    {
+      "type": "text",
+      "id": "row_3_col_4",
+      "label": "Column 4",
+      "default": "Unlimited"
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "range",
+      "id": "image_size",
+      "min": 150,
+      "max": 500,
+      "step": 10,
+      "unit": "px",
+      "label": "Image size",
+      "default": 300
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Image border radius",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Table style"
+    },
+    {
+      "type": "color",
+      "id": "header_bg_color",
+      "label": "Header background",
+      "default": "#5c1ada"
+    },
+    {
+      "type": "color",
+      "id": "header_text_color",
+      "label": "Header text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "header_font_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Header font size",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "cell_bg_color",
+      "label": "Cell background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "cell_text_color",
+      "label": "Cell text",
+      "default": "#121212"
+    },
+    {
+      "type": "range",
+      "id": "cell_font_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Cell font size",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "row_3_bg_color",
+      "label": "Row 3 background",
+      "default": "#f3f3f3"
+    },
+    {
+      "type": "color",
+      "id": "row_3_text_color",
+      "label": "Row 3 text",
+      "default": "#121212"
+    },
+    {
+      "type": "range",
+      "id": "cell_padding",
+      "min": 8,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Cell padding",
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "cell_alignment",
+      "label": "Cell alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "table_border_width",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "unit": "px",
+      "label": "Table border width",
+      "default": 1
+    },
+    {
+      "type": "color",
+      "id": "table_border_color",
+      "label": "Table border color",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "range",
+      "id": "cell_border_width",
+      "min": 0,
+      "max": 3,
+      "step": 1,
+      "unit": "px",
+      "label": "Cell border width",
+      "default": 1
+    },
+    {
+      "type": "color",
+      "id": "cell_border_color",
+      "label": "Cell border color",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "range",
+      "id": "table_border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Table border radius",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "content_gap",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "Gap between table and image",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 800,
+      "max": 1600,
+      "step": 100,
+      "unit": "px",
+      "label": "Maximum width",
+      "default": 1200
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "label": "Vertical padding",
+      "default": 40
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Table with image"
+    }
+  ]
+}
+{% endschema %}

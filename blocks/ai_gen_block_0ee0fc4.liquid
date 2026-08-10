@@ -1,0 +1,865 @@
+{% doc %}
+  @prompt
+    Crée une section d’inscription premium pour une landing page de récupération sportive.
+    
+    🎨 Style & ambiance
+    
+    Dark mode, moderne, haut de gamme
+    
+    Fond noir / bleu nuit avec carte centrale arrondie
+    
+    Ombres douces, glow subtil vert/teal
+    
+    Typographie sans-serif, espacée, très lisible
+    
+    Design orienté conversion & confiance
+    
+    🧩 Structure
+    1) Carte principale – Lead form
+    
+    Carte sombre, centrée, bords arrondis
+    
+    Titre en haut, centré :
+    “Get Instant Access”
+    
+    Sous-titre :
+    “Enter your email to download the guide + receive your 30% discount code”
+    
+    Champs du formulaire :
+    
+    Champ email (placeholder : you@example.com
+    )
+    
+    Champ prénom (optionnel, placeholder : John)
+    
+    Checkbox avec texte :
+    “Send me the free guide, discount code, and recovery tips. Unsubscribe anytime.”
+    
+    Bouton CTA principal :
+    
+    Large, vert/teal, coins arrondis
+    
+    Texte :
+    “DOWNLOAD FREE GUIDE NOW”
+    
+    Effet hover léger + glow
+    
+    Micro-preuves sous le bouton (inline) :
+    
+    ✔ Instant download
+    
+    ✔ 100% free
+    
+    ✔ No spam
+    
+    2) Section preuve sociale (en dessous)
+    
+    Titre centré :
+    “Trusted by Athletes & Biohackers”
+    
+    3 cartes statistiques alignées (desktop) :
+    
+    10,000+
+    Active users
+    
+    4.8★
+    Average rating
+    
+    Third-party
+    Lab tested
+    
+    Cartes sombres, chiffres bleus/teal lumineux, texte secondaire discret.
+    
+    📱 Contraintes
+    
+    Responsive mobile / desktop
+    
+    Clair, rassurant, pas agressif
+    
+    Aucun health claim explicite
+    
+    Optimisé pour email capture
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-recovery-signup-{{ ai_gen_id }} {
+    background: {{ block.settings.background_color }};
+    padding: {{ block.settings.section_padding_top }}px 20px {{ block.settings.section_padding_bottom }}px;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-recovery-signup-container-{{ ai_gen_id }} {
+    max-width: {{ block.settings.max_width }}px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .ai-recovery-signup-card-{{ ai_gen_id }} {
+    background: {{ block.settings.card_background }};
+    border-radius: {{ block.settings.card_border_radius }}px;
+    padding: {{ block.settings.card_padding }}px;
+    box-shadow: 0 20px 60px {{ block.settings.shadow_color }};
+    margin-bottom: 40px;
+  }
+
+  .ai-recovery-signup-title-{{ ai_gen_id }} {
+    color: {{ block.settings.title_color }};
+    font-size: {{ block.settings.title_size }}px;
+    font-weight: 700;
+    text-align: center;
+    margin: 0 0 12px;
+    letter-spacing: 0.5px;
+  }
+
+  .ai-recovery-signup-subtitle-{{ ai_gen_id }} {
+    color: {{ block.settings.subtitle_color }};
+    font-size: {{ block.settings.subtitle_size }}px;
+    text-align: center;
+    margin: 0 0 32px;
+    line-height: 1.5;
+  }
+
+  .ai-recovery-signup-form-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .ai-recovery-signup-input-{{ ai_gen_id }} {
+    width: 100%;
+    padding: 16px 20px;
+    background: {{ block.settings.input_background }};
+    border: 1px solid {{ block.settings.input_border_color }};
+    border-radius: {{ block.settings.input_border_radius }}px;
+    color: {{ block.settings.input_text_color }};
+    font-size: 16px;
+    transition: all 0.3s ease;
+  }
+
+  .ai-recovery-signup-input-{{ ai_gen_id }}::placeholder {
+    color: {{ block.settings.input_placeholder_color }};
+  }
+
+  .ai-recovery-signup-input-{{ ai_gen_id }}:focus {
+    outline: none;
+    border-color: {{ block.settings.input_focus_border_color }};
+    box-shadow: 0 0 0 3px {{ block.settings.input_focus_glow }};
+  }
+
+  .ai-recovery-signup-checkbox-wrapper-{{ ai_gen_id }} {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .ai-recovery-signup-checkbox-{{ ai_gen_id }} {
+    margin-top: 4px;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .ai-recovery-signup-checkbox-label-{{ ai_gen_id }} {
+    color: {{ block.settings.checkbox_text_color }};
+    font-size: 14px;
+    line-height: 1.5;
+    cursor: pointer;
+  }
+
+  .ai-recovery-signup-button-{{ ai_gen_id }} {
+    width: 100%;
+    padding: 18px 32px;
+    background: {{ block.settings.button_background }};
+    color: {{ block.settings.button_text_color }};
+    border: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-size: {{ block.settings.button_font_size }}px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+  }
+
+  .ai-recovery-signup-button-{{ ai_gen_id }}:hover {
+    background: {{ block.settings.button_hover_background }};
+    box-shadow: 0 0 20px {{ block.settings.button_glow_color }};
+    transform: translateY(-2px);
+  }
+
+  .ai-recovery-signup-trust-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+
+  .ai-recovery-signup-trust-item-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: {{ block.settings.trust_text_color }};
+    font-size: 14px;
+  }
+
+  .ai-recovery-signup-trust-icon-{{ ai_gen_id }} {
+    color: {{ block.settings.trust_icon_color }};
+    font-size: 18px;
+  }
+
+  .ai-recovery-signup-social-proof-{{ ai_gen_id }} {
+    text-align: center;
+  }
+
+  .ai-recovery-signup-social-title-{{ ai_gen_id }} {
+    color: {{ block.settings.social_title_color }};
+    font-size: {{ block.settings.social_title_size }}px;
+    font-weight: 600;
+    margin: 0 0 32px;
+    letter-spacing: 0.5px;
+  }
+
+  .ai-recovery-signup-stats-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 24px;
+  }
+
+  .ai-recovery-signup-stat-card-{{ ai_gen_id }} {
+    background: {{ block.settings.stat_card_background }};
+    border-radius: {{ block.settings.stat_card_border_radius }}px;
+    padding: 32px 24px;
+    box-shadow: 0 10px 30px {{ block.settings.stat_shadow_color }};
+  }
+
+  .ai-recovery-signup-stat-number-{{ ai_gen_id }} {
+    color: {{ block.settings.stat_number_color }};
+    font-size: {{ block.settings.stat_number_size }}px;
+    font-weight: 700;
+    margin: 0 0 8px;
+    text-shadow: 0 0 20px {{ block.settings.stat_glow_color }};
+  }
+
+  .ai-recovery-signup-stat-label-{{ ai_gen_id }} {
+    color: {{ block.settings.stat_label_color }};
+    font-size: {{ block.settings.stat_label_size }}px;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  .ai-recovery-signup-success-{{ ai_gen_id }} {
+    color: {{ block.settings.success_color }};
+    text-align: center;
+    margin-top: 16px;
+    font-size: 14px;
+  }
+
+  .ai-recovery-signup-error-{{ ai_gen_id }} {
+    color: {{ block.settings.error_color }};
+    text-align: center;
+    margin-top: 16px;
+    font-size: 14px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-recovery-signup-{{ ai_gen_id }} {
+      padding: 40px 16px;
+      min-height: auto;
+    }
+
+    .ai-recovery-signup-card-{{ ai_gen_id }} {
+      padding: 32px 24px;
+    }
+
+    .ai-recovery-signup-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_size | times: 0.8 }}px;
+    }
+
+    .ai-recovery-signup-subtitle-{{ ai_gen_id }} {
+      font-size: {{ block.settings.subtitle_size | times: 0.9 }}px;
+    }
+
+    .ai-recovery-signup-trust-{{ ai_gen_id }} {
+      gap: 16px;
+    }
+
+    .ai-recovery-signup-stats-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .ai-recovery-signup-stat-number-{{ ai_gen_id }} {
+      font-size: {{ block.settings.stat_number_size | times: 0.8 }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-recovery-signup-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-recovery-signup-container-{{ ai_gen_id }}">
+    <div class="ai-recovery-signup-card-{{ ai_gen_id }}">
+      <h2 class="ai-recovery-signup-title-{{ ai_gen_id }}">{{ block.settings.title }}</h2>
+      <p class="ai-recovery-signup-subtitle-{{ ai_gen_id }}">{{ block.settings.subtitle }}</p>
+
+      {%- form 'contact' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter,recovery-guide">
+        
+        <div class="ai-recovery-signup-form-{{ ai_gen_id }}">
+          <input
+            type="email"
+            name="contact[email]"
+            class="ai-recovery-signup-input-{{ ai_gen_id }}"
+            placeholder="{{ block.settings.email_placeholder }}"
+            aria-required="true"
+            autocomplete="email"
+            {% if form.errors %}
+              aria-invalid="true"
+              aria-describedby="ai-recovery-signup-error-{{ ai_gen_id }}"
+            {% endif %}
+            {% if form.posted_successfully? %}
+              aria-describedby="ai-recovery-signup-success-{{ ai_gen_id }}"
+            {% endif %}
+            required
+          >
+
+          {% if block.settings.show_name_field %}
+            <input
+              type="text"
+              name="contact[first_name]"
+              class="ai-recovery-signup-input-{{ ai_gen_id }}"
+              placeholder="{{ block.settings.name_placeholder }}"
+              autocomplete="given-name"
+            >
+          {% endif %}
+
+          <div class="ai-recovery-signup-checkbox-wrapper-{{ ai_gen_id }}">
+            <input
+              type="checkbox"
+              id="ai-recovery-consent-{{ ai_gen_id }}"
+              name="contact[accepts_marketing]"
+              class="ai-recovery-signup-checkbox-{{ ai_gen_id }}"
+              {% if block.settings.checkbox_required %}required{% endif %}
+            >
+            <label for="ai-recovery-consent-{{ ai_gen_id }}" class="ai-recovery-signup-checkbox-label-{{ ai_gen_id }}">
+              {{ block.settings.checkbox_text }}
+            </label>
+          </div>
+
+          <button type="submit" class="ai-recovery-signup-button-{{ ai_gen_id }}">
+            {{ block.settings.button_text }}
+          </button>
+
+          <div class="ai-recovery-signup-trust-{{ ai_gen_id }}">
+            <div class="ai-recovery-signup-trust-item-{{ ai_gen_id }}">
+              <span class="ai-recovery-signup-trust-icon-{{ ai_gen_id }}">✓</span>
+              <span>{{ block.settings.trust_item_1 }}</span>
+            </div>
+            <div class="ai-recovery-signup-trust-item-{{ ai_gen_id }}">
+              <span class="ai-recovery-signup-trust-icon-{{ ai_gen_id }}">✓</span>
+              <span>{{ block.settings.trust_item_2 }}</span>
+            </div>
+            <div class="ai-recovery-signup-trust-item-{{ ai_gen_id }}">
+              <span class="ai-recovery-signup-trust-icon-{{ ai_gen_id }}">✓</span>
+              <span>{{ block.settings.trust_item_3 }}</span>
+            </div>
+          </div>
+
+          {%- if form.errors -%}
+            <div id="ai-recovery-signup-error-{{ ai_gen_id }}" class="ai-recovery-signup-error-{{ ai_gen_id }}">
+              <span>{{ form.errors.messages.email }}</span>
+            </div>
+          {%- endif -%}
+
+          {%- if form.posted_successfully? -%}
+            <div id="ai-recovery-signup-success-{{ ai_gen_id }}" class="ai-recovery-signup-success-{{ ai_gen_id }}">
+              <span>{{ block.settings.success_message }}</span>
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endform -%}
+    </div>
+
+    <div class="ai-recovery-signup-social-proof-{{ ai_gen_id }}">
+      <h3 class="ai-recovery-signup-social-title-{{ ai_gen_id }}">{{ block.settings.social_proof_title }}</h3>
+      
+      <div class="ai-recovery-signup-stats-{{ ai_gen_id }}">
+        <div class="ai-recovery-signup-stat-card-{{ ai_gen_id }}">
+          <div class="ai-recovery-signup-stat-number-{{ ai_gen_id }}">{{ block.settings.stat_1_number }}</div>
+          <div class="ai-recovery-signup-stat-label-{{ ai_gen_id }}">{{ block.settings.stat_1_label }}</div>
+        </div>
+
+        <div class="ai-recovery-signup-stat-card-{{ ai_gen_id }}">
+          <div class="ai-recovery-signup-stat-number-{{ ai_gen_id }}">{{ block.settings.stat_2_number }}</div>
+          <div class="ai-recovery-signup-stat-label-{{ ai_gen_id }}">{{ block.settings.stat_2_label }}</div>
+        </div>
+
+        <div class="ai-recovery-signup-stat-card-{{ ai_gen_id }}">
+          <div class="ai-recovery-signup-stat-number-{{ ai_gen_id }}">{{ block.settings.stat_3_number }}</div>
+          <div class="ai-recovery-signup-stat-label-{{ ai_gen_id }}">{{ block.settings.stat_3_label }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Recovery signup premium",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 400,
+      "max": 800,
+      "step": 20,
+      "unit": "px",
+      "label": "Maximum width",
+      "default": 600
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 60
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#0a0e27"
+    },
+    {
+      "type": "header",
+      "content": "Main card"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Get Instant Access"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Title size",
+      "default": 36
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Enter your email to download the guide + receive your 30% discount code"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Subtitle size",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle color",
+      "default": "#a0a0a0"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background",
+      "default": "#1a1f3a"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Card border radius",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "card_padding",
+      "min": 20,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Card padding",
+      "default": 48
+    },
+    {
+      "type": "color",
+      "id": "shadow_color",
+      "label": "Shadow color",
+      "default": "rgba(0, 0, 0, 0.5)"
+    },
+    {
+      "type": "header",
+      "content": "Form fields"
+    },
+    {
+      "type": "text",
+      "id": "email_placeholder",
+      "label": "Email placeholder",
+      "default": "you@example.com"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_name_field",
+      "label": "Show name field",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "name_placeholder",
+      "label": "Name placeholder",
+      "default": "John"
+    },
+    {
+      "type": "color",
+      "id": "input_background",
+      "label": "Input background",
+      "default": "#0f1429"
+    },
+    {
+      "type": "color",
+      "id": "input_border_color",
+      "label": "Input border",
+      "default": "#2a3150"
+    },
+    {
+      "type": "color",
+      "id": "input_focus_border_color",
+      "label": "Input focus border",
+      "default": "#14b8a6"
+    },
+    {
+      "type": "color",
+      "id": "input_focus_glow",
+      "label": "Input focus glow",
+      "default": "rgba(20, 184, 166, 0.2)"
+    },
+    {
+      "type": "range",
+      "id": "input_border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Input border radius",
+      "default": 8
+    },
+    {
+      "type": "color",
+      "id": "input_text_color",
+      "label": "Input text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "input_placeholder_color",
+      "label": "Placeholder text",
+      "default": "#6b7280"
+    },
+    {
+      "type": "header",
+      "content": "Checkbox"
+    },
+    {
+      "type": "textarea",
+      "id": "checkbox_text",
+      "label": "Checkbox text",
+      "default": "Send me the free guide, discount code, and recovery tips. Unsubscribe anytime."
+    },
+    {
+      "type": "checkbox",
+      "id": "checkbox_required",
+      "label": "Make checkbox required",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "checkbox_text_color",
+      "label": "Checkbox text color",
+      "default": "#a0a0a0"
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Download Free Guide Now"
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Button font size",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Button background",
+      "default": "#14b8a6"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_background",
+      "label": "Button hover background",
+      "default": "#0d9488"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_glow_color",
+      "label": "Button glow",
+      "default": "rgba(20, 184, 166, 0.4)"
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Button border radius",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Trust signals"
+    },
+    {
+      "type": "text",
+      "id": "trust_item_1",
+      "label": "Trust item 1",
+      "default": "Instant download"
+    },
+    {
+      "type": "text",
+      "id": "trust_item_2",
+      "label": "Trust item 2",
+      "default": "100% free"
+    },
+    {
+      "type": "text",
+      "id": "trust_item_3",
+      "label": "Trust item 3",
+      "default": "No spam"
+    },
+    {
+      "type": "color",
+      "id": "trust_text_color",
+      "label": "Trust text",
+      "default": "#a0a0a0"
+    },
+    {
+      "type": "color",
+      "id": "trust_icon_color",
+      "label": "Trust icon",
+      "default": "#14b8a6"
+    },
+    {
+      "type": "header",
+      "content": "Social proof"
+    },
+    {
+      "type": "text",
+      "id": "social_proof_title",
+      "label": "Social proof title",
+      "default": "Trusted by Athletes & Biohackers"
+    },
+    {
+      "type": "range",
+      "id": "social_title_size",
+      "min": 16,
+      "max": 36,
+      "step": 2,
+      "unit": "px",
+      "label": "Title size",
+      "default": 24
+    },
+    {
+      "type": "color",
+      "id": "social_title_color",
+      "label": "Title color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "text",
+      "id": "stat_1_number",
+      "label": "Stat 1 number",
+      "default": "10,000+"
+    },
+    {
+      "type": "text",
+      "id": "stat_1_label",
+      "label": "Stat 1 label",
+      "default": "Active users"
+    },
+    {
+      "type": "text",
+      "id": "stat_2_number",
+      "label": "Stat 2 number",
+      "default": "4.8★"
+    },
+    {
+      "type": "text",
+      "id": "stat_2_label",
+      "label": "Stat 2 label",
+      "default": "Average rating"
+    },
+    {
+      "type": "text",
+      "id": "stat_3_number",
+      "label": "Stat 3 number",
+      "default": "Third-party"
+    },
+    {
+      "type": "text",
+      "id": "stat_3_label",
+      "label": "Stat 3 label",
+      "default": "Lab tested"
+    },
+    {
+      "type": "color",
+      "id": "stat_card_background",
+      "label": "Stat card background",
+      "default": "#1a1f3a"
+    },
+    {
+      "type": "range",
+      "id": "stat_card_border_radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Stat card border radius",
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "stat_shadow_color",
+      "label": "Stat shadow",
+      "default": "rgba(0, 0, 0, 0.3)"
+    },
+    {
+      "type": "range",
+      "id": "stat_number_size",
+      "min": 24,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Stat number size",
+      "default": 40
+    },
+    {
+      "type": "color",
+      "id": "stat_number_color",
+      "label": "Stat number color",
+      "default": "#14b8a6"
+    },
+    {
+      "type": "color",
+      "id": "stat_glow_color",
+      "label": "Stat glow",
+      "default": "rgba(20, 184, 166, 0.3)"
+    },
+    {
+      "type": "range",
+      "id": "stat_label_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Stat label size",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "stat_label_color",
+      "label": "Stat label color",
+      "default": "#a0a0a0"
+    },
+    {
+      "type": "header",
+      "content": "Messages"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success message",
+      "default": "Thank you! Check your email for your free guide and discount code."
+    },
+    {
+      "type": "color",
+      "id": "success_color",
+      "label": "Success color",
+      "default": "#10b981"
+    },
+    {
+      "type": "color",
+      "id": "error_color",
+      "label": "Error color",
+      "default": "#ef4444"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Recovery signup premium"
+    }
+  ]
+}
+{% endschema %}

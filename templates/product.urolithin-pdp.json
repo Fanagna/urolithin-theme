@@ -1,0 +1,279 @@
+{
+  "sections": {
+    "main": {
+      "type": "ps-pdp-urolithin",
+      "blocks": {
+        "hb-1": {
+          "type": "hero_badge",
+          "settings": {
+            "fallback_asset": "ps-icon-actives.png",
+            "value": "8",
+            "label": "Actives"
+          }
+        },
+        "hb-2": {
+          "type": "hero_badge",
+          "settings": {
+            "fallback_asset": "ps-icon-capsules.png",
+            "value": "180",
+            "label": "Capsules"
+          }
+        },
+        "hb-3": {
+          "type": "hero_badge",
+          "settings": {
+            "fallback_asset": "ps-icon-servings.png",
+            "value": "90",
+            "label": "Servings"
+          }
+        },
+        "hb-4": {
+          "type": "hero_badge",
+          "settings": {
+            "fallback_asset": "ps-icon-tested.png",
+            "value": "3rd-Party",
+            "label": "Tested"
+          }
+        },
+        "ing-1": {
+          "type": "ingredient",
+          "settings": {
+            "fallback_asset": "ps-ing-urolithin-a.png",
+            "name": "Urolithin A",
+            "dose": "2000mg",
+            "featured": true
+          }
+        },
+        "ing-2": {
+          "type": "ingredient",
+          "settings": {
+            "fallback_asset": "ps-ing-nad-plus.png",
+            "name": "NAD+",
+            "dose": "100mg",
+            "featured": false
+          }
+        },
+        "ing-3": {
+          "type": "ingredient",
+          "settings": {
+            "fallback_asset": "ps-ing-coq10.png",
+            "name": "CoQ10",
+            "dose": "100mg",
+            "featured": false
+          }
+        },
+        "ing-4": {
+          "type": "ingredient",
+          "settings": {
+            "fallback_asset": "ps-ing-resveratrol.png",
+            "name": "Resveratrol",
+            "dose": "100mg",
+            "featured": false
+          }
+        },
+        "ing-5": {
+          "type": "ingredient",
+          "settings": {
+            "fallback_asset": "ps-ing-lcarnitine.png",
+            "name": "L-Carnitine",
+            "dose": "250mg",
+            "featured": false
+          }
+        },
+        "ing-6": {
+          "type": "ingredient",
+          "settings": {
+            "fallback_asset": "ps-ing-quercetin.png",
+            "name": "Quercetin",
+            "dose": "100mg",
+            "featured": false
+          }
+        },
+        "ing-7": {
+          "type": "ingredient",
+          "settings": {
+            "fallback_asset": "ps-ing-pqq.png",
+            "name": "PQQ",
+            "dose": "50mg",
+            "featured": false
+          }
+        },
+        "ing-8": {
+          "type": "ingredient",
+          "settings": {
+            "fallback_asset": "ps-ing-ala.png",
+            "name": "Alpha Lipoic Acid",
+            "dose": "50mg",
+            "featured": false
+          }
+        },
+        "sci-1": {
+          "type": "science_point",
+          "settings": {
+            "fallback_asset": "ps-icon-science-cellular.png",
+            "label": "Supports Cellular\nEnergy Production"
+          }
+        },
+        "sci-2": {
+          "type": "science_point",
+          "settings": {
+            "fallback_asset": "ps-icon-science-mito.png",
+            "label": "Supports Muscle\nFunction"
+          }
+        },
+        "sci-3": {
+          "type": "science_point",
+          "settings": {
+            "fallback_asset": "ps-icon-science-aging.png",
+            "label": "Supports Healthy\nAging Pathways"
+          }
+        },
+        "qual-1": {
+          "type": "quality_badge",
+          "settings": {
+            "fallback_asset": "ps-icon-lab.png",
+            "label": "Third-Party\nTested"
+          }
+        },
+        "qual-2": {
+          "type": "quality_badge",
+          "settings": {
+            "fallback_asset": "ps-icon-cgmp.png",
+            "label": "cGMP\nFacility"
+          }
+        },
+        "qual-3": {
+          "type": "quality_badge",
+          "settings": {
+            "fallback_asset": "ps-icon-made-usa.png",
+            "label": "Made in\nUSA"
+          }
+        },
+        "qual-4": {
+          "type": "quality_badge",
+          "settings": {
+            "fallback_asset": "ps-icon-non-gmo.png",
+            "label": "Non-GMO\nIngredients"
+          }
+        },
+        "qual-5": {
+          "type": "quality_badge",
+          "settings": {
+            "fallback_asset": "ps-icon-clean-pure.png",
+            "label": "Clean & Pure\nFormula"
+          }
+        },
+        "rev-1": {
+          "type": "review",
+          "settings": {
+            "stars": "5",
+            "quote": "Great quality and easy to take every day.",
+            "reviewer": "Verified Buyer"
+          }
+        },
+        "rev-2": {
+          "type": "review",
+          "settings": {
+            "stars": "5",
+            "quote": "Complete 8-in-1 formula in just one bottle.",
+            "reviewer": "Verified Buyer"
+          }
+        },
+        "rev-3": {
+          "type": "review",
+          "settings": {
+            "stars": "5",
+            "quote": "I feel more energized and recovered.",
+            "reviewer": "Verified Buyer"
+          }
+        },
+        "faq-1": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How long does one bottle last?",
+            "answer": "One bottle contains 180 capsules — a full 90-day supply at one capsule per day."
+          }
+        },
+        "faq-2": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Is this product third-party tested?",
+            "answer": "Yes. Every batch is tested by an independent third-party lab for purity and potency."
+          }
+        },
+        "faq-3": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How much Urolithin A is in each serving?",
+            "answer": "Each capsule contains 2000 mg of Urolithin A — the highest dose available in a single-capsule format."
+          }
+        },
+        "faq-4": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Is it suitable for everyday use?",
+            "answer": "Yes. The formula is designed for daily use. Take one capsule per day with or without food."
+          }
+        },
+        "gar-1": {
+          "type": "guarantee_item",
+          "settings": {
+            "fallback_asset": "ps-icon-guarantee.png",
+            "label": "90-Day\nGuarantee"
+          }
+        },
+        "gar-2": {
+          "type": "guarantee_item",
+          "settings": {
+            "fallback_asset": "ps-icon-returns.png",
+            "label": "Easy\nReturns"
+          }
+        },
+        "gar-3": {
+          "type": "guarantee_item",
+          "settings": {
+            "fallback_asset": "ps-icon-support.png",
+            "label": "Customer\nSupport"
+          }
+        }
+      },
+      "block_order": [
+        "hb-1",
+        "hb-2",
+        "hb-3",
+        "hb-4",
+        "ing-1",
+        "ing-2",
+        "ing-3",
+        "ing-4",
+        "ing-5",
+        "ing-6",
+        "ing-7",
+        "ing-8",
+        "sci-1",
+        "sci-2",
+        "sci-3",
+        "qual-1",
+        "qual-2",
+        "qual-3",
+        "qual-4",
+        "qual-5",
+        "rev-1",
+        "rev-2",
+        "rev-3",
+        "faq-2",
+        "faq-3",
+        "faq-4",
+        "faq-1",
+        "gar-1",
+        "gar-2",
+        "gar-3"
+      ],
+      "settings": {}
+    }
+  },
+  "order": [
+    "main"
+  ],
+  "layout": "ua-no-header"
+}

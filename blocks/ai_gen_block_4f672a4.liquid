@@ -1,0 +1,522 @@
+{% doc %}
+  @prompt
+    genere moi une section contenant :                                                                                                                                                              une image (en format carré à gauche) et un titre , des bouton 9 bouttons avec des lien vers le produits) et noublie pas tous les parametrage des reglage surtout le background color de la section, 4 bouttons
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-product-grid-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    background-color: {{ block.settings.background_color }};
+    padding: {{ block.settings.padding_top }}px {{ block.settings.padding_horizontal }}px {{ block.settings.padding_bottom }}px;
+  }
+
+  .ai-product-grid-container-{{ ai_gen_id }} {
+    max-width: {{ block.settings.container_width }}px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: {{ block.settings.gap }}px;
+    align-items: start;
+  }
+
+  .ai-product-grid-image-wrapper-{{ ai_gen_id }} {
+    width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: {{ block.settings.image_border_radius }}px;
+  }
+
+  .ai-product-grid-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-product-grid-image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-product-grid-image-placeholder-{{ ai_gen_id }} svg {
+    width: 60%;
+    height: 60%;
+    opacity: 0.3;
+  }
+
+  .ai-product-grid-content-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: {{ block.settings.content_gap }}px;
+  }
+
+  .ai-product-grid-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    font-weight: {{ block.settings.title_weight }};
+    color: {{ block.settings.title_color }};
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .ai-product-grid-buttons-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: {{ block.settings.button_gap }}px;
+  }
+
+  .ai-product-grid-button-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: {{ block.settings.button_padding }}px;
+    background-color: {{ block.settings.button_bg_color }};
+    color: {{ block.settings.button_text_color }};
+    text-decoration: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-size: {{ block.settings.button_font_size }}px;
+    font-weight: {{ block.settings.button_font_weight }};
+    transition: all 0.3s ease;
+    text-align: center;
+    border: {{ block.settings.button_border_width }}px solid {{ block.settings.button_border_color }};
+    min-height: 50px;
+  }
+
+  .ai-product-grid-button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_bg_color }};
+    color: {{ block.settings.button_hover_text_color }};
+    border-color: {{ block.settings.button_hover_border_color }};
+  }
+
+  .ai-product-grid-button-empty-{{ ai_gen_id }} {
+    background-color: #f9f9f9;
+    color: #999;
+    cursor: default;
+    font-style: italic;
+    font-size: 13px;
+    border-color: #e0e0e0;
+  }
+
+  .ai-product-grid-button-empty-{{ ai_gen_id }}:hover {
+    background-color: #f9f9f9;
+    color: #999;
+    border-color: #e0e0e0;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-product-grid-container-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+      gap: {{ block.settings.gap | times: 0.75 }}px;
+    }
+
+    .ai-product-grid-buttons-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+    }
+
+    .ai-product-grid-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_size | times: 0.8 }}px;
+    }
+
+    .ai-product-grid-button-{{ ai_gen_id }} {
+      font-size: {{ block.settings.button_font_size | times: 0.9 }}px;
+      padding: {{ block.settings.button_padding | times: 0.8 }}px;
+    }
+  }
+{% endstyle %}
+
+<product-grid-{{ ai_gen_id }} class="ai-product-grid-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-product-grid-container-{{ ai_gen_id }}">
+    <div class="ai-product-grid-image-wrapper-{{ ai_gen_id }}">
+      {% if block.settings.image %}
+        <img
+          src="{{ block.settings.image | image_url: width: 800 }}"
+          alt="{{ block.settings.image.alt | escape }}"
+          loading="lazy"
+          width="800"
+          height="800"
+          class="ai-product-grid-image-{{ ai_gen_id }}"
+        >
+      {% else %}
+        <div class="ai-product-grid-image-placeholder-{{ ai_gen_id }}">
+          {{ 'image' | placeholder_svg_tag }}
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="ai-product-grid-content-{{ ai_gen_id }}">
+      {% if block.settings.title != blank %}
+        <h2 class="ai-product-grid-title-{{ ai_gen_id }}">{{ block.settings.title }}</h2>
+      {% endif %}
+
+      <div class="ai-product-grid-buttons-{{ ai_gen_id }}">
+        {% for i in (1..4) %}
+          {% liquid
+            assign product_key = 'product_' | append: i
+            assign button_text_key = 'button_text_' | append: i
+            assign product = block.settings[product_key]
+            assign button_text = block.settings[button_text_key]
+          %}
+
+          {% if product != blank %}
+            <a
+              href="{{ product.url }}"
+              class="ai-product-grid-button-{{ ai_gen_id }}"
+            >
+              {% if button_text != blank %}
+                {{ button_text }}
+              {% else %}
+                {{ product.title }}
+              {% endif %}
+            </a>
+          {% else %}
+            <div class="ai-product-grid-button-{{ ai_gen_id }} ai-product-grid-button-empty-{{ ai_gen_id }}">
+              Ajouter produit {{ i }}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</product-grid-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class ProductGrid{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+      }
+    }
+
+    customElements.define('product-grid-{{ ai_gen_id }}', ProductGrid{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Grille de produits",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Rayon de bordure",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Titre"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Titre",
+      "default": "Découvrez nos produits"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 16,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Taille du titre",
+      "default": 32
+    },
+    {
+      "type": "select",
+      "id": "title_weight",
+      "label": "Poids du titre",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi-bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Couleur du titre",
+      "default": "#121212"
+    },
+    {
+      "type": "header",
+      "content": "Produit 1"
+    },
+    {
+      "type": "product",
+      "id": "product_1",
+      "label": "Produit"
+    },
+    {
+      "type": "text",
+      "id": "button_text_1",
+      "label": "Texte du bouton"
+    },
+    {
+      "type": "header",
+      "content": "Produit 2"
+    },
+    {
+      "type": "product",
+      "id": "product_2",
+      "label": "Produit"
+    },
+    {
+      "type": "text",
+      "id": "button_text_2",
+      "label": "Texte du bouton"
+    },
+    {
+      "type": "header",
+      "content": "Produit 3"
+    },
+    {
+      "type": "product",
+      "id": "product_3",
+      "label": "Produit"
+    },
+    {
+      "type": "text",
+      "id": "button_text_3",
+      "label": "Texte du bouton"
+    },
+    {
+      "type": "header",
+      "content": "Produit 4"
+    },
+    {
+      "type": "product",
+      "id": "product_4",
+      "label": "Produit"
+    },
+    {
+      "type": "text",
+      "id": "button_text_4",
+      "label": "Texte du bouton"
+    },
+    {
+      "type": "header",
+      "content": "Style des boutons"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Couleur de fond",
+      "default": "#5c1ada"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Couleur du texte",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg_color",
+      "label": "Couleur au survol",
+      "default": "#b600ff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_text_color",
+      "label": "Texte au survol",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Taille de police",
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "button_font_weight",
+      "label": "Poids de police",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi-bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "range",
+      "id": "button_padding",
+      "min": 8,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Rayon de bordure",
+      "default": 6
+    },
+    {
+      "type": "range",
+      "id": "button_border_width",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "label": "Épaisseur bordure",
+      "default": 1
+    },
+    {
+      "type": "color",
+      "id": "button_border_color",
+      "label": "Couleur bordure",
+      "default": "#5c1ada"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_border_color",
+      "label": "Bordure au survol",
+      "default": "#b600ff"
+    },
+    {
+      "type": "range",
+      "id": "button_gap",
+      "min": 8,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Espacement boutons",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Mise en page"
+    },
+    {
+      "type": "range",
+      "id": "container_width",
+      "min": 800,
+      "max": 1600,
+      "step": 50,
+      "unit": "px",
+      "label": "Largeur conteneur",
+      "default": 1200
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "min": 16,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Espacement",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "content_gap",
+      "min": 12,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "label": "Espacement contenu",
+      "default": 24
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Couleur de fond",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding haut",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bas",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_horizontal",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding horizontal",
+      "default": 20
+    }
+  ],
+  "presets": [
+    {
+      "name": "Grille de produits"
+    }
+  ]
+}
+{% endschema %}

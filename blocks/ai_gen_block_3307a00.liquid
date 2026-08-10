@@ -1,0 +1,545 @@
+{% doc %}
+  @prompt
+    Role:
+    Act as a senior Shopify theme developer and conversion-focused UX designer specialized in premium supplement product pages.
+    
+    Goal:
+    Generate a clean, high-impact result summary section that visually concludes a dual-action protocol explanation.
+    
+    Section Purpose
+    
+    This section acts as a summary & takeaway
+    
+    It reinforces understanding without making medical claims
+    
+    It visually separates education from the CTA that follows
+    
+    Layout & Structure
+    
+    Centered container
+    
+    Max-width content box
+    
+    White background
+    
+    Rounded corners
+    
+    Medium padding (comfortable, breathable)
+    
+    Visual Style
+    
+    Border with subtle blue → purple gradient
+    
+    Thin but clearly visible outline
+    
+    Optional small icon above the headline (DNA / spark / result icon)
+    
+    Content (ALL EDITABLE FROM SECTION SETTINGS)
+    
+    Headline:
+    “THE RESULT”
+    
+    Main Statement (bold):
+    “Clean mitochondria + optimized fuel supply”
+    
+    Supporting Line (lighter text):
+    “= More consistent energy, mental clarity, and resilience.”
+    
+    Typography
+    
+    Headline: uppercase, medium weight
+    
+    Main statement: slightly larger, bold
+    
+    Supporting line: smaller, neutral gray
+    
+    Design Principles
+    
+    Minimal
+    
+    Science-driven
+    
+    No exaggerated claims
+    
+    No medical promises
+    
+    Premium biotech / longevity aesthetic
+    
+    Customization
+    
+    Text editable via Shopify section settings
+    
+    Gradient colors editable
+    
+    Icon toggle on/off
+    
+    Spacing adjustable
+    
+    Technical Requirements
+    
+    Shopify Online Store 2.0 compatible
+    
+    Implement as a reusable section
+    
+    Mobile-first (box scales and centers correctly)
+    
+    Accessible contrast and spacing
+    
+    Minimal CSS
+    
+    Output:
+    Generate the complete Shopify section code (Liquid + HTML + minimal CSS) matching the reference design, with a centered gradient-bordered result box.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-result-summary-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    padding: {{ block.settings.section_padding_top }}px 20px {{ block.settings.section_padding_bottom }}px;
+  }
+
+  .ai-result-summary__container-{{ ai_gen_id }} {
+    max-width: {{ block.settings.max_width }}px;
+    margin: 0 auto;
+    background: {{ block.settings.box_background }};
+    border-radius: {{ block.settings.border_radius }}px;
+    padding: {{ block.settings.box_padding }}px;
+    position: relative;
+    text-align: center;
+  }
+
+  .ai-result-summary__container-{{ ai_gen_id }}::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: {{ block.settings.border_radius }}px;
+    padding: {{ block.settings.border_width }}px;
+    background: linear-gradient(
+      {{ block.settings.gradient_angle }}deg,
+      {{ block.settings.gradient_color_1 }},
+      {{ block.settings.gradient_color_2 }}
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  .ai-result-summary__icon-{{ ai_gen_id }} {
+    width: {{ block.settings.icon_size }}px;
+    height: {{ block.settings.icon_size }}px;
+    margin: 0 auto {{ block.settings.icon_spacing }}px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-result-summary__icon-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    fill: {{ block.settings.icon_color }};
+  }
+
+  .ai-result-summary__headline-{{ ai_gen_id }} {
+    font-size: {{ block.settings.headline_size }}px;
+    font-weight: {{ block.settings.headline_weight }};
+    text-transform: uppercase;
+    letter-spacing: {{ block.settings.headline_spacing }}px;
+    color: {{ block.settings.headline_color }};
+    margin: 0 0 {{ block.settings.headline_margin }}px;
+    line-height: 1.2;
+  }
+
+  .ai-result-summary__statement-{{ ai_gen_id }} {
+    font-size: {{ block.settings.statement_size }}px;
+    font-weight: {{ block.settings.statement_weight }};
+    color: {{ block.settings.statement_color }};
+    margin: 0 0 {{ block.settings.statement_margin }}px;
+    line-height: 1.4;
+  }
+
+  .ai-result-summary__supporting-{{ ai_gen_id }} {
+    font-size: {{ block.settings.supporting_size }}px;
+    font-weight: {{ block.settings.supporting_weight }};
+    color: {{ block.settings.supporting_color }};
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-result-summary-{{ ai_gen_id }} {
+      padding: {{ block.settings.section_padding_top | times: 0.7 }}px 16px {{ block.settings.section_padding_bottom | times: 0.7 }}px;
+    }
+
+    .ai-result-summary__container-{{ ai_gen_id }} {
+      padding: {{ block.settings.box_padding | times: 0.7 }}px;
+    }
+
+    .ai-result-summary__headline-{{ ai_gen_id }} {
+      font-size: {{ block.settings.headline_size | times: 0.85 }}px;
+    }
+
+    .ai-result-summary__statement-{{ ai_gen_id }} {
+      font-size: {{ block.settings.statement_size | times: 0.9 }}px;
+    }
+
+    .ai-result-summary__supporting-{{ ai_gen_id }} {
+      font-size: {{ block.settings.supporting_size | times: 0.9 }}px;
+    }
+
+    .ai-result-summary__icon-{{ ai_gen_id }} {
+      width: {{ block.settings.icon_size | times: 0.8 }}px;
+      height: {{ block.settings.icon_size | times: 0.8 }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-result-summary-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-result-summary__container-{{ ai_gen_id }}">
+    {% if block.settings.show_icon %}
+      <div class="ai-result-summary__icon-{{ ai_gen_id }}">
+        {% if block.settings.icon_type == 'dna' %}
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M4 2h4v2H6v2h2v2H6v2h2v2H6v2h2v2H6v2h2v2H4v-2h2v-2H4v-2h2v-2H4v-2h2V8H4V6h2V4H4V2zm10 0h4v2h-2v2h2v2h-2v2h2v2h-2v2h2v2h-2v2h2v2h-4v-2h2v-2h-2v-2h2v-2h-2v-2h2V8h-2V6h2V4h-2V2zM9 4h6v2H9V4zm0 4h6v2H9V8zm0 4h6v2H9v-2zm0 4h6v2H9v-2z"/>
+          </svg>
+        {% elsif block.settings.icon_type == 'spark' %}
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6L12 2z"/>
+          </svg>
+        {% elsif block.settings.icon_type == 'result' %}
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+          </svg>
+        {% elsif block.settings.icon_type == 'energy' %}
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M7 2v11h3v9l7-12h-4l4-8z"/>
+          </svg>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% if block.settings.headline != blank %}
+      <h2 class="ai-result-summary__headline-{{ ai_gen_id }}">
+        {{ block.settings.headline }}
+      </h2>
+    {% endif %}
+
+    {% if block.settings.main_statement != blank %}
+      <p class="ai-result-summary__statement-{{ ai_gen_id }}">
+        {{ block.settings.main_statement }}
+      </p>
+    {% endif %}
+
+    {% if block.settings.supporting_line != blank %}
+      <p class="ai-result-summary__supporting-{{ ai_gen_id }}">
+        {{ block.settings.supporting_line }}
+      </p>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Result summary",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Headline",
+      "default": "THE RESULT"
+    },
+    {
+      "type": "textarea",
+      "id": "main_statement",
+      "label": "Main statement",
+      "default": "Clean mitochondria + optimized fuel supply"
+    },
+    {
+      "type": "textarea",
+      "id": "supporting_line",
+      "label": "Supporting line",
+      "default": "= More consistent energy, mental clarity, and resilience."
+    },
+    {
+      "type": "header",
+      "content": "Icon"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_icon",
+      "label": "Show icon",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "icon_type",
+      "label": "Icon type",
+      "options": [
+        {
+          "value": "dna",
+          "label": "DNA"
+        },
+        {
+          "value": "spark",
+          "label": "Spark"
+        },
+        {
+          "value": "result",
+          "label": "Result checkmark"
+        },
+        {
+          "value": "energy",
+          "label": "Energy bolt"
+        }
+      ],
+      "default": "spark"
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "min": 20,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Icon size",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "icon_spacing",
+      "min": 8,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Icon spacing",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon color",
+      "default": "#5c1ada"
+    },
+    {
+      "type": "header",
+      "content": "Box style"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 400,
+      "max": 1000,
+      "step": 50,
+      "unit": "px",
+      "label": "Maximum width",
+      "default": 700
+    },
+    {
+      "type": "color",
+      "id": "box_background",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "border_width",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "unit": "px",
+      "label": "Border width",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "box_padding",
+      "min": 20,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Box padding",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Gradient border"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_1",
+      "label": "Gradient start color",
+      "default": "#0048dc"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_2",
+      "label": "Gradient end color",
+      "default": "#b600ff"
+    },
+    {
+      "type": "range",
+      "id": "gradient_angle",
+      "min": 0,
+      "max": 360,
+      "step": 15,
+      "unit": "deg",
+      "label": "Gradient angle",
+      "default": 90
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "headline_size",
+      "min": 12,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Headline size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "headline_weight",
+      "min": 400,
+      "max": 700,
+      "step": 100,
+      "label": "Headline weight",
+      "default": 600
+    },
+    {
+      "type": "range",
+      "id": "headline_spacing",
+      "min": 0,
+      "max": 4,
+      "step": 0.5,
+      "unit": "px",
+      "label": "Headline letter spacing",
+      "default": 1.5
+    },
+    {
+      "type": "range",
+      "id": "headline_margin",
+      "min": 8,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Headline margin",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "headline_color",
+      "label": "Headline color",
+      "default": "#5c1ada"
+    },
+    {
+      "type": "range",
+      "id": "statement_size",
+      "min": 16,
+      "max": 36,
+      "step": 2,
+      "unit": "px",
+      "label": "Statement size",
+      "default": 22
+    },
+    {
+      "type": "range",
+      "id": "statement_weight",
+      "min": 400,
+      "max": 700,
+      "step": 100,
+      "label": "Statement weight",
+      "default": 700
+    },
+    {
+      "type": "range",
+      "id": "statement_margin",
+      "min": 8,
+      "max": 32,
+      "step": 4,
+      "unit": "px",
+      "label": "Statement margin",
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "statement_color",
+      "label": "Statement color",
+      "default": "#121212"
+    },
+    {
+      "type": "range",
+      "id": "supporting_size",
+      "min": 12,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Supporting text size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "supporting_weight",
+      "min": 400,
+      "max": 600,
+      "step": 100,
+      "label": "Supporting text weight",
+      "default": 400
+    },
+    {
+      "type": "color",
+      "id": "supporting_color",
+      "label": "Supporting text color",
+      "default": "#666666"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Result summary"
+    }
+  ]
+}
+{% endschema %}

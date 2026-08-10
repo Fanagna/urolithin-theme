@@ -1,0 +1,461 @@
+{% doc %}
+  @prompt
+    créer moi une section qui contient deux bloc cote à cote, le premier bloc contient un titre et un pararaphe tandise que le deuxieme contient un bolc d image en format carré (avec relage width) .... n oublie pas tous les paramatre de reglage
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-two-column-section-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    padding: {{ block.settings.section_padding_top }}px {{ block.settings.section_padding_horizontal }}px {{ block.settings.section_padding_bottom }}px;
+    background-color: {{ block.settings.background_color }};
+  }
+
+  .ai-two-column-container-{{ ai_gen_id }} {
+    display: flex;
+    gap: {{ block.settings.column_gap }}px;
+    align-items: {{ block.settings.vertical_alignment }};
+    max-width: {{ block.settings.max_width }}px;
+    margin: 0 auto;
+  }
+
+  .ai-two-column-text-{{ ai_gen_id }} {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .ai-two-column-heading-{{ ai_gen_id }} {
+    margin: 0 0 {{ block.settings.heading_spacing }}px;
+    font-size: {{ block.settings.heading_size }}px;
+    color: {{ block.settings.heading_color }};
+    font-weight: {{ block.settings.heading_weight }};
+    line-height: 1.2;
+  }
+
+  .ai-two-column-paragraph-{{ ai_gen_id }} {
+    margin: 0;
+    font-size: {{ block.settings.paragraph_size }}px;
+    color: {{ block.settings.paragraph_color }};
+    line-height: 1.6;
+  }
+
+  .ai-two-column-image-{{ ai_gen_id }} {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .ai-two-column-image-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: {{ block.settings.image_width }}%;
+    padding-bottom: {{ block.settings.image_width }}%;
+    overflow: hidden;
+    border-radius: {{ block.settings.image_border_radius }}px;
+    margin-left: auto;
+  }
+
+  .ai-two-column-image-wrapper-{{ ai_gen_id }} img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-two-column-image-placeholder-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-two-column-image-placeholder-{{ ai_gen_id }} svg {
+    width: 60%;
+    height: 60%;
+    opacity: 0.3;
+  }
+
+  .ai-two-column-empty-state-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 8px 16px;
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-two-column-container-{{ ai_gen_id }} {
+      flex-direction: {{ block.settings.mobile_layout }};
+      gap: {{ block.settings.mobile_gap }}px;
+    }
+
+    .ai-two-column-section-{{ ai_gen_id }} {
+      padding: {{ block.settings.mobile_padding_top }}px {{ block.settings.mobile_padding_horizontal }}px {{ block.settings.mobile_padding_bottom }}px;
+    }
+
+    .ai-two-column-heading-{{ ai_gen_id }} {
+      font-size: {{ block.settings.mobile_heading_size }}px;
+    }
+
+    .ai-two-column-paragraph-{{ ai_gen_id }} {
+      font-size: {{ block.settings.mobile_paragraph_size }}px;
+    }
+
+    .ai-two-column-image-wrapper-{{ ai_gen_id }} {
+      width: {{ block.settings.mobile_image_width }}%;
+      padding-bottom: {{ block.settings.mobile_image_width }}%;
+      margin-left: 0;
+    }
+  }
+{% endstyle %}
+
+<two-column-section-{{ ai_gen_id }} class="ai-two-column-section-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-two-column-container-{{ ai_gen_id }}">
+    <div class="ai-two-column-text-{{ ai_gen_id }}">
+      {% if block.settings.heading != blank %}
+        <h2 class="ai-two-column-heading-{{ ai_gen_id }}">{{ block.settings.heading }}</h2>
+      {% endif %}
+      {% if block.settings.paragraph != blank %}
+        <div class="ai-two-column-paragraph-{{ ai_gen_id }}">{{ block.settings.paragraph }}</div>
+      {% endif %}
+    </div>
+
+    <div class="ai-two-column-image-{{ ai_gen_id }}">
+      <div class="ai-two-column-image-wrapper-{{ ai_gen_id }}">
+        {% if block.settings.image %}
+          <img
+            src="{{ block.settings.image | image_url: width: 1200 }}"
+            alt="{{ block.settings.image.alt | escape }}"
+            loading="lazy"
+            width="{{ block.settings.image.width }}"
+            height="{{ block.settings.image.height }}"
+          >
+        {% else %}
+          <div class="ai-two-column-image-placeholder-{{ ai_gen_id }}">
+            {{ 'image' | placeholder_svg_tag }}
+            <div class="ai-two-column-empty-state-{{ ai_gen_id }}">
+              Next, add an image
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</two-column-section-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class TwoColumnSection{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+    }
+
+    customElements.define('two-column-section-{{ ai_gen_id }}', TwoColumnSection{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Two column text and image",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Text content"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "<p>Your heading here</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "paragraph",
+      "label": "Paragraph",
+      "default": "<p>Add your paragraph text here. This is a great place to describe your product, service, or share important information with your customers.</p>"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 16,
+      "max": 72,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading size",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "mobile_heading_size",
+      "min": 14,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Mobile heading size",
+      "default": 24
+    },
+    {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Heading weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi-bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "range",
+      "id": "heading_spacing",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Heading spacing",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "paragraph_size",
+      "min": 12,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Paragraph size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "mobile_paragraph_size",
+      "min": 12,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Mobile paragraph size",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "paragraph_color",
+      "label": "Paragraph color",
+      "default": "#121212"
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "range",
+      "id": "image_width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Desktop image width",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "mobile_image_width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Mobile image width",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Image border radius",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 800,
+      "max": 1600,
+      "step": 100,
+      "unit": "px",
+      "label": "Maximum width",
+      "default": 1200
+    },
+    {
+      "type": "range",
+      "id": "column_gap",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "label": "Desktop column gap",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "mobile_gap",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile column gap",
+      "default": 30
+    },
+    {
+      "type": "select",
+      "id": "vertical_alignment",
+      "label": "Vertical alignment",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Top"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "flex-end",
+          "label": "Bottom"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "mobile_layout",
+      "label": "Mobile layout",
+      "options": [
+        {
+          "value": "column",
+          "label": "Text then image"
+        },
+        {
+          "value": "column-reverse",
+          "label": "Image then text"
+        }
+      ],
+      "default": "column"
+    },
+    {
+      "type": "header",
+      "content": "Section style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Desktop padding top",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Desktop padding bottom",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "section_padding_horizontal",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Desktop padding horizontal",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile padding top",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile padding bottom",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_horizontal",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile padding horizontal",
+      "default": 15
+    }
+  ],
+  "presets": [
+    {
+      "name": "Two column text and image"
+    }
+  ]
+}
+{% endschema %}

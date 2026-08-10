@@ -1,0 +1,679 @@
+/* Defaults here are overridden at runtime by ndl-color-settings.liquid,
+   which re-declares these same custom properties with merchant-picked
+   colors in a <style> tag. Because CSS custom properties cascade like any
+   other property, that one section controls every ndl-* section on the
+   page — add that section once (any position) to reskin the whole page. */
+:root{
+  --ndl-blue-950:#031a40;
+  --ndl-blue-900:#032b68;
+  --ndl-blue-800:#064494;
+  --ndl-blue-700:#075bbb;
+  --ndl-blue-500:#1595ff;
+  --ndl-lime:#baff3e;
+  --ndl-lime-2:#8de830;
+  --ndl-gold:#e9b443;
+  --ndl-white:#fff;
+  --ndl-soft:#edf6ff;
+  --ndl-ink:#062152;
+  --ndl-line:rgba(255,255,255,.28);
+  --ndl-shadow:0 22px 55px rgba(0,20,65,.30);
+  --ndl-radius:22px;
+  --ndl-sans:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  --ndl-bg-top:#0453ae;
+  --ndl-bg-mid:#003b86;
+  --ndl-bg-bottom:#032d6a;
+  --ndl-accent-text:#102a02;
+}
+.ndl *{box-sizing:border-box}
+.ndl{
+  font-family:var(--ndl-sans);
+  color:var(--ndl-white);
+  background:
+    radial-gradient(circle at 14% 12%, rgba(41,159,255,.28), transparent 31rem),
+    linear-gradient(180deg,var(--ndl-bg-top) 0%,var(--ndl-bg-mid) 45%,var(--ndl-bg-bottom) 100%);
+  line-height:1.42;
+  overflow-x:hidden;
+}
+.ndl img{display:block;max-width:100%}
+.ndl button,.ndl a{font:inherit}
+.ndl a{color:inherit;text-decoration:none}
+.ndl button{cursor:pointer}
+.ndl-shell{width:min(1180px,calc(100% - 42px));margin-inline:auto}
+.ndl-section{padding:76px 0;position:relative}
+.ndl-section{border-top:1px solid rgba(255,255,255,.09)}
+.ndl-eyebrow{
+  display:inline-flex;align-items:center;gap:9px;
+  padding:7px 13px;border:1px solid rgba(190,255,60,.55);
+  border-radius:999px;color:#e9ffc1;background:rgba(2,34,86,.48);
+  text-transform:uppercase;font-weight:900;font-size:.74rem;letter-spacing:.06em;
+}
+/* Dawn's own theme CSS sets a color directly on h1-h6 (a real match on the
+   element always wins over a color merely inherited from an ancestor, no
+   matter how specific the ancestor's rule is) — every heading on a dark
+   background needs its OWN explicit color here, not just inheritance from
+   .ndl{color:...}, or it silently renders in Dawn's default (usually near-
+   black) text color instead of white. */
+.ndl-heading{
+  margin:0;
+  font-size:clamp(2rem,4.7vw,4.75rem);
+  line-height:.98;
+  letter-spacing:-.05em;
+  font-weight:950;
+  color:var(--ndl-white);
+}
+.ndl-subheading{
+  margin:10px 0 0;
+  font-size:clamp(1rem,1.6vw,1.25rem);
+  color:rgba(255,255,255,.86);
+}
+.ndl-section-head{text-align:center;max-width:850px;margin:0 auto 34px}
+.ndl-section-head .ndl-heading{font-size:clamp(2rem,4vw,4rem)}
+.ndl-lime{color:var(--ndl-lime)}
+.ndl-card{
+  background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.055));
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:var(--ndl-radius);
+  box-shadow:var(--ndl-shadow);
+  backdrop-filter:blur(10px);
+}
+.ndl-white-card{
+  background:linear-gradient(180deg,#fff,#eef6ff);
+  color:var(--ndl-ink);
+  border-radius:var(--ndl-radius);
+  box-shadow:var(--ndl-shadow);
+}
+.ndl-btn{
+  border:0;border-radius:15px;min-height:58px;padding:0 28px;
+  display:inline-flex;align-items:center;justify-content:center;gap:12px;
+  background:linear-gradient(135deg,var(--ndl-lime),var(--ndl-lime-2));
+  color:var(--ndl-accent-text);font-weight:950;font-size:1.08rem;
+  box-shadow:0 14px 30px rgba(118,226,20,.25);
+  transition:.2s transform,.2s filter;
+}
+.ndl-btn:hover{transform:translateY(-2px);filter:brightness(1.06)}
+.ndl-btn.full{width:100%}
+.ndl-btn[data-loading="true"]{opacity:.7;pointer-events:none}
+.ndl-btn.is-sold-out,.ndl-btn:disabled{background:#5a6470;color:var(--ndl-white);opacity:.75;cursor:not-allowed;box-shadow:none}
+.ndl-btn.is-sold-out:hover,.ndl-btn:disabled:hover{transform:none;filter:none}
+/* Icon wrapper is deliberately a bare .icon class (not .ndl-icon) — the
+   markup nests <span class="icon"> under many different prefixed parents
+   (.ndl-benefit .icon, .ndl-trust-item .icon...), each setting its own size
+   and color. Scoped under .ndl so it can't leak into unrelated sections. */
+.ndl .icon{
+  width:28px;height:28px;display:inline-grid;place-items:center;flex:0 0 auto;
+}
+.ndl .icon svg{width:100%;height:100%;stroke:currentColor;fill:none;stroke-width:1.8}
+.ndl .icon img{width:100%;height:100%;object-fit:contain}
+.ndl-tiny{font-size:.76rem;color:rgba(255,255,255,.76)}
+
+/* announcement */
+.ndl-announcement{
+  min-height:38px;display:grid;place-items:center;text-align:center;
+  background:linear-gradient(90deg,#005fd7,#0d7afa,#004ba8);
+  font-size:.86rem;font-weight:850;padding:7px 15px;
+}
+
+/* hero */
+.ndl-hero{
+  position:relative;isolation:isolate;
+  min-height:820px;
+  background-size:cover;background-position:center;background-repeat:no-repeat;
+}
+.ndl-hero:before{
+  content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(
+    90deg,
+    rgba(0,41,95,0) 0%,
+    rgba(0,48,112,.04) 42%,
+    rgba(0,46,108,.18) 58%,
+    rgba(0,44,104,.52) 74%,
+    rgba(0,42,99,.76) 100%
+  );
+}
+/* Two content pieces (intro copy, benefits/bundle/CTA) share the same visual
+   column on desktop via named grid areas, and reorder independently as flex
+   siblings on mobile — this keeps the <h1> a single real DOM element instead
+   of two duplicate nodes toggled by CSS (which either doubles the H1 or hides
+   it entirely at one breakpoint; see bug #24). */
+.ndl-hero-grid{
+  min-height:820px;
+  display:grid;
+  grid-template-columns:minmax(450px,1.1fr) minmax(500px,.9fr);
+  grid-template-areas:"stage intro" "stage actions";
+  align-items:center;
+  gap:28px 28px;
+}
+.ndl-product-stage{
+  grid-area:stage;
+  position:relative;min-height:665px;overflow:hidden;
+}
+.ndl-product-stage picture{position:absolute;inset:0;display:block}
+.ndl-product-stage img{width:100%;height:100%;object-fit:cover;object-position:center}
+.ndl-hero-intro{grid-area:intro;align-self:end;max-width:700px;justify-self:end;padding:0 0 0 24px}
+.ndl-hero-actions{grid-area:actions;align-self:start;max-width:700px;justify-self:end;padding:0 0 0 24px}
+.ndl-hero-intro .ndl-heading{max-width:700px}
+.ndl-hero-intro p{max-width:700px;font-size:1.18rem;color:rgba(255,255,255,.9);margin:22px 0 0}
+.ndl-benefit-row{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:18px 0 28px}
+.ndl-benefit{
+  text-align:center;padding:12px 8px;
+}
+.ndl-benefit .icon{
+  width:54px;height:54px;margin:0 auto 9px;color:var(--ndl-lime);
+  border:2px solid var(--ndl-lime);border-radius:50%;padding:10px;
+}
+.ndl-benefit strong{display:block;font-size:.94rem}
+.ndl-benefit span{display:block;font-size:.76rem;color:rgba(255,255,255,.82);margin-top:4px}
+.ndl-bundle-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.ndl-bundle{
+  position:relative;background:rgba(2,37,90,.64);color:var(--ndl-white);
+  border:1px solid rgba(255,255,255,.42);border-radius:15px;padding:16px 10px 14px;
+  text-align:center;min-height:205px;transition:.2s;
+}
+.ndl-bundle.selected{border:2px solid var(--ndl-lime);box-shadow:0 0 0 3px rgba(184,255,55,.12)}
+.ndl-bundle .tag{
+  position:absolute;left:50%;top:-13px;transform:translateX(-50%);
+  color:var(--ndl-accent-text);background:var(--ndl-lime);font-size:.62rem;font-weight:950;border-radius:999px;padding:4px 10px;white-space:nowrap;
+}
+.ndl-bundle h3{font-size:.96rem;margin:0 0 3px;color:var(--ndl-white)}
+.ndl-bundle small{color:#d8e8ff}
+.ndl-bundle-bottles{height:66px;display:flex;justify-content:center;align-items:end;margin:8px 0}
+.ndl-bundle-bottles img{height:64px;width:auto;filter:drop-shadow(0 8px 6px rgba(0,0,0,.38));margin-left:-8px}
+.ndl-bundle-bottles img:first-child{margin-left:0}
+.ndl-bundle-price{font-size:1.25rem;font-weight:950;line-height:1}
+.ndl-bundle-save{font-size:.72rem;color:var(--ndl-lime);font-weight:850;margin-top:6px}
+.ndl-hero-cta{margin-top:12px}
+.ndl-hero-trust{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px}
+.ndl-hero-trust div{display:flex;align-items:center;gap:7px;font-size:.68rem;font-weight:750;color:#eaf4ff}
+.ndl-hero-trust .icon{width:24px;height:24px;color:var(--ndl-white)}
+
+/* UGC / routines */
+.ndl-ugc-section{padding-top:36px}
+.ndl-ugc-title{text-align:center;font-size:1.5rem;font-weight:950;margin:30px 0 18px;color:var(--ndl-white)}
+.ndl-routine-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
+.ndl-routine-card{overflow:hidden;border-radius:16px;background:#f4f6f7;color:#092354;box-shadow:var(--ndl-shadow)}
+.ndl-routine-card img{height:190px;width:100%;object-fit:cover}
+.ndl-routine-body{text-align:center;padding:12px 10px 15px}
+.ndl-routine-body strong{display:block;margin-bottom:7px}
+.ndl-routine-body p{font-size:.76rem;margin:0;color:#1b2d50}
+.ndl-routine-body small{display:block;margin-top:10px;font-weight:800}
+
+/* real world results */
+.ndl-results-section{
+  background:linear-gradient(180deg,rgba(0,54,126,.62),rgba(0,48,110,.86));
+}
+.ndl-video-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.ndl-video-card{height:410px;position:relative;overflow:hidden;border-radius:18px;border:1px solid rgba(255,255,255,.38)}
+.ndl-video-card img{width:100%;height:100%;object-fit:cover}
+.ndl-video-card:after{content:"";position:absolute;inset:35% 0 0;background:linear-gradient(transparent,rgba(0,19,55,.93))}
+.ndl-play{
+  position:absolute;z-index:2;left:50%;top:47%;transform:translate(-50%,-50%);
+  width:56px;height:56px;border-radius:50%;display:grid;place-items:center;
+  background:rgba(255,255,255,.35);border:2px solid rgba(255,255,255,.78);font-size:1.45rem;
+}
+.ndl-video-quote{position:absolute;left:16px;right:16px;bottom:20px;z-index:3;text-align:center;font-weight:800;font-size:.95rem}
+.ndl-video-quote strong{display:block;color:var(--ndl-lime);margin-top:12px}
+.ndl-benefits-six{display:grid;grid-template-columns:repeat(6,1fr);gap:18px;margin:34px 0}
+.ndl-big-benefit{text-align:center}
+.ndl-big-benefit .photo{width:96px;height:96px;margin:0 auto 12px;border-radius:50%;object-fit:cover;border:2px solid var(--ndl-lime);box-shadow:0 6px 16px rgba(0,0,0,.25)}
+.ndl-big-benefit strong{display:block;font-size:.95rem}
+.ndl-big-benefit p{font-size:.76rem;color:#d9ebff;margin:8px 0 0}
+.ndl-gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.ndl-gallery-grid img{width:100%;height:245px;object-fit:cover;border-radius:16px;border:1px solid rgba(255,255,255,.35)}
+.ndl-chart-grid{display:grid;grid-template-columns:1fr 1fr;margin-top:24px;border:1px solid rgba(255,255,255,.33);border-radius:16px;overflow:hidden}
+.ndl-chart{padding:22px 24px;background:rgba(0,35,87,.46)}
+.ndl-chart + .chart{border-left:1px solid rgba(255,255,255,.3)}
+.ndl-chart h3{text-align:center;margin:0 0 4px;font-size:1rem;color:var(--ndl-white)}
+.ndl-chart p{text-align:center;margin:0 0 16px;font-size:.8rem}
+.ndl-line-chart{height:180px;position:relative;border-left:2px solid #e9f3ff;border-bottom:2px solid #e9f3ff;margin:0 22px 18px}
+.ndl-line-chart svg{position:absolute;inset:0;overflow:visible}
+.ndl-bar-wrap{height:180px;display:flex;align-items:end;justify-content:center;gap:72px;border-bottom:2px solid #e9f3ff;margin:0 25px 18px}
+.ndl-bar{width:110px;display:flex;flex-direction:column;align-items:center;justify-content:end;font-weight:900}
+.ndl-bar span{margin-bottom:8px}
+.ndl-bar i{display:block;width:100%;background:#a3a7ad;height:36px;border-radius:4px 4px 0 0}
+.ndl-bar.lime i{height:145px;background:linear-gradient(var(--ndl-lime),#74c72a)}
+.ndl-chart-labels{display:flex;justify-content:space-around;font-size:.77rem;text-align:center}
+
+/* absorption */
+.ndl-absorption-top{display:grid;grid-template-columns:.9fr 1.1fr;gap:44px;align-items:center}
+/* Single editable image (was a background scene + separately overlaid
+   bottle photo composited together — the two rarely lined up well since
+   they're picked independently). One real <img>, cover-fit. */
+.ndl-bottle-scene{
+  position:relative;min-height:610px;border-radius:24px;overflow:hidden;
+}
+.ndl-bottle-scene:after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(0,48,108,.08),rgba(0,38,95,.42))}
+.ndl-bottle-scene picture{position:absolute;inset:0;display:block}
+.ndl-bottle-scene img{width:100%;height:100%;object-fit:cover;object-position:center}
+.ndl-absorption-copy .ndl-heading{font-size:clamp(2.2rem,4vw,4.1rem)}
+.ndl-liposome-card{margin-top:18px;padding:18px}
+.ndl-liposome-card h3{text-align:center;color:var(--ndl-lime);margin:0 0 12px}
+.ndl-liposome-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;align-items:center}
+.ndl-liposome-grid img{border-radius:16px;height:320px;width:100%;object-fit:cover}
+.ndl-science-list{display:grid;gap:18px}
+.ndl-science-list div{display:flex;gap:12px}
+.ndl-science-list .icon{color:var(--ndl-lime);width:44px;height:44px;border:2px solid var(--ndl-lime);border-radius:50%;padding:8px}
+.ndl-science-list strong{display:block}
+.ndl-science-list p{margin:4px 0 0;font-size:.78rem;color:#d7e9ff}
+.ndl-delivery-compare{
+  display:grid;grid-template-columns:1fr 72px 1fr;gap:0;margin-top:22px;align-items:stretch;
+  border:1px solid rgba(255,255,255,.35);border-radius:17px;overflow:hidden;
+}
+.ndl-delivery-col{padding:22px 36px;background:rgba(0,41,98,.54)}
+.ndl-delivery-col h3{margin:0 0 14px;text-align:center}
+/* :not(.ndl-lime) so this doesn't out-specificity the "ours" column's
+   .ndl-lime accent color (both are plain h3 descendants here, and a
+   class+element selector would otherwise beat a class-only one). */
+.ndl-delivery-col h3:not(.ndl-lime){color:var(--ndl-white)}
+.ndl-delivery-col ul{list-style:none;padding:0;margin:0;display:grid;gap:11px}
+.ndl-delivery-col li{display:flex;gap:10px}
+.ndl-delivery-vs{display:grid;place-items:center;background:rgba(0,40,94,.7)}
+.ndl-delivery-vs span{width:70px;height:70px;border-radius:50%;display:grid;place-items:center;background:var(--ndl-lime);color:var(--ndl-accent-text);font-weight:950}
+.ndl-ingredient-three{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px}
+.ndl-ingredient-feature{position:relative;overflow:hidden;height:350px;border-radius:16px;border:1px solid rgba(255,255,255,.38)}
+.ndl-ingredient-feature img{width:100%;height:100%;object-fit:cover}
+.ndl-ingredient-feature:after{content:"";position:absolute;inset:38% 0 0;background:linear-gradient(transparent,rgba(0,20,55,.95))}
+.ndl-ingredient-feature .copy{position:absolute;z-index:2;left:20px;right:20px;bottom:20px}
+.ndl-ingredient-feature h3{font-size:1.8rem;margin:0 0 8px;color:var(--ndl-white)}
+.ndl-ingredient-feature p{margin:0;font-size:.82rem}
+.ndl-survey-panel{margin-top:22px;padding:20px;background:#f3f8fb;color:#09265a;border-radius:17px}
+.ndl-survey-panel h3{text-align:center;font-size:1.9rem;margin:0 0 18px}
+.ndl-survey-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+.ndl-survey-item{border-right:1px solid #ccd8e8;padding:0 10px}
+.ndl-survey-item:last-child{border-right:0}
+.ndl-survey-stat{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.ndl-survey-stat strong{font-size:2rem}
+.ndl-survey-item img{height:190px;width:100%;object-fit:cover;border-radius:12px}
+
+/* data */
+.ndl-data-section{background:linear-gradient(180deg,#0a5db7,#03509f)}
+.ndl-comparison-table-wrap{overflow:auto;border-radius:18px;margin-top:24px}
+.ndl table{width:100%;border-collapse:collapse;min-width:820px;background:rgba(1,45,105,.7)}
+.ndl th,.ndl td{padding:18px 16px;border:1px solid rgba(255,255,255,.24);text-align:center}
+.ndl th:first-child,.ndl td:first-child{text-align:left;font-weight:800}
+.ndl thead th{font-size:1.05rem;background:rgba(0,44,101,.7)}
+.ndl .featured-col{border-left:3px solid var(--ndl-gold)!important;border-right:3px solid var(--ndl-gold)!important;color:#ffe081;font-weight:800}
+.ndl thead .featured-col{border-top:3px solid var(--ndl-gold)!important;border-radius:18px 18px 0 0}
+.ndl tbody tr:last-child .featured-col{border-bottom:3px solid var(--ndl-gold)!important}
+.ndl .checkmark{color:var(--ndl-lime);font-weight:950;font-size:1.25rem}
+.ndl .cross{color:#ff4a3f;font-weight:950;font-size:1.25rem}
+/* Mobile-only stacked alternative to the comparison table: each row becomes
+   its own card instead of a horizontally-scrolling 3-column table. */
+.ndl-compare-cards{display:none}
+.ndl-compare-card{background:rgba(1,45,105,.7);border:1px solid rgba(255,255,255,.24);border-radius:14px;padding:14px 16px;margin-top:10px}
+.ndl-compare-card__label{display:block;font-size:.92rem;margin-bottom:8px}
+.ndl-compare-card__row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:7px 0;border-top:1px solid rgba(255,255,255,.14)}
+.ndl-compare-card__row.is-ours{border-top:0;border-left:3px solid var(--ndl-gold);padding-left:9px;margin-left:-12px}
+.ndl-compare-card__tag{font-size:.72rem;color:rgba(255,255,255,.72)}
+.ndl-compare-card__row.is-ours .ndl-compare-card__tag{color:#ffe081;font-weight:700}
+.ndl-compare-card__value{font-weight:800;font-size:.86rem}
+.ndl-facts-expert{display:grid;grid-template-columns:.88fr 1.12fr;gap:22px;margin-top:28px}
+.ndl-facts{padding:24px;background:#fff;color:#061f4b;border-radius:18px}
+.ndl-facts h3{font-size:2rem;margin:0 0 4px}
+.ndl-facts hr{border:0;border-top:6px solid #071d42;margin:15px 0}
+.ndl-facts-row{display:flex;justify-content:space-between;gap:20px;padding:10px 0;border-bottom:1px solid #0d2b58}
+.ndl-facts-row strong{max-width:75%}
+.ndl-expert-panel{
+  min-height:520px;border-radius:18px;overflow:hidden;position:relative;background:#eef6ff;color:#0a2c61;
+}
+.ndl-expert-panel img{width:100%;height:100%;object-fit:cover}
+.ndl-quality-band{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:22px;padding:22px;
+  background:rgba(1,38,93,.85);border:1px solid rgba(255,255,255,.3);border-radius:18px;
+}
+.ndl-quality-band > div{display:flex;gap:12px;align-items:flex-start}
+.ndl-quality-band .icon{width:48px;height:48px;color:var(--ndl-lime)}
+.ndl-quality-band strong{display:block}
+.ndl-quality-band p{font-size:.75rem;color:#d6e8ff;margin:5px 0 0}
+
+/* journey */
+.ndl-journey{background:linear-gradient(180deg,#063d88,#0755a7)}
+.ndl-journey-top{display:grid;grid-template-columns:1fr 260px;gap:34px;align-items:center}
+.ndl-timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;position:relative;margin-top:28px}
+.ndl-timeline:before{content:"";position:absolute;left:8%;right:8%;top:34px;border-top:2px dotted rgba(255,255,255,.55)}
+.ndl-time-step{text-align:center;position:relative}
+.ndl-time-icon{width:68px;height:68px;border:2px solid var(--ndl-lime);border-radius:50%;display:grid;place-items:center;margin:0 auto 9px;background:#07509d;color:var(--ndl-lime);position:relative;z-index:2;font-size:1.4rem}
+.ndl-time-step .week{color:var(--ndl-lime);font-weight:900;font-size:.82rem}
+.ndl-time-step h3{margin:6px 0;font-size:1rem;color:var(--ndl-white)}
+.ndl-time-step p{font-size:.75rem;margin:0;color:#dcecff;min-height:64px}
+.ndl-time-step img{width:130px;height:130px;object-fit:cover;border-radius:50%;border:3px solid #e1d66e;margin:16px auto 0}
+.ndl-journey-bottle{text-align:center}
+.ndl-journey-bottle img{width:230px;margin:0 auto;filter:drop-shadow(0 24px 24px rgba(0,0,0,.45))}
+.ndl-consistency{border:1px solid rgba(255,255,255,.4);border-radius:14px;padding:14px;margin-top:12px;text-align:left}
+.ndl-consistency strong{color:var(--ndl-white)}
+.ndl-main-testimonials{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:30px}
+.ndl-main-testimonial{overflow:hidden;border-radius:16px;background:#f4f6f8;color:#0a2a5c}
+.ndl-main-testimonial img{height:270px;width:100%;object-fit:cover}
+.ndl-main-testimonial .body{text-align:center;padding:15px 20px}
+.ndl-stars{color:#93cf30;letter-spacing:.12em;font-size:1.35rem}
+.ndl-main-testimonial blockquote{font-style:italic;font-weight:700;margin:10px 0}
+.ndl-small-review-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:20px}
+.ndl-small-review{background:#f8fbff;color:#0b2c62;border-radius:12px;padding:14px;min-height:145px}
+.ndl-small-review .meta{display:flex;align-items:center;gap:9px;margin-bottom:8px}
+.ndl-avatar{width:35px;height:35px;border-radius:50%;object-fit:cover}
+.ndl-small-review strong{font-size:.76rem}
+.ndl-small-review p{font-size:.72rem;margin:5px 0 0;font-style:italic}
+.ndl-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid rgba(255,255,255,.35);border-radius:18px;margin-top:24px;overflow:hidden}
+.ndl-metric{text-align:center;padding:22px 10px;border-right:1px solid rgba(255,255,255,.28)}
+.ndl-metric:last-child{border-right:0}
+.ndl-metric strong{display:block;font-size:2.4rem}
+.ndl-metric span{font-size:.85rem}
+
+/* experts + faq + trust strip */
+.ndl-experts-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:13px}
+.ndl-expert-card{overflow:hidden;border-radius:16px;background:#f4f7fb;color:#0c2d62;text-align:center}
+.ndl-expert-card img{height:230px;width:100%;object-fit:cover}
+.ndl-expert-card .body{padding:13px}
+.ndl-expert-card strong{display:block}
+.ndl-expert-card p{font-size:.72rem;margin:7px 0 0}
+.ndl-faq{margin-top:46px}
+.ndl-faq h2{text-align:center;font-size:2rem;margin-bottom:20px;color:var(--ndl-white)}
+.ndl details{background:#f7f9fb;color:#0d2e62;border-bottom:1px solid #a9b8cf}
+.ndl details:first-of-type{border-radius:12px 12px 0 0}
+.ndl details:last-of-type{border-radius:0 0 12px 12px}
+.ndl summary{list-style:none;padding:17px 20px;font-weight:800;cursor:pointer;display:flex;justify-content:space-between}
+.ndl summary::-webkit-details-marker{display:none}
+.ndl summary:after{content:"+";font-size:1.2rem}
+.ndl details[open] summary:after{content:"–"}
+.ndl details p{padding:0 20px 18px;margin:0;color:#344a6c}
+.ndl-trust-strip{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:25px;
+  background:rgba(0,47,108,.7);border-top:1px solid rgba(255,255,255,.2);border-bottom:1px solid rgba(255,255,255,.2)
+}
+.ndl-trust-item{padding:20px;display:flex;gap:13px;align-items:center;justify-content:center;border-right:1px solid rgba(255,255,255,.3)}
+.ndl-trust-item:last-child{border-right:0}
+.ndl-trust-item .icon{color:var(--ndl-lime);width:45px;height:45px}
+.ndl-trust-item strong{display:block}
+.ndl-trust-item span{font-size:.72rem}
+
+/* Mobile card-row slider: wraps a horizontally-scrolling row (routines,
+   videos, ingredients, survey, testimonials, reviews, experts) with small
+   discreet arrow buttons. Native OS scrollbar is hidden on the scroller
+   itself — arrows + swipe are the intended way to move through the row.
+   Desktop keeps the plain CSS grid, no wrapper/arrows needed there. */
+.ndl-hscroll-wrap{position:relative}
+.ndl-hscroll-arrow{
+  display:none;
+  position:absolute;top:50%;transform:translateY(-50%);z-index:3;
+  width:34px;height:34px;border-radius:50%;
+  align-items:center;justify-content:center;
+  border:1px solid rgba(255,255,255,.35);
+  background:rgba(3,26,64,.55);backdrop-filter:blur(6px);
+  color:var(--ndl-white);font-size:1.1rem;line-height:1;
+  transition:opacity .2s ease,background .2s ease;
+}
+.ndl-hscroll-arrow:hover{background:rgba(3,26,64,.8)}
+.ndl-hscroll-arrow.is-hidden{opacity:0;pointer-events:none}
+.ndl-hscroll-arrow[data-ndl-hscroll-prev]{left:2px}
+.ndl-hscroll-arrow[data-ndl-hscroll-next]{right:2px}
+.ndl-white-card .ndl-hscroll-arrow{border-color:rgba(6,33,82,.25);background:rgba(255,255,255,.82);color:var(--ndl-ink)}
+.ndl-white-card .ndl-hscroll-arrow:hover{background:#fff}
+
+/* Persistent add-to-cart bar. The source mockup only revealed this on mobile
+   (.mobile-sticky{display:none} with no desktop counterpart), which left
+   desktop shoppers with zero way to buy once they scrolled past the hero —
+   the CTA only exists once, at the very top. Shown on every breakpoint here,
+   slides up from the bottom once the hero's own CTA scrolls out of view. */
+.ndl-sticky-bar{
+  position:fixed;left:0;right:0;bottom:0;z-index:50;
+  transform:translateY(100%);transition:transform .25s ease;
+  background:rgba(3,26,64,.94);backdrop-filter:blur(10px);
+  border-top:1px solid rgba(255,255,255,.18);
+  box-shadow:0 -8px 24px rgba(0,0,0,.25);
+}
+.ndl-sticky-bar.is-visible{transform:translateY(0)}
+/* Native {% form %} wrapper around the buy CTAs — display:contents keeps
+   it invisible to the grid/flex layout the buttons previously sat in. */
+.ndl .ndl-buy-form{display:contents}
+
+.ndl-sticky-bar-inner{
+  width:min(1180px,calc(100% - 42px));margin-inline:auto;
+  display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:18px;
+  padding:12px 0;
+}
+.ndl-sticky-bar .mini-bottle{width:46px;height:62px;object-fit:contain}
+.ndl-sticky-bar .price{font-weight:950;font-size:1.14rem;color:var(--ndl-lime)}
+.ndl-sticky-bar .label-col{display:grid;gap:2px}
+.ndl-sticky-bar .label-col strong{font-size:.92rem}
+.ndl-sticky-bar .ndl-btn{min-height:48px;padding:0 26px;font-size:.92rem}
+@media (max-width:768px){
+  .ndl-sticky-bar-inner{width:calc(100% - 24px);grid-template-columns:auto 1fr auto;gap:10px;padding:10px 0}
+  .ndl-sticky-bar .mini-bottle{width:38px;height:52px}
+  .ndl-sticky-bar .label-col strong{font-size:.82rem}
+  .ndl-sticky-bar .price{font-size:1.02rem}
+  .ndl-sticky-bar .ndl-btn{min-height:44px;padding:0 18px;font-size:.82rem}
+}
+/* The mockup reserved this gap with body{padding-bottom:76px} — every section
+   here has its own .ndl wrapper, so that rule would add 76px after EVERY
+   section instead of once at the end of the page. A spacer in the last
+   section (ndl-sticky-cart) reserves the same room without that bug. */
+.ndl-sticky-spacer{display:block;height:76px}
+
+/* Error toast for failed add-to-cart attempts (sold out, inventory exceeded,
+   network error...). Appended straight to <body> by JS, so it deliberately
+   doesn't rely on a .ndl ancestor — the --ndl-* custom properties are
+   declared on :root and stay available anywhere on the page regardless. */
+.ndl-cart-toast{
+  position:fixed;left:50%;bottom:24px;z-index:999;
+  transform:translate(-50%,140%);
+  max-width:min(420px,calc(100% - 32px));
+  background:#1a0d0d;color:var(--ndl-white);
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:12px;padding:14px 18px;
+  font:600 .88rem/1.35 var(--ndl-sans);
+  box-shadow:0 16px 40px rgba(0,0,0,.35);
+  transition:transform .25s ease;
+}
+.ndl-cart-toast.is-visible{transform:translate(-50%,0)}
+@media (max-width:768px){
+  .ndl-cart-toast{bottom:96px}
+}
+
+/* ══════════ tablet / narrow-desktop breakpoint (1024px) ══════════
+   The source mockup only defines 768px and 430px breakpoints — nothing
+   between full desktop and the mobile stack. On tablet-landscape and
+   narrow-laptop widths (~769-1024px), 4-to-8-column grids (reviews,
+   benefits, experts, metrics...) would render cramped with no intermediate
+   step, and the hero's two-column grid has hard minmax floors (450px +
+   500px = 950px) that leave almost no slack at 1024px. Added here since
+   the source design never covered this range. */
+@media (max-width:1024px){
+  .ndl-hero-grid{grid-template-columns:minmax(380px,1.1fr) minmax(380px,.9fr);gap:20px}
+  .ndl-hero-intro,.ndl-hero-actions{padding-left:0}
+  .ndl-hero-trust{grid-template-columns:repeat(2,1fr)}
+  .ndl-routine-grid{grid-template-columns:repeat(3,1fr)}
+  .ndl-video-grid{grid-template-columns:repeat(2,1fr)}
+  .ndl-benefits-six{grid-template-columns:repeat(3,1fr);row-gap:26px}
+  .ndl-survey-grid{grid-template-columns:repeat(2,1fr);row-gap:20px}
+  .ndl-quality-band{grid-template-columns:repeat(2,1fr);row-gap:16px}
+  .ndl-journey-top{grid-template-columns:1fr;gap:26px}
+  .ndl-journey-bottle{order:-1}
+  .ndl-timeline{grid-template-columns:repeat(2,1fr);row-gap:28px}
+  .ndl-timeline:before{display:none}
+  .ndl-main-testimonials{grid-template-columns:repeat(2,1fr)}
+  .ndl-small-review-grid{grid-template-columns:repeat(2,1fr)}
+  .ndl-metrics{grid-template-columns:repeat(2,1fr)}
+  .ndl-metric:nth-child(2){border-right:0}
+  .ndl-metric:nth-child(-n+2){border-bottom:1px solid rgba(255,255,255,.28)}
+  .ndl-experts-grid{grid-template-columns:repeat(3,1fr);row-gap:18px}
+  .ndl-trust-strip{grid-template-columns:repeat(2,1fr)}
+  .ndl-trust-item:nth-child(2){border-right:0}
+  .ndl-trust-item:nth-child(-n+2){border-bottom:1px solid rgba(255,255,255,.3)}
+}
+
+/* ══════════ single unified mobile breakpoint (768px) ══════════
+   The source mockup mixed a 700px breakpoint (bundles/grids/charts/etc.)
+   with a 768px breakpoint (hero/absorption/facts-expert), leaving a
+   701-768px seam where the hero showed its mobile layout while the grids
+   below it were still desktop-width. Merged to one 768px breakpoint. */
+@media (max-width:768px){
+  .ndl-shell{width:min(100% - 28px,680px)}
+  .ndl-section{padding:52px 0}
+  .ndl-announcement{font-size:.71rem;min-height:34px}
+
+  /* hero: intro (real <h1>) and actions (benefits/bundles/CTA) reorder as
+     plain flex siblings of the product image — same single <h1> element as
+     desktop, just repositioned, instead of a second hidden/duplicate copy. */
+  .ndl-hero{
+    min-height:0;
+    background:#064da6!important;
+  }
+  .ndl-hero:before{display:none}
+  .ndl-hero-grid{display:flex;flex-direction:column;min-height:0;gap:0;padding:0 0 38px}
+  .ndl-hero-intro{
+    order:0;width:100%;max-width:none;padding:18px 0 23px;text-align:center;justify-self:auto;
+  }
+  .ndl-hero-intro .ndl-eyebrow{margin-bottom:13px;padding:6px 12px;font-size:clamp(.64rem,2.15vw,.76rem);line-height:1}
+  .ndl-hero-intro .ndl-heading{font-size:clamp(3rem,12.25vw,4.25rem);line-height:.98;letter-spacing:-.055em;max-width:100%}
+  .ndl-hero-intro p{max-width:540px;margin:18px auto 0;font-size:clamp(.91rem,3vw,1.05rem);line-height:1.32;color:rgba(255,255,255,.92)}
+  .ndl-product-stage{
+    order:1;width:100vw;height:clamp(315px,67vw,370px);min-height:0;
+    margin-inline:calc(50% - 50vw);
+  }
+  .ndl-product-stage img{object-position:7% center!important}
+  .ndl-hero-actions{order:2;width:100%;max-width:none;padding:28px 0 0;text-align:center;justify-self:auto}
+  .ndl-benefit-row{gap:5px}
+  .ndl-benefit{padding:8px 2px}
+  .ndl-benefit .icon{width:45px;height:45px;padding:8px}
+  .ndl-benefit strong{font-size:.76rem}
+  .ndl-benefit span{font-size:.64rem}
+  .ndl-bundle-grid{grid-template-columns:1fr 1fr 1fr;gap:6px}
+  .ndl-bundle{padding:13px 5px;min-height:180px;border-radius:12px}
+  .ndl-bundle h3{font-size:.75rem}
+  .ndl-bundle small{font-size:.62rem}
+  .ndl-bundle-bottles{height:50px}
+  .ndl-bundle-bottles img{height:49px;margin-left:-7px}
+  .ndl-bundle-price{font-size:1.05rem}
+  .ndl-bundle-save{font-size:.57rem}
+  .ndl-hero-trust{grid-template-columns:repeat(2,1fr)}
+  .ndl-hero-trust div{font-size:.62rem}
+
+  .ndl-hscroll-arrow{display:flex}
+  .ndl-routine-grid,.ndl-video-grid,.ndl-ingredient-three,.ndl-experts-grid,
+  .ndl-survey-grid,.ndl-main-testimonials,.ndl-small-review-grid{
+    scrollbar-width:none;-ms-overflow-style:none;
+  }
+  .ndl-routine-grid::-webkit-scrollbar,.ndl-video-grid::-webkit-scrollbar,
+  .ndl-ingredient-three::-webkit-scrollbar,.ndl-experts-grid::-webkit-scrollbar,
+  .ndl-survey-grid::-webkit-scrollbar,.ndl-main-testimonials::-webkit-scrollbar,
+  .ndl-small-review-grid::-webkit-scrollbar{display:none}
+  .ndl-routine-grid,.ndl-video-grid,.ndl-ingredient-three,.ndl-experts-grid{
+    display:flex;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:10px;gap:12px;
+  }
+  .ndl-routine-card{min-width:72vw;scroll-snap-align:start}
+  .ndl-routine-card img{height:240px}
+  .ndl-video-card{min-width:76vw;height:440px;scroll-snap-align:start}
+  .ndl-benefits-six{grid-template-columns:repeat(2,1fr);gap:22px 12px}
+  .ndl-big-benefit .photo{width:78px;height:78px}
+  .ndl-gallery-grid{grid-template-columns:1fr 1fr;gap:9px}
+  .ndl-gallery-grid img{height:150px;border-radius:12px}
+  .ndl-chart-grid{grid-template-columns:1fr}
+  .ndl-chart + .chart{border-left:0;border-top:1px solid rgba(255,255,255,.3)}
+  .ndl-bar-wrap{gap:30px}
+  .ndl-bar{width:80px}
+
+  .ndl-bottle-scene{min-height:420px}
+  .ndl-liposome-grid{grid-template-columns:1fr}
+  .ndl-liposome-grid img{height:230px}
+  .ndl-delivery-compare{grid-template-columns:1fr}
+  .ndl-delivery-vs{height:60px}
+  .ndl-delivery-col{padding:20px}
+  .ndl-ingredient-feature{min-width:78vw;height:330px;scroll-snap-align:start}
+  .ndl-survey-grid{display:flex;overflow:auto;scroll-snap-type:x mandatory}
+  .ndl-survey-item{min-width:78vw;border-right:0;scroll-snap-align:start}
+  .ndl-survey-item img{height:250px}
+
+  .ndl-comparison-table-wrap{display:none}
+  .ndl-compare-cards{display:block}
+  .ndl-facts-expert{gap:14px}
+  .ndl-quality-band{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .ndl-quality-band>div{padding:8px;font-size:9px}
+
+  .ndl-journey-top{display:block;gap:14px}
+  .ndl-journey .ndl-heading{font-size:34px;line-height:1}
+  .ndl-timeline{display:flex;overflow:hidden;gap:4px;margin-top:20px}
+  .ndl-time-step{min-width:25%;padding:0 3px;text-align:center}
+  .ndl-time-step .time-icon{width:34px;height:34px;margin:auto;font-size:16px}
+  .ndl-time-step .week{font-size:8px}
+  .ndl-time-step h3{font-size:10px;line-height:1.1}
+  .ndl-time-step p{font-size:7px;line-height:1.2;min-height:0}
+  .ndl-timeline img{display:none}
+  .ndl-main-testimonials{display:flex;overflow:auto;scroll-snap-type:x mandatory}
+  .ndl-main-testimonial{min-width:86vw;scroll-snap-align:start}
+  .ndl-small-review-grid{display:flex;overflow:auto;scroll-snap-type:x mandatory}
+  .ndl-small-review{min-width:72vw;scroll-snap-align:start}
+  .ndl-metrics{grid-template-columns:1fr 1fr}
+  .ndl-metric:nth-child(2){border-right:0}
+  .ndl-metric:nth-child(-n+2){border-bottom:1px solid rgba(255,255,255,.28)}
+  .ndl-expert-card{min-width:72vw;scroll-snap-align:start}
+  .ndl-trust-strip{grid-template-columns:1fr 1fr}
+  .ndl-trust-item:nth-child(2){border-right:0}
+  .ndl-trust-item:nth-child(-n+2){border-bottom:1px solid rgba(255,255,255,.3)}
+
+  /* Advanced Absorption: heading, landscape bottle visual, paragraph, delivery card.
+     This is the final, most specific version from the source mockup — it
+     supersedes an earlier cruder attempt at the same #about layout. */
+  .ndl-absorption{padding:42px 0}
+  .ndl-absorption-top{display:flex;flex-direction:column;align-items:stretch;gap:0}
+  .ndl-absorption-copy{display:contents}
+  .ndl-absorption-copy > .ndl-heading{
+    order:1;width:min(88vw,492px);margin:0 auto;padding:0;text-align:left;
+    font-size:clamp(2.05rem,8.2vw,2.75rem);line-height:.96;letter-spacing:-.052em;
+  }
+  .ndl-bottle-scene{
+    order:2;width:min(88vw,492px);height:auto;min-height:0;aspect-ratio:2.27/1;
+    margin:25px auto 0;border-radius:16px;
+  }
+  .ndl-absorption-copy > .ndl-subheading{
+    order:3;width:min(88vw,492px);margin:30px auto 0;padding:0;text-align:left;
+    font-size:clamp(.86rem,2.65vw,1rem);line-height:1.32;
+  }
+  .ndl-liposome-card{order:4;width:min(88vw,492px);margin:17px auto 0;padding:12px;border-radius:16px;box-shadow:0 8px 18px rgba(0,20,65,.18)}
+  .ndl-liposome-card h3{margin:0 0 10px;font-size:clamp(.72rem,2.35vw,.88rem);line-height:1.05}
+  .ndl-liposome-grid{display:grid;grid-template-columns:52% minmax(0,1fr);gap:12px;align-items:center}
+  .ndl-liposome-grid > img{width:100%;height:auto;aspect-ratio:1/1;border-radius:10px;object-fit:cover;object-position:center}
+  .ndl-science-list{gap:14px}
+  .ndl-science-list > div{gap:8px;align-items:flex-start}
+  .ndl-science-list .icon{width:31px;height:31px;padding:6px;border-width:1.5px}
+  .ndl-science-list strong{font-size:clamp(.64rem,2vw,.76rem);line-height:1.08}
+  .ndl-science-list p{margin:3px 0 0;font-size:clamp(.49rem,1.55vw,.59rem);line-height:1.22}
+  /* #about-scoped: an ID selector, so it always wins over the generic
+     .delivery-compare{grid-template-columns:1fr} rule above regardless of
+     source order — this 3-column layout is the real final mobile state. */
+  .ndl-delivery-compare{display:grid;grid-template-columns:1fr 54px 1fr;margin-top:18px;border-radius:9px}
+  .ndl-delivery-col{padding:11px 14px}
+  .ndl-delivery-col h3{margin:0 0 8px;font-size:clamp(.52rem,1.55vw,.64rem);line-height:1.1}
+  .ndl-delivery-col ul{gap:5px}
+  .ndl-delivery-col li{gap:4px;font-size:clamp(.47rem,1.4vw,.58rem);line-height:1.2}
+  .ndl-delivery-vs{height:auto;min-height:100%}
+  .ndl-delivery-vs span{width:40px;height:40px;font-size:.62rem}
+
+  /* Supplement Facts full width above the formulation specialist image —
+     final version, supersedes an earlier cruder 1fr/1fr attempt. */
+  .ndl-facts-expert{display:flex;flex-direction:column;align-items:stretch;gap:12px;margin-top:28px}
+  .ndl-facts-expert .facts{width:100%;min-height:0;height:auto;padding:12px 10px 13px;border-radius:12px;font-size:11px;box-shadow:0 9px 22px rgba(0,20,65,.18)}
+  .ndl-facts-expert .facts h3{margin:0 0 4px;font-size:16px;line-height:1.05}
+  .ndl-facts-expert .facts > strong{font-size:11px;line-height:1.3}
+  .ndl-facts-expert .facts hr{margin:10px 0;border-top-width:5px}
+  .ndl-facts-expert .facts-row{gap:10px;padding:10px 0;font-size:11px;line-height:1.22}
+  .ndl-facts-expert .facts-row strong{max-width:76%}
+  .ndl-facts-expert .facts p{margin:10px 0;font-size:9px;line-height:1.28}
+  .ndl-facts-expert .expert-panel{width:100%;min-height:0;height:auto;aspect-ratio:720/820;border-radius:12px;background:transparent;box-shadow:0 10px 24px rgba(0,20,65,.22)}
+  .ndl-facts-expert .expert-panel img{display:block;width:100%;height:100%;object-fit:contain}
+}
+
+@media (max-width:430px){
+  .ndl-hero-intro{padding-top:15px;padding-bottom:20px}
+  .ndl-hero-intro .ndl-heading{font-size:clamp(2.8rem,12.1vw,3.25rem)}
+  .ndl-product-stage img{object-position:10% center!important}
+  .ndl-absorption-top{gap:12px}
+  .ndl-absorption-copy > .ndl-heading{font-size:clamp(1.9rem,7.6vw,2.3rem)}
+  .ndl-bottle-scene{height:248px;min-height:248px}
+  .ndl-liposome-card{padding:7px;margin-top:7px}
+  .ndl-liposome-grid{gap:6px}
+  .ndl-liposome-grid > img{height:143px}
+  .ndl-science-list{gap:6px}
+  .ndl-science-list .icon{width:20px;height:20px;padding:3px}
+  .ndl-delivery-compare{grid-template-columns:1fr 42px 1fr}
+  .ndl-delivery-col{padding:9px 8px}
+  .ndl-delivery-vs span{width:33px;height:33px;font-size:.54rem}
+}

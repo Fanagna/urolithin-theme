@@ -1,0 +1,179 @@
+{{ 'ndl-liposomal.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'ndl-liposomal.js' | asset_url }}" defer></script>
+{% liquid
+  assign ndl_product = product
+  if section.settings.product != blank
+    assign ndl_product = section.settings.product
+  endif
+  assign ndl_variant = ndl_product.selected_or_first_available_variant
+  assign ndl_hero_alt = ndl_product.title | default: 'PANSTELLAR NAD+ Liposomal'
+
+  # Native-form fallback: the CTA must work even BEFORE the deferred JS
+  # attaches its listeners — on slow mobile the app-script pile delays that
+  # by several seconds, leaving a type="button" CTA dead when tapped. The JS
+  # intercepts the click with preventDefault once it IS ready (AJAX drawer).
+  assign ndl_hero_form_id = 'ndl-hero-form-' | append: section.id
+  assign ndl_default_qty = 1
+  for block in section.blocks
+    if block.type == 'bundle' and block.settings.selected
+      assign ndl_default_qty = block.settings.bottles
+    endif
+  endfor
+
+  # Fallback chain: merchant-picked image > the assigned product's own photo
+  # > the bundled placeholder asset. A plain CSS background-image silently
+  # renders nothing if the URL 404s — a real <img> shows a broken-image icon
+  # instead, which is far easier to notice and debug.
+  if section.settings.hero_bg != blank
+    assign ndl_hero_desktop = section.settings.hero_bg | image_url: width: 1920
+    if section.settings.hero_bg_mobile != blank
+      assign ndl_hero_mobile = section.settings.hero_bg_mobile | image_url: width: 900
+    else
+      assign ndl_hero_mobile = section.settings.hero_bg | image_url: width: 900
+    endif
+  elsif ndl_product.featured_image != blank
+    assign ndl_hero_desktop = ndl_product.featured_image | image_url: width: 1920
+    assign ndl_hero_mobile = ndl_product.featured_image | image_url: width: 900
+  else
+    assign ndl_hero_desktop = 'ndl-mountain-blue.webp' | asset_url
+    assign ndl_hero_mobile = 'ndl-mountain-blue-mobile.webp' | asset_url
+  endif
+%}
+{% comment %} ndl_hero_desktop/mobile above are already fully-resolved CDN
+   URLs (via image_url or asset_url) — preload matches the same breakpoint
+   as the <picture><source media> below, so mobile doesn't fetch both. {% endcomment %}
+{% render 'panstellar-product-schema', product: ndl_product %}
+<link rel="preload" as="image" href="{{ ndl_hero_desktop }}" media="(min-width: 769px)" fetchpriority="high">
+<link rel="preload" as="image" href="{{ ndl_hero_mobile }}" media="(max-width: 768px)" fetchpriority="high">
+<div class="ndl" id="ndl-hero-{{ section.id }}" data-ndl-product data-product-handle="{{ ndl_product.handle | escape }}" data-product-url="{{ ndl_product.url }}" data-variant-id="{{ ndl_variant.id }}" data-available="{{ ndl_variant.available }}">
+  {% if section.settings.announcement != blank %}<div class="ndl-announcement">{{ section.settings.announcement }}</div>{% endif %}
+
+  <section class="ndl-hero">
+    <div class="ndl-shell ndl-hero-grid">
+      <div class="ndl-hero-intro">
+        <span class="ndl-eyebrow">{{ section.settings.eyebrow }}</span>
+        <h1 class="ndl-heading">{{ section.settings.heading | newline_to_br }}</h1>
+        <p>{{ section.settings.subtext }}</p>
+      </div>
+
+      <div class="ndl-product-stage">
+        <picture>
+          <source media="(max-width: 768px)" srcset="{{ ndl_hero_mobile }}">
+          <img src="{{ ndl_hero_desktop }}" alt="{{ ndl_hero_alt | escape }}" loading="eager" fetchpriority="high">
+        </picture>
+      </div>
+
+      <div class="ndl-hero-actions">
+        <div class="ndl-benefit-row">
+          {% for block in section.blocks %}{% if block.type == 'benefit' %}
+            <div class="ndl-benefit" {{ block.shopify_attributes }}>
+              <span class="icon">{% render 'nad-icon', name: block.settings.icon, custom_image: block.settings.custom_icon %}</span>
+              <strong>{{ block.settings.title }}</strong><span>{{ block.settings.text }}</span>
+            </div>
+          {% endif %}{% endfor %}
+        </div>
+
+        <div class="ndl-bundle-grid" aria-label="Choose a bundle" role="radiogroup">
+          {% for block in section.blocks %}{% if block.type == 'bundle' %}
+            <button type="button" class="ndl-bundle{% if block.settings.selected %} selected{% endif %}" role="radio" aria-pressed="{{ block.settings.selected }}" data-bottles="{{ block.settings.bottles }}" data-price-label="{{ block.settings.price }}" data-label="{{ block.settings.short_label | escape }}" {{ block.shopify_attributes }}>
+              {% if block.settings.badge != blank %}<span class="tag">{{ block.settings.badge }}</span>{% endif %}
+              <h3>{{ block.settings.title }}</h3><small>{{ block.settings.subtitle }}</small>
+              <span class="ndl-bundle-bottles">
+                {% for i in (1..block.settings.bottles) %}
+                  {% if block.settings.bottle_image != blank %}
+                    {{ block.settings.bottle_image | image_url: width: 160 | image_tag: loading: 'lazy', alt: '' }}
+                  {% else %}
+                    <img src="{{ 'ndl-nad-bottle.webp' | asset_url }}" alt="" loading="lazy">
+                  {% endif %}
+                {% endfor %}
+              </span>
+              <div class="ndl-bundle-price">{{ block.settings.price }}</div>
+              <div class="ndl-bundle-save">{{ block.settings.save_text }}</div>
+            </button>
+          {% endif %}{% endfor %}
+        </div>
+
+        {% form 'product', ndl_product, id: ndl_hero_form_id, class: 'ndl-buy-form', novalidate: 'novalidate' %}
+          <input type="hidden" name="id" value="{{ ndl_variant.id }}">
+          <input type="hidden" name="quantity" value="{{ ndl_default_qty }}" data-ndl-qty-input>
+          <button class="ndl-btn full ndl-hero-cta{% unless ndl_variant.available %} is-sold-out{% endunless %}" type="submit" name="add" data-ndl-buy {% unless ndl_variant.available %}disabled aria-disabled="true"{% endunless %}>
+            <span class="icon">{% render 'nad-icon', name: 'cart' %}</span>
+            <span data-ndl-cta-label>{% if ndl_variant.available %}{{ section.settings.cta_text }}{% else %}{{ section.settings.sold_out_text }}{% endif %}</span>
+          </button>
+        {% endform %}
+
+        <div class="ndl-hero-trust">
+          {% for block in section.blocks %}{% if block.type == 'trust' %}
+            <div {{ block.shopify_attributes }}><span class="icon">{% render 'nad-icon', name: block.settings.icon, custom_image: block.settings.custom_icon %}</span>{{ block.settings.text }}</div>
+          {% endif %}{% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+{% schema %}
+{
+  "name": "NDL — Hero & buy box",
+  "tag": "section",
+  "class": "ndl-section-wrapper",
+  "settings": [
+    { "type": "product", "id": "product", "label": "Product", "info": "Powers the Add to Cart button's variant." },
+    { "type": "text", "id": "announcement", "label": "Announcement bar", "default": "🌿 Free U.S. Shipping (1-2 Days) · 180-Day Money Back Guarantee" },
+    { "type": "image_picker", "id": "hero_bg", "label": "Hero background image", "info": "If left blank, falls back to the selected product's own photo, then to a bundled placeholder image." },
+    { "type": "image_picker", "id": "hero_bg_mobile", "label": "Hero background image — mobile", "info": "Optional. Falls back to the desktop image if left blank." },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "NAD+ support • cellular energy" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "info": "Line breaks are preserved.", "default": "Look Younger.\nFeel Amazing.\nGet Noticed." },
+    { "type": "textarea", "id": "subtext", "label": "Subtext", "default": "Advanced liposomal NAD+ designed for cellular energy, healthy aging, and peak daily performance." },
+    { "type": "text", "id": "cta_text", "label": "Add to cart button label", "default": "ADD TO CART" },
+    { "type": "text", "id": "sold_out_text", "label": "Sold out button label", "default": "SOLD OUT" }
+  ],
+  "blocks": [
+    { "type": "benefit", "name": "Benefit", "settings": [
+      { "type": "select", "id": "icon", "label": "Icon", "options": [
+        { "value": "battery", "label": "Battery / energy" }, { "value": "molecule", "label": "Molecule" }, { "value": "brain-web", "label": "Brain" },
+        { "value": "shield-check", "label": "Shield check" }, { "value": "leaf-glow", "label": "Leaf glow" }, { "value": "bolt-arrow", "label": "Bolt" },
+        { "value": "truck", "label": "Truck" }, { "value": "root", "label": "Root" }, { "value": "circle-plus", "label": "Circle plus" },
+        { "value": "lock-box", "label": "Lock" }, { "value": "infinity", "label": "Infinity" }, { "value": "box", "label": "Box" },
+        { "value": "shield-plus", "label": "Shield plus" }, { "value": "runner", "label": "Runner" }, { "value": "target", "label": "Target" }
+      ], "default": "battery" },
+      { "type": "image_picker", "id": "custom_icon", "label": "Custom icon image (optional)", "info": "Overrides the icon picked above." },
+      { "type": "text", "id": "title", "label": "Title", "default": "Boost Energy" },
+      { "type": "text", "id": "text", "label": "Text", "default": "Feel more energized all day long." }
+    ]},
+    { "type": "bundle", "name": "Bundle option", "settings": [
+      { "type": "range", "id": "bottles", "label": "Bottles shown / added to cart", "min": 1, "max": 6, "step": 1, "default": 1 },
+      { "type": "image_picker", "id": "bottle_image", "label": "Bottle image (optional)", "info": "Falls back to the default product bottle image." },
+      { "type": "text", "id": "title", "label": "Title", "default": "1 BOTTLE" },
+      { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "30 Day Supply" },
+      { "type": "text", "id": "price", "label": "Displayed price", "default": "$69" },
+      { "type": "text", "id": "save_text", "label": "Save / per-day text", "default": "$2.30 per day" },
+      { "type": "text", "id": "short_label", "label": "Short label (sticky bar)", "default": "1 bottle" },
+      { "type": "text", "id": "badge", "label": "Badge" },
+      { "type": "checkbox", "id": "selected", "label": "Selected by default", "default": false }
+    ]},
+    { "type": "trust", "name": "Trust item", "settings": [
+      { "type": "select", "id": "icon", "label": "Icon", "options": [
+        { "value": "shield-check", "label": "Shield check" }, { "value": "truck", "label": "Truck" }, { "value": "root", "label": "Root" },
+        { "value": "circle-plus", "label": "Circle plus" }, { "value": "lock-box", "label": "Lock" }
+      ], "default": "shield-check" },
+      { "type": "image_picker", "id": "custom_icon", "label": "Custom icon image (optional)" },
+      { "type": "text", "id": "text", "label": "Text", "default": "180-Day Money Back Guarantee" }
+    ]}
+  ],
+  "max_blocks": 20,
+  "presets": [
+    { "name": "NDL — Hero & buy box", "blocks": [
+      { "type": "benefit", "settings": { "icon": "battery", "title": "Boost Energy", "text": "Feel more energized all day long." } },
+      { "type": "benefit", "settings": { "icon": "molecule", "title": "Cellular Health", "text": "Support healthy aging at the cellular level." } },
+      { "type": "benefit", "settings": { "icon": "brain-web", "title": "Mental Clarity", "text": "Sharpen focus and clarity." } },
+      { "type": "bundle", "settings": { "bottles": 1, "title": "1 BOTTLE", "subtitle": "30 Day Supply", "price": "$69", "save_text": "$2.30 per day", "short_label": "1 bottle", "badge": "", "selected": false } },
+      { "type": "bundle", "settings": { "bottles": 2, "title": "2 BOTTLES", "subtitle": "60 Day Supply", "price": "$119", "save_text": "$2.00 per day · You Save $19", "short_label": "2 bottles", "badge": "BEST VALUE", "selected": true } },
+      { "type": "bundle", "settings": { "bottles": 3, "title": "3 BOTTLES", "subtitle": "90 Day Supply", "price": "$159", "save_text": "$1.77 per day · You Save $48", "short_label": "3 bottles", "badge": "", "selected": false } },
+      { "type": "trust", "settings": { "icon": "shield-check", "text": "180-Day Money Back Guarantee" } },
+      { "type": "trust", "settings": { "icon": "truck", "text": "Free U.S. Shipping · 1-2 Days" } },
+      { "type": "trust", "settings": { "icon": "root", "text": "Third-Party Tested" } },
+      { "type": "trust", "settings": { "icon": "circle-plus", "text": "Made in USA · GMP Certified" } }
+    ]}
+  ]
+}
+{% endschema %}

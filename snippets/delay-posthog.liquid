@@ -1,0 +1,50 @@
+{%- comment -%}
+  Delays ONLY PostHog analytics (session replay, dead-clicks, web-vitals,
+  autocapture) until the first user interaction, to cut mobile LCP/TBT.
+  Conversion-critical tags (GTM, GA4, Meta Pixel, Google Ads, Stape,
+  Shopify) are deliberately NOT delayed — they keep firing on page load so
+  ad measurement and attribution stay intact. A safety timeout loads
+  PostHog anyway after a few seconds so no analytics are lost on users who
+  never interact. Reversible: delete this render from layout/theme.liquid.
+{%- endcomment -%}
+<script>
+(function () {
+  // Only these hosts are deferred. Nothing else is touched.
+  var DELAY = ['posthog.com'];
+  var fired = false, queue = [];
+  function shouldDelay(src) {
+    if (!src) return false;
+    try { var h = new URL(src, location.href).host;
+      return DELAY.some(function (d) { return h.indexOf(d) > -1; });
+    } catch (e) { return false; }
+  }
+  var origCreate = document.createElement.bind(document);
+  var srcDesc = Object.getOwnPropertyDescriptor(HTMLScriptElement.prototype, 'src');
+  document.createElement = function (tag) {
+    var el = origCreate(tag);
+    if (String(tag).toLowerCase() === 'script' && srcDesc && srcDesc.set) {
+      Object.defineProperty(el, 'src', {
+        configurable: true,
+        get: function () { return srcDesc.get.call(el); },
+        set: function (v) {
+          if (!fired && shouldDelay(v)) { queue.push(function () { srcDesc.set.call(el, v); }); }
+          else { srcDesc.set.call(el, v); }
+        }
+      });
+    }
+    return el;
+  };
+  function unlock() {
+    if (fired) return;
+    fired = true;
+    document.createElement = origCreate;
+    queue.forEach(function (fn) { try { fn(); } catch (e) {} });
+    queue = [];
+  }
+  ['scroll', 'mousemove', 'touchstart', 'pointerdown', 'keydown', 'click'].forEach(function (e) {
+    window.addEventListener(e, unlock, { once: true, passive: true });
+  });
+  // Safety net: never lose analytics — load after 6s even without interaction.
+  setTimeout(unlock, 6000);
+})();
+</script>

@@ -1,0 +1,1548 @@
+{% doc %}
+  @prompt
+    Create a Certificates of Analysis (COA) grid section identical to the reference visual.
+    
+    Do NOT change any existing text, labels, product names, spacing, colors, typography, or visual style.
+    
+    🔹 FILTER MENU (very important)
+    
+    At the top of the section, create filter menus that allow users to filter certificates by category.
+    
+    Filters must include:
+    
+    All Products
+    
+    Peptides
+    
+    NAD+ & Longevity
+    
+    Omega-3
+    
+    Probiotics
+    
+    Vitamins & Minerals
+    
+    Performance
+    
+    Behavior:
+    
+    Filters act as dropdown / selectable menus
+    
+    Clicking a filter dynamically shows only certificates from that category
+    
+    “All Products” shows all certificates by default
+    
+    Filters are fully responsive and wrap cleanly on mobile
+    
+    🔹 CERTIFICATE GRID
+    
+    Display certificates in a responsive card grid
+    
+    Each card includes:
+    
+    Certificate preview image (COA placeholder)
+    
+    “View Certificate” button
+    
+    Category label (e.g. PEPTIDES, NAD+ & LONGEVITY)
+    
+    Product name (exact text as shown)
+    
+    Design rules:
+    
+    Card background, borders, gradients, and colors must match the reference exactly
+    
+    Hover state on cards (subtle elevation or outline)
+    
+    No visual changes to typography or spacing
+    
+    🔹 POP-UP / ZOOM INTERACTION (mandatory)
+    
+    When clicking on a certificate image or “View Certificate”:
+    
+    Open a modal pop-up
+    
+    Display the certificate image in large view
+    
+    Allow zoom in / zoom out
+    
+    Allow scroll if the certificate is tall
+    
+    Background behind the modal is slightly darkened
+    
+    Close button clearly visible
+    
+    No page reload.
+    
+    🔹 ADD NEW CERTIFICATES (admin-friendly)
+    
+    The section must allow easy insertion of new certificates:
+    
+    New certificates can be added via Shopify (dynamic blocks or metafields)
+    
+    Each certificate supports:
+    
+    Image upload (COA file)
+    
+    Product name
+    
+    Category selection
+    
+    Newly added certificates automatically appear in the grid and filters
+    
+    🔹 RESPONSIVE RULES
+    
+    Desktop: multi-column grid
+    
+    Tablet: reduced columns
+    
+    Mobile: single-column or two-column layout
+    
+    Filters remain usable and readable on all screen sizes
+    
+    🔹 TECHNICAL REQUIREMENTS
+    
+    Semantic HTML
+    
+    Clean, lightweight CSS
+    
+    Minimal JavaScript (only for filtering and modal)
+    
+    Shopify Dawn compatible
+    
+    No external libraries
+    
+    The final result must visually match the reference exactly, with added interactive functionality only.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-coa-grid-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 40px 20px;
+  }
+
+  .ai-coa-filter-menu-{{ ai_gen_id }} {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 40px;
+    justify-content: center;
+  }
+
+  .ai-coa-filter-btn-{{ ai_gen_id }} {
+    padding: 10px 20px;
+    background-color: {{ block.settings.filter_bg_color }};
+    color: {{ block.settings.filter_text_color }};
+    border: 1px solid {{ block.settings.filter_border_color }};
+    border-radius: {{ block.settings.filter_border_radius }}px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .ai-coa-filter-btn-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.filter_hover_bg_color }};
+    color: {{ block.settings.filter_hover_text_color }};
+    border-color: {{ block.settings.filter_hover_border_color }};
+  }
+
+  .ai-coa-filter-btn-{{ ai_gen_id }}.active {
+    background-color: {{ block.settings.filter_active_bg_color }};
+    color: {{ block.settings.filter_active_text_color }};
+    border-color: {{ block.settings.filter_active_border_color }};
+  }
+
+  .ai-coa-certificates-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  .ai-coa-card-{{ ai_gen_id }} {
+    background: {{ block.settings.card_bg_color }};
+    border: 1px solid {{ block.settings.card_border_color }};
+    border-radius: {{ block.settings.card_border_radius }}px;
+    padding: 20px;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .ai-coa-card-{{ ai_gen_id }}:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .ai-coa-card-{{ ai_gen_id }}.hidden {
+    display: none;
+  }
+
+  .ai-coa-image-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    border-radius: {{ block.settings.image_border_radius }}px;
+    cursor: pointer;
+    background-color: #f5f5f5;
+  }
+
+  .ai-coa-image-wrapper-{{ ai_gen_id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .ai-coa-image-wrapper-{{ ai_gen_id }}:hover img {
+    transform: scale(1.05);
+  }
+
+  .ai-coa-image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f5f5f5;
+  }
+
+  .ai-coa-image-placeholder-{{ ai_gen_id }} svg {
+    width: 60%;
+    height: 60%;
+    opacity: 0.3;
+  }
+
+  .ai-coa-category-label-{{ ai_gen_id }} {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: {{ block.settings.category_text_color }};
+    background-color: {{ block.settings.category_bg_color }};
+    padding: 4px 12px;
+    border-radius: 12px;
+    display: inline-block;
+    width: fit-content;
+  }
+
+  .ai-coa-product-name-{{ ai_gen_id }} {
+    font-size: 16px;
+    font-weight: 600;
+    color: {{ block.settings.product_name_color }};
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  .ai-coa-view-btn-{{ ai_gen_id }} {
+    padding: 12px 24px;
+    background-color: {{ block.settings.button_bg_color }};
+    color: {{ block.settings.button_text_color }};
+    border: 1px solid {{ block.settings.button_border_color }};
+    border-radius: {{ block.settings.button_border_radius }}px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .ai-coa-view-btn-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_bg_color }};
+    color: {{ block.settings.button_hover_text_color }};
+    border-color: {{ block.settings.button_hover_border_color }};
+  }
+
+  .ai-coa-modal-{{ ai_gen_id }} {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .ai-coa-modal-{{ ai_gen_id }}.active {
+    display: flex;
+  }
+
+  .ai-coa-modal-content-{{ ai_gen_id }} {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ai-coa-modal-header-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .ai-coa-modal-title-{{ ai_gen_id }} {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+    color: #121212;
+  }
+
+  .ai-coa-modal-controls-{{ ai_gen_id }} {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .ai-coa-zoom-btn-{{ ai_gen_id }},
+  .ai-coa-close-btn-{{ ai_gen_id }} {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+  }
+
+  .ai-coa-zoom-btn-{{ ai_gen_id }}:hover,
+  .ai-coa-close-btn-{{ ai_gen_id }}:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
+  .ai-coa-zoom-btn-{{ ai_gen_id }} svg,
+  .ai-coa-close-btn-{{ ai_gen_id }} svg {
+    width: 20px;
+    height: 20px;
+    stroke: #121212;
+  }
+
+  .ai-coa-modal-image-container-{{ ai_gen_id }} {
+    flex: 1;
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: #fafafa;
+  }
+
+  .ai-coa-modal-image-{{ ai_gen_id }} {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.3s ease;
+    transform-origin: center center;
+  }
+
+  .ai-coa-modal-image-{{ ai_gen_id }}.zoomed {
+    cursor: move;
+  }
+
+  .ai-coa-empty-state-{{ ai_gen_id }} {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+  }
+
+  .ai-coa-empty-state-{{ ai_gen_id }} h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
+    color: #121212;
+  }
+
+  .ai-coa-empty-state-{{ ai_gen_id }} p {
+    font-size: 14px;
+    margin: 0;
+  }
+
+  @media screen and (max-width: 768px) {
+    .ai-coa-grid-{{ ai_gen_id }} {
+      padding: 30px 16px;
+    }
+
+    .ai-coa-filter-menu-{{ ai_gen_id }} {
+      gap: 8px;
+      margin-bottom: 30px;
+    }
+
+    .ai-coa-filter-btn-{{ ai_gen_id }} {
+      padding: 8px 16px;
+      font-size: 12px;
+    }
+
+    .ai-coa-certificates-grid-{{ ai_gen_id }} {
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    .ai-coa-card-{{ ai_gen_id }} {
+      padding: 16px;
+    }
+
+    .ai-coa-modal-content-{{ ai_gen_id }} {
+      max-width: 95%;
+      max-height: 95%;
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .ai-coa-certificates-grid-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+    }
+  }
+{% endstyle %}
+
+<coa-grid-{{ ai_gen_id }} class="ai-coa-grid-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-coa-filter-menu-{{ ai_gen_id }}">
+    <button class="ai-coa-filter-btn-{{ ai_gen_id }} active" data-filter="all">All Products</button>
+    <button class="ai-coa-filter-btn-{{ ai_gen_id }}" data-filter="peptides">Peptides</button>
+    <button class="ai-coa-filter-btn-{{ ai_gen_id }}" data-filter="nad-longevity">NAD+ & Longevity</button>
+    <button class="ai-coa-filter-btn-{{ ai_gen_id }}" data-filter="omega-3">Omega-3</button>
+    <button class="ai-coa-filter-btn-{{ ai_gen_id }}" data-filter="probiotics">Probiotics</button>
+    <button class="ai-coa-filter-btn-{{ ai_gen_id }}" data-filter="vitamins-minerals">Vitamins & Minerals</button>
+    <button class="ai-coa-filter-btn-{{ ai_gen_id }}" data-filter="performance">Performance</button>
+  </div>
+
+  <div class="ai-coa-certificates-grid-{{ ai_gen_id }}">
+    {% liquid
+      assign cert_1_enabled = block.settings.cert_1_enabled
+      assign cert_2_enabled = block.settings.cert_2_enabled
+      assign cert_3_enabled = block.settings.cert_3_enabled
+      assign cert_4_enabled = block.settings.cert_4_enabled
+      assign cert_5_enabled = block.settings.cert_5_enabled
+      assign cert_6_enabled = block.settings.cert_6_enabled
+      assign cert_7_enabled = block.settings.cert_7_enabled
+      assign cert_8_enabled = block.settings.cert_8_enabled
+      assign cert_9_enabled = block.settings.cert_9_enabled
+      assign cert_10_enabled = block.settings.cert_10_enabled
+      assign cert_11_enabled = block.settings.cert_11_enabled
+      assign cert_12_enabled = block.settings.cert_12_enabled
+
+      assign has_certificates = false
+      if cert_1_enabled or cert_2_enabled or cert_3_enabled or cert_4_enabled or cert_5_enabled or cert_6_enabled or cert_7_enabled or cert_8_enabled or cert_9_enabled or cert_10_enabled or cert_11_enabled or cert_12_enabled
+        assign has_certificates = true
+      endif
+    %}
+
+    {% if has_certificates %}
+      {% for i in (1..12) %}
+        {% liquid
+          assign enabled_key = 'cert_' | append: i | append: '_enabled'
+          assign image_key = 'cert_' | append: i | append: '_image'
+          assign name_key = 'cert_' | append: i | append: '_name'
+          assign category_key = 'cert_' | append: i | append: '_category'
+
+          assign is_enabled = block.settings[enabled_key]
+          assign cert_image = block.settings[image_key]
+          assign cert_name = block.settings[name_key]
+          assign cert_category = block.settings[category_key]
+        %}
+
+        {% if is_enabled %}
+          <div class="ai-coa-card-{{ ai_gen_id }}" data-category="{{ cert_category }}">
+            <div class="ai-coa-image-wrapper-{{ ai_gen_id }}" data-certificate-image>
+              {% if cert_image %}
+                <img
+                  src="{{ cert_image | image_url: width: 600 }}"
+                  alt="{{ cert_name | escape }}"
+                  loading="lazy"
+                  width="600"
+                  height="800"
+                >
+              {% else %}
+                <div class="ai-coa-image-placeholder-{{ ai_gen_id }}">
+                  {{ 'product-1' | placeholder_svg_tag }}
+                </div>
+              {% endif %}
+            </div>
+
+            <div>
+              <span class="ai-coa-category-label-{{ ai_gen_id }}">
+                {% case cert_category %}
+                  {% when 'peptides' %}
+                    PEPTIDES
+                  {% when 'nad-longevity' %}
+                    NAD+ & LONGEVITY
+                  {% when 'omega-3' %}
+                    OMEGA-3
+                  {% when 'probiotics' %}
+                    PROBIOTICS
+                  {% when 'vitamins-minerals' %}
+                    VITAMINS & MINERALS
+                  {% when 'performance' %}
+                    PERFORMANCE
+                  {% else %}
+                    PRODUCT
+                {% endcase %}
+              </span>
+              <h3 class="ai-coa-product-name-{{ ai_gen_id }}">{{ cert_name }}</h3>
+            </div>
+
+            <button class="ai-coa-view-btn-{{ ai_gen_id }}" data-view-certificate>
+              View Certificate
+            </button>
+          </div>
+        {% endif %}
+      {% endfor %}
+    {% else %}
+      <div class="ai-coa-empty-state-{{ ai_gen_id }}">
+        <h3>No certificates added yet</h3>
+        <p>Enable and configure certificates in the block settings to display them here.</p>
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="ai-coa-modal-{{ ai_gen_id }}" data-modal>
+    <div class="ai-coa-modal-content-{{ ai_gen_id }}">
+      <div class="ai-coa-modal-header-{{ ai_gen_id }}">
+        <h3 class="ai-coa-modal-title-{{ ai_gen_id }}" data-modal-title>Certificate of Analysis</h3>
+        <div class="ai-coa-modal-controls-{{ ai_gen_id }}">
+          <button class="ai-coa-zoom-btn-{{ ai_gen_id }}" data-zoom-in aria-label="Zoom in">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              <line x1="11" y1="8" x2="11" y2="14"></line>
+              <line x1="8" y1="11" x2="14" y2="11"></line>
+            </svg>
+          </button>
+          <button class="ai-coa-zoom-btn-{{ ai_gen_id }}" data-zoom-out aria-label="Zoom out">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              <line x1="8" y1="11" x2="14" y2="11"></line>
+            </svg>
+          </button>
+          <button class="ai-coa-close-btn-{{ ai_gen_id }}" data-close-modal aria-label="Close">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="ai-coa-modal-image-container-{{ ai_gen_id }}">
+        <img class="ai-coa-modal-image-{{ ai_gen_id }}" data-modal-image src="" alt="">
+      </div>
+    </div>
+  </div>
+</coa-grid-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class CoaGrid{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.filterButtons = this.querySelectorAll('.ai-coa-filter-btn-{{ ai_gen_id }}');
+        this.cards = this.querySelectorAll('.ai-coa-card-{{ ai_gen_id }}');
+        this.modal = this.querySelector('[data-modal]');
+        this.modalImage = this.querySelector('[data-modal-image]');
+        this.modalTitle = this.querySelector('[data-modal-title]');
+        this.closeBtn = this.querySelector('[data-close-modal]');
+        this.zoomInBtn = this.querySelector('[data-zoom-in]');
+        this.zoomOutBtn = this.querySelector('[data-zoom-out]');
+        this.currentZoom = 1;
+        this.isDragging = false;
+        this.startX = 0;
+        this.startY = 0;
+        this.scrollLeft = 0;
+        this.scrollTop = 0;
+      }
+
+      connectedCallback() {
+        this.setupFilters();
+        this.setupModal();
+      }
+
+      setupFilters() {
+        this.filterButtons.forEach(button => {
+          button.addEventListener('click', () => {
+            const filter = button.getAttribute('data-filter');
+            
+            this.filterButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            
+            this.cards.forEach(card => {
+              const category = card.getAttribute('data-category');
+              if (filter === 'all' || category === filter) {
+                card.classList.remove('hidden');
+              } else {
+                card.classList.add('hidden');
+              }
+            });
+          });
+        });
+      }
+
+      setupModal() {
+        this.cards.forEach(card => {
+          const imageWrapper = card.querySelector('[data-certificate-image]');
+          const viewBtn = card.querySelector('[data-view-certificate]');
+          const img = card.querySelector('img');
+          const productName = card.querySelector('.ai-coa-product-name-{{ ai_gen_id }}');
+
+          if (imageWrapper && img) {
+            const openModal = () => {
+              this.openModal(img.src, productName ? productName.textContent : 'Certificate of Analysis');
+            };
+
+            imageWrapper.addEventListener('click', openModal);
+            if (viewBtn) {
+              viewBtn.addEventListener('click', openModal);
+            }
+          }
+        });
+
+        if (this.closeBtn) {
+          this.closeBtn.addEventListener('click', () => this.closeModal());
+        }
+        
+        this.modal.addEventListener('click', (e) => {
+          if (e.target === this.modal) {
+            this.closeModal();
+          }
+        });
+
+        if (this.zoomInBtn) {
+          this.zoomInBtn.addEventListener('click', () => this.zoom(0.2));
+        }
+        
+        if (this.zoomOutBtn) {
+          this.zoomOutBtn.addEventListener('click', () => this.zoom(-0.2));
+        }
+
+        const imageContainer = this.querySelector('.ai-coa-modal-image-container-{{ ai_gen_id }}');
+        
+        imageContainer.addEventListener('mousedown', (e) => {
+          if (this.currentZoom > 1) {
+            this.isDragging = true;
+            this.startX = e.pageX - imageContainer.offsetLeft;
+            this.startY = e.pageY - imageContainer.offsetTop;
+            this.scrollLeft = imageContainer.scrollLeft;
+            this.scrollTop = imageContainer.scrollTop;
+            this.modalImage.style.cursor = 'grabbing';
+          }
+        });
+
+        imageContainer.addEventListener('mousemove', (e) => {
+          if (!this.isDragging) return;
+          e.preventDefault();
+          const x = e.pageX - imageContainer.offsetLeft;
+          const y = e.pageY - imageContainer.offsetTop;
+          const walkX = (x - this.startX) * 2;
+          const walkY = (y - this.startY) * 2;
+          imageContainer.scrollLeft = this.scrollLeft - walkX;
+          imageContainer.scrollTop = this.scrollTop - walkY;
+        });
+
+        imageContainer.addEventListener('mouseup', () => {
+          this.isDragging = false;
+          if (this.currentZoom > 1) {
+            this.modalImage.style.cursor = 'move';
+          }
+        });
+
+        imageContainer.addEventListener('mouseleave', () => {
+          this.isDragging = false;
+        });
+
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && this.modal.classList.contains('active')) {
+            this.closeModal();
+          }
+        });
+      }
+
+      openModal(imageSrc, title) {
+        this.modalImage.src = imageSrc;
+        this.modalTitle.textContent = title;
+        this.modal.classList.add('active');
+        this.currentZoom = 1;
+        this.modalImage.style.transform = 'scale(1)';
+        this.modalImage.classList.remove('zoomed');
+        document.body.style.overflow = 'hidden';
+      }
+
+      closeModal() {
+        this.modal.classList.remove('active');
+        this.currentZoom = 1;
+        this.modalImage.style.transform = 'scale(1)';
+        this.modalImage.classList.remove('zoomed');
+        document.body.style.overflow = '';
+      }
+
+      zoom(delta) {
+        this.currentZoom = Math.max(1, Math.min(3, this.currentZoom + delta));
+        this.modalImage.style.transform = 'scale(' + this.currentZoom + ')';
+        
+        if (this.currentZoom > 1) {
+          this.modalImage.classList.add('zoomed');
+          this.modalImage.style.cursor = 'move';
+        } else {
+          this.modalImage.classList.remove('zoomed');
+          this.modalImage.style.cursor = 'default';
+        }
+      }
+    }
+
+    customElements.define('coa-grid-{{ ai_gen_id }}', CoaGrid{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "COA certificates grid",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "Filter buttons"
+    },
+    {
+      "type": "color",
+      "id": "filter_bg_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "filter_text_color",
+      "label": "Text",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "filter_border_color",
+      "label": "Border",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "color",
+      "id": "filter_hover_bg_color",
+      "label": "Hover background",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "color",
+      "id": "filter_hover_text_color",
+      "label": "Hover text",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "filter_hover_border_color",
+      "label": "Hover border",
+      "default": "#5c1ada"
+    },
+    {
+      "type": "color",
+      "id": "filter_active_bg_color",
+      "label": "Active background",
+      "default": "#5c1ada"
+    },
+    {
+      "type": "color",
+      "id": "filter_active_text_color",
+      "label": "Active text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "filter_active_border_color",
+      "label": "Active border",
+      "default": "#5c1ada"
+    },
+    {
+      "type": "range",
+      "id": "filter_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 6
+    },
+    {
+      "type": "header",
+      "content": "Certificate cards"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Border",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "label": "Image border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "color",
+      "id": "category_bg_color",
+      "label": "Category background",
+      "default": "#f0e6ff"
+    },
+    {
+      "type": "color",
+      "id": "category_text_color",
+      "label": "Category text",
+      "default": "#5c1ada"
+    },
+    {
+      "type": "color",
+      "id": "product_name_color",
+      "label": "Product name",
+      "default": "#121212"
+    },
+    {
+      "type": "header",
+      "content": "View certificate button"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Background",
+      "default": "#5c1ada"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_border_color",
+      "label": "Border",
+      "default": "#5c1ada"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg_color",
+      "label": "Hover background",
+      "default": "#4a0fb8"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_text_color",
+      "label": "Hover text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_border_color",
+      "label": "Hover border",
+      "default": "#4a0fb8"
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 6
+    },
+    {
+      "type": "header",
+      "content": "Certificate 1"
+    },
+    {
+      "type": "checkbox",
+      "id": "cert_1_enabled",
+      "label": "Enable certificate 1",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "cert_1_image",
+      "label": "Certificate image"
+    },
+    {
+      "type": "text",
+      "id": "cert_1_name",
+      "label": "Product name",
+      "default": "Product Name"
+    },
+    {
+      "type": "select",
+      "id": "cert_1_category",
+      "label": "Category",
+      "options": [
+        {
+          "value": "peptides",
+          "label": "Peptides"
+        },
+        {
+          "value": "nad-longevity",
+          "label": "NAD+ & Longevity"
+        },
+        {
+          "value": "omega-3",
+          "label": "Omega-3"
+        },
+        {
+          "value": "probiotics",
+          "label": "Probiotics"
+        },
+        {
+          "value": "vitamins-minerals",
+          "label": "Vitamins & Minerals"
+        },
+        {
+          "value": "performance",
+          "label": "Performance"
+        }
+      ],
+      "default": "peptides"
+    },
+    {
+      "type": "header",
+      "content": "Certificate 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "cert_2_enabled",
+      "label": "Enable certificate 2",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "cert_2_image",
+      "label": "Certificate image"
+    },
+    {
+      "type": "text",
+      "id": "cert_2_name",
+      "label": "Product name",
+      "default": "Product Name"
+    },
+    {
+      "type": "select",
+      "id": "cert_2_category",
+      "label": "Category",
+      "options": [
+        {
+          "value": "peptides",
+          "label": "Peptides"
+        },
+        {
+          "value": "nad-longevity",
+          "label": "NAD+ & Longevity"
+        },
+        {
+          "value": "omega-3",
+          "label": "Omega-3"
+        },
+        {
+          "value": "probiotics",
+          "label": "Probiotics"
+        },
+        {
+          "value": "vitamins-minerals",
+          "label": "Vitamins & Minerals"
+        },
+        {
+          "value": "performance",
+          "label": "Performance"
+        }
+      ],
+      "default": "peptides"
+    },
+    {
+      "type": "header",
+      "content": "Certificate 3"
+    },
+    {
+      "type": "checkbox",
+      "id": "cert_3_enabled",
+      "label": "Enable certificate 3",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "cert_3_image",
+      "label": "Certificate image"
+    },
+    {
+      "type": "text",
+      "id": "cert_3_name",
+      "label": "Product name",
+      "default": "Product Name"
+    },
+    {
+      "type": "select",
+      "id": "cert_3_category",
+      "label": "Category",
+      "options": [
+        {
+          "value": "peptides",
+          "label": "Peptides"
+        },
+        {
+          "value": "nad-longevity",
+          "label": "NAD+ & Longevity"
+        },
+        {
+          "value": "omega-3",
+          "label": "Omega-3"
+        },
+        {
+          "value": "probiotics",
+          "label": "Probiotics"
+        },
+        {
+          "value": "vitamins-minerals",
+          "label": "Vitamins & Minerals"
+        },
+        {
+          "value": "performance",
+          "label": "Performance"
+        }
+      ],
+      "default": "peptides"
+    },
+    {
+      "type": "header",
+      "content": "Certificate 4"
+    },
+    {
+      "type": "checkbox",
+      "id": "cert_4_enabled",
+      "label": "Enable certificate 4",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "cert_4_image",
+      "label": "Certificate image"
+    },
+    {
+      "type": "text",
+      "id": "cert_4_name",
+      "label": "Product name",
+      "default": "Product Name"
+    },
+    {
+      "type": "select",
+      "id": "cert_4_category",
+      "label": "Category",
+      "options": [
+        {
+          "value": "peptides",
+          "label": "Peptides"
+        },
+        {
+          "value": "nad-longevity",
+          "label": "NAD+ & Longevity"
+        },
+        {
+          "value": "omega-3",
+          "label": "Omega-3"
+        },
+        {
+          "value": "probiotics",
+          "label": "Probiotics"
+        },
+        {
+          "value": "vitamins-minerals",
+          "label": "Vitamins & Minerals"
+        },
+        {
+          "value": "performance",
+          "label": "Performance"
+        }
+      ],
+      "default": "peptides"
+    },
+    {
+      "type": "header",
+      "content": "Certificate 5"
+    },
+    {
+      "type": "checkbox",
+      "id": "cert_5_enabled",
+      "label": "Enable certificate 5",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "cert_5_image",
+      "label": "Certificate image"
+    },
+    {
+      "type": "text",
+      "id": "cert_5_name",
+      "label": "Product name",
+      "default": "Product Name"
+    },
+    {
+      "type": "select",
+      "id": "cert_5_category",
+      "label": "Category",
+      "options": [
+        {
+          "value": "peptides",
+          "label": "Peptides"
+        },
+        {
+          "value": "nad-longevity",
+          "label": "NAD+ & Longevity"
+        },
+        {
+          "value": "omega-3",
+          "label": "Omega-3"
+        },
+        {
+          "value": "probiotics",
+          "label": "Probiotics"
+        },
+        {
+          "value": "vitamins-minerals",
+          "label": "Vitamins & Minerals"
+        },
+        {
+          "value": "performance",
+          "label": "Performance"
+        }
+      ],
+      "default": "peptides"
+    },
+    {
+      "type": "header",
+      "content": "Certificate 6"
+    },
+    {
+      "type": "checkbox",
+      "id": "cert_6_enabled",
+      "label": "Enable certificate 6",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "cert_6_image",
+      "label": "Certificate image"
+    },
+    {
+      "type": "text",
+      "id": "cert_6_name",
+      "label": "Product name",
+      "default": "Product Name"
+    },
+    {
+      "type": "select",
+      "id": "cert_6_category",
+      "label": "Category",
+      "options": [
+        {
+          "value": "peptides",
+          "label": "Peptides"
+        },
+        {
+          "value": "nad-longevity",
+          "label": "NAD+ & Longevity"
+        },
+        {
+          "value": "omega-3",
+          "label": "Omega-3"
+        },
+        {
+          "value": "probiotics",
+          "label": "Probiotics"
+        },
+        {
+          "value": "vitamins-minerals",
+          "label": "Vitamins & Minerals"
+        },
+        {
+          "value": "performance",
+          "label": "Performance"
+        }
+      ],
+      "default": "peptides"
+    },
+    {
+      "type": "header",
+      "content": "Certificate 7"
+    },
+    {
+      "type": "checkbox",
+      "id": "cert_7_enabled",
+      "label": "Enable certificate 7",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "cert_7_image",
+      "label": "Certificate image"
+    },
+    {
+      "type": "text",
+      "id": "cert_7_name",
+      "label": "Product name",
+      "default": "Product Name"
+    },
+    {
+      "type": "select",
+      "id": "cert_7_category",
+      "label": "Category",
+      "options": [
+        {
+          "value": "peptides",
+          "label": "Peptides"
+        },
+        {
+          "value": "nad-longevity",
+          "label": "NAD+ & Longevity"
+        },
+        {
+          "value": "omega-3",
+          "label": "Omega-3"
+        },
+        {
+          "value": "probiotics",
+          "label": "Probiotics"
+        },
+        {
+          "value": "vitamins-minerals",
+          "label": "Vitamins & Minerals"
+        },
+        {
+          "value": "performance",
+          "label": "Performance"
+        }
+      ],
+      "default": "peptides"
+    },
+    {
+      "type": "header",
+      "content": "Certificate 8"
+    },
+    {
+      "type": "checkbox",
+      "id": "cert_8_enabled",
+      "label": "Enable certificate 8",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "cert_8_image",
+      "label": "Certificate image"
+    },
+    {
+      "type": "text",
+      "id": "cert_8_name",
+      "label": "Product name",
+      "default": "Product Name"
+    },
+    {
+      "type": "select",
+      "id": "cert_8_category",
+      "label": "Category",
+      "options": [
+        {
+          "value": "peptides",
+          "label": "Peptides"
+        },
+        {
+          "value": "nad-longevity",
+          "label": "NAD+ & Longevity"
+        },
+        {
+          "value": "omega-3",
+          "label": "Omega-3"
+        },
+        {
+          "value": "probiotics",
+          "label": "Probiotics"
+        },
+        {
+          "value": "vitamins-minerals",
+          "label": "Vitamins & Minerals"
+        },
+        {
+          "value": "performance",
+          "label": "Performance"
+        }
+      ],
+      "default": "peptides"
+    },
+    {
+      "type": "header",
+      "content": "Certificate 9"
+    },
+    {
+      "type": "checkbox",
+      "id": "cert_9_enabled",
+      "label": "Enable certificate 9",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "cert_9_image",
+      "label": "Certificate image"
+    },
+    {
+      "type": "text",
+      "id": "cert_9_name",
+      "label": "Product name",
+      "default": "Product Name"
+    },
+    {
+      "type": "select",
+      "id": "cert_9_category",
+      "label": "Category",
+      "options": [
+        {
+          "value": "peptides",
+          "label": "Peptides"
+        },
+        {
+          "value": "nad-longevity",
+          "label": "NAD+ & Longevity"
+        },
+        {
+          "value": "omega-3",
+          "label": "Omega-3"
+        },
+        {
+          "value": "probiotics",
+          "label": "Probiotics"
+        },
+        {
+          "value": "vitamins-minerals",
+          "label": "Vitamins & Minerals"
+        },
+        {
+          "value": "performance",
+          "label": "Performance"
+        }
+      ],
+      "default": "peptides"
+    },
+    {
+      "type": "header",
+      "content": "Certificate 10"
+    },
+    {
+      "type": "checkbox",
+      "id": "cert_10_enabled",
+      "label": "Enable certificate 10",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "cert_10_image",
+      "label": "Certificate image"
+    },
+    {
+      "type": "text",
+      "id": "cert_10_name",
+      "label": "Product name",
+      "default": "Product Name"
+    },
+    {
+      "type": "select",
+      "id": "cert_10_category",
+      "label": "Category",
+      "options": [
+        {
+          "value": "peptides",
+          "label": "Peptides"
+        },
+        {
+          "value": "nad-longevity",
+          "label": "NAD+ & Longevity"
+        },
+        {
+          "value": "omega-3",
+          "label": "Omega-3"
+        },
+        {
+          "value": "probiotics",
+          "label": "Probiotics"
+        },
+        {
+          "value": "vitamins-minerals",
+          "label": "Vitamins & Minerals"
+        },
+        {
+          "value": "performance",
+          "label": "Performance"
+        }
+      ],
+      "default": "peptides"
+    },
+    {
+      "type": "header",
+      "content": "Certificate 11"
+    },
+    {
+      "type": "checkbox",
+      "id": "cert_11_enabled",
+      "label": "Enable certificate 11",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "cert_11_image",
+      "label": "Certificate image"
+    },
+    {
+      "type": "text",
+      "id": "cert_11_name",
+      "label": "Product name",
+      "default": "Product Name"
+    },
+    {
+      "type": "select",
+      "id": "cert_11_category",
+      "label": "Category",
+      "options": [
+        {
+          "value": "peptides",
+          "label": "Peptides"
+        },
+        {
+          "value": "nad-longevity",
+          "label": "NAD+ & Longevity"
+        },
+        {
+          "value": "omega-3",
+          "label": "Omega-3"
+        },
+        {
+          "value": "probiotics",
+          "label": "Probiotics"
+        },
+        {
+          "value": "vitamins-minerals",
+          "label": "Vitamins & Minerals"
+        },
+        {
+          "value": "performance",
+          "label": "Performance"
+        }
+      ],
+      "default": "peptides"
+    },
+    {
+      "type": "header",
+      "content": "Certificate 12"
+    },
+    {
+      "type": "checkbox",
+      "id": "cert_12_enabled",
+      "label": "Enable certificate 12",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "cert_12_image",
+      "label": "Certificate image"
+    },
+    {
+      "type": "text",
+      "id": "cert_12_name",
+      "label": "Product name",
+      "default": "Product Name"
+    },
+    {
+      "type": "select",
+      "id": "cert_12_category",
+      "label": "Category",
+      "options": [
+        {
+          "value": "peptides",
+          "label": "Peptides"
+        },
+        {
+          "value": "nad-longevity",
+          "label": "NAD+ & Longevity"
+        },
+        {
+          "value": "omega-3",
+          "label": "Omega-3"
+        },
+        {
+          "value": "probiotics",
+          "label": "Probiotics"
+        },
+        {
+          "value": "vitamins-minerals",
+          "label": "Vitamins & Minerals"
+        },
+        {
+          "value": "performance",
+          "label": "Performance"
+        }
+      ],
+      "default": "peptides"
+    }
+  ],
+  "presets": [
+    {
+      "name": "COA certificates grid"
+    }
+  ]
+}
+{% endschema %}

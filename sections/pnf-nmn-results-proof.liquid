@@ -1,0 +1,103 @@
+{{ 'section-pnf-nmn.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign proof_blocks = section.blocks | where: 'type', 'proof_card'
+-%}
+
+<section class="pnf pnf__proof" id="pnf-nmn-results-proof-{{ section.id }}">
+  <div class="pnf__proof-band" aria-hidden="true"></div>
+  <div class="pnf__container">
+    {%- if section.settings.badge_value != blank or section.settings.badge_label != blank -%}
+      <div class="pnf__proof-badge">
+        {%- if section.settings.badge_value != blank -%}<strong>{{ section.settings.badge_value }}</strong>{%- endif -%}
+        {%- if section.settings.badge_label != blank -%}<span>{{ section.settings.badge_label }}</span>{%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.heading != blank -%}
+      <h2 class="pnf__proof-title">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    {%- if proof_blocks.size > 0 -%}
+      <div class="pnf__proof-grid">
+        {%- for block in proof_blocks -%}
+          <article class="pnf__proof-card" {{ block.shopify_attributes }}>
+            <div class="pnf__proof-media">
+              {%- if block.settings.image != blank -%}
+                <img src="{{ block.settings.image | image_url: width: 760 }}" alt="{{ block.settings.image_alt | default: block.settings.text | escape }}" loading="lazy" width="760" height="820">
+              {%- else -%}
+                <div class="pnf__proof-placeholder">{{ block.settings.image_alt | default: 'Add image' }}</div>
+              {%- endif -%}
+            </div>
+            <div class="pnf__proof-copy">
+              {%- if block.settings.value != blank -%}<strong>{{ block.settings.value }}</strong>{%- endif -%}
+              {%- if block.settings.text != blank -%}<p>{{ block.settings.text }}</p>{%- endif -%}
+            </div>
+          </article>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.disclaimer != blank -%}
+      <p class="pnf__proof-disclaimer">{{ section.settings.disclaimer }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "PNF NMN results proof",
+  "tag": "section",
+  "class": "shopify-section--pnf-nmn-results-proof",
+  "enabled_on": { "templates": ["product"] },
+  "settings": [
+    { "type": "text", "id": "badge_value", "label": "Badge value", "default": "500,000+" },
+    { "type": "text", "id": "badge_label", "label": "Badge label", "default": "Happy Customers" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "The Results Speak For Themselves" },
+    { "type": "textarea", "id": "disclaimer", "label": "Disclaimer", "default": "*Demonstration figures: replace them with a real, documented customer survey." }
+  ],
+  "blocks": [
+    {
+      "type": "proof_card",
+      "name": "Result card",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "image_alt", "label": "Image alt text", "default": "Wellness customer portrait" },
+        { "type": "text", "id": "value", "label": "Value", "default": "97%" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Reported support for everyday energy and clarity*" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "PNF NMN results proof",
+      "blocks": [
+        {
+          "type": "proof_card",
+          "settings": {
+            "image_alt": "Active woman outdoors",
+            "value": "97%",
+            "text": "Reported support for everyday energy and clarity*"
+          }
+        },
+        {
+          "type": "proof_card",
+          "settings": {
+            "image_alt": "Woman after a workout",
+            "value": "94%",
+            "text": "Reported support for stamina and recovery routines*"
+          }
+        },
+        {
+          "type": "proof_card",
+          "settings": {
+            "image_alt": "Beauty and wellness portrait",
+            "value": "92%",
+            "text": "Reported satisfaction with their wellness routine*"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

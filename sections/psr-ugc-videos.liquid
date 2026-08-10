@@ -1,0 +1,134 @@
+{{ 'psr-panstellar-v11.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'psr-panstellar-v11.js' | asset_url }}" defer></script>
+{% liquid
+  assign psr_product = product
+  if section.settings.product != blank
+    assign psr_product = section.settings.product
+  endif
+%}
+<section class="psr psr-section psr-ugc" id="ugc-videos" style="background:{{ section.settings.background }}">
+<div class="psr-shell">
+  <div class="psr-center-heading"><p class="psr-kicker"><span class="psr-kicker__badge">{% render 'psr-editable-icon', custom_image: section.settings.kicker_icon, fallback_asset: 'psr-v10-icon-play.svg', class: 'psr-svg-icon', alt: '' %}</span><span class="psr-kicker__label">{{ section.settings.kicker }}</span></p><h2 class="psr-title">{{ section.settings.heading }}</h2><div class="rte">{{ section.settings.body }}</div></div>
+  <div class="psr-ugc-carousel" data-ugc-carousel>
+    <button class="psr-carousel__arrow" type="button" data-ugc-prev aria-label="Previous UGC video">‹</button>
+    <div class="psr-ugc-viewport" data-ugc-viewport><div class="psr-ugc-track">
+      {% if section.settings.include_product_videos and psr_product != blank %}
+        {% for media in psr_product.media %}{% if media.media_type == 'video' or media.media_type == 'external_video' %}<article class="psr-ugc-card"><div class="psr-ugc-card__media">{{ media | media_tag: controls: true, playsinline: true, preload: 'metadata', image_size: '900x' }}</div><div class="psr-ugc-card__copy"><strong>{{ media.alt | default: section.settings.product_video_label }}</strong></div></article>{% endif %}{% endfor %}
+      {% endif %}
+      {% for block in section.blocks %}<article class="psr-ugc-card" {{ block.shopify_attributes }}><div class="psr-ugc-card__media">
+        {% if block.settings.video != blank %}{% if block.settings.poster != blank %}{% assign psr_poster_url = block.settings.poster | image_url: width: 900 %}{{ block.settings.video | video_tag: controls: true, playsinline: true, preload: 'metadata', poster: psr_poster_url }}{% else %}{{ block.settings.video | video_tag: controls: true, playsinline: true, preload: 'metadata' }}{% endif %}
+        {% elsif block.settings.external_video != blank %}{{ block.settings.external_video | external_video_tag }}
+        {% elsif block.settings.poster != blank %}{{ block.settings.poster | image_url: width: 900 | image_tag: loading: 'lazy', alt: block.settings.title }}{% endif %}
+      </div><div class="psr-ugc-card__copy"><strong>{{ block.settings.title }}</strong>{% if block.settings.creator != blank %}<span>{{ block.settings.creator }}</span>{% endif %}{% if block.settings.caption != blank %}<p>{{ block.settings.caption }}</p>{% endif %}</div></article>{% endfor %}
+    </div></div>
+    <button class="psr-carousel__arrow" type="button" data-ugc-next aria-label="Next UGC video">›</button>
+  </div>
+  <div class="psr-carousel__dots" data-ugc-dots></div>
+</div>
+</section>
+{% schema %}
+{
+  "name": "PSR — UGC videos",
+  "tag": "section",
+  "class": "psr-section-wrapper",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    },
+    {
+      "type": "checkbox",
+      "id": "include_product_videos",
+      "label": "Include videos from product media",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "product_video_label",
+      "label": "Default product video label",
+      "default": "Customer video"
+    },
+    {
+      "type": "image_picker",
+      "id": "kicker_icon",
+      "label": "Kicker icon"
+    },
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker",
+      "default": "Watch real routines"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Real Women. Real Routines. Real Results."
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Intro text",
+      "default": "<p>See how customers make Panstellar part of their everyday wellness routine.</p>"
+    },
+    {
+      "type": "color_background",
+      "id": "background",
+      "label": "Background",
+      "default": "linear-gradient(180deg,#fffaf7,#f8e6df)"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "ugc_video",
+      "name": "UGC video",
+      "settings": [
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Shopify-hosted video"
+        },
+        {
+          "type": "video_url",
+          "id": "external_video",
+          "label": "YouTube or Vimeo video",
+          "accept": [
+            "youtube",
+            "vimeo"
+          ]
+        },
+        {
+          "type": "image_picker",
+          "id": "poster",
+          "label": "Poster image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "My morning routine"
+        },
+        {
+          "type": "text",
+          "id": "creator",
+          "label": "Creator",
+          "default": "@customer"
+        },
+        {
+          "type": "textarea",
+          "id": "caption",
+          "label": "Caption",
+          "default": "A simple daily routine that fits real life."
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "PSR — UGC videos"
+    }
+  ]
+}
+{% endschema %}

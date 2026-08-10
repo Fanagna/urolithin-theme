@@ -1,0 +1,598 @@
+{% doc %}
+  @prompt
+    Create a centered, premium dark-mode section titled “What’s Inside the Guide”.
+    
+    The section must be perfectly centered horizontally on the page, with a modern, minimal, high-end SaaS / biohacker aesthetic.
+    
+    Structure and content must remain 100% identical, with no changes to wording, order, icons, or hierarchy.
+    
+    Layout details:
+    
+    Dark background with subtle gradient
+    
+    Rounded container with soft shadow
+    
+    Clean typography, high contrast
+    
+    Green check icons aligned on the left of each bullet
+    
+    Clear visual separation between list items
+    
+    The main card is centered on the page
+    
+    Content to display (do not edit):
+    
+    What’s Inside the Guide
+    
+    The Ultimate Recovery Guide
+    15-page PDF · Research-backed protocols · Instant download
+    
+    ✔ Why injuries won’t heal — The 3 mistakes that keep you stuck
+    ✔ The BPC-157 protocol — Oral vs injectable, dosing, what to expect
+    ✔ Week-by-week tracking — How to measure progress objectively
+    ✔ Recovery stack — Which supplements actually work (and which don’t)
+    ✔ Nutrition timing — When to eat for optimal tissue repair
+    ✔ Sleep optimization — The recovery phase most people ignore
+    ✔ Case studies — Real examples of chronic injury recovery
+    
+    At the bottom, add a highlighted bonus box with a green accent:
+    
+    🎁 BONUS INSIDE
+    Exclusive 30% discount code for Panstellar BPC-157 capsules (no injections required)
+    
+    Do not add extra elements, animations, or additional text.
+    Keep everything centered, clean, premium, and conversion-focused.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-guide-section-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    padding: {{ block.settings.section_padding_top }}px 20px {{ block.settings.section_padding_bottom }}px;
+    background: {{ block.settings.background_color }};
+  }
+
+  .ai-guide-container-{{ ai_gen_id }} {
+    max-width: {{ block.settings.container_max_width }}px;
+    margin: 0 auto;
+    background: {{ block.settings.card_background }};
+    background-image: {{ block.settings.card_gradient }};
+    border-radius: {{ block.settings.card_border_radius }}px;
+    padding: {{ block.settings.card_padding }}px;
+    box-shadow: 0 {{ block.settings.shadow_vertical }}px {{ block.settings.shadow_blur }}px rgba(0, 0, 0, {{ block.settings.shadow_opacity }});
+  }
+
+  .ai-guide-header-{{ ai_gen_id }} {
+    text-align: center;
+    margin-bottom: {{ block.settings.header_spacing }}px;
+  }
+
+  .ai-guide-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    font-weight: {{ block.settings.title_weight }};
+    color: {{ block.settings.title_color }};
+    margin: 0 0 {{ block.settings.title_margin }}px;
+    line-height: 1.2;
+  }
+
+  .ai-guide-subtitle-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subtitle_size }}px;
+    font-weight: {{ block.settings.subtitle_weight }};
+    color: {{ block.settings.subtitle_color }};
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .ai-guide-list-{{ ai_gen_id }} {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 {{ block.settings.list_bottom_margin }}px;
+  }
+
+  .ai-guide-list-item-{{ ai_gen_id }} {
+    display: flex;
+    align-items: flex-start;
+    gap: {{ block.settings.item_gap }}px;
+    padding: {{ block.settings.item_padding }}px 0;
+    border-bottom: {{ block.settings.item_border_width }}px solid {{ block.settings.item_border_color }};
+  }
+
+  .ai-guide-list-item-{{ ai_gen_id }}:last-child {
+    border-bottom: none;
+  }
+
+  .ai-guide-check-icon-{{ ai_gen_id }} {
+    flex-shrink: 0;
+    width: {{ block.settings.icon_size }}px;
+    height: {{ block.settings.icon_size }}px;
+    margin-top: 2px;
+  }
+
+  .ai-guide-item-text-{{ ai_gen_id }} {
+    flex: 1;
+    font-size: {{ block.settings.item_text_size }}px;
+    color: {{ block.settings.item_text_color }};
+    line-height: 1.6;
+  }
+
+  .ai-guide-bonus-{{ ai_gen_id }} {
+    background: {{ block.settings.bonus_background }};
+    border: {{ block.settings.bonus_border_width }}px solid {{ block.settings.bonus_border_color }};
+    border-radius: {{ block.settings.bonus_border_radius }}px;
+    padding: {{ block.settings.bonus_padding }}px;
+    text-align: center;
+  }
+
+  .ai-guide-bonus-text-{{ ai_gen_id }} {
+    font-size: {{ block.settings.bonus_text_size }}px;
+    font-weight: {{ block.settings.bonus_text_weight }};
+    color: {{ block.settings.bonus_text_color }};
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-guide-section-{{ ai_gen_id }} {
+      padding: {{ block.settings.section_padding_top | times: 0.6 }}px 16px {{ block.settings.section_padding_bottom | times: 0.6 }}px;
+    }
+
+    .ai-guide-container-{{ ai_gen_id }} {
+      padding: {{ block.settings.card_padding | times: 0.7 }}px;
+    }
+
+    .ai-guide-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_size | times: 0.75 }}px;
+    }
+
+    .ai-guide-subtitle-{{ ai_gen_id }} {
+      font-size: {{ block.settings.subtitle_size | times: 0.85 }}px;
+    }
+
+    .ai-guide-item-text-{{ ai_gen_id }} {
+      font-size: {{ block.settings.item_text_size | times: 0.9 }}px;
+    }
+
+    .ai-guide-bonus-text-{{ ai_gen_id }} {
+      font-size: {{ block.settings.bonus_text_size | times: 0.9 }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-guide-section-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-guide-container-{{ ai_gen_id }}">
+    <div class="ai-guide-header-{{ ai_gen_id }}">
+      <h2 class="ai-guide-title-{{ ai_gen_id }}">What's Inside the Guide</h2>
+      <p class="ai-guide-subtitle-{{ ai_gen_id }}">The Ultimate Recovery Guide<br>15-page PDF · Research-backed protocols · Instant download</p>
+    </div>
+
+    <ul class="ai-guide-list-{{ ai_gen_id }}">
+      <li class="ai-guide-list-item-{{ ai_gen_id }}">
+        <svg class="ai-guide-check-icon-{{ ai_gen_id }}" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="10" fill="{{ block.settings.icon_color }}"/>
+          <path d="M7 12L10.5 15.5L17 9" stroke="{{ block.settings.icon_check_color }}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="ai-guide-item-text-{{ ai_gen_id }}">Why injuries won't heal — The 3 mistakes that keep you stuck</span>
+      </li>
+      <li class="ai-guide-list-item-{{ ai_gen_id }}">
+        <svg class="ai-guide-check-icon-{{ ai_gen_id }}" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="10" fill="{{ block.settings.icon_color }}"/>
+          <path d="M7 12L10.5 15.5L17 9" stroke="{{ block.settings.icon_check_color }}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="ai-guide-item-text-{{ ai_gen_id }}">The BPC-157 protocol — Oral vs injectable, dosing, what to expect</span>
+      </li>
+      <li class="ai-guide-list-item-{{ ai_gen_id }}">
+        <svg class="ai-guide-check-icon-{{ ai_gen_id }}" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="10" fill="{{ block.settings.icon_color }}"/>
+          <path d="M7 12L10.5 15.5L17 9" stroke="{{ block.settings.icon_check_color }}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="ai-guide-item-text-{{ ai_gen_id }}">Week-by-week tracking — How to measure progress objectively</span>
+      </li>
+      <li class="ai-guide-list-item-{{ ai_gen_id }}">
+        <svg class="ai-guide-check-icon-{{ ai_gen_id }}" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="10" fill="{{ block.settings.icon_color }}"/>
+          <path d="M7 12L10.5 15.5L17 9" stroke="{{ block.settings.icon_check_color }}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="ai-guide-item-text-{{ ai_gen_id }}">Recovery stack — Which supplements actually work (and which don't)</span>
+      </li>
+      <li class="ai-guide-list-item-{{ ai_gen_id }}">
+        <svg class="ai-guide-check-icon-{{ ai_gen_id }}" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="10" fill="{{ block.settings.icon_color }}"/>
+          <path d="M7 12L10.5 15.5L17 9" stroke="{{ block.settings.icon_check_color }}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="ai-guide-item-text-{{ ai_gen_id }}">Nutrition timing — When to eat for optimal tissue repair</span>
+      </li>
+      <li class="ai-guide-list-item-{{ ai_gen_id }}">
+        <svg class="ai-guide-check-icon-{{ ai_gen_id }}" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="10" fill="{{ block.settings.icon_color }}"/>
+          <path d="M7 12L10.5 15.5L17 9" stroke="{{ block.settings.icon_check_color }}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="ai-guide-item-text-{{ ai_gen_id }}">Sleep optimization — The recovery phase most people ignore</span>
+      </li>
+      <li class="ai-guide-list-item-{{ ai_gen_id }}">
+        <svg class="ai-guide-check-icon-{{ ai_gen_id }}" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="10" fill="{{ block.settings.icon_color }}"/>
+          <path d="M7 12L10.5 15.5L17 9" stroke="{{ block.settings.icon_check_color }}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="ai-guide-item-text-{{ ai_gen_id }}">Case studies — Real examples of chronic injury recovery</span>
+      </li>
+    </ul>
+
+    <div class="ai-guide-bonus-{{ ai_gen_id }}">
+      <p class="ai-guide-bonus-text-{{ ai_gen_id }}">🎁 BONUS INSIDE<br>Exclusive 30% discount code for Panstellar BPC-157 capsules (no injections required)</p>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Guide content section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 60
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#0a0a0a"
+    },
+    {
+      "type": "header",
+      "content": "Card"
+    },
+    {
+      "type": "range",
+      "id": "container_max_width",
+      "min": 400,
+      "max": 1000,
+      "step": 20,
+      "unit": "px",
+      "label": "Max width",
+      "default": 700
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Background",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color_background",
+      "id": "card_gradient",
+      "label": "Background gradient",
+      "default": "linear-gradient(135deg, rgba(26, 26, 26, 1) 0%, rgba(35, 35, 35, 1) 100%)"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "card_padding",
+      "min": 20,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "shadow_vertical",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Shadow vertical offset",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "shadow_blur",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Shadow blur",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "shadow_opacity",
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "label": "Shadow opacity",
+      "default": 0.5
+    },
+    {
+      "type": "header",
+      "content": "Title"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Size",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "title_weight",
+      "min": 400,
+      "max": 900,
+      "step": 100,
+      "label": "Weight",
+      "default": 700
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "title_margin",
+      "min": 8,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Bottom margin",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "header_spacing",
+      "min": 20,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Header bottom spacing",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Subtitle"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "subtitle_weight",
+      "min": 400,
+      "max": 700,
+      "step": 100,
+      "label": "Weight",
+      "default": 400
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Color",
+      "default": "#a0a0a0"
+    },
+    {
+      "type": "header",
+      "content": "List items"
+    },
+    {
+      "type": "range",
+      "id": "item_text_size",
+      "min": 12,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "item_text_color",
+      "label": "Text color",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "range",
+      "id": "item_padding",
+      "min": 8,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "item_gap",
+      "min": 8,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Icon gap",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "item_border_width",
+      "min": 0,
+      "max": 3,
+      "step": 1,
+      "unit": "px",
+      "label": "Border width",
+      "default": 1
+    },
+    {
+      "type": "color",
+      "id": "item_border_color",
+      "label": "Border color",
+      "default": "#2a2a2a"
+    },
+    {
+      "type": "range",
+      "id": "list_bottom_margin",
+      "min": 20,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "List bottom margin",
+      "default": 32
+    },
+    {
+      "type": "header",
+      "content": "Check icons"
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "min": 16,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Size",
+      "default": 24
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Circle color",
+      "default": "#10b981"
+    },
+    {
+      "type": "color",
+      "id": "icon_check_color",
+      "label": "Check color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Bonus box"
+    },
+    {
+      "type": "color",
+      "id": "bonus_background",
+      "label": "Background",
+      "default": "#0f2e1a"
+    },
+    {
+      "type": "range",
+      "id": "bonus_border_width",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "label": "Border width",
+      "default": 2
+    },
+    {
+      "type": "color",
+      "id": "bonus_border_color",
+      "label": "Border color",
+      "default": "#10b981"
+    },
+    {
+      "type": "range",
+      "id": "bonus_border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "bonus_padding",
+      "min": 16,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "bonus_text_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "bonus_text_weight",
+      "min": 400,
+      "max": 700,
+      "step": 100,
+      "label": "Text weight",
+      "default": 600
+    },
+    {
+      "type": "color",
+      "id": "bonus_text_color",
+      "label": "Text color",
+      "default": "#10b981"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Guide content section"
+    }
+  ]
+}
+{% endschema %}

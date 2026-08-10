@@ -1,0 +1,666 @@
+{% doc %}
+  @prompt
+    generate me cards like here : 
+      <div class="grid-2" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+                    <!-- Card 1 -->
+                    <div class="bundle-card">
+                        <div class="card-icon"><i class="fa-solid fa-capsules"></i></div>
+                        <h3>BPC-157 (Arginine Salt)</h3>
+                        <p style="color: var(--text-muted); margin: 8px 0 16px;">Rapid tissue repair & inflammation control.</p>
+                        <ul class="spec-list">
+                            <li class="spec-item"><span class="spec-label">Dosage</span> <span class="spec-val">500mcg</span></li>
+                            <li class="spec-item"><span class="spec-label">Count</span> <span class="spec-val">60 Caps</span></li>
+                            <li class="spec-item"><span class="spec-label">Purity</span> <span class="spec-val">99% Verified</span></li>
+                        </ul>
+                    </div>
+    
+                    <!-- Card 2 -->
+                    <div class="bundle-card">
+                        <div class="card-icon"><i class="fa-solid fa-bolt"></i></div>
+                        <h3>Creatine Monohydrate</h3>
+                        <p style="color: var(--text-muted); margin: 8px 0 16px;">Fuel ATP production & muscular power.</p>
+                        <ul class="spec-list">
+                            <li class="spec-item"><span class="spec-label">Weight</span> <span class="spec-val">300g</span></li>
+                            <li class="spec-item"><span class="spec-label">Type</span> <span class="spec-val">Micronized</span></li>
+                            <li class="spec-item"><span class="spec-label">Servings</span> <span class="spec-val">60 (5g)</span></li>
+                        </ul>
+                    </div>
+    
+                    <!-- Card 3 -->
+                    <div class="bundle-card bonus-card">
+                        <div class="card-icon"><i class="fa-solid fa-gift"></i></div>
+                        <h3>Free Digital Guide</h3>
+                        <p style="color: var(-, can you make teach card clickable and go to a link to the corresponding product page
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-bundle-cards-container-{{ ai_gen_id }} {
+    padding: {{ block.settings.section_padding }}px 0;
+  }
+
+  .ai-bundle-cards-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax({{ block.settings.min_card_width }}px, 1fr));
+    gap: {{ block.settings.card_gap }}px;
+    max-width: 100%;
+  }
+
+  .ai-bundle-card-{{ ai_gen_id }} {
+    background: {{ block.settings.card_background }};
+    border: {{ block.settings.card_border_thickness }}px solid {{ block.settings.card_border_color }};
+    border-radius: {{ block.settings.card_border_radius }}px;
+    padding: {{ block.settings.card_padding }}px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-decoration: none;
+    display: block;
+    color: inherit;
+  }
+
+  .ai-bundle-card-{{ ai_gen_id }}:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
+
+  .ai-bundle-card-{{ ai_gen_id }}.ai-bonus-card-{{ ai_gen_id }} {
+    background: {{ block.settings.bonus_card_background }};
+    border-color: {{ block.settings.bonus_card_border_color }};
+  }
+
+  .ai-card-icon-{{ ai_gen_id }} {
+    width: {{ block.settings.icon_size }}px;
+    height: {{ block.settings.icon_size }}px;
+    background: {{ block.settings.icon_background }};
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    color: {{ block.settings.icon_color }};
+    font-size: {{ block.settings.icon_size | times: 0.5 }}px;
+  }
+
+  .ai-bonus-card-{{ ai_gen_id }} .ai-card-icon-{{ ai_gen_id }} {
+    background: {{ block.settings.bonus_icon_background }};
+    color: {{ block.settings.bonus_icon_color }};
+  }
+
+  .ai-card-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    font-weight: 600;
+    margin: 0 0 8px;
+    color: {{ block.settings.title_color }};
+  }
+
+  .ai-card-description-{{ ai_gen_id }} {
+    color: {{ block.settings.description_color }};
+    margin: 8px 0 16px;
+    font-size: {{ block.settings.description_size }}px;
+    line-height: 1.5;
+  }
+
+  .ai-spec-list-{{ ai_gen_id }} {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .ai-spec-item-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: space-between;
+    padding: {{ block.settings.spec_padding }}px 0;
+    border-bottom: 1px solid {{ block.settings.spec_border_color }};
+    font-size: {{ block.settings.spec_size }}px;
+  }
+
+  .ai-spec-item-{{ ai_gen_id }}:last-child {
+    border-bottom: none;
+  }
+
+  .ai-spec-label-{{ ai_gen_id }} {
+    color: {{ block.settings.spec_label_color }};
+    font-weight: 500;
+  }
+
+  .ai-spec-val-{{ ai_gen_id }} {
+    color: {{ block.settings.spec_value_color }};
+    font-weight: 600;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-bundle-cards-grid-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+    }
+
+    .ai-card-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_size | times: 0.9 }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-bundle-cards-container-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-bundle-cards-grid-{{ ai_gen_id }}">
+    {% for i in (1..3) %}
+      {% liquid
+        assign card_enabled_key = 'card_' | append: i | append: '_enabled'
+        assign card_icon_key = 'card_' | append: i | append: '_icon'
+        assign card_title_key = 'card_' | append: i | append: '_title'
+        assign card_description_key = 'card_' | append: i | append: '_description'
+        assign card_is_bonus_key = 'card_' | append: i | append: '_is_bonus'
+        assign card_link_key = 'card_' | append: i | append: '_link'
+        assign spec_1_label_key = 'card_' | append: i | append: '_spec_1_label'
+        assign spec_1_value_key = 'card_' | append: i | append: '_spec_1_value'
+        assign spec_2_label_key = 'card_' | append: i | append: '_spec_2_label'
+        assign spec_2_value_key = 'card_' | append: i | append: '_spec_2_value'
+        assign spec_3_label_key = 'card_' | append: i | append: '_spec_3_label'
+        assign spec_3_value_key = 'card_' | append: i | append: '_spec_3_value'
+
+        assign card_enabled = block.settings[card_enabled_key]
+        assign card_icon = block.settings[card_icon_key]
+        assign card_title = block.settings[card_title_key]
+        assign card_description = block.settings[card_description_key]
+        assign card_is_bonus = block.settings[card_is_bonus_key]
+        assign card_link = block.settings[card_link_key]
+        assign spec_1_label = block.settings[spec_1_label_key]
+        assign spec_1_value = block.settings[spec_1_value_key]
+        assign spec_2_label = block.settings[spec_2_label_key]
+        assign spec_2_value = block.settings[spec_2_value_key]
+        assign spec_3_label = block.settings[spec_3_label_key]
+        assign spec_3_value = block.settings[spec_3_value_key]
+      %}
+
+      {% if card_enabled %}
+        <a 
+          href="{{ card_link }}" 
+          class="ai-bundle-card-{{ ai_gen_id }} {% if card_is_bonus %}ai-bonus-card-{{ ai_gen_id }}{% endif %}"
+          {% if card_link == blank %}aria-disabled="true" style="pointer-events: none;"{% endif %}
+        >
+          <div class="ai-card-icon-{{ ai_gen_id }}">
+            {{ card_icon }}
+          </div>
+          
+          {% if card_title != blank %}
+            <h3 class="ai-card-title-{{ ai_gen_id }}">{{ card_title }}</h3>
+          {% endif %}
+          
+          {% if card_description != blank %}
+            <div class="ai-card-description-{{ ai_gen_id }}">{{ card_description }}</div>
+          {% endif %}
+          
+          <ul class="ai-spec-list-{{ ai_gen_id }}">
+            {% if spec_1_label != blank and spec_1_value != blank %}
+              <li class="ai-spec-item-{{ ai_gen_id }}">
+                <span class="ai-spec-label-{{ ai_gen_id }}">{{ spec_1_label }}</span>
+                <span class="ai-spec-val-{{ ai_gen_id }}">{{ spec_1_value }}</span>
+              </li>
+            {% endif %}
+            
+            {% if spec_2_label != blank and spec_2_value != blank %}
+              <li class="ai-spec-item-{{ ai_gen_id }}">
+                <span class="ai-spec-label-{{ ai_gen_id }}">{{ spec_2_label }}</span>
+                <span class="ai-spec-val-{{ ai_gen_id }}">{{ spec_2_value }}</span>
+              </li>
+            {% endif %}
+            
+            {% if spec_3_label != blank and spec_3_value != blank %}
+              <li class="ai-spec-item-{{ ai_gen_id }}">
+                <span class="ai-spec-label-{{ ai_gen_id }}">{{ spec_3_label }}</span>
+                <span class="ai-spec-val-{{ ai_gen_id }}">{{ spec_3_value }}</span>
+              </li>
+            {% endif %}
+          </ul>
+        </a>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Bundle cards",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Section padding",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "min_card_width",
+      "min": 200,
+      "max": 400,
+      "step": 20,
+      "unit": "px",
+      "label": "Minimum card width",
+      "default": 300
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "min": 8,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Gap between cards",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Card style"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "card_border_thickness",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "label": "Border thickness",
+      "default": 1
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Border color",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "card_padding",
+      "min": 16,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "label": "Card padding",
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Bonus card style"
+    },
+    {
+      "type": "color",
+      "id": "bonus_card_background",
+      "label": "Background",
+      "default": "#f9f3ff"
+    },
+    {
+      "type": "color",
+      "id": "bonus_card_border_color",
+      "label": "Border color",
+      "default": "#b600ff"
+    },
+    {
+      "type": "header",
+      "content": "Icon"
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "min": 40,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Icon size",
+      "default": 56
+    },
+    {
+      "type": "color",
+      "id": "icon_background",
+      "label": "Background",
+      "default": "#5c1ada"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "bonus_icon_background",
+      "label": "Bonus background",
+      "default": "#b600ff"
+    },
+    {
+      "type": "color",
+      "id": "bonus_icon_color",
+      "label": "Bonus icon color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 14,
+      "max": 28,
+      "step": 2,
+      "unit": "px",
+      "label": "Title size",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#121212"
+    },
+    {
+      "type": "range",
+      "id": "description_size",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Description size",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Description color",
+      "default": "#666666"
+    },
+    {
+      "type": "header",
+      "content": "Specifications"
+    },
+    {
+      "type": "range",
+      "id": "spec_size",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Spec text size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "spec_padding",
+      "min": 4,
+      "max": 16,
+      "step": 2,
+      "unit": "px",
+      "label": "Spec padding",
+      "default": 8
+    },
+    {
+      "type": "color",
+      "id": "spec_border_color",
+      "label": "Spec border color",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "color",
+      "id": "spec_label_color",
+      "label": "Label color",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "spec_value_color",
+      "label": "Value color",
+      "default": "#121212"
+    },
+    {
+      "type": "header",
+      "content": "Card 1"
+    },
+    {
+      "type": "checkbox",
+      "id": "card_1_enabled",
+      "label": "Enable card 1",
+      "default": true
+    },
+    {
+      "type": "url",
+      "id": "card_1_link",
+      "label": "Product link"
+    },
+    {
+      "type": "text",
+      "id": "card_1_icon",
+      "label": "Icon",
+      "default": "💊"
+    },
+    {
+      "type": "text",
+      "id": "card_1_title",
+      "label": "Title",
+      "default": "BPC-157 (Arginine Salt)"
+    },
+    {
+      "type": "textarea",
+      "id": "card_1_description",
+      "label": "Description",
+      "default": "Rapid tissue repair & inflammation control."
+    },
+    {
+      "type": "checkbox",
+      "id": "card_1_is_bonus",
+      "label": "Bonus card style",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "card_1_spec_1_label",
+      "label": "Spec 1 label",
+      "default": "Dosage"
+    },
+    {
+      "type": "text",
+      "id": "card_1_spec_1_value",
+      "label": "Spec 1 value",
+      "default": "500mcg"
+    },
+    {
+      "type": "text",
+      "id": "card_1_spec_2_label",
+      "label": "Spec 2 label",
+      "default": "Count"
+    },
+    {
+      "type": "text",
+      "id": "card_1_spec_2_value",
+      "label": "Spec 2 value",
+      "default": "60 Caps"
+    },
+    {
+      "type": "text",
+      "id": "card_1_spec_3_label",
+      "label": "Spec 3 label",
+      "default": "Purity"
+    },
+    {
+      "type": "text",
+      "id": "card_1_spec_3_value",
+      "label": "Spec 3 value",
+      "default": "99% Verified"
+    },
+    {
+      "type": "header",
+      "content": "Card 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "card_2_enabled",
+      "label": "Enable card 2",
+      "default": true
+    },
+    {
+      "type": "url",
+      "id": "card_2_link",
+      "label": "Product link"
+    },
+    {
+      "type": "text",
+      "id": "card_2_icon",
+      "label": "Icon",
+      "default": "⚡"
+    },
+    {
+      "type": "text",
+      "id": "card_2_title",
+      "label": "Title",
+      "default": "Creatine Monohydrate"
+    },
+    {
+      "type": "textarea",
+      "id": "card_2_description",
+      "label": "Description",
+      "default": "Fuel ATP production & muscular power."
+    },
+    {
+      "type": "checkbox",
+      "id": "card_2_is_bonus",
+      "label": "Bonus card style",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "card_2_spec_1_label",
+      "label": "Spec 1 label",
+      "default": "Weight"
+    },
+    {
+      "type": "text",
+      "id": "card_2_spec_1_value",
+      "label": "Spec 1 value",
+      "default": "300g"
+    },
+    {
+      "type": "text",
+      "id": "card_2_spec_2_label",
+      "label": "Spec 2 label",
+      "default": "Type"
+    },
+    {
+      "type": "text",
+      "id": "card_2_spec_2_value",
+      "label": "Spec 2 value",
+      "default": "Micronized"
+    },
+    {
+      "type": "text",
+      "id": "card_2_spec_3_label",
+      "label": "Spec 3 label",
+      "default": "Servings"
+    },
+    {
+      "type": "text",
+      "id": "card_2_spec_3_value",
+      "label": "Spec 3 value",
+      "default": "60 (5g)"
+    },
+    {
+      "type": "header",
+      "content": "Card 3"
+    },
+    {
+      "type": "checkbox",
+      "id": "card_3_enabled",
+      "label": "Enable card 3",
+      "default": true
+    },
+    {
+      "type": "url",
+      "id": "card_3_link",
+      "label": "Product link"
+    },
+    {
+      "type": "text",
+      "id": "card_3_icon",
+      "label": "Icon",
+      "default": "🎁"
+    },
+    {
+      "type": "text",
+      "id": "card_3_title",
+      "label": "Title",
+      "default": "Free Digital Guide"
+    },
+    {
+      "type": "textarea",
+      "id": "card_3_description",
+      "label": "Description",
+      "default": "Complete recovery protocol & dosing strategies."
+    },
+    {
+      "type": "checkbox",
+      "id": "card_3_is_bonus",
+      "label": "Bonus card style",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "card_3_spec_1_label",
+      "label": "Spec 1 label",
+      "default": "Format"
+    },
+    {
+      "type": "text",
+      "id": "card_3_spec_1_value",
+      "label": "Spec 1 value",
+      "default": "PDF"
+    },
+    {
+      "type": "text",
+      "id": "card_3_spec_2_label",
+      "label": "Spec 2 label",
+      "default": "Pages"
+    },
+    {
+      "type": "text",
+      "id": "card_3_spec_2_value",
+      "label": "Spec 2 value",
+      "default": "25+"
+    },
+    {
+      "type": "text",
+      "id": "card_3_spec_3_label",
+      "label": "Spec 3 label",
+      "default": "Value"
+    },
+    {
+      "type": "text",
+      "id": "card_3_spec_3_value",
+      "label": "Spec 3 value",
+      "default": "$29 Free"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bundle cards"
+    }
+  ]
+}
+{% endschema %}

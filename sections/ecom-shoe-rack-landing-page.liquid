@@ -1,0 +1,1020 @@
+{% comment %}
+ EComposer (https://ecomposer.io)
+ You SHOULD NOT modify source code in this page because
+ It is automatically generated from EComposer
+ At 2025-01-02 08:04:12
+ {% endcomment %} 
+ 
+ {% assign ecom_root_url = routes.root_url %}
+ {% if ecom_root_url != '/'%}
+ {% assign ecom_root_url = routes.root_url | append: '/' %}
+ {% endif %}
+ <link rel="stylesheet" media="print" onload="this.media='all'" id="ecom-vendors-slider_css" href="https://cdn.ecomposer.app/vendors/css/ecom-swiper@11.css" /><link rel="stylesheet" media="print" onload="this.media='all'" id="ecom-vendors-modal_css" href="https://cdn.ecomposer.app/vendors/css/ecom_modal.css" /><link rel="stylesheet" media="all" id="ecom-vendors-css_ecomposer_base" href="https://cdn.ecomposer.app/vendors/css/ecom-base.css?v=1.6" /><noscript><link rel="stylesheet" media="all" onload="this.media='all'" id="ecom-vendors-slider_css" href="https://cdn.ecomposer.app/vendors/css/ecom-swiper@11.css" /><link rel="stylesheet" media="all" onload="this.media='all'" id="ecom-vendors-modal_css" href="https://cdn.ecomposer.app/vendors/css/ecom_modal.css" /><link rel="stylesheet" media="all" id="ecom-vendors-css_ecomposer_base" href="https://cdn.ecomposer.app/vendors/css/ecom-base.css?v=1.6" /></noscript><script type="text/javascript" asyc="async" id="ecom-vendors-slider_js" src="https://cdn.ecomposer.app/vendors/js/ecom-swiper@11.0.5.js" ></script><script type="text/javascript" asyc="async" id="ecom-vendors-modal_js" src="https://cdn.ecomposer.app/vendors/js/ecom_modal.js" ></script><script type="text/javascript" asyc="async" id="ecom-vendors-countdown_js" src="https://cdn.ecomposer.app/vendors/js/ecom-countdown.js?ver=2.0" ></script>
+{%capture section_id %}ecom-shoe-rack-landing-page{% endcapture%}{% if section and section_id == section.id and headless == true %}
+{{ content_for_header }}
+{% render 'ecom_header', ECOM_THEME: true %}{% endif %}<link href="https://fonts.googleapis.com/css?family=Outfit:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css?family=Albert+Sans:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css?family=Jost:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css?family=Nunito:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet"/>
+{{'ecom-67616cadfa347c8824001b7d.css' | asset_url | stylesheet_tag }}
+<script src="{{'ecom-67616cadfa347c8824001b7d.js' | asset_url }}" defer="defer"></script>
+<script type="text/javascript" class="ecom-page-info">
+ window.EComposer = window.EComposer || {};
+ window.EComposer.TEMPLATE_ID="67616cadfa347c8824001b7d";
+ window.EComposer.PAGE = {"template_id":"67616cadfa347c8824001b7d","title":"8 Tier Shoe rack ","type":"page","slug":"ecom-shoe-rack-landing","plan_id":1};
+ </script>
+<div class="ecom-builder" id="ecom-shoe-rack-landing"><div class="ecom-sections" data-section-id="{{section.id}}">
+ {% comment %}
+ // Reactive
+ * this.data.settings.product
+ {% endcomment %}
+ {% liquid
+ unless recommendations.performed
+ if request.page_type != 'product' or product == blank
+ assign selected_product = ''
+ if selected_product == blank or selected_product == '' or all_products[selected_product] == blank
+ assign product = collections['all'].products.first
+ else
+ assign product = all_products[selected_product]
+ if product.id == blank
+ assign product = collections['all'].products.last
+ endif
+ endif
+ endif
+ endunless
+ %}
+ {%- if product != blank -%}
+ {%- capture ec_form_id -%}product_form_{{ product.id }}_ecom-s5nwj26onuh{%- endcapture -%}
+ {%- form 'product', product, id: ec_form_id, class: "ecom-product-form ecom-product-form--single ecom-click", product_id: product.id, data-product_id: product.id,data-product-id: product.id, data-handle: product.handle-%}
+ <section class="ecom-animation ecom-row ecom-core ecom-section ecom-section__stretched ecom-s5nwj26onuh" data-id="ecom-s5nwj26onuh" data-notice-content="This image is for preview only" style="z-index: inherit;"><div data-deep="1" class="core__row--columns core__row--full"><div class="ecom-column ecom-core core__column--first core__column--last ecom-et5idjo3qyn"><div class="core__column--wrapper"><div class="ecom-column__overlay"><div class="ecom-overlay"></div></div><div class="core__blocks" index="0"><div class="core__blocks--body"><div class="ecom-block ecom-core core__block elmspace ecom-opu47wy1zu8" data-core-is="group"><div class="ecom-elements ecom-base-element ecom-elements-slider"><div class="ecom-core ecom-group core__block ecom-jpyvty0ts3m"> <div class="core__group--wrapper" data-r="" style=""><div class="ecom-slider--container"><div class="ecom-element ecom-slider slider__body ecom-swiper-container" data-option-swiper="{&quot;direction&quot;:&quot;horizontal&quot;,&quot;freeMode&quot;:false,&quot;loop&quot;:false,&quot;breakpoints&quot;:{&quot;0&quot;:{},&quot;768&quot;:{},&quot;1025&quot;:{}},&quot;autoplay&quot;:{&quot;enabled&quot;:false,&quot;delay&quot;:6000,&quot;pauseOnMouseEnter&quot;:false,&quot;disableOnInteraction&quot;:false,&quot;reverseDirection&quot;:false},&quot;speed&quot;:500,&quot;effect&quot;:&quot;slide&quot;,&quot;grabCursor&quot;:true,&quot;slideActiveClass&quot;:&quot;ecom-box-active&quot;,&quot;centeredSlides&quot;:false,&quot;watchOverflow&quot;:true,&quot;autoHeight&quot;:false,&quot;cubeEffect&quot;:{&quot;slideShadows&quot;:true,&quot;shadowOffset&quot;:20},&quot;creativeEffect&quot;:{},&quot;fadeEffect&quot;:{&quot;crossFade&quot;:true},&quot;pagination&quot;:{&quot;el&quot;:&quot;.ecom-swiper-pagination&quot;,&quot;type&quot;:&quot;bullets&quot;,&quot;clickable&quot;:true},&quot;navigation&quot;:{&quot;nextEl&quot;:&quot;.ecom-swiper-button-next&quot;,&quot;prevEl&quot;:&quot;.ecom-swiper-button-prev&quot;},&quot;slidesPerView&quot;:1,&quot;slidesPerGroup&quot;:1}"><div class="ecom-swiper-wrapper"><div class="ecom-swiper-slide"><div class="ecom-content-item"><div class="ecom-slider__image--wrapper" data-id="ecom-4kgvzmikv4t"><picture class="ecom-image-background"><img  fetchpriority="height" src="https://cdn.shopify.com/s/files/1/0730/3951/1836/files/shoe_rack_salon.jpg?v=1734445241" name="shoe_rack_salon" ext="jpg" alt="Main-Banner-1_063a902e-ce87-448c-b905-615ca29fcc79" width="1792" height="1344" id="sjSwZyCg" thumbnail="https://cdn.shopify.com/s/files/1/0730/3951/1836/files/shoe_rack_salon.jpg?v=1734445241" style="--ecom-object-fit:cover;--ecom-object-fit-tablet:cover;--ecom-object-fit-mobile:cover;"></picture></div><div class="ecom-content-item__container ecom-transition-undefined"><div class="core__blocks" index="0"><div class="core__blocks--body"><div class="ecom-block ecom-core core__block elmspace ecom-rczs1xphn5i" data-core-is="row"><div class="ecom-row ecom-core core__block ecom-uuozafeviga" data-id="ecom-uuozafeviga" data-notice-content="This image is for preview only" style="z-index: inherit;"><div data-deep="2" class="core__row--columns core__row--full"><div class="ecom-column ecom-core core__column--first core__column--last ecom-o0cppf2a0hq"><div class="core__column--wrapper"><div class="ecom-column__overlay"><div class="ecom-overlay"></div></div><div class="core__blocks" index="0"><div class="core__blocks--body"><div class="ecom-block ecom-core core__block elmspace ecom-zr2gb1yykbl" data-core-is="block"><div class="ecom__element element__heading ecom-element ecom-html" data-stopdrag="true" deep="2"><h3 class="ecom__heading ecom-db">Maximize your Space</h3></div></div> <div class="ecom-block ecom-core core__block ecom-uyttpbls4w" data-core-is="block"><div class="ecom__element ecom-element element__text" data-stopdrag="" deep="2"><div class="text-content ecom-html has-drop-cap-view-framed ecom-view-more-enable">Organize up to 45 pairs of shoes with ease. Stylish. Space-saving. Hassle-free.</div></div></div> <div class="ecom-block ecom-core core__block elmspace ecom-ai6k9e1yce5" data-core-is="block"><div class="ecom-element ecom-product-single ecom-product-single__add-to-cart" deep="2"><div class="ecom-product-single__add-to-cart-wrapper"><div class="ecom-product-single__add-to-cart-container"><div class="ecom-product-single__add-to-cart-buttons"><div class="ecom-product-single__add-to-cart-buttons-wrapper"><button type="submit" class="ecom-product-single__add-to-cart--submit ecom-flex animated" data-text-add-cart="Get Yours Today" data-text-pre-order="Pre Order" data-text-unavailable="Unavailable" data-text-outstock="Out stock" data-text-added-cart="Added to cart" data-message-added-cart="Added to cart" data-href="#" data-target="" data-action="cart" data-variant-id="{{product.first_available_variant.id}}" name="add"><span class="ecom-add-to-cart-text">Get Yours Today</span><span class="ecom__element--button-icon"></span></button></div></div></div></div></div></div> </div></div></div></div> </div><div class="ecom-section__overlay"><div class="ecom-overlay"></div></div> </div></div> </div></div></div></div></div></div></div><div class="ecom-swiper-navigation-position" data-position="center"><button type="button" class="ecom-swiper-button ecom-swiper-button-prev" style="--ecom-position: absolute; --ecom-position__tablet: absolute; --ecom-position__mobile: absolute;"><svg xmlns="http: //www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left"><polyline points="15 18 9 12 15 6"></polyline></svg></button><button type="button" class="ecom-swiper-button ecom-swiper-button-next" style="--ecom-position: absolute; --ecom-position__tablet: absolute; --ecom-position__mobile: absolute;"><svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg></button></div><div data-position="bottom_center" class="ecom-swiper-pagination-position ecom-swiper-pagination"></div></div></div> </div></div></div> </div></div></div></div> </div><div class="ecom-section__overlay"><div class="ecom-overlay"></div></div> </section>
+ {% unless ecom_has_variant_picker %}
+ <input type="hidden" name="id" value="{{product.selected_or_first_available_variant.id}}" />
+ <script type="application/json" id="product-json-{{product.id}}-ecom-s5nwj26onuh">
+ {%- render "ecom_product_json", product: product -%}
+ </script>
+ {% endunless %}
+ {%- endform -%}
+ {% assign ecom_has_variant_picker = false %}
+ {%- endif -%}
+ <section class="ecom-row ecom-core ecom-section ecom-04n4ktpxxume" data-id="ecom-04n4ktpxxume" data-notice-content="This image is for preview only" style="z-index: inherit;"><div data-deep="1" class="core__row--columns"><div class="ecom-column ecom-core core__column--first core__column--last ecom-bfl6e8arrjj"><div class="core__column--wrapper"><div class="ecom-column__overlay"><div class="ecom-overlay"></div></div><div class="core__blocks" index="0"><div class="core__blocks--body"><div class="ecom-block ecom-core core__block elmspace ecom-tcscxobf17e" data-core-is="block"><div class="ecom__element element__heading ecom-element ecom-html" data-stopdrag="true" deep="1"><h3 class="ecom__heading ecom-db">Why Choose our Shoe Rack?</h3></div></div> </div></div></div></div> </div><div class="ecom-section__overlay"><div class="ecom-overlay"></div></div> </section><section class="ecom-row ecom-core ecom-section ecom-1jai3tfzkrg" data-id="ecom-1jai3tfzkrg" data-notice-content="This image is for preview only" style="z-index: inherit;"><div data-deep="1" class="core__row--columns"><div class="ecom-column ecom-core core__column--first ecom-0e9ntrcdtrva"><div class="core__column--wrapper"><div class="ecom-column__overlay"><div class="ecom-overlay"></div></div><div class="core__blocks" index="0"><div class="core__blocks--body"><div class="ecom-block ecom-core core__block ecom-0tyvkqi6xsih" data-core-is="block"><div class="ecom-element ecom-base-iconlist" deep="1"><ul class="ecom-iconlist--list" data-layout="inline"><li class="ecom-iconlist--item ecom-html"><div class="ecom-iconlist--container"><span class="ecom-iconlist--icon" data-image="false"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M454.7 288.1c-12.78-3.75-26.06 3.594-29.75 16.31C403.3 379.9 333.8 432 255.1 432c-66.53 0-126.8-38.28-156.5-96h100.4c13.25 0 24-10.75 24-24S213.2 288 199.9 288h-160c-13.25 0-24 10.75-24 24v160c0 13.25 10.75 24 24 24s24-10.75 24-24v-102.1C103.7 436.4 176.1 480 255.1 480c99 0 187.4-66.31 215.1-161.3C474.8 305.1 467.4 292.7 454.7 288.1zM472 16C458.8 16 448 26.75 448 40v102.1C408.3 75.55 335.8 32 256 32C157 32 68.53 98.31 40.91 193.3C37.19 206 44.5 219.3 57.22 223c12.84 3.781 26.09-3.625 29.75-16.31C108.7 132.1 178.2 80 256 80c66.53 0 126.8 38.28 156.5 96H312C298.8 176 288 186.8 288 200S298.8 224 312 224h160c13.25 0 24-10.75 24-24v-160C496 26.75 485.3 16 472 16z"></path></svg></span><div class="ecom-iconlist-content"><p class="ecom-iconlist--title">360° Rotating Design</p><div class="ecom-iconlist--des">Effortless access to all your shoes.</div></div></div></li><li class="ecom-iconlist--item ecom-html"><div class="ecom-iconlist--container"><span class="ecom-iconlist--icon" data-image="false"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="currentColor"><path d="M 4.71875 3.28125 L 3.28125 4.71875 L 10.5625 12 L 5 12 L 5 14 L 14 14 L 14 5 L 12 5 L 12 10.5625 Z M 27.28125 3.28125 L 20 10.5625 L 20 5 L 18 5 L 18 14 L 27 14 L 27 12 L 21.4375 12 L 28.71875 4.71875 Z M 5 18 L 5 20 L 10.5625 20 L 3.28125 27.28125 L 4.71875 28.71875 L 12 21.4375 L 12 27 L 14 27 L 14 18 Z M 18 18 L 18 27 L 20 27 L 20 21.4375 L 27.28125 28.71875 L 28.71875 27.28125 L 21.4375 20 L 27 20 L 27 18 Z"></path></svg></span><div class="ecom-iconlist-content"><p class="ecom-iconlist--title">Space-Saving</p><div class="ecom-iconlist--des">Perfect for apartments, closets, and entryways</div></div></div></li><li class="ecom-iconlist--item ecom-html"><div class="ecom-iconlist--container"><span class="ecom-iconlist--icon" data-image="false"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="currentColor"><path d="M 10 3 C 7.804688 3 6.203125 4.605469 5.28125 6.5 C 4.359375 8.394531 3.960938 10.679688 4 12.6875 C 4.046875 15.019531 5.0625 17.375 5.0625 17.375 L 5.34375 18 L 13.75 18 L 13.96875 17.25 C 13.96875 17.25 14.757813 14.308594 14.96875 11.5 C 15.050781 10.394531 15.015625 8.472656 14.40625 6.65625 C 14.101563 5.746094 13.660156 4.855469 12.9375 4.15625 C 12.214844 3.457031 11.1875 3 10 3 Z M 22 3 C 20.8125 3 19.785156 3.457031 19.0625 4.15625 C 18.339844 4.855469 17.898438 5.746094 17.59375 6.65625 C 16.984375 8.472656 16.949219 10.394531 17.03125 11.5 C 17.242188 14.308594 18.03125 17.25 18.03125 17.25 L 18.25 18 L 26.65625 18 L 26.9375 17.375 C 26.9375 17.375 27.953125 15.019531 28 12.6875 C 28.039063 10.679688 27.640625 8.394531 26.71875 6.5 C 25.796875 4.605469 24.195313 3 22 3 Z M 10 5 C 10.703125 5 11.128906 5.203125 11.53125 5.59375 C 11.933594 5.984375 12.292969 6.605469 12.53125 7.3125 C 13.003906 8.726563 13.0625 10.527344 13 11.375 C 12.835938 13.550781 12.316406 15.371094 12.15625 16 L 6.71875 16 C 6.476563 15.316406 6.027344 13.984375 6 12.65625 C 5.964844 10.960938 6.355469 8.894531 7.09375 7.375 C 7.832031 5.855469 8.769531 5 10 5 Z M 22 5 C 23.230469 5 24.167969 5.855469 24.90625 7.375 C 25.644531 8.894531 26.03125 10.960938 26 12.65625 C 25.972656 13.984375 25.523438 15.316406 25.28125 16 L 19.84375 16 C 19.683594 15.371094 19.164063 13.550781 19 11.375 C 18.9375 10.527344 18.996094 8.726563 19.46875 7.3125 C 19.707031 6.605469 20.066406 5.984375 20.46875 5.59375 C 20.871094 5.203125 21.296875 5 22 5 Z M 5 21 L 5 22 C 4.988281 23.378906 5.121094 24.988281 5.8125 26.40625 C 6.503906 27.824219 7.957031 29 10 29 C 12.261719 29 13.980469 26.785156 14 24 C 14.003906 23.355469 13.976563 22.597656 13.75 21.75 L 13.5625 21 Z M 18.4375 21 L 18.25 21.75 C 18.023438 22.597656 17.996094 23.355469 18 24 C 18.019531 26.785156 19.738281 29 22 29 C 24.042969 29 25.496094 27.824219 26.1875 26.40625 C 26.878906 24.988281 27.011719 23.378906 27 22 L 27 21 Z M 7.15625 23 L 11.90625 23 C 11.941406 23.328125 12.003906 23.664063 12 24 C 11.984375 26.023438 10.929688 27 10 27 C 8.621094 27 8.050781 26.464844 7.59375 25.53125 C 7.265625 24.863281 7.226563 23.902344 7.15625 23 Z M 20.09375 23 L 24.84375 23 C 24.773438 23.902344 24.734375 24.863281 24.40625 25.53125 C 23.949219 26.464844 23.378906 27 22 27 C 21.070313 27 20.015625 26.023438 20 24 C 19.996094 23.664063 20.058594 23.328125 20.09375 23 Z"></path></svg></span><div class="ecom-iconlist-content"><p class="ecom-iconlist--title">Holds Up to 30 Pairs</p><div class="ecom-iconlist--des">Ample storage for all your shoes.</div></div></div></li><li class="ecom-iconlist--item ecom-html"><div class="ecom-iconlist--container"><span class="ecom-iconlist--icon" data-image="false"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="32" viewBox="0 0 32 32" fill="currentColor"><g id="icomoon-ignore"></g><path d="M29.532 25.76l-5.655-5.655 0.754-0.754-0.754-0.754-2.261 2.261-3.771-3.77 4.53-4.532c0.603 0.215 1.234 0.324 1.882 0.324 1.493 0 2.897-0.582 3.954-1.637 1.63-1.631 2.092-4.054 1.178-6.174l-0.311-0.722-2.43 2.43-1.956 0.027 0.026-1.866 2.477-2.477-0.72-0.312c-0.706-0.306-1.457-0.461-2.229-0.461-1.494 0-2.897 0.582-3.952 1.637-1.546 1.545-2.043 3.802-1.311 5.84l-4.529 4.529-6.409-6.408 0.754-0.754-4.145-4.146-2.264 2.261 4.147 4.147 0.753-0.754 6.409 6.408-4.529 4.529c-0.605-0.217-1.239-0.326-1.888-0.326-1.493 0-2.897 0.582-3.953 1.637-1.633 1.632-2.095 4.059-1.176 6.181l0.312 0.72 2.477-2.477 1.865-0.025-0.027 1.956-2.43 2.43 0.722 0.311c0.704 0.303 1.452 0.458 2.221 0.458 1.494 0 2.897-0.581 3.952-1.636 1.544-1.544 2.041-3.799 1.314-5.833l4.532-4.532 3.771 3.769-2.263 2.263 0.754 0.754 0.754-0.754 5.654 5.654c0.503 0.504 1.174 0.781 1.885 0.781s1.381-0.277 1.885-0.781c1.039-1.039 1.039-2.73-0-3.769zM3.899 4.648l0.754-0.753 2.638 2.638-0.754 0.754-2.639-2.639zM11.448 22.456c0.739 1.716 0.364 3.679-0.955 4.999-0.854 0.854-1.989 1.324-3.198 1.324-0.347 0-0.689-0.039-1.021-0.116l1.569-1.569 0.047-3.485-3.394 0.046-1.619 1.619c-0.356-1.51 0.081-3.103 1.208-4.229 0.854-0.854 1.99-1.325 3.199-1.325 0.626 0 1.233 0.125 1.806 0.373l0.333 0.144 10.819-10.819-0.144-0.333c-0.744-1.719-0.37-3.682 0.952-5.004 0.854-0.854 1.99-1.325 3.198-1.325 0.35 0 0.695 0.040 1.030 0.117l-1.618 1.618-0.047 3.394 3.485-0.047 1.57-1.57c0.352 1.507-0.086 3.097-1.209 4.221-0.855 0.854-1.991 1.325-3.2 1.325-0.624 0-1.23-0.125-1.801-0.371l-0.332-0.143-10.821 10.823 0.143 0.332zM28.779 28.775c-0.302 0.302-0.704 0.469-1.131 0.469s-0.829-0.167-1.131-0.469l-5.654-5.654 2.262-2.262 5.655 5.655c0.624 0.624 0.624 1.638 0.001 2.261z" fill="#000000"></path></svg></span><div class="ecom-iconlist-content"><p class="ecom-iconlist--title">Easy to Assemble</p><div class="ecom-iconlist--des">Set up in minutes with no hassle.</div></div></div></li><li class="ecom-iconlist--item ecom-html"><div class="ecom-iconlist--container"><span class="ecom-iconlist--icon" data-image="false"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M466.5 83.71l-192-80c-5.875-2.5-12.16-3.703-18.44-3.703S243.5 1.203 237.6 3.703L45.61 83.71C27.73 91.08 16 108.6 16 127.1C16 385.4 205.4 512 255.9 512C305.2 512 496 387.3 496 127.1C496 108.6 484.3 91.08 466.5 83.71zM256 464C158.5 423.4 64 297.3 64 128l192-80L448 128C448 301.8 349.6 425 256 464zM200.1 247C196.3 242.3 190.1 239.1 184 239.1c-13.71 0-24 11.21-24 24C160 270.1 162.3 276.3 167 280.1l48 48C219.5 333.5 225.7 335.1 232 335.1c2.595 0 11.46-.4962 18.22-8.375l96-112c3.881-4.528 5.781-10.09 5.781-15.62c0-7.405-5.79-23.99-23.98-23.99c-6.756 0-13.48 2.831-18.24 8.362L230.7 276.7L200.1 247z"></path></svg></span><div class="ecom-iconlist-content"><p class="ecom-iconlist--title">Durable Design</p><div class="ecom-iconlist--des">Built to last with sturdy materials.</div></div></div></li></ul></div></div> </div></div></div></div> <div class="ecom-column ecom-core core__column--last ecom-m74f7u3fo3f"><div class="core__column--wrapper"><div class="ecom-column__overlay"><div class="ecom-overlay"></div></div><div class="core__blocks" index="1"><div class="core__blocks--body"><div class="ecom-block ecom-core core__block elmspace ecom-w7o4l0qn1en" data-core-is="block"><div class="ecom-element ecom-base-image" deep="1"><figure><div class="ecom-container-image ecom-image-align" data-stopdrag=""><div data-stopdrag="" data-notice-content="This image is for preview only" class="ecom-image-content-position ecom-image-default ecom-base-image-container-overlay" style=""><picture class="ecom-image-picture"><img  loading="lazy" fetchpriority="low" src="https://cdn.shopify.com/s/files/1/0730/3951/1836/files/gps_generated_526d9b80-cb37-49af-abde-c43ba5eba389.png?v=1734158800" alt="gps_generated_526d9b80-cb37-49af-abde-c43ba5eba389" width="1024" height="1024" style=""></picture></div></div></figure></div></div> </div></div></div></div> </div><div class="ecom-section__overlay"><div class="ecom-overlay"></div></div> </section><section class="ecom-row ecom-core ecom-section ecom-ivrub830is" data-id="ecom-ivrub830is" data-notice-content="This image is for preview only" style="z-index: inherit;"><div data-deep="1" class="core__row--columns"><div class="ecom-column ecom-core core__column--first core__column--last ecom-24hhfx9xiff"><div class="core__column--wrapper"><div class="ecom-column__overlay"><div class="ecom-overlay"></div></div><div class="core__blocks" index="0"><div class="core__blocks--body"><div class="ecom-block ecom-core core__block elmspace ecom-otjsg7recvl" data-core-is="block"><div class="ecom__element element__heading ecom-element ecom-html" data-stopdrag="true" deep="1"><h3 class="ecom__heading ecom-db">TRANSFORM YOUR STORAGE</h3></div></div> <div class="ecom-block ecom-core core__block elmspace ecom-91et95fmlqc" data-core-is="row"><div class="ecom-row ecom-core core__block ecom-128cpp9kcrja" data-id="ecom-128cpp9kcrja" data-notice-content="This image is for preview only" style="z-index: inherit;"><div data-deep="2" class="core__row--columns"><div class="ecom-column ecom-core core__column--first core__column--last ecom-jscuq5914qp"><div class="core__column--wrapper"><div class="ecom-column__overlay"><div class="ecom-overlay"></div></div><div class="core__blocks" index="0"><div class="core__blocks--body"><div class="ecom-block ecom-core core__block elmspace ecom-zwlhk9c2ui" data-core-is="block"><div class="ecom__element element__video ecom-element" deep="2"><div class="ecom-element_video-iframe ecom-element-overlay"><video id="ecom-elements__popup-video-ecom-zwlhk9c2ui" class="ecom_video" controls="" autoplay="" playsinline="true"style="display: flex !important;"><source src="https://cdn.shopify.com/s/files/1/0332/6420/5963/files/jewelry_video.mp4?&amp;_accept=image/avif#t=," data-source="https://cdn.shopify.com/s/files/1/0332/6420/5963/files/jewelry_video.mp4?&amp;_accept=image/avif#t=,"></video></div></div></div> </div></div></div></div> </div><div class="ecom-section__overlay"><div class="ecom-overlay"></div></div> </div></div> </div></div></div></div> </div><div class="ecom-section__overlay"><div class="ecom-overlay"></div></div> </section><section class="ecom-row ecom-core ecom-section ecom-6g75y2dk2xs" data-id="ecom-6g75y2dk2xs" data-notice-content="This image is for preview only" style="z-index: inherit;"><div data-deep="1" class="core__row--columns"><div class="ecom-column ecom-core core__column--first core__column--last ecom-cireppq63to"><div class="core__column--wrapper"><div class="ecom-column__overlay"><div class="ecom-overlay"></div></div><div class="core__blocks" index="0"><div class="core__blocks--body"><div class="ecom-block ecom-core core__block elmspace ecom-fw2z8fgjn15" data-core-is="block"><div class="ecom__element element__heading ecom-element ecom-html" data-stopdrag="true" deep="1"><h3 class="ecom__heading ecom-db">GET RID OF TRIPPING OTHER SHOES</h3></div></div> <div class="ecom-block ecom-core core__block ecom-9jjmco21rta" data-core-is="block"><div class="ecom__element ecom-element element__text" data-stopdrag="" deep="1"><div class="text-content ecom-html has-drop-cap-view-framed ecom-view-more-enable">The 360° Rotating Shoe Rack keeps your shoes organized, accessible, and looking great.</div></div></div> <div class="ecom-block ecom-core core__block elmspace ecom-nwfty1glis" data-core-is="block"><div data-stopdrag="" data-auto-slide-hover="false" class="ecom-element ecom-base_image-comparison" deep="1"><div class="ecom-image_compare-wrapper"><picture class="ecom-image_compare"><img  loading="lazy" fetchpriority="low" src="https://cdn.shopify.com/s/files/1/0643/9262/6408/files/before-after-2.jpg?v=1672041675" thumbnail="https://cdn.shopify.com/s/files/1/0643/9262/6408/files/before-after-2.jpg?v=1672041675" id="Izfz5Ulg" name="before-after-2" alt="before-after-2"></picture><div class="ecom-image_comp-overlay"><div class="ecom-image_comp-before"><span class="ecom-image_comp-text">Before</span></div><div class="ecom-image_comp-after"><span class="ecom-image_comp-text">After</span></div></div><div class="ecom-image_ratio-wrapper"><div class="ecom-img_comp-slider pulse" style="left: 50%;"><div class="ecom-slide_button"><svg width="28" height="28" viewBox="0 0 44 44" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M16 14L7 22L16 30L16 14Z"></path><path d="M28 30L37 22L28 14V30Z"></path></svg></div></div></div><picture class="ecom-image_compare ecom-image_compare-overlay"><img  loading="lazy" fetchpriority="low" src="https://cdn.shopify.com/s/files/1/0643/9262/6408/files/before-after-1.jpg?v=1672041677" thumbnail="https://cdn.shopify.com/s/files/1/0643/9262/6408/files/before-after-1.jpg?v=1672041677" id="zm7ezse1" name="before-after-1" alt="before-after-1"></picture></div></div></div> </div></div></div></div> </div><div class="ecom-section__overlay"><div class="ecom-overlay"></div></div> </section><section class="ecom-animation ecom-row ecom-core ecom-section ecom-5nbbfqnaqru" data-id="ecom-5nbbfqnaqru" data-notice-content="This image is for preview only" style="z-index: inherit;"><div data-deep="1" class="core__row--columns"><div class="ecom-column ecom-core core__column--first core__column--last ecom-i255eft8kia"><div class="core__column--wrapper"><div class="ecom-column__overlay"><div class="ecom-overlay"></div></div><div class="core__blocks" index="0"><div class="core__blocks--body"><div class="ecom-block ecom-core core__block elmspace ecom-x4tuf11j92" data-core-is="block"><div class="ecom__element element__heading ecom-element ecom-html" data-stopdrag="true" deep="1"><h3 class="ecom__heading ecom-db">Customer Reviews</h3></div></div> <div class="ecom-block ecom-core core__block elmspace ecom-2hrfpuydhau" data-core-is="group"><div class="ecom-elements ecom-base-element ecom-elements-slider"><div class="ecom-core ecom-group core__block ecom-3hwlbg3wxhn"> <div class="core__group--wrapper" data-r="" style=""><div class="ecom-slider--container"><div class="ecom-element ecom-slider slider__body ecom-swiper-container" data-option-swiper="{&quot;direction&quot;:&quot;horizontal&quot;,&quot;freeMode&quot;:false,&quot;loop&quot;:true,&quot;breakpoints&quot;:{&quot;0&quot;:{&quot;slidesPerView&quot;:1},&quot;768&quot;:{&quot;slidesPerView&quot;:2},&quot;1025&quot;:{&quot;slidesPerView&quot;:3}},&quot;autoplay&quot;:{&quot;enabled&quot;:false,&quot;delay&quot;:6000,&quot;pauseOnMouseEnter&quot;:false,&quot;disableOnInteraction&quot;:false,&quot;reverseDirection&quot;:false},&quot;speed&quot;:500,&quot;effect&quot;:&quot;slide&quot;,&quot;grabCursor&quot;:true,&quot;slideActiveClass&quot;:&quot;ecom-box-active&quot;,&quot;centeredSlides&quot;:false,&quot;watchOverflow&quot;:true,&quot;autoHeight&quot;:false,&quot;cubeEffect&quot;:{&quot;slideShadows&quot;:true,&quot;shadowOffset&quot;:20},&quot;creativeEffect&quot;:{},&quot;fadeEffect&quot;:{&quot;crossFade&quot;:true},&quot;pagination&quot;:{&quot;el&quot;:&quot;.ecom-swiper-pagination&quot;,&quot;type&quot;:&quot;bullets&quot;,&quot;clickable&quot;:true},&quot;navigation&quot;:{&quot;nextEl&quot;:&quot;.ecom-swiper-button-next&quot;,&quot;prevEl&quot;:&quot;.ecom-swiper-button-prev&quot;},&quot;slidesPerGroup&quot;:1,&quot;spaceBetween&quot;:26}"><div class="ecom-swiper-wrapper"><div class="ecom-swiper-slide"><div class="ecom-content-item"><div class="ecom-content-item__container ecom-transition-undefined"><div class="core__blocks" index="0"><div class="core__blocks--body"><div class="ecom-block ecom-core core__block elmspace ecom-z4853ukyo9c" data-core-is="row"><div class="ecom-row ecom-core core__block ecom-3u01or8syk6" data-id="ecom-3u01or8syk6" data-notice-content="This image is for preview only" style="z-index: inherit;"><div data-deep="2" class="core__row--columns"><div class="ecom-column ecom-core core__column--first core__column--last ecom-o3lhs4kjcle"><div class="core__column--wrapper"><div class="ecom-column__overlay"><div class="ecom-overlay"></div></div><div class="core__blocks" index="0"><div class="core__blocks--body"><div class="ecom-block ecom-core core__block elmspace ecom-pszltjc7oye" data-core-is="block"><div class="ecom-element ecom-base-image" deep="2"><figure><div class="ecom-container-image ecom-image-align" data-stopdrag=""><div data-stopdrag="" data-notice-content="This image is for preview only" class="ecom-image-content-position ecom-image-default ecom-base-image-container-overlay" style=""><picture class="ecom-image-picture"><img  fetchpriority="auto" src="https://cdn.shopify.com/s/files/1/0623/8303/0317/files/ecom-no-replace-PAWICS42S8testimonial.png?v=1731660816" alt="ecom-no-replace-PAWICS42S8testimonial" width="972" height="658" style=""></picture></div></div></figure></div></div> <div class="ecom-block ecom-core core__block ecom-r6zsjokfm8n" data-core-is="block"><div class="ecom-element ecom-base-image" deep="2"><figure><div class="ecom-container-image ecom-image-align" data-stopdrag=""><div data-stopdrag="" data-notice-content="This image is for preview only" class="ecom-image-content-position ecom-image-default ecom-base-image-container-overlay" style=""><picture class="ecom-image-picture"><img  loading="lazy" fetchpriority="low" src="https://cdn.shopify.com/s/files/1/0623/8303/0317/files/ecom-no-replace-TkLaleYZvrFrame_21796.png?v=1731660844" alt="ecom-no-replace-TkLaleYZvrFrame_21796" width="192" height="28" style=""></picture></div></div></figure></div></div> <div class="ecom-block ecom-core core__block elmspace ecom-ut2uiarim8" data-core-is="block"><div class="ecom__element ecom-element element__text" data-stopdrag="" deep="2"><div class="text-content ecom-html has-drop-cap-view-framed ecom-view-more-enable">"Finally, a solution to store all my shoes without any hassle! The materials feel sturdy, and the product is well-designed. The shipping was incredibly quick, which is a huge plus. Thanks for such a great product!"</div></div></div> <div class="ecom-block ecom-core core__block elmspace ecom-lmzx6p3ok4j" data-core-is="block"><div class="ecom__element ecom-element element__divi" deep="2"><div class="ecom__element-divi" style="--divi-line-height: 1px;"><div class="divi-line divi-style" style="display: block;"></div><div class="divi-cont" style="--flex-desktop: 0.5; --flex-tablet: 0.5; --flex-mobile: 0.5; --divider-width: auto; --divider-width-tablet: auto; --divider-width-mobile: auto; display: none;"><div class="divi-cont-before divi-style" style="display: block;"></div><div class="divi-cont-after divi-style" style="display: block;"></div></div></div></div></div> <div class="ecom-block ecom-core core__block elmspace ecom-xj0mgsf7b9" data-core-is="block"><div class="ecom-element ecom-base-image" deep="2"><figure><div class="ecom-container-image ecom-image-align" data-stopdrag=""><div data-stopdrag="" data-notice-content="This image is for preview only" class="ecom-image-content-position ecom-image-default ecom-base-image-container-overlay" style=""><picture class="ecom-image-picture"><img  loading="lazy" fetchpriority="low" src="https://cdn.shopify.com/s/files/1/0623/8303/0317/files/ecom-no-replace-z5Kd42di8Zavt.png?v=1731661015" alt="ecom-no-replace-z5Kd42di8Zavt" width="64" height="64" style=""></picture></div></div></figure></div></div> <div class="ecom-block ecom-core core__block elmspace ecom-ep6r2vtzre" data-core-is="block"><div class="ecom__element ecom-element element__text" data-stopdrag="" deep="2"><div class="text-content ecom-html has-drop-cap-view-framed ecom-view-more-enable">Luka P</div></div></div> <div class="ecom-block ecom-core core__block elmspace ecom-6ucudos57t" data-core-is="block"><div class="ecom-element ecom-base-iconlist" deep="2"><ul class="ecom-iconlist--list" data-layout="inline"><li class="ecom-iconlist--item ecom-html"><div class="ecom-iconlist--container"><span class="ecom-iconlist--icon" data-image="false"><svg width="19" height="19" viewBox="0 0 19 19" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M8.18311 12.354C8.01567 12.354 7.8566 12.287 7.73939 12.1698L5.71334 10.1437C5.47055 9.90094 5.47055 9.49908 5.71334 9.25629C5.95613 9.0135 6.35799 9.0135 6.60078 9.25629L8.18311 10.8386L11.7831 7.23861C12.0259 6.99582 12.4278 6.99582 12.6706 7.23861C12.9133 7.4814 12.9133 7.88326 12.6706 8.12605L8.62683 12.1698C8.50962 12.287 8.35055 12.354 8.18311 12.354Z" fill="#4D8036"></path><path d="M9.19601 18.7C8.66857 18.7 8.14113 18.5242 7.73089 18.1726L6.4081 17.034C6.27415 16.9168 5.93926 16.7995 5.76345 16.7995H4.32345C3.08438 16.7995 2.07973 15.7949 2.07973 14.5558V13.1242C2.07973 12.9484 1.96252 12.6219 1.84531 12.4879L0.715079 11.1568C0.0285674 10.3447 0.0285674 9.06373 0.715079 8.25164L1.84531 6.92048C1.96252 6.78652 2.07973 6.46001 2.07973 6.2842V4.8442C2.07973 3.60513 3.08438 2.60048 4.32345 2.60048H5.77182C5.94764 2.60048 6.28253 2.4749 6.41648 2.36606L7.73926 1.22745C8.55973 0.524198 9.84066 0.524198 10.6611 1.22745L11.9839 2.36606C12.1179 2.48327 12.4528 2.60048 12.6286 2.60048H14.0518C15.2909 2.60048 16.2955 3.60513 16.2955 4.8442V6.26745C16.2955 6.44327 16.4211 6.77815 16.5383 6.91211L17.6769 8.2349C18.3802 9.05536 18.3802 10.3363 17.6769 11.1568L16.5383 12.4795C16.4211 12.6135 16.2955 12.9484 16.2955 13.1242V14.5475C16.2955 15.7865 15.2909 16.7912 14.0518 16.7912H12.6286C12.4528 16.7912 12.1179 16.9168 11.9839 17.0256L10.6611 18.1642C10.2509 18.5242 9.72345 18.7 9.19601 18.7ZM4.32345 3.85629C3.77926 3.85629 3.33554 4.30001 3.33554 4.8442V6.27583C3.33554 6.75304 3.1095 7.3642 2.79973 7.7242L1.6695 9.05536C1.37647 9.39862 1.37647 9.99304 1.6695 10.3363L2.79973 11.6675C3.1095 12.0358 3.33554 12.6386 3.33554 13.1158V14.5475C3.33554 15.0916 3.77926 15.5354 4.32345 15.5354H5.77182C6.2574 15.5354 6.86857 15.7614 7.23694 16.0795L8.55973 17.2182C8.90299 17.5112 9.50578 17.5112 9.84903 17.2182L11.1718 16.0795C11.5402 15.7698 12.1514 15.5354 12.6369 15.5354H14.0602C14.6044 15.5354 15.0481 15.0916 15.0481 14.5475V13.1242C15.0481 12.6386 15.2741 12.0275 15.5923 11.6591L16.7309 10.3363C17.0239 9.99304 17.0239 9.39024 16.7309 9.04699L15.5923 7.7242C15.2741 7.35583 15.0481 6.74466 15.0481 6.25908V4.8442C15.0481 4.30001 14.6044 3.85629 14.0602 3.85629H12.6369C12.1514 3.85629 11.5402 3.63024 11.1718 3.31211L9.84903 2.1735C9.50578 1.88048 8.90299 1.88048 8.55973 2.1735L7.23694 3.32048C6.86857 3.63024 6.24903 3.85629 5.77182 3.85629H4.32345Z" fill="#4D8036"></path></svg></span><div class="ecom-iconlist-content"><p class="ecom-iconlist--title">Verified Buyer</p></div></div></li></ul></div></div> </div></div></div></div> </div><div class="ecom-section__overlay"><div class="ecom-overlay"></div></div> </div></div> </div></div></div></div></div><div class="ecom-swiper-slide"><div class="ecom-content-item"><div class="ecom-content-item__container ecom-transition-undefined"><div class="core__blocks" index="1"><div class="core__blocks--body"><div class="ecom-block ecom-core core__block elmspace ecom-jcecawlnrg" data-core-is="row"><div class="ecom-row ecom-core core__block ecom-wwbdkb88plp" data-id="ecom-wwbdkb88plp" data-notice-content="This image is for preview only" style="z-index: inherit;"><div data-deep="2" class="core__row--columns"><div class="ecom-column ecom-core core__column--first core__column--last ecom-dnzpahj1h7m"><div class="core__column--wrapper"><div class="ecom-column__overlay"><div class="ecom-overlay"></div></div><div class="core__blocks" index="0"><div class="core__blocks--body"><div class="ecom-block ecom-core core__block elmspace ecom-r47lh3fq39r" data-core-is="block"><div class="ecom-element ecom-base-image" deep="2"><figure><div class="ecom-container-image ecom-image-align" data-stopdrag=""><div data-stopdrag="" data-notice-content="This image is for preview only" class="ecom-image-content-position ecom-image-default ecom-base-image-container-overlay" style=""><picture class="ecom-image-picture"><img  fetchpriority="auto" src="https://cdn.shopify.com/s/files/1/0623/8303/0317/files/ecom-no-replace-D8JLsZI3Tftestimonial2.png?v=1731661684" alt="ecom-no-replace-D8JLsZI3Tftestimonial2" width="972" height="658" style=""></picture></div></div></figure></div></div> <div class="ecom-block ecom-core core__block ecom-jhpcea42amb" data-core-is="block"><div class="ecom-element ecom-base-image" deep="2"><figure><div class="ecom-container-image ecom-image-align" data-stopdrag=""><div data-stopdrag="" data-notice-content="This image is for preview only" class="ecom-image-content-position ecom-image-default ecom-base-image-container-overlay" style=""><picture class="ecom-image-picture"><img loading="lazy" fetchpriority="low" src="https://cdn.shopify.com/s/files/1/0623/8303/0317/files/ecom-no-replace-TkLaleYZvrFrame_21796.png?v=1731660844" alt="ecom-no-replace-TkLaleYZvrFrame_21796" width="192" height="28" style=""></picture></div></div></figure></div></div> <div class="ecom-block ecom-core core__block elmspace ecom-kjn3q2sizc" data-core-is="block"><div class="ecom__element ecom-element element__text" data-stopdrag="" deep="2"><div class="text-content ecom-html has-drop-cap-view-framed ecom-view-more-enable">"I was looking for a way to organize my shoes, and this shoe rack did not disappoint. It's both functional and stylish. A big shoutout to the fast shipping and responsive customer service!"&nbsp;</div></div></div> <div class="ecom-block ecom-core core__block elmspace ecom-pic3akcyrtl" data-core-is="block"><div class="ecom__element ecom-element element__divi" deep="2"><div class="ecom__element-divi" style="--divi-line-height: 1px;"><div class="divi-line divi-style" style="display: block;"></div><div class="divi-cont" style="--flex-desktop: 0.5; --flex-tablet: 0.5; --flex-mobile: 0.5; --divider-width: auto; --divider-width-tablet: auto; --divider-width-mobile: auto; display: none;"><div class="divi-cont-before divi-style" style="display: block;"></div><div class="divi-cont-after divi-style" style="display: block;"></div></div></div></div></div> <div class="ecom-block ecom-core core__block elmspace ecom-1iscpxgt56wj" data-core-is="block"><div class="ecom-element ecom-base-image" deep="2"><figure><div class="ecom-container-image ecom-image-align" data-stopdrag=""><div data-stopdrag="" data-notice-content="This image is for preview only" class="ecom-image-content-position ecom-image-default ecom-base-image-container-overlay" style=""><picture class="ecom-image-picture"><img fetchpriority="low" src="https://cdn.shopify.com/s/files/1/0623/8303/0317/files/ecom-no-replace-6DPI0WTLSvavt3.png?v=1731662089" alt="ecom-no-replace-6DPI0WTLSvavt3" width="64" height="64" style=""></picture></div></div></figure></div></div> <div class="ecom-block ecom-core core__block elmspace ecom-ljre6jqvlm" data-core-is="block"><div class="ecom__element ecom-element element__text" data-stopdrag="" deep="2"><div class="text-content ecom-html has-drop-cap-view-framed ecom-view-more-enable">Nora J</div></div></div> <div class="ecom-block ecom-core core__block elmspace ecom-w8k9bj6756k" data-core-is="block"><div class="ecom-element ecom-base-iconlist" deep="2"><ul class="ecom-iconlist--list" data-layout="inline"><li class="ecom-iconlist--item ecom-html"><div class="ecom-iconlist--container"><span class="ecom-iconlist--icon" data-image="false"><svg width="19" height="19" viewBox="0 0 19 19" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M8.18311 12.354C8.01567 12.354 7.8566 12.287 7.73939 12.1698L5.71334 10.1437C5.47055 9.90094 5.47055 9.49908 5.71334 9.25629C5.95613 9.0135 6.35799 9.0135 6.60078 9.25629L8.18311 10.8386L11.7831 7.23861C12.0259 6.99582 12.4278 6.99582 12.6706 7.23861C12.9133 7.4814 12.9133 7.88326 12.6706 8.12605L8.62683 12.1698C8.50962 12.287 8.35055 12.354 8.18311 12.354Z" fill="#4D8036"></path><path d="M9.19601 18.7C8.66857 18.7 8.14113 18.5242 7.73089 18.1726L6.4081 17.034C6.27415 16.9168 5.93926 16.7995 5.76345 16.7995H4.32345C3.08438 16.7995 2.07973 15.7949 2.07973 14.5558V13.1242C2.07973 12.9484 1.96252 12.6219 1.84531 12.4879L0.715079 11.1568C0.0285674 10.3447 0.0285674 9.06373 0.715079 8.25164L1.84531 6.92048C1.96252 6.78652 2.07973 6.46001 2.07973 6.2842V4.8442C2.07973 3.60513 3.08438 2.60048 4.32345 2.60048H5.77182C5.94764 2.60048 6.28253 2.4749 6.41648 2.36606L7.73926 1.22745C8.55973 0.524198 9.84066 0.524198 10.6611 1.22745L11.9839 2.36606C12.1179 2.48327 12.4528 2.60048 12.6286 2.60048H14.0518C15.2909 2.60048 16.2955 3.60513 16.2955 4.8442V6.26745C16.2955 6.44327 16.4211 6.77815 16.5383 6.91211L17.6769 8.2349C18.3802 9.05536 18.3802 10.3363 17.6769 11.1568L16.5383 12.4795C16.4211 12.6135 16.2955 12.9484 16.2955 13.1242V14.5475C16.2955 15.7865 15.2909 16.7912 14.0518 16.7912H12.6286C12.4528 16.7912 12.1179 16.9168 11.9839 17.0256L10.6611 18.1642C10.2509 18.5242 9.72345 18.7 9.19601 18.7ZM4.32345 3.85629C3.77926 3.85629 3.33554 4.30001 3.33554 4.8442V6.27583C3.33554 6.75304 3.1095 7.3642 2.79973 7.7242L1.6695 9.05536C1.37647 9.39862 1.37647 9.99304 1.6695 10.3363L2.79973 11.6675C3.1095 12.0358 3.33554 12.6386 3.33554 13.1158V14.5475C3.33554 15.0916 3.77926 15.5354 4.32345 15.5354H5.77182C6.2574 15.5354 6.86857 15.7614 7.23694 16.0795L8.55973 17.2182C8.90299 17.5112 9.50578 17.5112 9.84903 17.2182L11.1718 16.0795C11.5402 15.7698 12.1514 15.5354 12.6369 15.5354H14.0602C14.6044 15.5354 15.0481 15.0916 15.0481 14.5475V13.1242C15.0481 12.6386 15.2741 12.0275 15.5923 11.6591L16.7309 10.3363C17.0239 9.99304 17.0239 9.39024 16.7309 9.04699L15.5923 7.7242C15.2741 7.35583 15.0481 6.74466 15.0481 6.25908V4.8442C15.0481 4.30001 14.6044 3.85629 14.0602 3.85629H12.6369C12.1514 3.85629 11.5402 3.63024 11.1718 3.31211L9.84903 2.1735C9.50578 1.88048 8.90299 1.88048 8.55973 2.1735L7.23694 3.32048C6.86857 3.63024 6.24903 3.85629 5.77182 3.85629H4.32345Z" fill="#4D8036"></path></svg></span><div class="ecom-iconlist-content"><p class="ecom-iconlist--title">Verified Buyer</p></div></div></li></ul></div></div> </div></div></div></div> </div><div class="ecom-section__overlay"><div class="ecom-overlay"></div></div> </div></div> </div></div></div></div></div><div class="ecom-swiper-slide"><div class="ecom-content-item"><div class="ecom-content-item__container ecom-transition-undefined"><div class="core__blocks" index="2"><div class="core__blocks--body"><div class="ecom-block ecom-core core__block elmspace ecom-l5r0nv233wq" data-core-is="row"><div class="ecom-row ecom-core core__block ecom-yjgvnzx0a9m" data-id="ecom-yjgvnzx0a9m" data-notice-content="This image is for preview only" style="z-index: inherit;"><div data-deep="2" class="core__row--columns"><div class="ecom-column ecom-core core__column--first core__column--last ecom-3ucy03diaae"><div class="core__column--wrapper"><div class="ecom-column__overlay"><div class="ecom-overlay"></div></div><div class="core__blocks" index="0"><div class="core__blocks--body"><div class="ecom-block ecom-core core__block elmspace ecom-ej34150mx1r" data-core-is="block"><div class="ecom-element ecom-base-image" deep="2"><figure><div class="ecom-container-image ecom-image-align" data-stopdrag=""><div data-stopdrag="" data-notice-content="This image is for preview only" class="ecom-image-content-position ecom-image-default ecom-base-image-container-overlay" style=""><picture class="ecom-image-picture"><img  fetchpriority="auto" src="https://cdn.shopify.com/s/files/1/0623/8303/0317/files/ecom-no-replace-XQBXCOl4K4testimonial3.png?v=1731661717" alt="ecom-no-replace-XQBXCOl4K4testimonial3" width="972" height="658" style=""></picture></div></div></figure></div></div> <div class="ecom-block ecom-core core__block ecom-0awpn8wbhrxv" data-core-is="block"><div class="ecom-element ecom-base-image" deep="2"><figure><div class="ecom-container-image ecom-image-align" data-stopdrag=""><div data-stopdrag="" data-notice-content="This image is for preview only" class="ecom-image-content-position ecom-image-default ecom-base-image-container-overlay" style=""><picture class="ecom-image-picture"><img loading="lazy" fetchpriority="low" src="https://cdn.shopify.com/s/files/1/0623/8303/0317/files/ecom-no-replace-TkLaleYZvrFrame_21796.png?v=1731660844" alt="ecom-no-replace-TkLaleYZvrFrame_21796" width="192" height="28" style=""></picture></div></div></figure></div></div> <div class="ecom-block ecom-core core__block elmspace ecom-0x0mxviwzuir" data-core-is="block"><div class="ecom__element ecom-element element__text" data-stopdrag="" deep="2"><div class="text-content ecom-html has-drop-cap-view-framed ecom-view-more-enable">"Perfect for my small space! This shoe rack is practical and attractive, doesn’t take up much room, and holds so many pairs. My order was shipped incredibly fast, which was a nice surprise. Very happy with this purchase!" 
+<div><br></div></div></div></div> <div class="ecom-block ecom-core core__block elmspace ecom-rumqiz6j2tg" data-core-is="block"><div class="ecom__element ecom-element element__divi" deep="2"><div class="ecom__element-divi" style="--divi-line-height: 1px;"><div class="divi-line divi-style" style="display: block;"></div><div class="divi-cont" style="--flex-desktop: 0.5; --flex-tablet: 0.5; --flex-mobile: 0.5; --divider-width: auto; --divider-width-tablet: auto; --divider-width-mobile: auto; display: none;"><div class="divi-cont-before divi-style" style="display: block;"></div><div class="divi-cont-after divi-style" style="display: block;"></div></div></div></div></div> <div class="ecom-block ecom-core core__block elmspace ecom-lx72nuf017f" data-core-is="block"><div class="ecom-element ecom-base-image" deep="2"><figure><div class="ecom-container-image ecom-image-align" data-stopdrag=""><div data-stopdrag="" data-notice-content="This image is for preview only" class="ecom-image-content-position ecom-image-default ecom-base-image-container-overlay" style=""><picture class="ecom-image-picture"><img fetchpriority="low" src="https://cdn.shopify.com/s/files/1/0623/8303/0317/files/ecom-no-replace-XtZbCA7a3wavt2.png?v=1731662107" alt="ecom-no-replace-XtZbCA7a3wavt2" width="64" height="64" style=""></picture></div></div></figure></div></div> <div class="ecom-block ecom-core core__block elmspace ecom-fe6swtkfu7r" data-core-is="block"><div class="ecom__element ecom-element element__text" data-stopdrag="" deep="2"><div class="text-content ecom-html has-drop-cap-view-framed ecom-view-more-enable">Bob K</div></div></div> <div class="ecom-block ecom-core core__block elmspace ecom-mkoll82rgg9" data-core-is="block"><div class="ecom-element ecom-base-iconlist" deep="2"><ul class="ecom-iconlist--list" data-layout="inline"><li class="ecom-iconlist--item ecom-html"><div class="ecom-iconlist--container"><span class="ecom-iconlist--icon" data-image="false"><svg width="19" height="19" viewBox="0 0 19 19" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M8.18311 12.354C8.01567 12.354 7.8566 12.287 7.73939 12.1698L5.71334 10.1437C5.47055 9.90094 5.47055 9.49908 5.71334 9.25629C5.95613 9.0135 6.35799 9.0135 6.60078 9.25629L8.18311 10.8386L11.7831 7.23861C12.0259 6.99582 12.4278 6.99582 12.6706 7.23861C12.9133 7.4814 12.9133 7.88326 12.6706 8.12605L8.62683 12.1698C8.50962 12.287 8.35055 12.354 8.18311 12.354Z" fill="#4D8036"></path><path d="M9.19601 18.7C8.66857 18.7 8.14113 18.5242 7.73089 18.1726L6.4081 17.034C6.27415 16.9168 5.93926 16.7995 5.76345 16.7995H4.32345C3.08438 16.7995 2.07973 15.7949 2.07973 14.5558V13.1242C2.07973 12.9484 1.96252 12.6219 1.84531 12.4879L0.715079 11.1568C0.0285674 10.3447 0.0285674 9.06373 0.715079 8.25164L1.84531 6.92048C1.96252 6.78652 2.07973 6.46001 2.07973 6.2842V4.8442C2.07973 3.60513 3.08438 2.60048 4.32345 2.60048H5.77182C5.94764 2.60048 6.28253 2.4749 6.41648 2.36606L7.73926 1.22745C8.55973 0.524198 9.84066 0.524198 10.6611 1.22745L11.9839 2.36606C12.1179 2.48327 12.4528 2.60048 12.6286 2.60048H14.0518C15.2909 2.60048 16.2955 3.60513 16.2955 4.8442V6.26745C16.2955 6.44327 16.4211 6.77815 16.5383 6.91211L17.6769 8.2349C18.3802 9.05536 18.3802 10.3363 17.6769 11.1568L16.5383 12.4795C16.4211 12.6135 16.2955 12.9484 16.2955 13.1242V14.5475C16.2955 15.7865 15.2909 16.7912 14.0518 16.7912H12.6286C12.4528 16.7912 12.1179 16.9168 11.9839 17.0256L10.6611 18.1642C10.2509 18.5242 9.72345 18.7 9.19601 18.7ZM4.32345 3.85629C3.77926 3.85629 3.33554 4.30001 3.33554 4.8442V6.27583C3.33554 6.75304 3.1095 7.3642 2.79973 7.7242L1.6695 9.05536C1.37647 9.39862 1.37647 9.99304 1.6695 10.3363L2.79973 11.6675C3.1095 12.0358 3.33554 12.6386 3.33554 13.1158V14.5475C3.33554 15.0916 3.77926 15.5354 4.32345 15.5354H5.77182C6.2574 15.5354 6.86857 15.7614 7.23694 16.0795L8.55973 17.2182C8.90299 17.5112 9.50578 17.5112 9.84903 17.2182L11.1718 16.0795C11.5402 15.7698 12.1514 15.5354 12.6369 15.5354H14.0602C14.6044 15.5354 15.0481 15.0916 15.0481 14.5475V13.1242C15.0481 12.6386 15.2741 12.0275 15.5923 11.6591L16.7309 10.3363C17.0239 9.99304 17.0239 9.39024 16.7309 9.04699L15.5923 7.7242C15.2741 7.35583 15.0481 6.74466 15.0481 6.25908V4.8442C15.0481 4.30001 14.6044 3.85629 14.0602 3.85629H12.6369C12.1514 3.85629 11.5402 3.63024 11.1718 3.31211L9.84903 2.1735C9.50578 1.88048 8.90299 1.88048 8.55973 2.1735L7.23694 3.32048C6.86857 3.63024 6.24903 3.85629 5.77182 3.85629H4.32345Z" fill="#4D8036"></path></svg></span><div class="ecom-iconlist-content"><p class="ecom-iconlist--title">Verified Buyer</p></div></div></li></ul></div></div> </div></div></div></div> </div><div class="ecom-section__overlay"><div class="ecom-overlay"></div></div> </div></div> </div></div></div></div></div><div class="ecom-swiper-slide"><div class="ecom-content-item"><div class="ecom-content-item__container ecom-transition-undefined"><div class="core__blocks" index="3"><div class="core__blocks--body"><div class="ecom-block ecom-core core__block elmspace ecom-3w1cxqpca6e" data-core-is="row"><div class="ecom-row ecom-core core__block ecom-qyjw0c05qd" data-id="ecom-qyjw0c05qd" data-notice-content="This image is for preview only" style="z-index: inherit;"><div data-deep="2" class="core__row--columns"><div class="ecom-column ecom-core core__column--first core__column--last ecom-u9ky14yiwl"><div class="core__column--wrapper"><div class="ecom-column__overlay"><div class="ecom-overlay"></div></div><div class="core__blocks" index="0"><div class="core__blocks--body"><div class="ecom-block ecom-core core__block elmspace ecom-rllndsau0tg" data-core-is="block"><div class="ecom-element ecom-base-image" deep="2"><figure><div class="ecom-container-image ecom-image-align" data-stopdrag=""><div data-stopdrag="" data-notice-content="This image is for preview only" class="ecom-image-content-position ecom-image-default ecom-base-image-container-overlay" style=""><picture class="ecom-image-picture"><img  fetchpriority="auto" src="https://cdn.shopify.com/s/files/1/0623/8303/0317/files/ecom-no-replace-NPAXsqTgHGtestimonual4.png?v=1731661946" alt="ecom-no-replace-NPAXsqTgHGtestimonual4" width="972" height="658" style=""></picture></div></div></figure></div></div> <div class="ecom-block ecom-core core__block ecom-37lso83aneh" data-core-is="block"><div class="ecom-element ecom-base-image" deep="2"><figure><div class="ecom-container-image ecom-image-align" data-stopdrag=""><div data-stopdrag="" data-notice-content="This image is for preview only" class="ecom-image-content-position ecom-image-default ecom-base-image-container-overlay" style=""><picture class="ecom-image-picture"><img loading="lazy" fetchpriority="low" src="https://cdn.shopify.com/s/files/1/0623/8303/0317/files/ecom-no-replace-TkLaleYZvrFrame_21796.png?v=1731660844" alt="ecom-no-replace-TkLaleYZvrFrame_21796" width="192" height="28" style=""></picture></div></div></figure></div></div> <div class="ecom-block ecom-core core__block elmspace ecom-i112rpy9oas" data-core-is="block"><div class="ecom__element ecom-element element__text" data-stopdrag="" deep="2"><div class="text-content ecom-html has-drop-cap-view-framed ecom-view-more-enable">The sofa I purchased is amazing! The material is super comfortable and it brightens up my entire living room. Couldn’t be happier!</div></div></div> <div class="ecom-block ecom-core core__block elmspace ecom-wop1wponu7k" data-core-is="block"><div class="ecom__element ecom-element element__divi" deep="2"><div class="ecom__element-divi" style="--divi-line-height: 1px;"><div class="divi-line divi-style" style="display: block;"></div><div class="divi-cont" style="--flex-desktop: 0.5; --flex-tablet: 0.5; --flex-mobile: 0.5; --divider-width: auto; --divider-width-tablet: auto; --divider-width-mobile: auto; display: none;"><div class="divi-cont-before divi-style" style="display: block;"></div><div class="divi-cont-after divi-style" style="display: block;"></div></div></div></div></div> <div class="ecom-block ecom-core core__block elmspace ecom-dv2i41v7jns" data-core-is="block"><div class="ecom-element ecom-base-image" deep="2"><figure><div class="ecom-container-image ecom-image-align" data-stopdrag=""><div data-stopdrag="" data-notice-content="This image is for preview only" class="ecom-image-content-position ecom-image-default ecom-base-image-container-overlay" style=""><picture class="ecom-image-picture"><img fetchpriority="low" src="https://cdn.shopify.com/s/files/1/0623/8303/0317/files/ecom-no-replace-897bx47RKyavt.png?v=1731461880" alt="ecom-no-replace-897bx47RKyavt" width="80" height="80" style=""></picture></div></div></figure></div></div> <div class="ecom-block ecom-core core__block elmspace ecom-a619so34iuk" data-core-is="block"><div class="ecom__element ecom-element element__text" data-stopdrag="" deep="2"><div class="text-content ecom-html has-drop-cap-view-framed ecom-view-more-enable">Terri N</div></div></div> <div class="ecom-block ecom-core core__block elmspace ecom-itjhpuyih3s" data-core-is="block"><div class="ecom-element ecom-base-iconlist" deep="2"><ul class="ecom-iconlist--list" data-layout="inline"><li class="ecom-iconlist--item ecom-html"><div class="ecom-iconlist--container"><span class="ecom-iconlist--icon" data-image="false"><svg width="19" height="19" viewBox="0 0 19 19" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M8.18311 12.354C8.01567 12.354 7.8566 12.287 7.73939 12.1698L5.71334 10.1437C5.47055 9.90094 5.47055 9.49908 5.71334 9.25629C5.95613 9.0135 6.35799 9.0135 6.60078 9.25629L8.18311 10.8386L11.7831 7.23861C12.0259 6.99582 12.4278 6.99582 12.6706 7.23861C12.9133 7.4814 12.9133 7.88326 12.6706 8.12605L8.62683 12.1698C8.50962 12.287 8.35055 12.354 8.18311 12.354Z" fill="#4D8036"></path><path d="M9.19601 18.7C8.66857 18.7 8.14113 18.5242 7.73089 18.1726L6.4081 17.034C6.27415 16.9168 5.93926 16.7995 5.76345 16.7995H4.32345C3.08438 16.7995 2.07973 15.7949 2.07973 14.5558V13.1242C2.07973 12.9484 1.96252 12.6219 1.84531 12.4879L0.715079 11.1568C0.0285674 10.3447 0.0285674 9.06373 0.715079 8.25164L1.84531 6.92048C1.96252 6.78652 2.07973 6.46001 2.07973 6.2842V4.8442C2.07973 3.60513 3.08438 2.60048 4.32345 2.60048H5.77182C5.94764 2.60048 6.28253 2.4749 6.41648 2.36606L7.73926 1.22745C8.55973 0.524198 9.84066 0.524198 10.6611 1.22745L11.9839 2.36606C12.1179 2.48327 12.4528 2.60048 12.6286 2.60048H14.0518C15.2909 2.60048 16.2955 3.60513 16.2955 4.8442V6.26745C16.2955 6.44327 16.4211 6.77815 16.5383 6.91211L17.6769 8.2349C18.3802 9.05536 18.3802 10.3363 17.6769 11.1568L16.5383 12.4795C16.4211 12.6135 16.2955 12.9484 16.2955 13.1242V14.5475C16.2955 15.7865 15.2909 16.7912 14.0518 16.7912H12.6286C12.4528 16.7912 12.1179 16.9168 11.9839 17.0256L10.6611 18.1642C10.2509 18.5242 9.72345 18.7 9.19601 18.7ZM4.32345 3.85629C3.77926 3.85629 3.33554 4.30001 3.33554 4.8442V6.27583C3.33554 6.75304 3.1095 7.3642 2.79973 7.7242L1.6695 9.05536C1.37647 9.39862 1.37647 9.99304 1.6695 10.3363L2.79973 11.6675C3.1095 12.0358 3.33554 12.6386 3.33554 13.1158V14.5475C3.33554 15.0916 3.77926 15.5354 4.32345 15.5354H5.77182C6.2574 15.5354 6.86857 15.7614 7.23694 16.0795L8.55973 17.2182C8.90299 17.5112 9.50578 17.5112 9.84903 17.2182L11.1718 16.0795C11.5402 15.7698 12.1514 15.5354 12.6369 15.5354H14.0602C14.6044 15.5354 15.0481 15.0916 15.0481 14.5475V13.1242C15.0481 12.6386 15.2741 12.0275 15.5923 11.6591L16.7309 10.3363C17.0239 9.99304 17.0239 9.39024 16.7309 9.04699L15.5923 7.7242C15.2741 7.35583 15.0481 6.74466 15.0481 6.25908V4.8442C15.0481 4.30001 14.6044 3.85629 14.0602 3.85629H12.6369C12.1514 3.85629 11.5402 3.63024 11.1718 3.31211L9.84903 2.1735C9.50578 1.88048 8.90299 1.88048 8.55973 2.1735L7.23694 3.32048C6.86857 3.63024 6.24903 3.85629 5.77182 3.85629H4.32345Z" fill="#4D8036"></path></svg></span><div class="ecom-iconlist-content"><p class="ecom-iconlist--title">Verified Buyer</p></div></div></li></ul></div></div> </div></div></div></div> </div><div class="ecom-section__overlay"><div class="ecom-overlay"></div></div> </div></div> </div></div></div></div></div></div></div><div class="ecom-swiper-navigation-position" data-position="center"><button type="button" class="ecom-swiper-button ecom-swiper-button-prev" style="--ecom-position: absolute; --ecom-position__tablet: absolute; --ecom-position__mobile: absolute;"><svg xmlns="http: //www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-left"><polyline points="15 18 9 12 15 6"></polyline></svg></button><button type="button" class="ecom-swiper-button ecom-swiper-button-next" style="--ecom-position: absolute; --ecom-position__tablet: absolute; --ecom-position__mobile: absolute;"><svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg></button></div><div class="ecom-swiper-pagination-position ecom-swiper-pagination" style="display: none;"></div></div></div> </div></div></div> </div></div></div></div> </div><div class="ecom-section__overlay"><div class="ecom-overlay"></div></div> </section><section class="ecom-row ecom-core ecom-section ecom-ruvgx2sw06g" data-id="ecom-ruvgx2sw06g" data-notice-content="This image is for preview only" style="z-index: inherit;"><div data-deep="1" class="core__row--columns"><div class="ecom-column ecom-core core__column--first core__column--last ecom-30br3i32mho"><div class="core__column--wrapper"><div class="ecom-column__overlay"><div class="ecom-overlay"></div></div><div class="core__blocks" index="0"><div class="core__blocks--body"><div class="ecom-block ecom-core core__block elmspace ecom-cg172jiyy05" data-core-is="row"><div class="ecom-row ecom-core core__block ecom-heqn92kv3qb" data-id="ecom-heqn92kv3qb" data-notice-content="This image is for preview only" style="z-index: inherit;"><div data-deep="2" class="core__row--columns"><div class="ecom-column ecom-core core__column--first core__column--last ecom-i1saz2qku1"><div class="core__column--wrapper"><div class="ecom-column__overlay"><div class="ecom-overlay"></div></div><div class="core__blocks" index="0"><div class="core__blocks--body"><div class="ecom-block ecom-core core__block elmspace ecom-19ohv0dx1cch" data-core-is="block"><div class="ecom__element element__heading ecom-element ecom-html" data-stopdrag="true" deep="2"><h3 class="ecom__heading ecom-db">Holiday Special: Save 30% for Christmas!</h3></div></div> </div></div></div></div> </div><div class="ecom-section__overlay"><div class="ecom-overlay"></div></div> </div></div> <div class="ecom-block ecom-core core__block elmspace ecom-1dsgu0o3ly2" data-core-is="row"><div class="ecom-row ecom-core core__block ecom-npvqbbxxeti" data-id="ecom-npvqbbxxeti" data-notice-content="This image is for preview only" style="z-index: inherit;"><div data-deep="2" class="core__row--columns"><div class="ecom-column ecom-core core__column--first ecom-uac8nl1ils8"><div class="core__column--wrapper"><div class="ecom-column__overlay"><div class="ecom-overlay"></div></div><div class="core__blocks" index="0"><div class="core__blocks--body"><div class="ecom-block ecom-core core__block elmspace ecom-3pgs3uwp18u" data-core-is="block"><div class="ecom__element ecom-element element__text" data-stopdrag="" deep="2"><div class="text-content ecom-html has-drop-cap-view-framed">Low Stock Alert: Only 10 Left – Order Now to Get It in Time for Christmas!</div></div></div> <div class="ecom-block ecom-core core__block elmspace ecom-x7e2o3agx1q" data-core-is="block"><div class="ecom-element ecom-base-elements ecom-element__countdown" deep="2"><div class="ecom-element__countdown-wrapper ecom-flex"><div class="ecom-element__countdown-container"><div class="ecom-element__countdown--time" data-countdown-to="2024/12/31 12:30 GMT+0700" data-countdown-from="2024/12/20 12:30 GMT+0700" data-evergreen-cd-time="0:0:0" data-evergreen-redirect-url="" data-evergreen-restart="{&quot;type&quot;:&quot;&quot;,&quot;data&quot;:&quot;0:0:0&quot;}" data-countdown-type="time" data-trans-week="[%-W] week%!W" data-trans-day="[%d] :" data-trans-hour="[%-H] :" data-trans-minute="[%-M] :" data-trans-second="[%-S]" data-show-fields="day,hour,minute,second"></div><div class="ecom-countdown-progress-bar"><div class="ecom-countdown-progress-bar--timer"></div></div></div></div></div></div> <div class="ecom-block ecom-core core__block elmspace ecom-byfceq991ep" data-core-is="block"><div class="ecom__element ecom-element-button ecom-button-default" deep="2"><a class="ecom__element--button ecom-flex ecom-fl_center ecom-al_center" href="{{ecom_root_url}}products/8-tier-rotating-shoe-rack"><span class="ecom__element--button-icon-text">Shop Now and Save!</span><span class="ecom-button-icon ecom__element--button-icon"></span></a></div></div> </div></div></div></div> <div class="ecom-column ecom-core core__column--last ecom-25q3vrbzcw"><div class="core__column--wrapper"><div class="ecom-column__overlay"><div class="ecom-overlay"></div></div><div class="core__blocks" index="1"><div class="core__blocks--body"><div class="ecom-block ecom-core core__block elmspace ecom-0hy7zdwkcuko" data-core-is="block"><div class="ecom-element ecom-base-image" deep="2"><figure><div class="ecom-container-image ecom-image-align" data-stopdrag=""><div data-stopdrag="" data-notice-content="This image is for preview only" class="ecom-image-content-position ecom-image-default ecom-base-image-container-overlay" style=""><picture class="ecom-image-picture"><img fetchpriority="low" src="https://cdn.shopify.com/s/files/1/0730/3951/1836/files/shoe_rack_sapin.jpg?v=1734445635" alt="shoe_rack_sapin" width="1024" height="768" style=""></picture></div></div></figure></div></div> </div></div></div></div> </div><div class="ecom-section__overlay"><div class="ecom-overlay"></div></div> </div></div> </div></div></div></div> </div><div class="ecom-section__overlay"><div class="ecom-overlay"></div></div> </section><section class="ecom-animation ecom-row ecom-core ecom-section ecom-dc2w9fxzhnt" data-id="ecom-dc2w9fxzhnt" data-notice-content="This image is for preview only" style="z-index: inherit;"><div data-deep="1" class="core__row--columns"><div class="ecom-column ecom-core core__column--first core__column--last ecom-o4u7vzn1k3f"><div class="core__column--wrapper"><div class="ecom-column__overlay"><div class="ecom-overlay"></div></div><div class="core__blocks" index="0"><div class="core__blocks--body"><div class="ecom-block ecom-core core__block elmspace ecom-3lrz91edogh" data-core-is="block"><div class="ecom__element ecom-element element__featured ecom-html" deep="1"><div class="element__featured--wrapper"><div class="element__featured--box"><div data-notice-content="This image is for preview only" class="ecom-image-align ecom-flex" href="#"><figure class="element__featured--box-img ecom-image-default"><img  alt="ecom-no-replace-Kv2168oUKPVector" src="https://cdn.shopify.com/s/files/1/0623/8303/0317/files/ecom-no-replace-Kv2168oUKPVector.png?v=1731662906"></figure></div><div class="element__featured--box-content ecom-w__full"><h2 class="element__featured--box-title" href="#">Free Shipping</h2><div class="element__featured--box-text"><div>Enjoy free shipping on all orders, straight to your door.</div></div><div class="ecom-button-default"></div></div></div><div class="element__featured--box"><div data-notice-content="This image is for preview only" class="ecom-image-align ecom-flex" href="#"><figure class="element__featured--box-img ecom-image-default"><img  alt="ecom-no-replace-H2I0YSKbgLProduct_Return" src="https://cdn.shopify.com/s/files/1/0623/8303/0317/files/ecom-no-replace-H2I0YSKbgLProduct_Return.png?v=1731662921"></figure></div><div class="element__featured--box-content ecom-w__full"><h2 class="element__featured--box-title" href="#">Easy Returns</h2><div class="element__featured--box-text"><div>Hassle-free returns for a worry-free shopping experience.</div></div><div class="ecom-button-default"></div></div></div><div class="element__featured--box"><div data-notice-content="This image is for preview only" class="ecom-image-align ecom-flex" href="#"><figure class="element__featured--box-img ecom-image-default"><img  alt="ecom-no-replace-pmn5FPXyDoGroup" src="https://cdn.shopify.com/s/files/1/0623/8303/0317/files/ecom-no-replace-pmn5FPXyDoGroup.png?v=1731662933"></figure></div><div class="element__featured--box-content ecom-w__full"><h2 class="element__featured--box-title" href="#">24/7 Support</h2><div class="element__featured--box-text"><div>Shop with confidence, covered by our one-year warranty.</div></div><div class="ecom-button-default"></div></div></div></div></div></div> </div></div></div></div> </div><div class="ecom-section__overlay"><div class="ecom-overlay"></div></div> </section><section class="ecom-row ecom-core ecom-section ecom-o0fxs1b9y0s" data-id="ecom-o0fxs1b9y0s" data-notice-content="This image is for preview only" style="z-index: inherit;"><div data-deep="1" class="core__row--columns"><div class="ecom-column ecom-core core__column--first core__column--last ecom-06juuhwdtt19"><div class="core__column--wrapper"><div class="ecom-column__overlay"><div class="ecom-overlay"></div></div><div class="core__blocks" index="0"><div class="core__blocks--body"><div class="ecom-block ecom-core core__block elmspace ecom-569w6xn9bm8" data-core-is="group"><div class="ecom-core ecom-group core__block ecom-tg9oo9l44f"> <div class="core__group--wrapper ecom-accordion__wrapper ecom-flex ecom-column ecom-w__full ecom__element ecom__accordion" data-r="" style=""><div class="core__group--items"><div id="ecom-0le24n5zxqho" class="core__group--item ecom-accordion__item ecom-item-active ecom-item-group-init" data-id="ecom-0le24n5zxqho"><div class="ecom-accordion__title ecom-flex ecom-w__full ecom-al_center ecom-items ecom-item-active" data-target="#undefined"><div class="ecom-accordion_nav--icon ecom-items--icon" style="order: 1;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M488 231.1C501.3 231.1 512 242.7 512 255.1C512 269.3 501.3 279.1 488 279.1H280V488C280 501.3 269.3 512 255.1 512C242.7 512 231.1 501.3 231.1 488V279.1H23.1C10.74 279.1-.0006 269.3-.0006 255.1C-.0006 242.7 10.74 231.1 23.1 231.1H231.1V24C231.1 10.75 242.7 0 255.1 0C269.3 0 280 10.75 280 24V231.1H488z"></path></svg></div><div class="ecom-accordion_nav--icon ecom-items--icon ecom-items-icon-active" style="order: 1;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor"><path d="M432 256C432 269.3 421.3 280 408 280H40c-13.25 0-24-10.74-24-23.99C16 242.8 26.75 232 40 232h368C421.3 232 432 242.8 432 256z"></path></svg></div><div class="ecom-accordion_wrapper-info ecom-flex ecom-al_center"><span class="ecom-items--icon ecom-accordion_icon-title" data-image="false"></span><h3 class="ecom-accordion__title-text ecom-items--text">Can I access the course materials even after the course has ended?</h3></div></div><div class="core__group--body ecom-accordion__body"><div class="core__blocks" index="0"><div class="core__blocks--body"><div class="ecom-block ecom-core core__block elmspace ecom-uv287bhdu8b" data-core-is="block"><div class="ecom__element ecom-element element__text" data-stopdrag="" deep="1"><div class="text-content ecom-html has-drop-cap-view-framed ecom-view-more-enable">It depends on the online course platform and the instructor's policies. Some platforms offer lifetime access to the course materials, allowing you to revisit the content whenever you want. However, other platforms may have time-limited access. It's best to check the course details or reach out to the instructor or platform support to clarify the access duration.</div></div></div> </div></div></div></div><div id="ecom-x7yqe8kwhj" class="core__group--item ecom-accordion__item" data-id="ecom-x7yqe8kwhj"><div class="ecom-accordion__title ecom-flex ecom-w__full ecom-al_center ecom-items" data-target="#undefined"><div class="ecom-accordion_nav--icon ecom-items--icon" style="order: 1;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M488 231.1C501.3 231.1 512 242.7 512 255.1C512 269.3 501.3 279.1 488 279.1H280V488C280 501.3 269.3 512 255.1 512C242.7 512 231.1 501.3 231.1 488V279.1H23.1C10.74 279.1-.0006 269.3-.0006 255.1C-.0006 242.7 10.74 231.1 23.1 231.1H231.1V24C231.1 10.75 242.7 0 255.1 0C269.3 0 280 10.75 280 24V231.1H488z"></path></svg></div><div class="ecom-accordion_nav--icon ecom-items--icon ecom-items-icon-active" style="order: 1;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor"><path d="M432 256C432 269.3 421.3 280 408 280H40c-13.25 0-24-10.74-24-23.99C16 242.8 26.75 232 40 232h368C421.3 232 432 242.8 432 256z"></path></svg></div><div class="ecom-accordion_wrapper-info ecom-flex ecom-al_center"><span class="ecom-items--icon ecom-accordion_icon-title" data-image="false"></span><h3 class="ecom-accordion__title-text ecom-items--text">Are there any prerequisites for enrolling in the course?</h3></div></div><div class="core__group--body ecom-accordion__body"><div class="core__blocks" index="1"><div class="core__blocks--body"><div class="ecom-block ecom-core core__block elmspace ecom-jjmkp900qqd" data-core-is="block"><div class="ecom__element ecom-element element__text" data-stopdrag="" deep="1"><div class="text-content ecom-html has-drop-cap-view-framed ecom-view-more-enable">Prerequisites vary depending on the course. Some courses may have specific requirements, such as prior knowledge in a particular subject or a certain level of experience. These prerequisites are usually mentioned in the course description. If you're unsure, it's recommended to review the course details or contact the instructor for clarification.</div></div></div> </div></div></div></div><div id="ecom-u9887ejbef8" class="core__group--item ecom-accordion__item" data-id="ecom-u9887ejbef8"><div class="ecom-accordion__title ecom-flex ecom-w__full ecom-al_center ecom-items" data-target="#undefined"><div class="ecom-accordion_nav--icon ecom-items--icon" style="order: 1;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M488 231.1C501.3 231.1 512 242.7 512 255.1C512 269.3 501.3 279.1 488 279.1H280V488C280 501.3 269.3 512 255.1 512C242.7 512 231.1 501.3 231.1 488V279.1H23.1C10.74 279.1-.0006 269.3-.0006 255.1C-.0006 242.7 10.74 231.1 23.1 231.1H231.1V24C231.1 10.75 242.7 0 255.1 0C269.3 0 280 10.75 280 24V231.1H488z"></path></svg></div><div class="ecom-accordion_nav--icon ecom-items--icon ecom-items-icon-active" style="order: 1;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor"><path d="M432 256C432 269.3 421.3 280 408 280H40c-13.25 0-24-10.74-24-23.99C16 242.8 26.75 232 40 232h368C421.3 232 432 242.8 432 256z"></path></svg></div><div class="ecom-accordion_wrapper-info ecom-flex ecom-al_center"><span class="ecom-items--icon ecom-accordion_icon-title" data-image="false"></span><h3 class="ecom-accordion__title-text ecom-items--text">Are there any assessments or assignments in the course?</h3></div></div><div class="core__group--body ecom-accordion__body"><div class="core__blocks" index="2"><div class="core__blocks--body"><div class="ecom-block ecom-core core__block elmspace ecom-jf9zxbpg1hs" data-core-is="block"><div class="ecom__element ecom-element element__text" data-stopdrag="" deep="1"><div class="text-content ecom-html has-drop-cap-view-framed ecom-view-more-enable">Again, this depends on the course. Many online courses include assessments and assignments to help reinforce the learning and gauge your understanding of the material. These can be in the form of quizzes, projects, or practical exercises. Course descriptions often mention the presence of assessments, and some courses provide certificates upon successful completion of the assignments.
+</div></div></div> </div></div></div></div><div id="ecom-1tugw3pqm2x" class="core__group--item ecom-accordion__item" data-id="ecom-1tugw3pqm2x"><div class="ecom-accordion__title ecom-flex ecom-w__full ecom-al_center ecom-items" data-target="#undefined"><div class="ecom-accordion_nav--icon ecom-items--icon" style="order: 1;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M488 231.1C501.3 231.1 512 242.7 512 255.1C512 269.3 501.3 279.1 488 279.1H280V488C280 501.3 269.3 512 255.1 512C242.7 512 231.1 501.3 231.1 488V279.1H23.1C10.74 279.1-.0006 269.3-.0006 255.1C-.0006 242.7 10.74 231.1 23.1 231.1H231.1V24C231.1 10.75 242.7 0 255.1 0C269.3 0 280 10.75 280 24V231.1H488z"></path></svg></div><div class="ecom-accordion_nav--icon ecom-items--icon ecom-items-icon-active" style="order: 1;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor"><path d="M432 256C432 269.3 421.3 280 408 280H40c-13.25 0-24-10.74-24-23.99C16 242.8 26.75 232 40 232h368C421.3 232 432 242.8 432 256z"></path></svg></div><div class="ecom-accordion_wrapper-info ecom-flex ecom-al_center"><span class="ecom-items--icon ecom-accordion_icon-title" data-image="false"></span><h3 class="ecom-accordion__title-text ecom-items--text">Can I interact with the instructor or other students during the course?</h3></div></div><div class="core__group--body ecom-accordion__body"><div class="core__blocks" index="3"><div class="core__blocks--body"><div class="ecom-block ecom-core core__block elmspace ecom-q72igh4zxqs" data-core-is="block"><div class="ecom__element ecom-element element__text" data-stopdrag="" deep="1"><div class="text-content ecom-html has-drop-cap-view-framed ecom-view-more-enable">Most online courses provide avenues for interaction with instructors and fellow students. This can be in the form of discussion forums, live Q&amp;A sessions, or dedicated community platforms. The level of interaction varies across courses, so it's worth checking if the course offers opportunities to connect with instructors or fellow learners if that's something you value.
+</div></div></div> </div></div></div></div></div></div> </div></div> </div></div></div></div> </div><div class="ecom-section__overlay"><div class="ecom-overlay"></div></div> </section><section class="ecom-row ecom-core ecom-section ecom-cwittua1y7s" data-id="ecom-cwittua1y7s" data-notice-content="This image is for preview only" style="z-index: inherit;"><div data-deep="1" class="core__row--columns"><div class="ecom-column ecom-core core__column--first ecom-46w9fgx1zbo"><div class="core__column--wrapper"><div class="ecom-column__overlay"><div class="ecom-overlay"></div></div><div class="core__blocks" index="0"><div class="core__blocks--body"><div class="ecom-block ecom-core core__block elmspace ecom-im6uzopqozl" data-core-is="block"><div class="ecom-element ecom-base-image" deep="1"><figure><div class="ecom-container-image ecom-image-align" data-stopdrag=""><div data-stopdrag="" data-notice-content="This image is for preview only" class="ecom-image-content-position ecom-image-default ecom-base-image-container-overlay" style=""><picture class="ecom-image-picture"><img  loading="lazy" fetchpriority="low" src="https://cdn.shopify.com/s/files/1/0623/8303/0317/files/ecom-no-replace-4gTn4npkD5Vector.png?v=1731997525" alt="ecom-no-replace-4gTn4npkD5Vector" width="212" height="52" style=""></picture></div></div></figure></div></div> <div class="ecom-block ecom-core core__block ecom-a9deu9epzfw" data-core-is="block"><div class="ecom__element ecom-element element__text" data-stopdrag="" deep="1"><div class="text-content ecom-html has-drop-cap-view-framed ecom-view-more-enable">Email: clientcare@ecom.com<div>Phone: 1.888.838.3022<br></div></div></div></div> <div class="ecom-block ecom-core core__block ecom-jxdd1wc6ox" data-core-is="block"><div class="ecom__element ecom-element element__text" data-stopdrag="" deep="1"><div class="text-content ecom-html has-drop-cap-view-framed ecom-view-more-enable">Sign up for sale, new arrivals &amp; more</div></div></div> <div class="ecom-block ecom-core core__block ecom-8g3ux0bht06" data-core-is="block"><div class="ecom-element ecom-shopify-elements ecom-shopify__newsletter-form" deep="1"><div class="ecom-shopify__newsletter-form-wrapper ecom-w__full"><div class="ecom-shopify__newsletter-form-container"><div>
+ {% form 'customer', action:'/contact', class: 'ecom-shopify__newsletter-form' ,id:'newsletter-form-ecom-8g3ux0bht06' %}
+ <input type="hidden" name="contact[tags]" value="newsletter" />
+ <div class="ecom-newsletter-form-content-wrap">
+ <div class="ecom-newsletter-form-content ">
+ {%- if false-%}
+ 
+ <input
+ id="ECom-NewsletterForm-ecom-8g3ux0bht06"
+ type="email"
+ name="contact[email]"
+ class="ecom-shopify__newsletter-form-field--input"
+ value="{{ form.email }}"
+ aria-required="true"
+ autocorrect="off"
+ autocapitalize="off"
+ autocomplete="email"
+ {% if form.errors %}
+ aria-invalid="true"
+ {% endif %}
+ placeholder="Email address"
+ required
+ >
+ 
+ {% else %}
+ <input
+ id="ECom-NewsletterForm-ecom-8g3ux0bht06"
+ type="email"
+ name="contact[email]"
+ class="ecom-shopify__newsletter-form-field--input"
+ value="{{ form.email }}"
+ aria-required="true"
+ autocorrect="off"
+ autocapitalize="off"
+ autocomplete="email"
+ {% if form.errors %}
+ aria-invalid="true"
+ {% endif %}
+ placeholder="Email address"
+ required
+ >
+ {%- endif -%}
+ 
+ <div class="ecome-shopify__newsletter_button-submit-wrapper">
+ <button type="submit" class="ecome-shopify__newsletter__button" name="commit">
+ <span> Sign up </span>
+ <span class="ecom-shopify__newsletter__button-icon"> </span>
+ </button>
+ </div>
+ </div>
+ 
+ </div>
+ 
+ 
+ {%- if form.posted_successfully? or EComBuilderMode == true and false -%}
+ <div class="ecom-shopify__newsletter-form-success" {% unless EComBuilderMode %}tabindex="-1"{% endunless %}>
+ Subscribed successfully!
+ </div>
+ {%- endif -%}
+ {%- if form.errors or EComBuilderMode == true and false -%}
+ <div class="ecom-shopify__newsletter-form-message">
+ <h2 class="ecom-shopify__newsletter-form-status-error" role="alert" {% unless EComBuilderMode %}tabindex="-1"{% endunless %}>
+ Opps!. An error has occurred
+ </h2>
+ <p class="ecom-shopify__newsletter-form-detail-error">
+ {% if EComBuilderMode %}
+ This is example error text when missing email field
+ {% endif %}
+ {{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}
+ </p>
+ </div>
+ {%- endif -%}
+ <div class="ecom-shopify__newsletter-form-message ecom-dn">
+ <p class="ecom-shopify__newsletter-form-detail-error">
+ Email have already subscribed!
+ </p>
+ </div>
+ {% endform %}
+ </div></div></div></div></div> </div></div></div></div> <div class="ecom-column ecom-core ecom-lwzfceaqfvk"><div class="core__column--wrapper"><div class="ecom-column__overlay"><div class="ecom-overlay"></div></div><div class="core__blocks" index="1"><div class="core__blocks--body"><div class="ecom-block ecom-core core__block elmspace ecom-d0ohcrgbtin" data-core-is="row"><div class="ecom-row ecom-core core__block ecom-vp07di9155" data-id="ecom-vp07di9155" data-notice-content="This image is for preview only" style="z-index: inherit;"><div data-deep="2" class="core__row--columns"><div class="ecom-column ecom-core core__column--first ecom-1p6a4sels8s"><div class="core__column--wrapper"><div class="ecom-column__overlay"><div class="ecom-overlay"></div></div><div class="core__blocks" index="0"><div class="core__blocks--body"><div class="ecom-block ecom-core core__block elmspace ecom-67xgg3cgfet" data-core-is="block"><div class="ecom__element element__heading ecom-element ecom-html" data-stopdrag="true" deep="2"><h3 class="ecom__heading ecom-db">About us</h3></div></div> <div class="ecom-block ecom-core core__block ecom-nazk43t9ox8" data-core-is="block"><div class="ecom-element ecom-shopify ecom-shopify__menu" deep="2"><div class="ecom-element ecom-shopify ecom-shopify__menu-wrapper" data-show-all="false"><div class="ecom-element ecom-shopify ecom-shopify__menu-container">
+ {%- capture link_handle -%}about-us{%- endcapture -%}
+ {%- unless link_handle == empty -%}
+ {%- assign menu = linklists[link_handle] -%}
+ {% if menu == blank %}
+ {%- assign menu = linklists['main-menu'] -%}
+ {% endif %}
+ {%- capture show_humber -%}false{%- endcapture -%}
+ {%- capture icon_menu -%}<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" fill="currentColor"><path d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z"></path></svg>{%- endcapture -%}
+ {%- capture icon_menu_active -%}<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" fill="currentColor"><path d="M352 352c-8.188 0-16.38-3.125-22.62-9.375L192 205.3l-137.4 137.4c-12.5 12.5-32.75 12.5-45.25 0s-12.5-32.75 0-45.25l160-160c12.5-12.5 32.75-12.5 45.25 0l160 160c12.5 12.5 12.5 32.75 0 45.25C368.4 348.9 360.2 352 352 352z"></path></svg>{%- endcapture -%}
+ {%- if show_humber == 'true' -%}
+ <div class="ecom-menu__icon-humber--wrapper">
+ <div class="ecom-menu__icon-humber">
+ <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+ </div>
+ </div>
+ <div class="ecom-shopify__menu-list--mobile--wrapper">
+ <ul class="ecom-shopify__menu-list--mobile" data-show-humber="undefined">
+ <div class="modal-header">
+ <span class="ecom-menu-collapse-close--mobile">
+ <svg
+ xmlns="http://www.w3.org/2000/svg"
+ class="w-6 h-6"
+ fill="none"
+ viewBox="0 0 24 24"
+ stroke="currentColor"
+ >
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+ </svg>
+ </span>
+ </div>
+ {% if menu and menu.links.size %}
+ {% for link in menu.links %}
+ {% assign child_link = link.links %}
+ <li class="ecom-shopify__menu-item ecom-shopify__menu-item-type--{{link.type}} {% if child_link.size > 0 %}ecom-shopify__menu-item--has-children {% else %} ecom-shopify__menu-item--link {% endif %} ">
+ <div class="ecom-menu_item ecom-items">
+ <a
+ class="ecom-menu_title ecom-element--menu_title {% if link.active or link.child_active %} ecom-shopify__menu-item--active ecom-text-active {% endif %}"
+ href="{{link.url}}"
+ title="{{link.title | escape }}"
+ target="_self"
+ >
+ {{ link.title }}
+ {%- if link.levels > 0 -%}
+ <div class="ecom-element--menu_icon">
+ <div class="ecom-items--icon ecom-element--menu_icon--normal">
+ {{ icon_menu }}
+ </div>
+ <div class="ecom-items--icon ecom-element--menu_icon--active">
+ {{ icon_menu_active }}
+ </div>
+ </div>
+ {%- endif -%}
+ </a>
+ </div>
+ {% if child_link.size > 0 %}
+ <ul
+ class="ecom-shopify__menu-sub-menu"
+ data-menu-size="{{child_link.size}}"
+ data-menu-level="{{child_link.level}}"
+ >
+ {% for child in child_link %}
+ {% assign grand_link = child.links %}
+ <li class="ecom-shopify__menu-child-link-item ecom-shopify__menu-child-link-item-type--{{child.type}} {% if grand_link.size > 0 %}ecom-shopify__menu-child-link-item--has-children {% else %} ecom-shopify__menu-item--link {% endif %} {% if child.active or child.child_active%} ecom-shopify__menu-child-link-item--active ecom-text-active{% endif %}">
+ <div class="ecom-menu_item ecom-items">
+ <a
+ class="ecom-menu_title ecom-element--menu_title"
+ href="{{child.url}}"
+ title="{{child.title | escape }}"
+ target="_self"
+ >
+ {{ child.title }}
+ {%- if child.levels > 0 -%}
+ <div class="ecom-element--menu_icon">
+ <div class="ecom-items--icon ecom-element--menu_icon--normal">
+ {{ icon_menu }}
+ </div>
+ <div class="ecom-items--icon ecom-element--menu_icon--active">
+ {{ icon_menu_active }}
+ </div>
+ </div>
+ {%- endif -%}
+ </a>
+ </div>
+ {% if grand_link.size > 0 %}
+ <ul
+ class="ecom-shopify__menu-sub-menu"
+ data-menu-size="{{grand_link.size}}"
+ data-menu-level="{{child_link.level}}"
+ >
+ {% for grand in grand_link %}
+ <li class="ecom-shopify__menu-grand-link-item ecom-menu_item ecom-items ecom-shopify__menu-grand-link-item-type--{{grand.type}} {% if grand.active or grand.child_active %}ecom-shopify__menu-grand-link-item--active ecom-text-active{% endif %}">
+ <a
+ class="ecom-menu_title ecom-element--menu_title"
+ href="{{grand.url}}"
+ title="{{grand.title | escape }}"
+ target="_self"
+ >
+ {{ grand.title }}
+ </a>
+ </li>
+ {% endfor %}
+ </ul>
+ {%- endif -%}
+ </li>
+ {% endfor %}
+ </ul>
+ {% endif %}
+ </li>
+ {% endfor %}
+ {% endif %}
+ </ul>
+ </div>
+ {%- endif -%}
+ <div class="ecom-shopify__menu-list--wrapper ecom-flex">
+ <ul class="ecom-shopify__menu-list" data-menu-layout="vertical">
+ {% if menu and menu.links.size %}
+ {% for link in menu.links %}
+ {% assign child_link = link.links %}
+ <li class="ecom-shopify__menu-item ecom-shopify__menu-item-type--{{link.type}} {% if child_link.size > 0 %}ecom-shopify__menu-item--has-children {% else %} ecom-shopify__menu-item--link {% endif %}">
+ <div class="ecom-menu_item ecom-items">
+ <a
+ class="ecom-menu_title ecom-element--menu_title {% if link.active or link.child_active %} ecom-shopify__menu-item--active ecom-text-active {% endif %}"
+ href="{{link.url}}"
+ title="{{link.title | escape }}"
+ target="_self"
+ >
+ {{ link.title }}
+ {%- if link.levels > 0 -%}
+ <div class="ecom-element--menu_icon">
+ <div class="ecom-items--icon ecom-element--menu_icon--normal">
+ {{ icon_menu }}
+ </div>
+ <div class="ecom-items--icon ecom-element--menu_icon--active">
+ {{ icon_menu_active }}
+ </div>
+ </div>
+ {%- endif -%}
+ </a>
+ </div>
+ {% if child_link.size > 0 %}
+ {%- capture layout -%}
+ vertical
+ {%- endcapture -%}
+ <ul
+ class="ecom-shopify__menu-sub-menu"
+ data-menu-size="{{child_link.size}}"
+ data-menu-level="{{child_link.level}}"
+ >
+ {% for child in child_link %}
+ {% assign grand_link = child.links %}
+ <li class="ecom-shopify__menu-child-link-item ecom-shopify__menu-child-link-item-type--{{child.type}} {% if grand_link.size > 0 %}ecom-shopify__menu-child-link-item--has-children {% else %} ecom-shopify__menu-item--link {% endif %}">
+ <div class="ecom-menu_item ecom-items">
+ <a
+ class="ecom-menu_title ecom-element--menu_title"
+ href="{{child.url}}"
+ title="{{child.title | escape }}"
+ target="_self"
+ >
+ {{ child.title }}
+ {%- if child.levels > 0 -%}
+ <div class="ecom-element--menu_icon">
+ <div class="ecom-items--icon ecom-element--menu_icon--normal">
+ {{ icon_menu }}
+ </div>
+ <div class="ecom-items--icon ecom-element--menu_icon--active">
+ {{ icon_menu_active }}
+ </div>
+ </div>
+ {%- endif -%}
+ </a>
+ {% if grand_link.size > 0 and layout == 'horizontal' %}
+ {% for grand in grand_link %}
+ <a
+ class="ecom-menu_title ecom-element--menu_title {% if grand.active %} ecom-shopify__menu-child-link-item--active ecom-text-active{% endif %}"
+ href="{{grand.url}}"
+ title="{{grand.title | escape }}"
+ target="_self"
+ >
+ {{ grand.title }}
+ </a>
+ {% endfor %}
+ {% endif %}
+ </div>
+ {% if grand_link.size > 0 and layout == 'vertical' %}
+ <ul
+ class="ecom-shopify__menu-sub-menu"
+ data-menu-size="{{grand_link.size}}"
+ data-menu-level="{{child_link.level}}"
+ >
+ {% for grand in grand_link %}
+ <li class="ecom-shopify__menu-grand-link-item ecom-menu_item ecom-items ecom-shopify__menu-grand-link-item-type--{{grand.type}} {% if grand.active or grand.child_active %}ecom-shopify__menu-grand-link-item--active ecom-text-active{% endif %}">
+ <a
+ class="ecom-menu_title ecom-element--menu_title"
+ href="{{grand.url}}"
+ title="{{grand.title | escape }}"
+ target="_self"
+ >
+ {{ grand.title }}
+ </a>
+ </li>
+ {% endfor %}
+ </ul>
+ {%- endif -%}
+ </li>
+ {% endfor %}
+ </ul>
+ {% endif %}
+ </li>
+ {% endfor %}
+ {% endif %}
+ </ul>
+ </div>
+ {% else %}
+ <p>Select a menu to show</p>
+ {%- endunless -%}
+ </div></div></div></div> </div></div></div></div> <div class="ecom-column ecom-core ecom-1t82ouzmig1i"><div class="core__column--wrapper"><div class="ecom-column__overlay"><div class="ecom-overlay"></div></div><div class="core__blocks" index="1"><div class="core__blocks--body"><div class="ecom-block ecom-core core__block elmspace ecom-uswzzzavdl" data-core-is="block"><div class="ecom__element element__heading ecom-element ecom-html" data-stopdrag="true" deep="2"><h3 class="ecom__heading ecom-db">Resource</h3></div></div> <div class="ecom-block ecom-core core__block ecom-ocp3ux280fn" data-core-is="block"><div class="ecom-element ecom-shopify ecom-shopify__menu" deep="2"><div class="ecom-element ecom-shopify ecom-shopify__menu-wrapper" data-show-all="false"><div class="ecom-element ecom-shopify ecom-shopify__menu-container">
+ {%- capture link_handle -%}help{%- endcapture -%}
+ {%- unless link_handle == empty -%}
+ {%- assign menu = linklists[link_handle] -%}
+ {% if menu == blank %}
+ {%- assign menu = linklists['main-menu'] -%}
+ {% endif %}
+ {%- capture show_humber -%}false{%- endcapture -%}
+ {%- capture icon_menu -%}<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" fill="currentColor"><path d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z"></path></svg>{%- endcapture -%}
+ {%- capture icon_menu_active -%}<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" fill="currentColor"><path d="M352 352c-8.188 0-16.38-3.125-22.62-9.375L192 205.3l-137.4 137.4c-12.5 12.5-32.75 12.5-45.25 0s-12.5-32.75 0-45.25l160-160c12.5-12.5 32.75-12.5 45.25 0l160 160c12.5 12.5 12.5 32.75 0 45.25C368.4 348.9 360.2 352 352 352z"></path></svg>{%- endcapture -%}
+ {%- if show_humber == 'true' -%}
+ <div class="ecom-menu__icon-humber--wrapper">
+ <div class="ecom-menu__icon-humber">
+ <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+ </div>
+ </div>
+ <div class="ecom-shopify__menu-list--mobile--wrapper">
+ <ul class="ecom-shopify__menu-list--mobile" data-show-humber="undefined">
+ <div class="modal-header">
+ <span class="ecom-menu-collapse-close--mobile">
+ <svg
+ xmlns="http://www.w3.org/2000/svg"
+ class="w-6 h-6"
+ fill="none"
+ viewBox="0 0 24 24"
+ stroke="currentColor"
+ >
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+ </svg>
+ </span>
+ </div>
+ {% if menu and menu.links.size %}
+ {% for link in menu.links %}
+ {% assign child_link = link.links %}
+ <li class="ecom-shopify__menu-item ecom-shopify__menu-item-type--{{link.type}} {% if child_link.size > 0 %}ecom-shopify__menu-item--has-children {% else %} ecom-shopify__menu-item--link {% endif %} ">
+ <div class="ecom-menu_item ecom-items">
+ <a
+ class="ecom-menu_title ecom-element--menu_title {% if link.active or link.child_active %} ecom-shopify__menu-item--active ecom-text-active {% endif %}"
+ href="{{link.url}}"
+ title="{{link.title | escape }}"
+ target="_self"
+ >
+ {{ link.title }}
+ {%- if link.levels > 0 -%}
+ <div class="ecom-element--menu_icon">
+ <div class="ecom-items--icon ecom-element--menu_icon--normal">
+ {{ icon_menu }}
+ </div>
+ <div class="ecom-items--icon ecom-element--menu_icon--active">
+ {{ icon_menu_active }}
+ </div>
+ </div>
+ {%- endif -%}
+ </a>
+ </div>
+ {% if child_link.size > 0 %}
+ <ul
+ class="ecom-shopify__menu-sub-menu"
+ data-menu-size="{{child_link.size}}"
+ data-menu-level="{{child_link.level}}"
+ >
+ {% for child in child_link %}
+ {% assign grand_link = child.links %}
+ <li class="ecom-shopify__menu-child-link-item ecom-shopify__menu-child-link-item-type--{{child.type}} {% if grand_link.size > 0 %}ecom-shopify__menu-child-link-item--has-children {% else %} ecom-shopify__menu-item--link {% endif %} {% if child.active or child.child_active%} ecom-shopify__menu-child-link-item--active ecom-text-active{% endif %}">
+ <div class="ecom-menu_item ecom-items">
+ <a
+ class="ecom-menu_title ecom-element--menu_title"
+ href="{{child.url}}"
+ title="{{child.title | escape }}"
+ target="_self"
+ >
+ {{ child.title }}
+ {%- if child.levels > 0 -%}
+ <div class="ecom-element--menu_icon">
+ <div class="ecom-items--icon ecom-element--menu_icon--normal">
+ {{ icon_menu }}
+ </div>
+ <div class="ecom-items--icon ecom-element--menu_icon--active">
+ {{ icon_menu_active }}
+ </div>
+ </div>
+ {%- endif -%}
+ </a>
+ </div>
+ {% if grand_link.size > 0 %}
+ <ul
+ class="ecom-shopify__menu-sub-menu"
+ data-menu-size="{{grand_link.size}}"
+ data-menu-level="{{child_link.level}}"
+ >
+ {% for grand in grand_link %}
+ <li class="ecom-shopify__menu-grand-link-item ecom-menu_item ecom-items ecom-shopify__menu-grand-link-item-type--{{grand.type}} {% if grand.active or grand.child_active %}ecom-shopify__menu-grand-link-item--active ecom-text-active{% endif %}">
+ <a
+ class="ecom-menu_title ecom-element--menu_title"
+ href="{{grand.url}}"
+ title="{{grand.title | escape }}"
+ target="_self"
+ >
+ {{ grand.title }}
+ </a>
+ </li>
+ {% endfor %}
+ </ul>
+ {%- endif -%}
+ </li>
+ {% endfor %}
+ </ul>
+ {% endif %}
+ </li>
+ {% endfor %}
+ {% endif %}
+ </ul>
+ </div>
+ {%- endif -%}
+ <div class="ecom-shopify__menu-list--wrapper ecom-flex">
+ <ul class="ecom-shopify__menu-list" data-menu-layout="vertical">
+ {% if menu and menu.links.size %}
+ {% for link in menu.links %}
+ {% assign child_link = link.links %}
+ <li class="ecom-shopify__menu-item ecom-shopify__menu-item-type--{{link.type}} {% if child_link.size > 0 %}ecom-shopify__menu-item--has-children {% else %} ecom-shopify__menu-item--link {% endif %}">
+ <div class="ecom-menu_item ecom-items">
+ <a
+ class="ecom-menu_title ecom-element--menu_title {% if link.active or link.child_active %} ecom-shopify__menu-item--active ecom-text-active {% endif %}"
+ href="{{link.url}}"
+ title="{{link.title | escape }}"
+ target="_self"
+ >
+ {{ link.title }}
+ {%- if link.levels > 0 -%}
+ <div class="ecom-element--menu_icon">
+ <div class="ecom-items--icon ecom-element--menu_icon--normal">
+ {{ icon_menu }}
+ </div>
+ <div class="ecom-items--icon ecom-element--menu_icon--active">
+ {{ icon_menu_active }}
+ </div>
+ </div>
+ {%- endif -%}
+ </a>
+ </div>
+ {% if child_link.size > 0 %}
+ {%- capture layout -%}
+ vertical
+ {%- endcapture -%}
+ <ul
+ class="ecom-shopify__menu-sub-menu"
+ data-menu-size="{{child_link.size}}"
+ data-menu-level="{{child_link.level}}"
+ >
+ {% for child in child_link %}
+ {% assign grand_link = child.links %}
+ <li class="ecom-shopify__menu-child-link-item ecom-shopify__menu-child-link-item-type--{{child.type}} {% if grand_link.size > 0 %}ecom-shopify__menu-child-link-item--has-children {% else %} ecom-shopify__menu-item--link {% endif %}">
+ <div class="ecom-menu_item ecom-items">
+ <a
+ class="ecom-menu_title ecom-element--menu_title"
+ href="{{child.url}}"
+ title="{{child.title | escape }}"
+ target="_self"
+ >
+ {{ child.title }}
+ {%- if child.levels > 0 -%}
+ <div class="ecom-element--menu_icon">
+ <div class="ecom-items--icon ecom-element--menu_icon--normal">
+ {{ icon_menu }}
+ </div>
+ <div class="ecom-items--icon ecom-element--menu_icon--active">
+ {{ icon_menu_active }}
+ </div>
+ </div>
+ {%- endif -%}
+ </a>
+ {% if grand_link.size > 0 and layout == 'horizontal' %}
+ {% for grand in grand_link %}
+ <a
+ class="ecom-menu_title ecom-element--menu_title {% if grand.active %} ecom-shopify__menu-child-link-item--active ecom-text-active{% endif %}"
+ href="{{grand.url}}"
+ title="{{grand.title | escape }}"
+ target="_self"
+ >
+ {{ grand.title }}
+ </a>
+ {% endfor %}
+ {% endif %}
+ </div>
+ {% if grand_link.size > 0 and layout == 'vertical' %}
+ <ul
+ class="ecom-shopify__menu-sub-menu"
+ data-menu-size="{{grand_link.size}}"
+ data-menu-level="{{child_link.level}}"
+ >
+ {% for grand in grand_link %}
+ <li class="ecom-shopify__menu-grand-link-item ecom-menu_item ecom-items ecom-shopify__menu-grand-link-item-type--{{grand.type}} {% if grand.active or grand.child_active %}ecom-shopify__menu-grand-link-item--active ecom-text-active{% endif %}">
+ <a
+ class="ecom-menu_title ecom-element--menu_title"
+ href="{{grand.url}}"
+ title="{{grand.title | escape }}"
+ target="_self"
+ >
+ {{ grand.title }}
+ </a>
+ </li>
+ {% endfor %}
+ </ul>
+ {%- endif -%}
+ </li>
+ {% endfor %}
+ </ul>
+ {% endif %}
+ </li>
+ {% endfor %}
+ {% endif %}
+ </ul>
+ </div>
+ {% else %}
+ <p>Select a menu to show</p>
+ {%- endunless -%}
+ </div></div></div></div> </div></div></div></div> <div class="ecom-column ecom-core ecom-vdhw6xyc8es"><div class="core__column--wrapper"><div class="ecom-column__overlay"><div class="ecom-overlay"></div></div><div class="core__blocks" index="2"><div class="core__blocks--body"><div class="ecom-block ecom-core core__block elmspace ecom-97infkp7vvs" data-core-is="block"><div class="ecom__element element__heading ecom-element ecom-html" data-stopdrag="true" deep="2"><h3 class="ecom__heading ecom-db">Information</h3></div></div> <div class="ecom-block ecom-core core__block ecom-b8ycgl3c03k" data-core-is="block"><div class="ecom-element ecom-shopify ecom-shopify__menu" deep="2"><div class="ecom-element ecom-shopify ecom-shopify__menu-wrapper" data-show-all="false"><div class="ecom-element ecom-shopify ecom-shopify__menu-container">
+ {%- capture link_handle -%}main-menu{%- endcapture -%}
+ {%- unless link_handle == empty -%}
+ {%- assign menu = linklists[link_handle] -%}
+ {% if menu == blank %}
+ {%- assign menu = linklists['main-menu'] -%}
+ {% endif %}
+ {%- capture show_humber -%}false{%- endcapture -%}
+ {%- capture icon_menu -%}<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" fill="currentColor"><path d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z"></path></svg>{%- endcapture -%}
+ {%- capture icon_menu_active -%}<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" fill="currentColor"><path d="M352 352c-8.188 0-16.38-3.125-22.62-9.375L192 205.3l-137.4 137.4c-12.5 12.5-32.75 12.5-45.25 0s-12.5-32.75 0-45.25l160-160c12.5-12.5 32.75-12.5 45.25 0l160 160c12.5 12.5 12.5 32.75 0 45.25C368.4 348.9 360.2 352 352 352z"></path></svg>{%- endcapture -%}
+ {%- if show_humber == 'true' -%}
+ <div class="ecom-menu__icon-humber--wrapper">
+ <div class="ecom-menu__icon-humber">
+ <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+ </div>
+ </div>
+ <div class="ecom-shopify__menu-list--mobile--wrapper">
+ <ul class="ecom-shopify__menu-list--mobile" data-show-humber="undefined">
+ <div class="modal-header">
+ <span class="ecom-menu-collapse-close--mobile">
+ <svg
+ xmlns="http://www.w3.org/2000/svg"
+ class="w-6 h-6"
+ fill="none"
+ viewBox="0 0 24 24"
+ stroke="currentColor"
+ >
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+ </svg>
+ </span>
+ </div>
+ {% if menu and menu.links.size %}
+ {% for link in menu.links %}
+ {% assign child_link = link.links %}
+ <li class="ecom-shopify__menu-item ecom-shopify__menu-item-type--{{link.type}} {% if child_link.size > 0 %}ecom-shopify__menu-item--has-children {% else %} ecom-shopify__menu-item--link {% endif %} ">
+ <div class="ecom-menu_item ecom-items">
+ <a
+ class="ecom-menu_title ecom-element--menu_title {% if link.active or link.child_active %} ecom-shopify__menu-item--active ecom-text-active {% endif %}"
+ href="{{link.url}}"
+ title="{{link.title | escape }}"
+ target="_self"
+ >
+ {{ link.title }}
+ {%- if link.levels > 0 -%}
+ <div class="ecom-element--menu_icon">
+ <div class="ecom-items--icon ecom-element--menu_icon--normal">
+ {{ icon_menu }}
+ </div>
+ <div class="ecom-items--icon ecom-element--menu_icon--active">
+ {{ icon_menu_active }}
+ </div>
+ </div>
+ {%- endif -%}
+ </a>
+ </div>
+ {% if child_link.size > 0 %}
+ <ul
+ class="ecom-shopify__menu-sub-menu"
+ data-menu-size="{{child_link.size}}"
+ data-menu-level="{{child_link.level}}"
+ >
+ {% for child in child_link %}
+ {% assign grand_link = child.links %}
+ <li class="ecom-shopify__menu-child-link-item ecom-shopify__menu-child-link-item-type--{{child.type}} {% if grand_link.size > 0 %}ecom-shopify__menu-child-link-item--has-children {% else %} ecom-shopify__menu-item--link {% endif %} {% if child.active or child.child_active%} ecom-shopify__menu-child-link-item--active ecom-text-active{% endif %}">
+ <div class="ecom-menu_item ecom-items">
+ <a
+ class="ecom-menu_title ecom-element--menu_title"
+ href="{{child.url}}"
+ title="{{child.title | escape }}"
+ target="_self"
+ >
+ {{ child.title }}
+ {%- if child.levels > 0 -%}
+ <div class="ecom-element--menu_icon">
+ <div class="ecom-items--icon ecom-element--menu_icon--normal">
+ {{ icon_menu }}
+ </div>
+ <div class="ecom-items--icon ecom-element--menu_icon--active">
+ {{ icon_menu_active }}
+ </div>
+ </div>
+ {%- endif -%}
+ </a>
+ </div>
+ {% if grand_link.size > 0 %}
+ <ul
+ class="ecom-shopify__menu-sub-menu"
+ data-menu-size="{{grand_link.size}}"
+ data-menu-level="{{child_link.level}}"
+ >
+ {% for grand in grand_link %}
+ <li class="ecom-shopify__menu-grand-link-item ecom-menu_item ecom-items ecom-shopify__menu-grand-link-item-type--{{grand.type}} {% if grand.active or grand.child_active %}ecom-shopify__menu-grand-link-item--active ecom-text-active{% endif %}">
+ <a
+ class="ecom-menu_title ecom-element--menu_title"
+ href="{{grand.url}}"
+ title="{{grand.title | escape }}"
+ target="_self"
+ >
+ {{ grand.title }}
+ </a>
+ </li>
+ {% endfor %}
+ </ul>
+ {%- endif -%}
+ </li>
+ {% endfor %}
+ </ul>
+ {% endif %}
+ </li>
+ {% endfor %}
+ {% endif %}
+ </ul>
+ </div>
+ {%- endif -%}
+ <div class="ecom-shopify__menu-list--wrapper ecom-flex">
+ <ul class="ecom-shopify__menu-list" data-menu-layout="vertical">
+ {% if menu and menu.links.size %}
+ {% for link in menu.links %}
+ {% assign child_link = link.links %}
+ <li class="ecom-shopify__menu-item ecom-shopify__menu-item-type--{{link.type}} {% if child_link.size > 0 %}ecom-shopify__menu-item--has-children {% else %} ecom-shopify__menu-item--link {% endif %}">
+ <div class="ecom-menu_item ecom-items">
+ <a
+ class="ecom-menu_title ecom-element--menu_title {% if link.active or link.child_active %} ecom-shopify__menu-item--active ecom-text-active {% endif %}"
+ href="{{link.url}}"
+ title="{{link.title | escape }}"
+ target="_self"
+ >
+ {{ link.title }}
+ {%- if link.levels > 0 -%}
+ <div class="ecom-element--menu_icon">
+ <div class="ecom-items--icon ecom-element--menu_icon--normal">
+ {{ icon_menu }}
+ </div>
+ <div class="ecom-items--icon ecom-element--menu_icon--active">
+ {{ icon_menu_active }}
+ </div>
+ </div>
+ {%- endif -%}
+ </a>
+ </div>
+ {% if child_link.size > 0 %}
+ {%- capture layout -%}
+ vertical
+ {%- endcapture -%}
+ <ul
+ class="ecom-shopify__menu-sub-menu"
+ data-menu-size="{{child_link.size}}"
+ data-menu-level="{{child_link.level}}"
+ >
+ {% for child in child_link %}
+ {% assign grand_link = child.links %}
+ <li class="ecom-shopify__menu-child-link-item ecom-shopify__menu-child-link-item-type--{{child.type}} {% if grand_link.size > 0 %}ecom-shopify__menu-child-link-item--has-children {% else %} ecom-shopify__menu-item--link {% endif %}">
+ <div class="ecom-menu_item ecom-items">
+ <a
+ class="ecom-menu_title ecom-element--menu_title"
+ href="{{child.url}}"
+ title="{{child.title | escape }}"
+ target="_self"
+ >
+ {{ child.title }}
+ {%- if child.levels > 0 -%}
+ <div class="ecom-element--menu_icon">
+ <div class="ecom-items--icon ecom-element--menu_icon--normal">
+ {{ icon_menu }}
+ </div>
+ <div class="ecom-items--icon ecom-element--menu_icon--active">
+ {{ icon_menu_active }}
+ </div>
+ </div>
+ {%- endif -%}
+ </a>
+ {% if grand_link.size > 0 and layout == 'horizontal' %}
+ {% for grand in grand_link %}
+ <a
+ class="ecom-menu_title ecom-element--menu_title {% if grand.active %} ecom-shopify__menu-child-link-item--active ecom-text-active{% endif %}"
+ href="{{grand.url}}"
+ title="{{grand.title | escape }}"
+ target="_self"
+ >
+ {{ grand.title }}
+ </a>
+ {% endfor %}
+ {% endif %}
+ </div>
+ {% if grand_link.size > 0 and layout == 'vertical' %}
+ <ul
+ class="ecom-shopify__menu-sub-menu"
+ data-menu-size="{{grand_link.size}}"
+ data-menu-level="{{child_link.level}}"
+ >
+ {% for grand in grand_link %}
+ <li class="ecom-shopify__menu-grand-link-item ecom-menu_item ecom-items ecom-shopify__menu-grand-link-item-type--{{grand.type}} {% if grand.active or grand.child_active %}ecom-shopify__menu-grand-link-item--active ecom-text-active{% endif %}">
+ <a
+ class="ecom-menu_title ecom-element--menu_title"
+ href="{{grand.url}}"
+ title="{{grand.title | escape }}"
+ target="_self"
+ >
+ {{ grand.title }}
+ </a>
+ </li>
+ {% endfor %}
+ </ul>
+ {%- endif -%}
+ </li>
+ {% endfor %}
+ </ul>
+ {% endif %}
+ </li>
+ {% endfor %}
+ {% endif %}
+ </ul>
+ </div>
+ {% else %}
+ <p>Select a menu to show</p>
+ {%- endunless -%}
+ </div></div></div></div> </div></div></div></div> <div class="ecom-column ecom-core core__column--last ecom-d74smk91myd"><div class="core__column--wrapper"><div class="ecom-column__overlay"><div class="ecom-overlay"></div></div><div class="core__blocks" index="3"><div class="core__blocks--body"><div class="ecom-block ecom-core core__block elmspace ecom-st0uljwmpzp" data-core-is="block"><div class="ecom__element element__heading ecom-element ecom-html" data-stopdrag="true" deep="2"><h3 class="ecom__heading ecom-db">Help</h3></div></div> <div class="ecom-block ecom-core core__block ecom-f04hp4uzp2g" data-core-is="block"><div class="ecom-element ecom-shopify ecom-shopify__menu" deep="2"><div class="ecom-element ecom-shopify ecom-shopify__menu-wrapper" data-show-all="false"><div class="ecom-element ecom-shopify ecom-shopify__menu-container">
+ {%- capture link_handle -%}footer{%- endcapture -%}
+ {%- unless link_handle == empty -%}
+ {%- assign menu = linklists[link_handle] -%}
+ {% if menu == blank %}
+ {%- assign menu = linklists['main-menu'] -%}
+ {% endif %}
+ {%- capture show_humber -%}false{%- endcapture -%}
+ {%- capture icon_menu -%}<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" fill="currentColor"><path d="M192 384c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L192 306.8l137.4-137.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-160 160C208.4 380.9 200.2 384 192 384z"></path></svg>{%- endcapture -%}
+ {%- capture icon_menu_active -%}<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" fill="currentColor"><path d="M352 352c-8.188 0-16.38-3.125-22.62-9.375L192 205.3l-137.4 137.4c-12.5 12.5-32.75 12.5-45.25 0s-12.5-32.75 0-45.25l160-160c12.5-12.5 32.75-12.5 45.25 0l160 160c12.5 12.5 12.5 32.75 0 45.25C368.4 348.9 360.2 352 352 352z"></path></svg>{%- endcapture -%}
+ {%- if show_humber == 'true' -%}
+ <div class="ecom-menu__icon-humber--wrapper">
+ <div class="ecom-menu__icon-humber">
+ <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+ </div>
+ </div>
+ <div class="ecom-shopify__menu-list--mobile--wrapper">
+ <ul class="ecom-shopify__menu-list--mobile" data-show-humber="undefined">
+ <div class="modal-header">
+ <span class="ecom-menu-collapse-close--mobile">
+ <svg
+ xmlns="http://www.w3.org/2000/svg"
+ class="w-6 h-6"
+ fill="none"
+ viewBox="0 0 24 24"
+ stroke="currentColor"
+ >
+ <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+ </svg>
+ </span>
+ </div>
+ {% if menu and menu.links.size %}
+ {% for link in menu.links %}
+ {% assign child_link = link.links %}
+ <li class="ecom-shopify__menu-item ecom-shopify__menu-item-type--{{link.type}} {% if child_link.size > 0 %}ecom-shopify__menu-item--has-children {% else %} ecom-shopify__menu-item--link {% endif %} ">
+ <div class="ecom-menu_item ecom-items">
+ <a
+ class="ecom-menu_title ecom-element--menu_title {% if link.active or link.child_active %} ecom-shopify__menu-item--active ecom-text-active {% endif %}"
+ href="{{link.url}}"
+ title="{{link.title | escape }}"
+ target="_self"
+ >
+ {{ link.title }}
+ {%- if link.levels > 0 -%}
+ <div class="ecom-element--menu_icon">
+ <div class="ecom-items--icon ecom-element--menu_icon--normal">
+ {{ icon_menu }}
+ </div>
+ <div class="ecom-items--icon ecom-element--menu_icon--active">
+ {{ icon_menu_active }}
+ </div>
+ </div>
+ {%- endif -%}
+ </a>
+ </div>
+ {% if child_link.size > 0 %}
+ <ul
+ class="ecom-shopify__menu-sub-menu"
+ data-menu-size="{{child_link.size}}"
+ data-menu-level="{{child_link.level}}"
+ >
+ {% for child in child_link %}
+ {% assign grand_link = child.links %}
+ <li class="ecom-shopify__menu-child-link-item ecom-shopify__menu-child-link-item-type--{{child.type}} {% if grand_link.size > 0 %}ecom-shopify__menu-child-link-item--has-children {% else %} ecom-shopify__menu-item--link {% endif %} {% if child.active or child.child_active%} ecom-shopify__menu-child-link-item--active ecom-text-active{% endif %}">
+ <div class="ecom-menu_item ecom-items">
+ <a
+ class="ecom-menu_title ecom-element--menu_title"
+ href="{{child.url}}"
+ title="{{child.title | escape }}"
+ target="_self"
+ >
+ {{ child.title }}
+ {%- if child.levels > 0 -%}
+ <div class="ecom-element--menu_icon">
+ <div class="ecom-items--icon ecom-element--menu_icon--normal">
+ {{ icon_menu }}
+ </div>
+ <div class="ecom-items--icon ecom-element--menu_icon--active">
+ {{ icon_menu_active }}
+ </div>
+ </div>
+ {%- endif -%}
+ </a>
+ </div>
+ {% if grand_link.size > 0 %}
+ <ul
+ class="ecom-shopify__menu-sub-menu"
+ data-menu-size="{{grand_link.size}}"
+ data-menu-level="{{child_link.level}}"
+ >
+ {% for grand in grand_link %}
+ <li class="ecom-shopify__menu-grand-link-item ecom-menu_item ecom-items ecom-shopify__menu-grand-link-item-type--{{grand.type}} {% if grand.active or grand.child_active %}ecom-shopify__menu-grand-link-item--active ecom-text-active{% endif %}">
+ <a
+ class="ecom-menu_title ecom-element--menu_title"
+ href="{{grand.url}}"
+ title="{{grand.title | escape }}"
+ target="_self"
+ >
+ {{ grand.title }}
+ </a>
+ </li>
+ {% endfor %}
+ </ul>
+ {%- endif -%}
+ </li>
+ {% endfor %}
+ </ul>
+ {% endif %}
+ </li>
+ {% endfor %}
+ {% endif %}
+ </ul>
+ </div>
+ {%- endif -%}
+ <div class="ecom-shopify__menu-list--wrapper ecom-flex">
+ <ul class="ecom-shopify__menu-list" data-menu-layout="vertical">
+ {% if menu and menu.links.size %}
+ {% for link in menu.links %}
+ {% assign child_link = link.links %}
+ <li class="ecom-shopify__menu-item ecom-shopify__menu-item-type--{{link.type}} {% if child_link.size > 0 %}ecom-shopify__menu-item--has-children {% else %} ecom-shopify__menu-item--link {% endif %}">
+ <div class="ecom-menu_item ecom-items">
+ <a
+ class="ecom-menu_title ecom-element--menu_title {% if link.active or link.child_active %} ecom-shopify__menu-item--active ecom-text-active {% endif %}"
+ href="{{link.url}}"
+ title="{{link.title | escape }}"
+ target="_self"
+ >
+ {{ link.title }}
+ {%- if link.levels > 0 -%}
+ <div class="ecom-element--menu_icon">
+ <div class="ecom-items--icon ecom-element--menu_icon--normal">
+ {{ icon_menu }}
+ </div>
+ <div class="ecom-items--icon ecom-element--menu_icon--active">
+ {{ icon_menu_active }}
+ </div>
+ </div>
+ {%- endif -%}
+ </a>
+ </div>
+ {% if child_link.size > 0 %}
+ {%- capture layout -%}
+ vertical
+ {%- endcapture -%}
+ <ul
+ class="ecom-shopify__menu-sub-menu"
+ data-menu-size="{{child_link.size}}"
+ data-menu-level="{{child_link.level}}"
+ >
+ {% for child in child_link %}
+ {% assign grand_link = child.links %}
+ <li class="ecom-shopify__menu-child-link-item ecom-shopify__menu-child-link-item-type--{{child.type}} {% if grand_link.size > 0 %}ecom-shopify__menu-child-link-item--has-children {% else %} ecom-shopify__menu-item--link {% endif %}">
+ <div class="ecom-menu_item ecom-items">
+ <a
+ class="ecom-menu_title ecom-element--menu_title"
+ href="{{child.url}}"
+ title="{{child.title | escape }}"
+ target="_self"
+ >
+ {{ child.title }}
+ {%- if child.levels > 0 -%}
+ <div class="ecom-element--menu_icon">
+ <div class="ecom-items--icon ecom-element--menu_icon--normal">
+ {{ icon_menu }}
+ </div>
+ <div class="ecom-items--icon ecom-element--menu_icon--active">
+ {{ icon_menu_active }}
+ </div>
+ </div>
+ {%- endif -%}
+ </a>
+ {% if grand_link.size > 0 and layout == 'horizontal' %}
+ {% for grand in grand_link %}
+ <a
+ class="ecom-menu_title ecom-element--menu_title {% if grand.active %} ecom-shopify__menu-child-link-item--active ecom-text-active{% endif %}"
+ href="{{grand.url}}"
+ title="{{grand.title | escape }}"
+ target="_self"
+ >
+ {{ grand.title }}
+ </a>
+ {% endfor %}
+ {% endif %}
+ </div>
+ {% if grand_link.size > 0 and layout == 'vertical' %}
+ <ul
+ class="ecom-shopify__menu-sub-menu"
+ data-menu-size="{{grand_link.size}}"
+ data-menu-level="{{child_link.level}}"
+ >
+ {% for grand in grand_link %}
+ <li class="ecom-shopify__menu-grand-link-item ecom-menu_item ecom-items ecom-shopify__menu-grand-link-item-type--{{grand.type}} {% if grand.active or grand.child_active %}ecom-shopify__menu-grand-link-item--active ecom-text-active{% endif %}">
+ <a
+ class="ecom-menu_title ecom-element--menu_title"
+ href="{{grand.url}}"
+ title="{{grand.title | escape }}"
+ target="_self"
+ >
+ {{ grand.title }}
+ </a>
+ </li>
+ {% endfor %}
+ </ul>
+ {%- endif -%}
+ </li>
+ {% endfor %}
+ </ul>
+ {% endif %}
+ </li>
+ {% endfor %}
+ {% endif %}
+ </ul>
+ </div>
+ {% else %}
+ <p>Select a menu to show</p>
+ {%- endunless -%}
+ </div></div></div></div> </div></div></div></div> </div><div class="ecom-section__overlay"><div class="ecom-overlay"></div></div> </div></div> </div></div></div></div> <div class="ecom-column ecom-core core__column--last ecom-3clmlkw4se1"><div class="core__column--wrapper"><div class="ecom-column__overlay"><div class="ecom-overlay"></div></div><div class="core__blocks" index="2"><div class="core__blocks--body"><div class="ecom-block ecom-core core__block elmspace ecom-r2tai1057d9" data-core-is="row"><div class="ecom-row ecom-core core__block ecom-s6vuyb3w8a" data-id="ecom-s6vuyb3w8a" data-notice-content="This image is for preview only" style="z-index: inherit;"><div data-deep="2" class="core__row--columns"><div class="ecom-column ecom-core core__column--first ecom-r8r8cw2cikl"><div class="core__column--wrapper"><div class="ecom-column__overlay"><div class="ecom-overlay"></div></div><div class="core__blocks" index="0"><div class="core__blocks--body"><div class="ecom-block ecom-core core__block elmspace ecom-1yj515n8oxu" data-core-is="block"><div class="ecom__element ecom-element element__social" deep="2"><div class="ecom__element-social custom" style=""><a alt="custom" aria-label="custom" class="element-social-link element-social-link__custom" target="_blank"><div class="social-icon"><span><svg version="1.1" id="lni_lni-facebook-oval" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 64 64" style="enable-background:new 0 0 64 64;" xml:space="preserve" fill="currentColor"><path d="M32,1C14.8,1,1,14.8,1,32s13.8,31,31,31s31-13.8,31-31S49.2,1,32,1z M40.2,19.9c-1.1,0-2,0-3.1,0c-1.4,0-2.3,0.7-2.3,2c-0.1,1.1,0,2.3,0,3.2c0,0.4,0.1,0.4,0.4,0.4c1.5,0,3.1,0,4.6,0c0.4,0,0.6,0.1,0.6,0.6c-0.1,1.8-0.4,3.7-0.4,5.5c0,0.4-0.1,0.4-0.6,0.4c-1.3,0-2.4,0-3.7,0c-0.8,0-0.7-0.1-0.7,0.7c0,5.8,0,11.3,0,17.1c0,0.6-0.1,0.7-0.7,0.7c-2.1,0-4.2,0-6.3,0c-0.6,0-0.7-0.1-0.7-0.7c0-3,0-5.8,0-8.6c0-2.8,0-5.8,0-8.7c0-0.4-0.1-0.7-0.6-0.6c-0.8,0-1.8,0-2.7,0c-0.6,0.3-0.6,0.1-0.6-0.3c0-1.8,0-3.5,0-5.5c0-0.4,0.1-0.4,0.4-0.4c1,0,1.8,0,2.8,0c0.6,0,0.7-0.1,0.7-0.7c0-1.4,0-2.7,0-4.2c0-1.7,0.4-3.2,1.4-4.6c1.3-1.7,3.1-2.5,5.1-2.7c2.1-0.1,4.2,0,6.3-0.1c0.3,0,0.4,0.1,0.4,0.4c0,1.8,0,3.7,0,5.5C40.6,19.7,40.5,19.9,40.2,19.9z"></path></svg></span></div></a></div><div class="ecom__element-social custom" style=""><a alt="custom" aria-label="custom" class="element-social-link element-social-link__custom" target="_blank"><div class="social-icon"><span><svg width="17" height="16" viewBox="0 0 17 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M13.3173 0.90918H15.7231L10.4671 6.91645L16.6504 15.091H11.8089L8.01694 10.1332L3.67803 15.091H1.27076L6.89257 8.66554L0.960938 0.90918H5.9253L9.35294 5.44082L13.3173 0.90918ZM12.4729 13.651H13.806L5.20094 2.27354H3.77039L12.4729 13.651Z" fill="white"></path></svg></span></div></a></div><div class="ecom__element-social custom" style=""><a alt="custom" aria-label="custom" class="element-social-link element-social-link__custom" target="_blank"><div class="social-icon"><span><svg version="1.1" id="lni_lni-pinterest" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 64 64" style="enable-background:new 0 0 64 64;" xml:space="preserve" fill="currentColor"><path d="M1.8,32.1C2,41.4,6.3,50.7,13.6,56.3c2.3,1.7,4.8,2.7,7.4,3.8c-1.1-7.1,1.6-14.2,3.1-21.2c0.2-0.7,0.3-1.5,0.3-2.3c0-1.1-0.4-2.2-0.7-3.3c-0.3-1.8-0.1-3.7,0.7-5.4c1.1-2.3,3.7-4.1,6-3.2c2.1,0.8,2.9,3.6,2.5,5.8c-0.4,2.3-1.6,4.3-2.2,6.5c-0.7,2.2-0.6,4.9,1,6.4c1.5,1.4,3.9,1.5,5.8,0.7c2.8-1.2,4.6-4,5.7-6.8c2-5.2,1.6-11.8-2.5-15.6C39,20,36.6,18.9,34,18.5c-4.4-0.7-9.2,0.6-12.3,3.8s-4.5,8.1-3.2,12.3c0.4,1.4,1.2,2.8,1.5,4.2s0.2,3.2-0.8,4.2c-0.1,0.1-0.2,0.2-0.4,0.3c-0.2,0.1-0.5-0.1-0.7-0.2c-1.9-1.2-3.4-3.1-4.3-5.1c-2.8-6.1-1.4-13.7,3-18.7s11.5-7.4,18.1-6.5c6.2,0.8,12.3,4.5,14.9,10.2c1.6,3.4,1.9,7.3,1.3,11c-0.6,3.8-2.1,7.4-4.6,10.3s-6.1,4.9-9.9,5.1c-3.1,0.2-6.4-0.9-8-3.5c-1,5.4-2.9,10.7-5.7,15.4c-0.1,0.2,6.4,1.6,7,1.6c7.4,0.6,15.3-2.3,21.1-6.9C67,43.3,65.3,19,49.5,7c-8.2-6.3-17.9-7.5-27.5-4.1c-2.9,1-5.6,2.7-8.1,4.5c-4,3-7.2,6.9-9.3,11.4C2.5,22.9,1.7,27.5,1.8,32.1z"></path></svg></span></div></a></div></div></div> </div></div></div></div> <div class="ecom-column ecom-core core__column--last ecom-xnay1t1tlxb"><div class="core__column--wrapper"><div class="ecom-column__overlay"><div class="ecom-overlay"></div></div><div class="core__blocks" index="1"><div class="core__blocks--body"><div class="ecom-block ecom-core core__block elmspace ecom-in1ogruuh0l" data-core-is="block"><div class="ecom-element ecom-base-image" deep="2"><figure><div class="ecom-container-image ecom-image-align" data-stopdrag=""><div data-stopdrag="" data-notice-content="This image is for preview only" class="ecom-image-content-position ecom-image-default ecom-base-image-container-overlay" style=""><picture class="ecom-image-picture"><img  loading="lazy" fetchpriority="low" src="https://cdn.shopify.com/s/files/1/0623/8303/0317/files/ecom-no-replace-tYuo6H9ZHjFrame_1000004500.png?v=1722677992" alt="ecom-no-replace-tYuo6H9ZHjFrame_1000004500" width="849" height="50" style=""></picture></div></div></figure></div></div> </div></div></div></div> </div><div class="ecom-section__overlay"><div class="ecom-overlay"></div></div> </div></div> </div></div></div></div> </div><div class="ecom-section__overlay"><div class="ecom-overlay"></div></div> </section>
+</div></div>
+{% schema %}
+{
+ "name": "8 Tier Shoe rack ",
+ "locales": {},
+ "settings": [
+ {
+ "type": "header",
+ "content": "The section was generated by [Ecomposer](https:\/\/ecomposer.io).",
+ "info": "\n EComposer is a Visual Page Builder app on Shopify AppStore.\n It provides 100+ pre-built templates in library,\n so you can build unlimited pages that you can imagine with it.\n Please don't add Shopify sections to EComposer's page in the theme customize. If you do this, Shopify sections will be deleted when you republish your page in EComposer\n "
+ },
+ {
+ "type": "header",
+ "content": "[EDIT WITH EComposer APP \u2192](https:\/\/ecomposer.app\/shop?open_builder=1&page=page&id=67616cadfa347c8824001b7d&utm_source=theme-customize)",
+ "info": "(*You must install the app to start editing this section [Learn more](https:\/\/help.ecomposer.io\/docs\/getting-started\/installation\/))"
+ }
+ ]
+}
+{% endschema %}

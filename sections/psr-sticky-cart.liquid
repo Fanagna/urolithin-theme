@@ -1,0 +1,57 @@
+{{ 'psr-panstellar-v11.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'psr-panstellar-v11.js' | asset_url }}" defer></script>
+{% liquid
+  assign psr_product = product
+  if section.settings.product != blank
+    assign psr_product = section.settings.product
+  endif
+  assign psr_variant = psr_product.selected_or_first_available_variant
+%}
+<aside class="psr psr-sticky" aria-label="Quick add to cart" data-sticky-cart data-psr-product data-product-handle="{{ psr_product.handle | escape }}" data-product-url="{{ psr_product.url }}" data-variant-id="{{ psr_variant.id }}">
+  <div><strong data-sticky-label>{{ section.settings.default_label }}</strong><span>{{ section.settings.guarantee_text }}</span></div>
+  <button class="psr-btn psr-btn--primary" data-buy type="button">{% render 'psr-editable-icon', custom_image: section.settings.button_icon, fallback_asset: 'psr-v10-icon-cart.svg', class: 'psr-btn__icon', alt: '' %}<span class="psr-btn__label">{{ section.settings.button_label }}</span></button>
+</aside>
+<div aria-live="polite" class="psr-toast" hidden role="status"></div>
+{% schema %}
+{
+  "name": "PSR — Sticky cart",
+  "tag": "section",
+  "class": "psr-section-wrapper",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    },
+    {
+      "type": "text",
+      "id": "default_label",
+      "label": "Default label (before any bundle is picked)",
+      "info": "Automatically updates to reflect the bundle the shopper selects (e.g. \"3-bottle bundle\").",
+      "default": "3-bottle bundle"
+    },
+    {
+      "type": "text",
+      "id": "guarantee_text",
+      "label": "Reassurance text",
+      "default": "90-day guarantee"
+    },
+    {
+      "type": "image_picker",
+      "id": "button_icon",
+      "label": "Button icon"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Add to Cart"
+    }
+  ],
+  "presets": [
+    {
+      "name": "PSR — Sticky cart"
+    }
+  ]
+}
+{% endschema %}

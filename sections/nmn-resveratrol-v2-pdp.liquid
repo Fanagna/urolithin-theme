@@ -1,0 +1,501 @@
+{{ 'nmn-resveratrol-v2-pdp.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign nrv_variant = product.selected_or_first_available_variant
+  assign nrv_price = nrv_variant.price | money
+  assign nrv_compare = nrv_variant.compare_at_price | money
+
+  # Per-day price, auto-calculated from the live product price so it never goes
+  # stale when the price changes. supply_days is a merchant-editable fact about
+  # the product (not a price), defaults to 90 (90 servings / 3 months).
+  assign nrv_supply_days = section.settings.supply_days | default: 90
+  assign nrv_day_price = nrv_variant.price | times: 1.0 | divided_by: nrv_supply_days | money | append: '/day'
+
+  assign review_blocks = section.blocks | where: 'type', 'review'
+  assign faq_blocks = section.blocks | where: 'type', 'faq_item'
+
+  assign nrv_hero_desktop_src = 'nrv-hero-bg.webp' | asset_url
+  if section.settings.hero_desktop != blank
+    assign nrv_hero_desktop_src = section.settings.hero_desktop | image_url: width: 1900
+  endif
+  assign nrv_hero_mobile_src = 'nrv-hero-mobile.webp' | asset_url
+  if section.settings.hero_mobile != blank
+    assign nrv_hero_mobile_src = section.settings.hero_mobile | image_url: width: 960
+  endif
+-%}
+{% render 'panstellar-product-schema', product: product %}
+<link rel="preload" as="image" href="{{ nrv_hero_desktop_src }}" media="(min-width: 761px)" fetchpriority="high">
+<link rel="preload" as="image" href="{{ nrv_hero_mobile_src }}" media="(max-width: 760px)" fetchpriority="high">
+
+<div class="nrv-pdp" id="nrv-pdp-{{ section.id }}">
+  <section class="nrv-section nrv-hero" id="nrv-hero-{{ section.id }}">
+    <picture class="nrv-hero__bg-picture" aria-hidden="true">
+      <source media="(max-width: 760px)" srcset="{{ nrv_hero_mobile_src }}">
+      <img class="nrv-hero__bg" src="{{ nrv_hero_desktop_src }}" alt="" loading="eager" fetchpriority="high" width="1896" height="720">
+    </picture>
+
+    <div class="nrv-hero__grid">
+      <div class="nrv-hero__copy">
+        <div class="nrv-eyebrow">{{ section.settings.hero_pill }}</div>
+        <h1>{{ section.settings.hero_heading }}</h1>
+        <p>{{ section.settings.hero_subtitle }}</p>
+
+        <div class="nrv-hero__icons" aria-label="Product highlights">
+          <div class="nrv-hero-icon">
+            <div class="nrv-icon-circle"><img src="{{ 'nrv-icon-molecule.png' | asset_url }}" alt="" width="32" height="32"></div>
+            Anti-<br>Aging
+          </div>
+          <div class="nrv-hero-icon">
+            <div class="nrv-icon-circle"><img src="{{ 'nrv-icon-capsule.png' | asset_url }}" alt="" width="32" height="32"></div>
+            Cell<br>Energy
+          </div>
+          <div class="nrv-hero-icon">
+            <div class="nrv-icon-circle"><img src="{{ 'nrv-icon-bottle.png' | asset_url }}" alt="" width="32" height="32"></div>
+            180<br>Per Bottle
+          </div>
+          <div class="nrv-hero-icon">
+            <div class="nrv-icon-circle"><img src="{{ 'nrv-icon-certificate.png' | asset_url }}" alt="" width="32" height="32"></div>
+            Third-Party<br>Tested
+          </div>
+        </div>
+
+        <div class="nrv-hero__meta">{{ section.settings.hero_meta }}</div>
+      </div>
+
+      <aside class="nrv-buy-card" id="nrv-buy-card-{{ section.id }}" aria-label="Add {{ product.title | escape }} to cart">
+        <div class="nrv-price">
+          {{ nrv_price }}
+          {%- if nrv_variant.compare_at_price > nrv_variant.price -%}
+            <span>{{ nrv_compare }}</span>
+          {%- endif -%}
+        </div>
+        <div class="nrv-card-meta">{{ section.settings.card_meta }}</div>
+        <div class="nrv-card-day">{{ nrv_day_price }}</div>
+
+        {%- assign nrv_hero_form_id = 'nrv-hero-form-' | append: section.id -%}{% form 'product', product, id: nrv_hero_form_id, novalidate: 'novalidate' -%}
+          <input type="hidden" name="id" value="{{ nrv_variant.id }}">
+          <input type="hidden" name="quantity" value="1">
+          <button
+            class="nrv-cta"
+            type="submit"
+            name="add"
+            {%- unless nrv_variant.available %} disabled{%- endunless -%}>
+            {%- if nrv_variant.available -%}{{ section.settings.cta_text }}{%- else -%}Sold Out{%- endif -%}
+          </button>
+        {%- endform -%}
+
+        <div class="nrv-trust-list">
+          <div><img src="{{ 'nrv-icon-truck.png' | asset_url }}" alt="" width="20" height="20">Free shipping</div>
+          <div><img src="{{ 'nrv-icon-guarantee.png' | asset_url }}" alt="" width="20" height="20">90-day guarantee</div>
+          <div><img src="{{ 'nrv-icon-shield-lock.png' | asset_url }}" alt="" width="20" height="20">Secure checkout</div>
+        </div>
+
+        <div class="nrv-accordion">
+          <div class="nrv-acc">
+            <button class="nrv-acc-btn" type="button" aria-expanded="false">
+              Supports <span aria-hidden="true">+</span>
+            </button>
+            <div class="nrv-acc-panel">
+              <p>Cellular NAD+ production, healthy aging, energy and everyday vitality.</p>
+            </div>
+          </div>
+          <div class="nrv-acc">
+            <button class="nrv-acc-btn" type="button" aria-expanded="false">
+              Ingredients <span aria-hidden="true">+</span>
+            </button>
+            <div class="nrv-acc-panel">
+              <p>NMN, Trans-Resveratrol, Quercetin, Piperine, Phosphatidyl Choline and Vitamin C.</p>
+            </div>
+          </div>
+          <div class="nrv-acc">
+            <button class="nrv-acc-btn" type="button" aria-expanded="false">
+              Certifications <span aria-hidden="true">+</span>
+            </button>
+            <div class="nrv-acc-panel">
+              <p>Third-party tested, USA formulated, secure checkout and 90-day guarantee.</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="nrv-section nrv-ingredients">
+    <div class="nrv-ingredient-layout">
+      <div class="nrv-block-title">
+        <h2>{{ section.settings.ingredients_heading }}</h2>
+        <p>{{ section.settings.ingredients_subtitle }}</p>
+      </div>
+      <div class="nrv-ingredient-grid">
+        <article class="nrv-ingredient-card nrv-ingredient-card--active">
+          <div class="nrv-thumb"><img src="{{ 'nrv-ingredient-nmn.webp' | asset_url }}" alt="NMN" loading="lazy"></div>
+          <h3>NMN</h3>
+          <div class="nrv-dose">500mg</div>
+          <p>NAD+ precursor</p>
+        </article>
+        <article class="nrv-ingredient-card">
+          <div class="nrv-thumb"><img src="{{ 'nrv-ingredient-resveratrol.webp' | asset_url }}" alt="Resveratrol" loading="lazy"></div>
+          <h3>Trans-<br>Resveratrol</h3>
+          <div class="nrv-dose">300mg</div>
+          <p>Cellular support</p>
+        </article>
+        <article class="nrv-ingredient-card">
+          <div class="nrv-thumb"><img src="{{ 'nrv-ingredient-quercetin.webp' | asset_url }}" alt="Quercetin" loading="lazy"></div>
+          <h3>Quercetin</h3>
+          <div class="nrv-dose">200mg</div>
+          <p>NAD+ booster</p>
+        </article>
+        <article class="nrv-ingredient-card">
+          <div class="nrv-thumb"><img src="{{ 'nrv-ingredient-piperine.webp' | asset_url }}" alt="Piperine" loading="lazy"></div>
+          <h3>Piperine</h3>
+          <div class="nrv-dose">10mg</div>
+          <p>Absorption support</p>
+        </article>
+        <article class="nrv-ingredient-card">
+          <div class="nrv-thumb"><img src="{{ 'nrv-ingredient-phosphatidyl.webp' | asset_url }}" alt="Phosphatidyl Choline" loading="lazy"></div>
+          <h3>Phosphatidyl<br>Choline</h3>
+          <div class="nrv-dose">300mg</div>
+          <p>Lipid delivery</p>
+        </article>
+        <article class="nrv-ingredient-card">
+          <div class="nrv-thumb"><img src="{{ 'nrv-ingredient-vitamin-c.webp' | asset_url }}" alt="Vitamin C" loading="lazy"></div>
+          <h3>Vitamin C</h3>
+          <div class="nrv-dose">100mg</div>
+          <p>Antioxidant support</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="nrv-section nrv-compare">
+    <div class="nrv-compare-layout">
+      <div class="nrv-compare-title">
+        <h2>{{ section.settings.compare_heading }}</h2>
+        <p>{{ section.settings.compare_subtitle }}</p>
+      </div>
+
+      <div class="nrv-main-compare">
+        <div class="nrv-main-compare__bottle">
+          {%- if section.settings.product_image != blank -%}
+            {{ section.settings.product_image | image_url: width: 760 | image_tag: loading: 'lazy', alt: product.title }}
+          {%- else -%}
+            <img src="{{ 'nrv-product-bottle.webp' | asset_url }}" alt="{{ product.title | escape }}" loading="lazy" width="420" height="560">
+          {%- endif -%}
+        </div>
+        <div class="nrv-main-compare__copy">
+          <div class="nrv-brand">PANSTELLAR</div>
+          <h3>NMN + RESVERATROL</h3>
+          <ul class="nrv-check-list">
+            <li>500mg NMN</li>
+            <li>300mg Trans-Resveratrol</li>
+            <li>5 active ingredients</li>
+            <li>180 capsules</li>
+            <li>Once-daily</li>
+            <li>3rd-party tested for purity</li>
+            <li>Made in USA bottle</li>
+            <li>Value in 1 bottle</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="nrv-vs" aria-hidden="true">VS</div>
+
+      <div class="nrv-side-compare">
+        <h3>Typical 6+ Bottles</h3>
+        <div class="nrv-side-compare__bottles">
+          <img src="{{ 'nrv-typical-bottles.webp' | asset_url }}" alt="Typical supplement bottles" loading="lazy" width="330" height="420">
+        </div>
+        <ul class="nrv-x-list">
+          <li>More separate products</li>
+          <li>More capsules</li>
+          <li>Harder to stack</li>
+          <li>More clutter</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="nrv-section nrv-science">
+    <div class="nrv-science-layout">
+      <div class="nrv-science-img">
+        <img src="{{ 'nrv-science-network.webp' | asset_url }}" alt="Science network" loading="lazy" width="840" height="470">
+      </div>
+      <div class="nrv-science-copy">
+        <h2>{{ section.settings.science_heading }}</h2>
+        <p>{{ section.settings.science_subtitle }}</p>
+      </div>
+      <div class="nrv-science-points">
+        <div class="nrv-science-point"><span><img src="{{ 'nrv-icon-molecule.png' | asset_url }}" alt="" width="22" height="22"></span>Supports cellular NAD+ production</div>
+        <div class="nrv-science-point"><span><img src="{{ 'nrv-icon-beaker.png' | asset_url }}" alt="" width="22" height="22"></span>Supports healthy aging</div>
+        <div class="nrv-science-point"><span><img src="{{ 'nrv-icon-shield-check.png' | asset_url }}" alt="" width="22" height="22"></span>Supports energy and vitality</div>
+      </div>
+      <div class="nrv-research">
+        <div>
+          <h3>Backed by<br>Real Research</h3>
+          <p>{{ section.settings.research_text }}</p>
+        </div>
+        <img src="{{ 'nrv-research-molecule.webp' | asset_url }}" alt="" loading="lazy" width="220" height="82">
+      </div>
+    </div>
+  </section>
+
+  <section class="nrv-section nrv-quality">
+    <div class="nrv-quality-layout">
+      <h2>{{ section.settings.quality_heading }}</h2>
+      <div class="nrv-quality-icons">
+        <div class="nrv-quality-item"><div class="nrv-icon-circle"><img src="{{ 'nrv-icon-certificate.png' | asset_url }}" alt="" width="32" height="32"></div>Third-Party<br>Tested</div>
+        <div class="nrv-quality-item"><div class="nrv-icon-circle"><img src="{{ 'nrv-icon-beaker.png' | asset_url }}" alt="" width="32" height="32"></div>USA<br>Formulated</div>
+        <div class="nrv-quality-item"><div class="nrv-icon-circle"><img src="{{ 'nrv-icon-made-in-usa.webp' | asset_url }}" alt="" width="32" height="32"></div>Made in<br>USA</div>
+        <div class="nrv-quality-item"><div class="nrv-icon-circle"><img src="{{ 'nrv-icon-capsule.png' | asset_url }}" alt="" width="32" height="32"></div>Vegan</div>
+        <div class="nrv-quality-item"><div class="nrv-icon-circle"><img src="{{ 'nrv-icon-shield-check.png' | asset_url }}" alt="" width="32" height="32"></div>GMO &amp; Gluten<br>Free</div>
+      </div>
+      <div class="nrv-badge"><img src="{{ 'nrv-guarantee-badge.webp' | asset_url }}" alt="90 day guarantee" loading="lazy" width="150" height="150"></div>
+      <div class="nrv-risk">
+        <h3>Try it Risk-Free</h3>
+        <p>Love it or get a full refund within 90 days of purchase.</p>
+        {%- if section.settings.guarantee_url != blank -%}
+          <a href="{{ section.settings.guarantee_url }}">LEARN MORE</a>
+        {%- else -%}
+          <span>LEARN MORE</span>
+        {%- endif -%}
+      </div>
+    </div>
+  </section>
+
+  {%- if review_blocks.size > 0 -%}
+    <section class="nrv-section nrv-reviews">
+      <div class="nrv-reviews-layout">
+        <div>
+          <h2>{{ section.settings.reviews_heading }}</h2>
+          <div class="nrv-rating">{{ section.settings.reviews_score }} <span>★★★★★</span> <small>{{ section.settings.reviews_count }}</small></div>
+        </div>
+        <div>
+          <div class="nrv-review-grid">
+            {%- for block in review_blocks -%}
+              <article class="nrv-review-card" {{ block.shopify_attributes }}>
+                <span>★★★★★</span>
+                <p>{{ block.settings.quote }}</p>
+                <div class="nrv-author">- {{ block.settings.author }}</div>
+              </article>
+            {%- endfor -%}
+          </div>
+          {%- if section.settings.reviews_note != blank -%}
+            <p class="nrv-note">{{ section.settings.reviews_note }}</p>
+          {%- endif -%}
+        </div>
+      </div>
+    </section>
+  {%- endif -%}
+
+  {%- if faq_blocks.size > 0 -%}
+    <section class="nrv-section nrv-faq">
+      <div class="nrv-faq-layout">
+        <h2>{{ section.settings.faq_heading }}</h2>
+        <div class="nrv-faq-box">
+          {%- for block in faq_blocks -%}
+            <div class="nrv-faq-item" {{ block.shopify_attributes }}>
+              <button class="nrv-faq-btn" type="button" aria-expanded="false">
+                {{ block.settings.question }}
+                <span aria-hidden="true">+</span>
+              </button>
+              <div class="nrv-faq-panel">
+                <p>{{ block.settings.answer }}</p>
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    </section>
+  {%- endif -%}
+
+  <aside class="nrv-sticky" id="nrv-sticky-{{ section.id }}" aria-label="Quick add to cart">
+    <div class="nrv-sticky__inner">
+      <div class="nrv-sticky__img">
+        {%- if section.settings.product_image != blank -%}
+          {{ section.settings.product_image | image_url: width: 120 | image_tag: loading: 'lazy', alt: product.title }}
+        {%- else -%}
+          <img src="{{ 'nrv-product-bottle.webp' | asset_url }}" alt="{{ product.title | escape }}" loading="lazy" width="80" height="80">
+        {%- endif -%}
+      </div>
+      <div class="nrv-sticky__headline">{{ section.settings.sticky_title }}</div>
+      <div class="nrv-sticky__price">
+        <div>{{ nrv_price }}</div>
+        <p>{{ section.settings.card_meta }} · {{ nrv_day_price }}</p>
+      </div>
+      <div class="nrv-sticky__trust">
+        <span><img src="{{ 'nrv-icon-truck.png' | asset_url }}" alt="" width="16" height="16">Free shipping</span>
+        <span><img src="{{ 'nrv-icon-guarantee.png' | asset_url }}" alt="" width="16" height="16">90-day guarantee</span>
+        <span><img src="{{ 'nrv-icon-shield-lock.png' | asset_url }}" alt="" width="16" height="16">Secure checkout</span>
+      </div>
+      {%- assign nrv_sticky_form_id = 'nrv-sticky-form-' | append: section.id -%}{% form 'product', product, id: nrv_sticky_form_id, novalidate: 'novalidate' -%}
+        <input type="hidden" name="id" value="{{ nrv_variant.id }}">
+        <input type="hidden" name="quantity" value="1">
+        <button
+          class="nrv-sticky__cta"
+          type="submit"
+          name="add"
+          {%- unless nrv_variant.available %} disabled{%- endunless -%}>
+          {%- if nrv_variant.available -%}{{ section.settings.cta_text }}{%- else -%}Sold Out{%- endif -%}
+        </button>
+      {%- endform -%}
+    </div>
+  </aside>
+</div>
+
+<script>
+(function(){
+  var wrap = document.getElementById('nrv-pdp-{{ section.id }}');
+  if (!wrap) return;
+
+  wrap.querySelectorAll('.nrv-acc-btn, .nrv-faq-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var isOpen = this.getAttribute('aria-expanded') === 'true';
+      this.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+    });
+  });
+
+  /* Observing the whole hero instead would keep the sticky hidden while the
+     buy-card has scrolled away but the rest of the (taller) hero is still
+     on screen, leaving no visible CTA in between. */
+  var buyCard = document.getElementById('nrv-buy-card-{{ section.id }}');
+  var sticky = document.getElementById('nrv-sticky-{{ section.id }}');
+  if (buyCard && sticky && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function(entries){
+      sticky.classList.toggle('nrv-sticky--visible', !entries[0].isIntersecting);
+    }, { threshold: 0 }).observe(buyCard);
+  }
+
+  /* Uses the native <cart-drawer> custom element's own renderContents()
+     method (same one Dawn's product-form.js calls) — it both swaps in the
+     fresh sections AND opens the drawer. window.openCartDrawer() and
+     [data-cart-toggle]/[aria-controls="CartDrawer"] don't exist anywhere
+     in this theme, so relying on them silently did nothing. */
+  function handleForm(form) {
+    if (!form) return;
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var btn = form.querySelector('[type="submit"]');
+      if (!btn || btn.disabled) return;
+
+      var origText = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = 'Adding…';
+      fetch(window.Shopify.routes.root + 'cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+        body: JSON.stringify({
+          id: form.querySelector('[name="id"]').value,
+          quantity: 1,
+          sections: ['cart-drawer', 'cart-icon-bubble'],
+          sections_url: window.location.pathname
+        })
+      })
+      .then(function(r){ return r.json(); })
+      .then(function(data){
+        /* Fire Dawn's own pubsub cart-update event (same one product-form.js
+           fires) — apps that hook into cart updates (reviews widgets, bundle
+           upsells, etc.) listen for this, not our custom DOM event alone. */
+        if (typeof publish === 'function' && typeof PUB_SUB_EVENTS !== 'undefined') {
+          publish(PUB_SUB_EVENTS.cartUpdate, { source: 'nrv-pdp', productVariantId: form.querySelector('[name="id"]').value, cartData: data });
+        }
+        document.dispatchEvent(new CustomEvent('cart:refresh'));
+        if (btn) { btn.dataset.added = '1'; }
+        var drawer = document.querySelector('cart-drawer');
+        if (drawer && typeof drawer.renderContents === 'function') {
+          drawer.renderContents(data);
+        } else {
+          window.location = window.Shopify.routes.root + 'cart';
+        }
+      })
+      .catch(function(){
+        window.location = window.Shopify.routes.root + 'cart';
+      })
+      .finally(function(){
+        btn.disabled = false;
+        if (btn.dataset.added) { delete btn.dataset.added; btn.textContent = '\u2713 Added'; setTimeout(function(){ btn.textContent = origText; }, 1600); }
+        else { btn.textContent = origText; }
+      });
+    });
+  }
+
+  handleForm(document.getElementById('nrv-hero-form-{{ section.id }}'));
+  handleForm(document.getElementById('nrv-sticky-form-{{ section.id }}'));
+})();
+</script>
+
+{% schema %}
+{
+  "name": "NMN Resveratrol V2",
+  "tag": "div",
+  "class": "nrv-pdp-wrapper",
+  "settings": [
+    { "type": "header", "content": "Hero" },
+    { "type": "image_picker", "id": "hero_desktop", "label": "Hero desktop image" },
+    { "type": "image_picker", "id": "hero_mobile", "label": "Hero mobile image" },
+    { "type": "image_picker", "id": "product_image", "label": "Product bottle" },
+    { "type": "text", "id": "hero_pill", "label": "Pill", "default": "Verified NMN · Daily NAD+ Support" },
+    { "type": "text", "id": "hero_heading", "label": "Heading", "default": "Real NMN.<br>Verified Every Bottle." },
+    { "type": "textarea", "id": "hero_subtitle", "label": "Subtitle", "default": "Sirtuing NMN + 5 synergy actives to support cellular energy and healthy aging." },
+    { "type": "text", "id": "hero_meta", "label": "Meta", "default": "cGMP compliant facility · Made in USA · 90-day guarantee" },
+    { "type": "text", "id": "card_meta", "label": "Card meta", "default": "180 Capsules · 90 Servings" },
+    { "type": "number", "id": "supply_days", "label": "Days of supply (used to auto-calculate the $/day price)", "info": "How many days one order lasts. The $/day price shown on the page is calculated automatically from the live product price ÷ this number — it always stays correct, even when the price changes.", "default": 90 },
+    { "type": "text", "id": "cta_text", "label": "CTA", "default": "ADD TO CART" },
+    { "type": "header", "content": "Ingredients" },
+    { "type": "text", "id": "ingredients_heading", "label": "Heading", "default": "6 Powerful Actives.<br>1 Complete Stack." },
+    { "type": "textarea", "id": "ingredients_subtitle", "label": "Subtitle", "default": "Synergistic actives designed to work together to deliver energy and healthy aging." },
+    { "type": "header", "content": "Compare" },
+    { "type": "text", "id": "compare_heading", "label": "Heading", "default": "One Bottle<br>vs. 6+ Bottles" },
+    { "type": "textarea", "id": "compare_subtitle", "label": "Subtitle", "default": "One smart. Simplify your routine." },
+    { "type": "header", "content": "Science" },
+    { "type": "text", "id": "science_heading", "label": "Heading", "default": "Science. Synergy.<br>Daily Support." },
+    { "type": "textarea", "id": "science_subtitle", "label": "Subtitle", "default": "NMN works at the cellular level to support energy, recovery, healthy aging and vitality, and everyday wellness." },
+    { "type": "textarea", "id": "research_text", "label": "Research text", "default": "NMN + resveratrol may support healthy NAD+ levels and cellular wellness." },
+    { "type": "header", "content": "Quality" },
+    { "type": "text", "id": "quality_heading", "label": "Heading", "default": "Quality You<br>Can Trust" },
+    { "type": "url", "id": "guarantee_url", "label": "Guarantee URL" },
+    { "type": "header", "content": "Reviews" },
+    { "type": "text", "id": "reviews_heading", "label": "Heading", "default": "Real People.<br>Real Routines." },
+    { "type": "text", "id": "reviews_score", "label": "Score", "default": "4.8" },
+    { "type": "text", "id": "reviews_count", "label": "Count", "default": "113 reviews" },
+    { "type": "text", "id": "reviews_note", "label": "Note", "default": "Reviews may vary. Testimonials reflect individual experiences and are not guaranteed." },
+    { "type": "header", "content": "FAQ" },
+    { "type": "text", "id": "faq_heading", "label": "Heading", "default": "Frequently<br>Asked<br>Questions" },
+    { "type": "header", "content": "Sticky" },
+    { "type": "text", "id": "sticky_title", "label": "Sticky title", "default": "Real NMN. <span>Verified.</span> Yours today." }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "textarea", "id": "quote", "label": "Quote", "default": "Love the clean ingredients and how it fits 2-in-1. I feel consistent energy and clarity throughout the day." },
+        { "type": "text", "id": "author", "label": "Author", "default": "Verified Buyer" }
+      ]
+    },
+    {
+      "type": "faq_item",
+      "name": "FAQ item",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "How long does one bottle last?" },
+        { "type": "textarea", "id": "answer", "label": "Answer", "default": "One bottle provides 90 servings (2 capsules each) — a 3-month supply." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "NMN Resveratrol V2",
+      "blocks": [
+        { "type": "review", "settings": { "quote": "Love the clean ingredients and how it fits 2-in-1. I feel consistent energy and clarity throughout the day.", "author": "Verified Buyer" } },
+        { "type": "review", "settings": { "quote": "One capsule makes it easy. Healthy skin, better sleep, feels like longevity.", "author": "Verified Buyer" } },
+        { "type": "review", "settings": { "quote": "Grateful I found this. It feels like this supports the long-term routine.", "author": "Verified Buyer" } },
+        { "type": "review", "settings": { "quote": "Finally a high quality all-in-one for aging. My skin, focus and energy are better.", "author": "Verified Buyer" } },
+        { "type": "faq_item", "settings": { "question": "How long does one bottle last?", "answer": "One bottle provides 90 servings (2 capsules each) — a 3-month supply." } },
+        { "type": "faq_item", "settings": { "question": "How much NMN is in each serving?", "answer": "Each serving provides 500mg NMN." } },
+        { "type": "faq_item", "settings": { "question": "How do you verify it?", "answer": "Every batch is third-party tested for quality and purity." } },
+        { "type": "faq_item", "settings": { "question": "What are the other 5 ingredients?", "answer": "Trans-resveratrol, quercetin, piperine, phosphatidyl choline and vitamin C." } },
+        { "type": "faq_item", "settings": { "question": "Is it suitable for everyday use?", "answer": "It is designed as a simple daily supplement routine. Follow the label directions." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,265 @@
+{% doc %}
+  @prompt
+    genere moi une section contenant un titre et des paragraphe ( tous les text du section sont cenré au centre) avce tous les parametres du reglaga
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-text-section-{{ ai_gen_id }} {
+    padding: {{ block.settings.padding_top }}px {{ block.settings.padding_horizontal }}px {{ block.settings.padding_bottom }}px;
+    background-color: {{ block.settings.background_color }};
+    text-align: center;
+  }
+
+  .ai-text-section-container-{{ ai_gen_id }} {
+    max-width: {{ block.settings.content_width }}px;
+    margin: 0 auto;
+  }
+
+  .ai-text-section-title-{{ ai_gen_id }} {
+    color: {{ block.settings.title_color }};
+    font-size: {{ block.settings.title_size }}px;
+    margin: 0 0 {{ block.settings.title_spacing }}px;
+    font-weight: {{ block.settings.title_weight }};
+  }
+
+  .ai-text-section-paragraph-{{ ai_gen_id }} {
+    color: {{ block.settings.text_color }};
+    font-size: {{ block.settings.text_size }}px;
+    line-height: {{ block.settings.line_height }};
+    margin: 0 0 {{ block.settings.paragraph_spacing }}px;
+  }
+
+  .ai-text-section-paragraph-{{ ai_gen_id }}:last-child {
+    margin-bottom: 0;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-text-section-{{ ai_gen_id }} {
+      padding: {{ block.settings.padding_top | times: 0.7 }}px {{ block.settings.padding_horizontal | times: 0.7 }}px {{ block.settings.padding_bottom | times: 0.7 }}px;
+    }
+
+    .ai-text-section-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_size | times: 0.8 }}px;
+    }
+
+    .ai-text-section-paragraph-{{ ai_gen_id }} {
+      font-size: {{ block.settings.text_size | times: 0.9 }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-text-section-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-text-section-container-{{ ai_gen_id }}">
+    {% if block.settings.title != blank %}
+      <h2 class="ai-text-section-title-{{ ai_gen_id }}">{{ block.settings.title }}</h2>
+    {% endif %}
+
+    {% if block.settings.paragraph_1 != blank %}
+      <div class="ai-text-section-paragraph-{{ ai_gen_id }}">{{ block.settings.paragraph_1 }}</div>
+    {% endif %}
+
+    {% if block.settings.paragraph_2 != blank %}
+      <div class="ai-text-section-paragraph-{{ ai_gen_id }}">{{ block.settings.paragraph_2 }}</div>
+    {% endif %}
+
+    {% if block.settings.paragraph_3 != blank %}
+      <div class="ai-text-section-paragraph-{{ ai_gen_id }}">{{ block.settings.paragraph_3 }}</div>
+    {% endif %}
+
+    {% if block.settings.paragraph_4 != blank %}
+      <div class="ai-text-section-paragraph-{{ ai_gen_id }}">{{ block.settings.paragraph_4 }}</div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Text section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "<p>Section title</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "paragraph_1",
+      "label": "Paragraph 1",
+      "default": "<p>Add your first paragraph of text here. This content will be centered on the page.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "paragraph_2",
+      "label": "Paragraph 2"
+    },
+    {
+      "type": "richtext",
+      "id": "paragraph_3",
+      "label": "Paragraph 3"
+    },
+    {
+      "type": "richtext",
+      "id": "paragraph_4",
+      "label": "Paragraph 4"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "content_width",
+      "min": 400,
+      "max": 1200,
+      "step": 50,
+      "unit": "px",
+      "label": "Content width",
+      "default": 800
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "padding_horizontal",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Horizontal padding",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Title style"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Color",
+      "default": "#121212"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 16,
+      "max": 72,
+      "step": 2,
+      "unit": "px",
+      "label": "Size",
+      "default": 36
+    },
+    {
+      "type": "select",
+      "id": "title_weight",
+      "label": "Weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi-bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "range",
+      "id": "title_spacing",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Bottom spacing",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Paragraph style"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Color",
+      "default": "#121212"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "line_height",
+      "min": 1,
+      "max": 2,
+      "step": 0.1,
+      "label": "Line height",
+      "default": 1.5
+    },
+    {
+      "type": "range",
+      "id": "paragraph_spacing",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Spacing between paragraphs",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Text section"
+    }
+  ]
+}
+{% endschema %}

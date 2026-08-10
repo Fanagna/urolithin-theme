@@ -1,0 +1,11 @@
+{%- comment -%}
+  Renders an editable image for the social-proof blocks.
+  Priority: uploaded image_picker (`img`, responsive via image_url) → theme-asset
+  fallback (`file`, asset_url). Params: img, file, w (target px width), alt,
+  wid/hei (width/height attrs, anti-CLS), cls (class), loading, fetch.
+{%- endcomment -%}
+{%- if img != blank -%}
+  <img src="{{ img | image_url: width: w }}" alt="{{ alt | escape }}"{% if wid %} width="{{ wid }}"{% endif %}{% if hei %} height="{{ hei }}"{% endif %} loading="{{ loading | default: 'lazy' }}"{% if fetch %} fetchpriority="{{ fetch }}"{% endif %}{% if cls != blank %} class="{{ cls }}"{% endif %}>
+{%- elsif file != blank -%}
+  <img src="{{ file | asset_url }}" alt="{{ alt | escape }}"{% if wid %} width="{{ wid }}"{% endif %}{% if hei %} height="{{ hei }}"{% endif %} loading="{{ loading | default: 'lazy' }}"{% if fetch %} fetchpriority="{{ fetch }}"{% endif %}{% if cls != blank %} class="{{ cls }}"{% endif %}>
+{%- endif -%}

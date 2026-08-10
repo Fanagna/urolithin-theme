@@ -1,0 +1,438 @@
+{% doc %}
+  @prompt
+    Create a custom Shopify section that matches the visual layout and content provided.
+    ⚠️ Do not change or rewrite any text.
+    ⚠️ Do not alter the structure or order of the information.
+    
+    The section should contain:
+    
+    1. Section Structure
+    
+    Full-width section
+    
+    Background: white
+    
+    Centered content
+    
+    Max content width: 1100px to 1200px
+    
+    Padding: 64px top/bottom for desktop, 40px top/bottom for mobile
+    
+    2. Header
+    
+    Text: “Why We Stand Out”
+    
+    Font size: 32px–36px (desktop), 24px–28px (mobile)
+    
+    Font weight: bold
+    
+    Text color: dark blue (similar to #003366)
+    
+    Text alignment: center
+    
+    Margin-bottom: 40px
+    
+    3. Table Layout
+    
+    Create a two-column layout, with the first column for "Other Probiotics" and the second for "OUR FORMULA"
+    
+    Each row should contain 2 columns: one for the attribute and one for the description
+    
+    Border between cells: none, but ensure a clean separation of rows
+    
+    Row gap: 24px
+    
+    Column gap: 20px
+    
+    Table header: Use a blue background for "OUR FORMULA" with white text, as shown in the image
+    
+    4. Content for Each Row
+    
+    Each row should contain the following information:
+    
+    Row 1:
+    Attribute: "Strain Quality"
+    Description: "Generic strains" (left column) / "Clinically studied DSM strains" (right column)
+    
+    Row 2:
+    Attribute: "Potency"
+    Description: "10-20B CFU" (left column) / "150B CFU + gastric protection" (right column)
+    
+    Row 3:
+    Attribute: "Focus"
+    Description: "Single objective" (left column) / "Systemic Mood + Weight + Digestion" (right column)
+    
+    Row 4:
+    Attribute: "Storage"
+    Description: "Needs refrigeration" (left column) / "Room temp stable (24 months)" (right column)
+    
+    5. Output Requirements
+    
+    Generate Liquid + HTML + CSS code for the section
+    
+    Ensure mobile-first optimization
+    
+    Clean, readable code with proper comments for maintainability
+    
+    Use no borders for the table cells, but maintain clear separation with background colors
+    
+    Blue for "OUR FORMULA" header background with white text
+    
+    Do not add animations unless specified. Make sure that text is properly aligned and that the table adjusts
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-comparison-table-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    background-color: {{ block.settings.background_color }};
+    padding: {{ block.settings.padding_desktop }}px 20px;
+  }
+
+  .ai-comparison-table-container-{{ ai_gen_id }} {
+    max-width: {{ block.settings.max_width }}px;
+    margin: 0 auto;
+  }
+
+  .ai-comparison-table-header-{{ ai_gen_id }} {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .ai-comparison-table-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size_desktop }}px;
+    font-weight: 700;
+    color: {{ block.settings.title_color }};
+    margin: 0;
+  }
+
+  .ai-comparison-table-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: {{ block.settings.row_gap }}px {{ block.settings.column_gap }}px;
+  }
+
+  .ai-comparison-table-column-header-{{ ai_gen_id }} {
+    padding: {{ block.settings.cell_padding }}px;
+    font-weight: 600;
+    font-size: {{ block.settings.header_font_size }}px;
+    text-align: center;
+  }
+
+  .ai-comparison-table-column-header-left-{{ ai_gen_id }} {
+    background-color: {{ block.settings.left_header_bg }};
+    color: {{ block.settings.left_header_text }};
+  }
+
+  .ai-comparison-table-column-header-right-{{ ai_gen_id }} {
+    background-color: {{ block.settings.right_header_bg }};
+    color: {{ block.settings.right_header_text }};
+  }
+
+  .ai-comparison-table-cell-{{ ai_gen_id }} {
+    padding: {{ block.settings.cell_padding }}px;
+    background-color: {{ block.settings.cell_bg_color }};
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .ai-comparison-table-attribute-{{ ai_gen_id }} {
+    font-weight: 600;
+    font-size: {{ block.settings.attribute_font_size }}px;
+    color: {{ block.settings.attribute_color }};
+  }
+
+  .ai-comparison-table-description-{{ ai_gen_id }} {
+    font-size: {{ block.settings.description_font_size }}px;
+    color: {{ block.settings.description_color }};
+    line-height: 1.5;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-comparison-table-{{ ai_gen_id }} {
+      padding: {{ block.settings.padding_mobile }}px 16px;
+    }
+
+    .ai-comparison-table-header-{{ ai_gen_id }} {
+      margin-bottom: 24px;
+    }
+
+    .ai-comparison-table-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_size_mobile }}px;
+    }
+
+    .ai-comparison-table-grid-{{ ai_gen_id }} {
+      gap: {{ block.settings.row_gap | times: 0.75 }}px {{ block.settings.column_gap | times: 0.75 }}px;
+    }
+
+    .ai-comparison-table-column-header-{{ ai_gen_id }} {
+      font-size: {{ block.settings.header_font_size | times: 0.9 }}px;
+      padding: {{ block.settings.cell_padding | times: 0.75 }}px;
+    }
+
+    .ai-comparison-table-cell-{{ ai_gen_id }} {
+      padding: {{ block.settings.cell_padding | times: 0.75 }}px;
+    }
+
+    .ai-comparison-table-attribute-{{ ai_gen_id }} {
+      font-size: {{ block.settings.attribute_font_size | times: 0.9 }}px;
+    }
+
+    .ai-comparison-table-description-{{ ai_gen_id }} {
+      font-size: {{ block.settings.description_font_size | times: 0.9 }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-comparison-table-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-comparison-table-container-{{ ai_gen_id }}">
+    <div class="ai-comparison-table-header-{{ ai_gen_id }}">
+      <h2 class="ai-comparison-table-title-{{ ai_gen_id }}">Why We Stand Out</h2>
+    </div>
+
+    <div class="ai-comparison-table-grid-{{ ai_gen_id }}">
+      <div class="ai-comparison-table-column-header-{{ ai_gen_id }} ai-comparison-table-column-header-left-{{ ai_gen_id }}">
+        Other Probiotics
+      </div>
+      <div class="ai-comparison-table-column-header-{{ ai_gen_id }} ai-comparison-table-column-header-right-{{ ai_gen_id }}">
+        OUR FORMULA
+      </div>
+
+      <div class="ai-comparison-table-cell-{{ ai_gen_id }}">
+        <div class="ai-comparison-table-attribute-{{ ai_gen_id }}">Strain Quality</div>
+        <div class="ai-comparison-table-description-{{ ai_gen_id }}">Generic strains</div>
+      </div>
+      <div class="ai-comparison-table-cell-{{ ai_gen_id }}">
+        <div class="ai-comparison-table-attribute-{{ ai_gen_id }}">Strain Quality</div>
+        <div class="ai-comparison-table-description-{{ ai_gen_id }}">Clinically studied DSM strains</div>
+      </div>
+
+      <div class="ai-comparison-table-cell-{{ ai_gen_id }}">
+        <div class="ai-comparison-table-attribute-{{ ai_gen_id }}">Potency</div>
+        <div class="ai-comparison-table-description-{{ ai_gen_id }}">10-20B CFU</div>
+      </div>
+      <div class="ai-comparison-table-cell-{{ ai_gen_id }}">
+        <div class="ai-comparison-table-attribute-{{ ai_gen_id }}">Potency</div>
+        <div class="ai-comparison-table-description-{{ ai_gen_id }}">150B CFU + gastric protection</div>
+      </div>
+
+      <div class="ai-comparison-table-cell-{{ ai_gen_id }}">
+        <div class="ai-comparison-table-attribute-{{ ai_gen_id }}">Focus</div>
+        <div class="ai-comparison-table-description-{{ ai_gen_id }}">Single objective</div>
+      </div>
+      <div class="ai-comparison-table-cell-{{ ai_gen_id }}">
+        <div class="ai-comparison-table-attribute-{{ ai_gen_id }}">Focus</div>
+        <div class="ai-comparison-table-description-{{ ai_gen_id }}">Systemic Mood + Weight + Digestion</div>
+      </div>
+
+      <div class="ai-comparison-table-cell-{{ ai_gen_id }}">
+        <div class="ai-comparison-table-attribute-{{ ai_gen_id }}">Storage</div>
+        <div class="ai-comparison-table-description-{{ ai_gen_id }}">Needs refrigeration</div>
+      </div>
+      <div class="ai-comparison-table-cell-{{ ai_gen_id }}">
+        <div class="ai-comparison-table-attribute-{{ ai_gen_id }}">Storage</div>
+        <div class="ai-comparison-table-description-{{ ai_gen_id }}">Room temp stable (24 months)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Comparison table",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 1000,
+      "max": 1600,
+      "step": 100,
+      "unit": "px",
+      "label": "Maximum width",
+      "default": 1200
+    },
+    {
+      "type": "range",
+      "id": "padding_desktop",
+      "min": 20,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding (desktop)",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_mobile",
+      "min": 20,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding (mobile)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "row_gap",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "label": "Row gap",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "column_gap",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "label": "Column gap",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "cell_padding",
+      "min": 8,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Cell padding",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Title"
+    },
+    {
+      "type": "range",
+      "id": "title_size_desktop",
+      "min": 24,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Font size (desktop)",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "title_size_mobile",
+      "min": 20,
+      "max": 36,
+      "step": 2,
+      "unit": "px",
+      "label": "Font size (mobile)",
+      "default": 28
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Color",
+      "default": "#003366"
+    },
+    {
+      "type": "header",
+      "content": "Column headers"
+    },
+    {
+      "type": "range",
+      "id": "header_font_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "left_header_bg",
+      "label": "Left header background",
+      "default": "#f3f3f3"
+    },
+    {
+      "type": "color",
+      "id": "left_header_text",
+      "label": "Left header text",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "right_header_bg",
+      "label": "Right header background",
+      "default": "#003366"
+    },
+    {
+      "type": "color",
+      "id": "right_header_text",
+      "label": "Right header text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Table cells"
+    },
+    {
+      "type": "color",
+      "id": "cell_bg_color",
+      "label": "Cell background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "attribute_font_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Attribute font size",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "attribute_color",
+      "label": "Attribute color",
+      "default": "#121212"
+    },
+    {
+      "type": "range",
+      "id": "description_font_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Description font size",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Description color",
+      "default": "#121212"
+    },
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Comparison table"
+    }
+  ],
+  "tag": null
+}
+{% endschema %}

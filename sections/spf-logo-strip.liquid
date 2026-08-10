@@ -1,0 +1,33 @@
+{{ 'spf.css' | asset_url | stylesheet_tag }}
+{%- if section.settings.show_arrows -%}<script src="{{ 'spf.js' | asset_url }}" defer></script>{%- endif -%}
+<div class="spf spf-strip" style="--spf-bg:{{ section.settings.bg }};--spf-line:{{ section.settings.line }};--spf-strip-minw:{{ section.settings.mobile_min_width }}px">
+  {%- if section.settings.heading != blank -%}<h2 class="spf-heading">{{ section.settings.heading }}</h2>{%- endif -%}
+  <div class="spf-strip-inner"{% if section.settings.show_arrows %} data-spf-carousel{% endif %}>
+    {%- if section.settings.show_arrows -%}<button class="spf-strip-btn left" type="button" aria-label="Scroll left" data-spf-scroll="-1" data-spf-ratio="0.7">‹</button>{%- endif -%}
+    {%- render 'spf-img', img: section.settings.image, file: section.settings.image_file, w: 1600, alt: section.settings.alt -%}
+    {%- if section.settings.show_arrows -%}<button class="spf-strip-btn right" type="button" aria-label="Scroll right" data-spf-scroll="1" data-spf-ratio="0.7">›</button>{%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "SPF · Logo strip",
+  "tag": "section",
+  "class": "spf-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading (blank = hidden)" },
+    { "type": "image_picker", "id": "image", "label": "Strip image (wide)" },
+    { "type": "text", "id": "image_file", "label": "…or asset filename", "info": "e.g. spf-press-logos.webp / spf-institutions.webp / spf-certifications.webp" },
+    { "type": "text", "id": "alt", "label": "Alt text", "default": "Featured logos" },
+    { "type": "checkbox", "id": "show_arrows", "label": "Show scroll arrows", "default": false },
+    { "type": "range", "id": "mobile_min_width", "label": "Mobile min width", "min": 400, "max": 1200, "step": 10, "unit": "px", "default": 820, "info": "How wide the image stays before it scrolls on mobile" },
+    { "type": "color", "id": "bg", "label": "Background", "default": "#fbfaf8" },
+    { "type": "color", "id": "line", "label": "Border", "default": "#e7e2da" }
+  ],
+  "presets": [
+    { "name": "SPF · Press logos", "settings": { "image_file": "spf-press-logos.webp", "alt": "Press mentions", "show_arrows": true, "mobile_min_width": 820 } },
+    { "name": "SPF · Institutions", "settings": { "image_file": "spf-institutions.webp", "alt": "Scientific institutions", "mobile_min_width": 850 } },
+    { "name": "SPF · Certifications", "settings": { "image_file": "spf-certifications.webp", "alt": "Product certifications", "mobile_min_width": 830 } }
+  ]
+}
+{% endschema %}

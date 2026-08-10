@@ -1,0 +1,597 @@
+{{ 'ua-longevity-product.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign ua_variant = product.selected_or_first_available_variant
+  capture ua_price
+    if ua_variant
+      echo ua_variant.price | money
+    else
+      echo '$48.99'
+    endif
+  endcapture
+  assign ua_product_title = section.settings.sticky_title | default: product.title
+-%}
+
+{% render 'panstellar-product-schema', product: product %}
+<div class="ua-lp" id="ua-longevity-product-{{ section.id }}">
+
+  {%- if section.settings.show_announcement -%}
+    <div class="ua-lp__announcement">{{ section.settings.announcement_text }}</div>
+  {%- endif -%}
+
+  {%- comment -%} ── HERO ── {%- endcomment -%}
+  <section class="ua-lp__hero" aria-label="{{ section.settings.hero_eyebrow }}">
+    <div class="ua-lp__inner ua-lp__hero-grid">
+      <div class="ua-lp__hero-copy">
+        <div class="ua-lp__hero-copy-hook">
+          <p class="ua-lp__eyebrow">{{ section.settings.hero_eyebrow }}</p>
+          <h1>{{ section.settings.hero_heading }}</h1>
+        </div>
+        <div class="ua-lp__hero-copy-action">
+          <p class="ua-lp__sub">{{ section.settings.hero_subtext }}</p>
+          <p class="ua-lp__price-line">
+            <strong>{{ ua_price }}</strong> {{ section.settings.hero_supply_suffix }}
+            <span>{{ section.settings.hero_supply_caps }}</span>
+          </p>
+          <div class="ua-lp__day-badge">{{ section.settings.hero_day_price }}</div>
+
+          {%- capture hero_button_label -%}{{ section.settings.hero_button_prefix }} — {{ ua_price }}{%- endcapture -%}
+          {% render 'ua-product-cta-form',
+            product: product,
+            section: section,
+            form_id_suffix: 'hero',
+            button_label: hero_button_label,
+            button_class: 'ua-btn',
+            form_class: 'ua-product-form ua-product-form--hero'
+          %}
+
+          <p class="ua-lp__micro">{{ section.settings.hero_micro }}</p>
+          <div class="ua-lp__trust-row" aria-label="Product trust points">
+            {%- if section.settings.hero_trust_1 != blank -%}
+              <span><span class="ua-lp__icon">◇</span>{{ section.settings.hero_trust_1 }}</span>
+            {%- endif -%}
+            {%- if section.settings.hero_trust_2 != blank -%}
+              <span><span class="ua-lp__icon">◈</span>{{ section.settings.hero_trust_2 }}</span>
+            {%- endif -%}
+            {%- if section.settings.hero_trust_3 != blank -%}
+              <span><span class="ua-lp__icon">▣</span>{{ section.settings.hero_trust_3 }}</span>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+
+      <div class="ua-lp__hero-media">
+        <div class="ua-lp__hero-card">
+          {%- if section.settings.hero_image != blank -%}
+            {%- assign hero_img_alt = section.settings.hero_image.alt | default: section.settings.hero_heading -%}
+            {{ section.settings.hero_image | image_url: width: 1200 | image_tag: loading: 'eager', class: 'ua-lp__hero-image', alt: hero_img_alt }}
+          {%- else -%}
+            {{ 'ua-hero-visual.webp' | asset_url | image_tag: loading: 'eager', class: 'ua-lp__hero-image', alt: section.settings.hero_heading }}
+          {%- endif -%}
+        </div>
+        <div class="ua-lp__floating-card">
+          {%- if section.settings.hero_bottle_image != blank -%}
+            {%- assign bottle_alt = section.settings.hero_bottle_image.alt | default: section.settings.floating_title -%}
+            {{ section.settings.hero_bottle_image | image_url: width: 200 | image_tag: loading: 'eager', alt: bottle_alt }}
+          {%- else -%}
+            {{ 'ua-hero-bottle.png' | asset_url | image_tag: loading: 'eager', alt: section.settings.floating_title }}
+          {%- endif -%}
+          <div>
+            <strong>{{ section.settings.floating_title }}</strong>
+            <span>{{ section.settings.floating_sub }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ── INGREDIENTS ── {%- endcomment -%}
+  {%- assign ingredient_blocks = section.blocks | where: 'type', 'ingredient' -%}
+  {%- if ingredient_blocks.size > 0 -%}
+    <section class="ua-lp__section ua-lp__section--cream" id="ua-ingredients">
+      <div class="ua-lp__inner">
+        <div class="ua-lp__center">
+          <h2>{{ section.settings.ing_heading }}</h2>
+          <p class="ua-lp__sub">{{ section.settings.ing_subtext }}</p>
+          <div class="ua-lp__rule" aria-hidden="true"></div>
+        </div>
+        <div class="ua-ingredient-grid">
+          {%- for block in ingredient_blocks -%}
+            <article class="ua-ingredient-card{% if block.settings.is_hero %} ua-ingredient-card--hero{% endif %}" {{ block.shopify_attributes }}>
+              {%- if block.settings.is_hero -%}
+                <span class="ua-ingredient-card__ribbon">{{ section.settings.ing_hero_ribbon | default: 'Hero ingredient' }}</span>
+              {%- endif -%}
+              {%- if block.settings.image != blank -%}
+                {%- assign ing_img_alt = block.settings.image.alt | default: block.settings.name -%}
+                {{ block.settings.image | image_url: width: 400 | image_tag: loading: 'lazy', class: 'ua-ingredient-card__image', alt: ing_img_alt }}
+              {%- elsif block.settings.fallback_asset != blank -%}
+                {{ block.settings.fallback_asset | asset_url | image_tag: loading: 'lazy', class: 'ua-ingredient-card__image', alt: block.settings.name }}
+              {%- endif -%}
+              <div>
+                <h3 class="ua-ingredient-card__title">{{ block.settings.name }}<br>{{ block.settings.dose }}</h3>
+                <p class="ua-ingredient-card__meta">{{ block.settings.meta }}</p>
+              </div>
+            </article>
+          {%- endfor -%}
+        </div>
+      </div>
+    </section>
+  {%- endif -%}
+
+  {%- comment -%} ── COMPARISON ── {%- endcomment -%}
+  <section class="ua-lp__section" id="ua-comparison">
+    <div class="ua-lp__inner ua-comparison">
+      <div>
+        <p class="ua-lp__section-eyebrow">{{ section.settings.comparison_eyebrow }}</p>
+        <h2>{{ section.settings.comparison_heading }}</h2>
+        <p class="ua-lp__sub">{{ section.settings.comparison_subtext }}</p>
+
+        <table class="ua-table" aria-label="Comparison between this formula and buying supplements separately">
+          <thead>
+            <tr>
+              <th scope="col">&nbsp;</th>
+              <th scope="col">{{ section.settings.comparison_col_ours }}</th>
+              <th scope="col">{{ section.settings.comparison_col_theirs }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ section.settings.comparison_row1_label }}</td>
+              <td class="ua-bold">{{ section.settings.comparison_row1_ours }}</td>
+              <td>{{ section.settings.comparison_row1_theirs }}</td>
+            </tr>
+            <tr>
+              <td>{{ section.settings.comparison_row2_label }}</td>
+              <td class="ua-bold">{{ section.settings.comparison_row2_ours }}</td>
+              <td>{{ section.settings.comparison_row2_theirs }}</td>
+            </tr>
+            <tr>
+              <td>{{ section.settings.comparison_row3_label }}</td>
+              <td class="ua-bold">{{ section.settings.comparison_row3_ours }}</td>
+              <td>{{ section.settings.comparison_row3_theirs }}</td>
+            </tr>
+            <tr>
+              <td>{{ section.settings.comparison_row4_label }}</td>
+              <td class="ua-bold">{{ section.settings.comparison_row4_ours }}</td>
+              <td>{{ section.settings.comparison_row4_theirs }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        {%- capture comparison_button_label -%}{{ section.settings.comparison_button_prefix }} — {{ ua_price }}{%- endcapture -%}
+        {% render 'ua-product-cta-form',
+          product: product,
+          section: section,
+          form_id_suffix: 'comparison',
+          button_label: comparison_button_label,
+          button_class: 'ua-btn',
+          form_class: 'ua-product-form ua-product-form--comparison'
+        %}
+      </div>
+      <div class="ua-comparison__visual">
+        {%- if section.settings.comparison_image != blank -%}
+          {%- assign cmp_alt = section.settings.comparison_image.alt | default: 'One formula replacing multiple bottles' -%}
+          {{ section.settings.comparison_image | image_url: width: 900 | image_tag: loading: 'lazy', alt: cmp_alt }}
+        {%- else -%}
+          {{ 'ua-comparison-visual.png' | asset_url | image_tag: loading: 'lazy', alt: 'One formula replacing multiple bottles' }}
+        {%- endif -%}
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ── GUARANTEE ── {%- endcomment -%}
+  <section class="ua-lp__section ua-lp__section--goldwash" id="ua-guarantee">
+    <div class="ua-lp__inner">
+      <div class="ua-guarantee">
+        {%- if section.settings.guarantee_image != blank -%}
+          {%- assign guar_alt = section.settings.guarantee_image.alt | default: section.settings.guarantee_eyebrow -%}
+          {{ section.settings.guarantee_image | image_url: width: 600 | image_tag: loading: 'lazy', class: 'ua-guarantee__seal', alt: guar_alt }}
+        {%- else -%}
+          {{ 'ua-guarantee-seal.png' | asset_url | image_tag: loading: 'lazy', class: 'ua-guarantee__seal', alt: section.settings.guarantee_eyebrow }}
+        {%- endif -%}
+        <div class="ua-guarantee__copy">
+          <p class="ua-lp__section-eyebrow">{{ section.settings.guarantee_eyebrow }}</p>
+          <h2>{{ section.settings.guarantee_heading }}</h2>
+          <p class="ua-lp__sub">{{ section.settings.guarantee_subtext }}</p>
+          {% render 'ua-product-cta-form',
+            product: product,
+            section: section,
+            form_id_suffix: 'guarantee',
+            button_label: section.settings.guarantee_button_label,
+            button_class: 'ua-btn',
+            form_class: 'ua-product-form ua-product-form--guarantee'
+          %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ── HOW IT WORKS ── {%- endcomment -%}
+  <section class="ua-lp__section" id="ua-how-it-works">
+    <div class="ua-lp__inner">
+      <div class="ua-lp__center">
+        <h2>{{ section.settings.hiw_heading }}</h2>
+        <p class="ua-lp__sub">{{ section.settings.hiw_subtext }}</p>
+        <div class="ua-lp__rule" aria-hidden="true"></div>
+      </div>
+      <div class="ua-steps">
+        <article class="ua-step">
+          <span class="ua-step__num">1</span>
+          <div class="ua-step__image-wrap">
+            {%- if section.settings.step1_image != blank -%}
+              {{ section.settings.step1_image | image_url: width: 300 | image_tag: loading: 'lazy', alt: section.settings.step1_title }}
+            {%- else -%}
+              {{ 'ua-step-order.png' | asset_url | image_tag: loading: 'lazy', alt: section.settings.step1_title }}
+            {%- endif -%}
+          </div>
+          <h3>{{ section.settings.step1_title }}</h3>
+          <p>{{ section.settings.step1_text }}</p>
+        </article>
+        <article class="ua-step">
+          <span class="ua-step__num">2</span>
+          <div class="ua-step__image-wrap">
+            {%- if section.settings.step2_image != blank -%}
+              {{ section.settings.step2_image | image_url: width: 300 | image_tag: loading: 'lazy', alt: section.settings.step2_title }}
+            {%- else -%}
+              {{ 'ua-step-capsule.png' | asset_url | image_tag: loading: 'lazy', alt: section.settings.step2_title }}
+            {%- endif -%}
+          </div>
+          <h3>{{ section.settings.step2_title }}</h3>
+          <p>{{ section.settings.step2_text }}</p>
+        </article>
+        <article class="ua-step">
+          <span class="ua-step__num">3</span>
+          <div class="ua-step__image-wrap ua-step__image-wrap--portrait">
+            {%- if section.settings.step3_image != blank -%}
+              {{ section.settings.step3_image | image_url: width: 300 | image_tag: loading: 'lazy', alt: section.settings.step3_title }}
+            {%- else -%}
+              {{ 'ua-step-result.png' | asset_url | image_tag: loading: 'lazy', alt: section.settings.step3_title }}
+            {%- endif -%}
+          </div>
+          <h3>{{ section.settings.step3_title }}</h3>
+          <p>{{ section.settings.step3_text }}</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ── REVIEWS ── {%- endcomment -%}
+  {%- assign review_blocks = section.blocks | where: 'type', 'review' -%}
+  {%- if review_blocks.size > 0 -%}
+    <section class="ua-lp__section ua-lp__section--cream" id="ua-reviews">
+      <div class="ua-lp__inner">
+        <div class="ua-lp__center">
+          <h2>{{ section.settings.reviews_heading }}</h2>
+          {%- if section.settings.reviews_subtext != blank -%}
+            <p class="ua-lp__sub">{{ section.settings.reviews_subtext }}</p>
+          {%- endif -%}
+          <div class="ua-lp__rule" aria-hidden="true"></div>
+        </div>
+        <div class="ua-reviews">
+          {%- for block in review_blocks -%}
+            <article class="ua-review-card" {{ block.shopify_attributes }}>
+              <div class="ua-stars" aria-label="{{ block.settings.stars | default: '5' }} stars">
+                {%- assign star_count = block.settings.stars | default: 5 | plus: 0 -%}
+                {%- for i in (1..star_count) -%}★{%- endfor -%}
+              </div>
+              <blockquote>"{{ block.settings.quote }}"</blockquote>
+              <div class="ua-reviewer">
+                {%- if block.settings.avatar != blank -%}
+                  {%- assign rev_alt = block.settings.avatar.alt | default: block.settings.reviewer_name -%}
+                  {{ block.settings.avatar | image_url: width: 108 | image_tag: loading: 'lazy', alt: rev_alt }}
+                {%- elsif block.settings.fallback_avatar != blank -%}
+                  {{ block.settings.fallback_avatar | asset_url | image_tag: loading: 'lazy', alt: block.settings.reviewer_name }}
+                {%- endif -%}
+                <div>
+                  <strong>{{ block.settings.reviewer_name }}</strong>
+                  <span>{{ block.settings.reviewer_badge | default: 'Verified Buyer ✓' }}</span>
+                </div>
+              </div>
+            </article>
+          {%- endfor -%}
+        </div>
+      </div>
+    </section>
+  {%- endif -%}
+
+  {%- comment -%} ── CLOSING OFFER ── {%- endcomment -%}
+  <section class="ua-lp__section" id="ua-offer">
+    <div class="ua-lp__inner">
+      <div class="ua-offer">
+        <div class="ua-offer__visual">
+          {%- if section.settings.offer_image != blank -%}
+            {%- assign off_alt = section.settings.offer_image.alt | default: section.settings.offer_eyebrow -%}
+            {{ section.settings.offer_image | image_url: width: 860 | image_tag: loading: 'lazy', alt: off_alt }}
+          {%- else -%}
+            {{ 'ua-offer-visual.png' | asset_url | image_tag: loading: 'lazy', alt: section.settings.offer_eyebrow }}
+          {%- endif -%}
+        </div>
+        <div class="ua-offer__copy">
+          <p class="ua-lp__section-eyebrow">{{ section.settings.offer_eyebrow }}</p>
+          <p class="ua-offer__anchor"><s>{{ section.settings.offer_original_price }}</s> {{ section.settings.offer_anchor_suffix }}</p>
+          <div class="ua-offer__price">{{ ua_price }}</div>
+          <p class="ua-offer__sub">{{ section.settings.offer_subtext }}</p>
+          {%- capture offer_button_label -%}{{ section.settings.offer_button_prefix }} — {{ ua_price }}{%- endcapture -%}
+          {% render 'ua-product-cta-form',
+            product: product,
+            section: section,
+            form_id_suffix: 'offer',
+            button_label: offer_button_label,
+            button_class: 'ua-btn ua-btn--wide',
+            form_class: 'ua-product-form ua-product-form--offer'
+          %}
+          <div class="ua-lp__reassurance" aria-label="Offer reassurance">
+            {%- if section.settings.offer_reassurance_1 != blank -%}
+              <span><span class="ua-lp__icon">▣</span>{{ section.settings.offer_reassurance_1 }}</span>
+            {%- endif -%}
+            {%- if section.settings.offer_reassurance_2 != blank -%}
+              <span><span class="ua-lp__icon">◈</span>{{ section.settings.offer_reassurance_2 }}</span>
+            {%- endif -%}
+            {%- if section.settings.offer_reassurance_3 != blank -%}
+              <span><span class="ua-lp__icon">◇</span>{{ section.settings.offer_reassurance_3 }}</span>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {%- comment -%} ── FAQ ── {%- endcomment -%}
+  {%- assign faq_blocks = section.blocks | where: 'type', 'faq_item' -%}
+  {%- if faq_blocks.size > 0 -%}
+    <section class="ua-lp__section ua-lp__section--cream" id="ua-faq">
+      <div class="ua-lp__inner">
+        <div class="ua-lp__center">
+          <h2>{{ section.settings.faq_heading }}</h2>
+          <div class="ua-lp__rule" aria-hidden="true"></div>
+        </div>
+        <div class="ua-faq-list ua-faq">
+          {%- for block in faq_blocks -%}
+            <details {{ block.shopify_attributes }}>
+              <summary><span class="ua-faq__icon">◇</span>{{ block.settings.question }}</summary>
+              <div class="ua-faq__answer">{{ block.settings.answer }}</div>
+            </details>
+          {%- endfor -%}
+        </div>
+        {%- if section.settings.disclaimer != blank -%}
+          <p class="ua-disclaimer">{{ section.settings.disclaimer }}</p>
+        {%- endif -%}
+      </div>
+    </section>
+  {%- endif -%}
+
+  {%- comment -%} ── STICKY CART ── {%- endcomment -%}
+  <div class="ua-sticky" aria-label="Sticky add to cart" aria-hidden="true">
+    <div class="ua-sticky__inner">
+      <div class="ua-sticky__product">
+        {%- if product.featured_image != blank -%}
+          {{ product.featured_image | image_url: width: 120 | image_tag: loading: 'lazy', alt: product.title }}
+        {%- elsif section.settings.sticky_image != blank -%}
+          {%- assign stk_alt = section.settings.sticky_image.alt | default: product.title -%}
+          {{ section.settings.sticky_image | image_url: width: 120 | image_tag: loading: 'lazy', alt: stk_alt }}
+        {%- else -%}
+          {{ 'ua-sticky-product.png' | asset_url | image_tag: loading: 'lazy', alt: product.title }}
+        {%- endif -%}
+        <div>
+          <span class="ua-sticky__title">{{ product.title }}</span>
+          <span class="ua-sticky__meta">{{ section.settings.sticky_meta }}</span>
+        </div>
+      </div>
+      <div class="ua-sticky__price">
+        {{ ua_price }}
+        <span>{{ section.settings.sticky_day_price }}</span>
+      </div>
+      {% render 'ua-product-cta-form',
+        product: product,
+        section: section,
+        form_id_suffix: 'sticky',
+        button_label: 'Add to Cart',
+        button_class: 'ua-btn',
+        form_class: 'ua-product-form ua-product-form--sticky'
+      %}
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  function initStickyCart() {
+    var lp = document.getElementById('ua-longevity-product-{{ section.id }}');
+    if (!lp) return;
+    var hero   = lp.querySelector('.ua-lp__hero');
+    var sticky = lp.querySelector('.ua-sticky');
+    if (!hero || !sticky) return;
+
+    function setSticky(visible) {
+      sticky.classList.toggle('ua-sticky--visible', visible);
+      sticky.setAttribute('aria-hidden', visible ? 'false' : 'true');
+    }
+
+    if ('IntersectionObserver' in window) {
+      var obs = new IntersectionObserver(function (entries) {
+        setSticky(!entries[0].isIntersecting);
+      }, {
+        threshold: 0,
+        rootMargin: '0px 0px 0px 0px'
+      });
+      obs.observe(hero);
+    } else {
+      function onScroll() {
+        setSticky(hero.getBoundingClientRect().bottom < 80);
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initStickyCart);
+  } else {
+    initStickyCart();
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "UA Longevity Product Page",
+  "tag": "section",
+  "class": "section ua-longevity-product-section",
+  "max_blocks": 40,
+  "settings": [
+
+    { "type": "header", "content": "Announcement bar" },
+    { "type": "checkbox", "id": "show_announcement", "label": "Show bar", "default": true },
+    { "type": "text", "id": "announcement_text", "label": "Text", "default": "🚀 Launch price live — 8-in-1 longevity formula · 90 days $48.99 · Free shipping · 90-day money-back guarantee" },
+
+    { "type": "header", "content": "Hero — copy" },
+    { "type": "text",     "id": "hero_eyebrow",       "label": "Eyebrow",              "default": "8-IN-1 LONGEVITY FORMULA · MAXIMUM-STRENGTH" },
+    { "type": "textarea", "id": "hero_heading",        "label": "Heading",              "default": "Why buy 8 longevity supplements when one capsule has them all?" },
+    { "type": "textarea", "id": "hero_subtext",        "label": "Subtext",              "default": "Maximum-strength Urolithin A (2000 mg) plus NAD+, CoQ10, Resveratrol, PQQ, ALA, L-Carnitine & Quercetin — one complete daily capsule, without the premium-brand markup." },
+    { "type": "text",     "id": "hero_supply_suffix",  "label": "Price line suffix",    "default": "for a full 90-day supply" },
+    { "type": "text",     "id": "hero_supply_caps",    "label": "Capsule count label",  "default": "(180 caps)" },
+    { "type": "text",     "id": "hero_day_price",      "label": "Per-day price badge",  "default": "$0.54/day" },
+    { "type": "text",     "id": "hero_button_prefix",  "label": "CTA button prefix",    "default": "Get 3 Months" },
+    { "type": "text",     "id": "hero_micro",          "label": "Micro copy below CTA", "default": "Free shipping · 90-day guarantee · Ships today" },
+    { "type": "text",     "id": "hero_trust_1",        "label": "Trust point 1",        "default": "8 actives in 1 capsule" },
+    { "type": "text",     "id": "hero_trust_2",        "label": "Trust point 2",        "default": "Third-party tested" },
+    { "type": "text",     "id": "hero_trust_3",        "label": "Trust point 3",        "default": "cGMP facility" },
+
+    { "type": "header", "content": "Hero — images" },
+    { "type": "image_picker", "id": "hero_image",        "label": "Main hero image" },
+    { "type": "image_picker", "id": "hero_bottle_image", "label": "Floating card — bottle image" },
+    { "type": "text",         "id": "floating_title",    "label": "Floating card title",    "default": "Full stack in one bottle" },
+    { "type": "text",         "id": "floating_sub",      "label": "Floating card subtitle", "default": "Urolithin A + 7 daily longevity actives." },
+
+    { "type": "header", "content": "Ingredients section" },
+    { "type": "text",     "id": "ing_heading",     "label": "Heading",       "default": "8 longevity actives. One capsule a day." },
+    { "type": "textarea", "id": "ing_subtext",     "label": "Subtext",       "default": "A complete, clinically-informed formula built around maximum-strength Urolithin A — so you can retire the rest of the shelf." },
+    { "type": "text",     "id": "ing_hero_ribbon", "label": "Hero ribbon text", "default": "Hero ingredient" },
+
+    { "type": "header", "content": "Comparison section" },
+    { "type": "text",         "id": "comparison_eyebrow",      "label": "Eyebrow",                 "default": "Stack-cost comparison" },
+    { "type": "textarea",     "id": "comparison_heading",      "label": "Heading",                 "default": "Buy these separately? You'd spend $200+ a month." },
+    { "type": "textarea",     "id": "comparison_subtext",      "label": "Subtext",                 "default": "Single-ingredient longevity brands charge a premium per bottle. We put the whole stack in one capsule." },
+    { "type": "text",         "id": "comparison_col_ours",     "label": "Our column header",       "default": "This formula" },
+    { "type": "text",         "id": "comparison_col_theirs",   "label": "Their column header",     "default": "Buying separately" },
+    { "type": "text",         "id": "comparison_row1_label",   "label": "Row 1 — label",           "default": "Pills daily" },
+    { "type": "text",         "id": "comparison_row1_ours",    "label": "Row 1 — ours",            "default": "1" },
+    { "type": "text",         "id": "comparison_row1_theirs",  "label": "Row 1 — theirs",          "default": "5–8" },
+    { "type": "text",         "id": "comparison_row2_label",   "label": "Row 2 — label",           "default": "Per month" },
+    { "type": "text",         "id": "comparison_row2_ours",    "label": "Row 2 — ours",            "default": "~$16.33" },
+    { "type": "text",         "id": "comparison_row2_theirs",  "label": "Row 2 — theirs",          "default": "$200+" },
+    { "type": "text",         "id": "comparison_row3_label",   "label": "Row 3 — label",           "default": "Per day" },
+    { "type": "text",         "id": "comparison_row3_ours",    "label": "Row 3 — ours",            "default": "$0.54" },
+    { "type": "text",         "id": "comparison_row3_theirs",  "label": "Row 3 — theirs",          "default": "$6–7" },
+    { "type": "text",         "id": "comparison_row4_label",   "label": "Row 4 — label",           "default": "Guarantee" },
+    { "type": "text",         "id": "comparison_row4_ours",    "label": "Row 4 — ours",            "default": "90d" },
+    { "type": "text",         "id": "comparison_row4_theirs",  "label": "Row 4 — theirs",          "default": "Varies" },
+    { "type": "text",         "id": "comparison_button_prefix","label": "CTA button prefix",       "default": "Replace the Whole Stack" },
+    { "type": "image_picker", "id": "comparison_image",        "label": "Comparison visual" },
+
+    { "type": "header", "content": "Guarantee section" },
+    { "type": "image_picker", "id": "guarantee_image",        "label": "Guarantee seal image" },
+    { "type": "text",         "id": "guarantee_eyebrow",      "label": "Eyebrow",     "default": "90-day money-back guarantee" },
+    { "type": "text",         "id": "guarantee_heading",      "label": "Heading",     "default": "Feel it work, or pay nothing." },
+    { "type": "textarea",     "id": "guarantee_subtext",      "label": "Subtext",     "default": "Try it for a full 90 days — even the empty bottle is covered. If it does not fit your routine, send it back for a full refund." },
+    { "type": "text",         "id": "guarantee_button_label", "label": "Button text", "default": "Try It Risk-Free" },
+
+    { "type": "header", "content": "How it works" },
+    { "type": "text",         "id": "hiw_heading",   "label": "Heading", "default": "Simpler routine. Lower cost." },
+    { "type": "textarea",     "id": "hiw_subtext",   "label": "Subtext", "default": "Three months of a complete daily longevity stack, without building a shelf of separate bottles." },
+    { "type": "image_picker", "id": "step1_image",   "label": "Step 1 image" },
+    { "type": "text",         "id": "step1_title",   "label": "Step 1 title", "default": "Order your 90 days" },
+    { "type": "text",         "id": "step1_text",    "label": "Step 1 text",  "default": "180 caps, free shipping, ships today." },
+    { "type": "image_picker", "id": "step2_image",   "label": "Step 2 image" },
+    { "type": "text",         "id": "step2_title",   "label": "Step 2 title", "default": "Take one a day" },
+    { "type": "text",         "id": "step2_text",    "label": "Step 2 text",  "default": "All 8 actives in a single daily capsule." },
+    { "type": "image_picker", "id": "step3_image",   "label": "Step 3 image" },
+    { "type": "text",         "id": "step3_title",   "label": "Step 3 title", "default": "Feel it — or refund" },
+    { "type": "text",         "id": "step3_text",    "label": "Step 3 text",  "default": "No difference in 90 days? Full money back." },
+
+    { "type": "header", "content": "Reviews section" },
+    { "type": "text",     "id": "reviews_heading", "label": "Heading", "default": "Real people. Real results." },
+    { "type": "textarea", "id": "reviews_subtext", "label": "Subtext" },
+
+    { "type": "header", "content": "Closing offer" },
+    { "type": "image_picker", "id": "offer_image",           "label": "Offer visual" },
+    { "type": "text",         "id": "offer_eyebrow",         "label": "Eyebrow",              "default": "Your 90-day 8-in-1 longevity supply" },
+    { "type": "text",         "id": "offer_original_price",  "label": "Crossed-out price",    "default": "$200+" },
+    { "type": "text",         "id": "offer_anchor_suffix",   "label": "Anchor suffix",        "default": "a month buying them separately" },
+    { "type": "text",         "id": "offer_subtext",         "label": "Sub-price line",       "default": "A full 3 months (180 caps) · just $0.54/day · free shipping" },
+    { "type": "text",         "id": "offer_button_prefix",   "label": "Button prefix",        "default": "Add to Cart" },
+    { "type": "text",         "id": "offer_reassurance_1",   "label": "Reassurance 1",        "default": "Free shipping" },
+    { "type": "text",         "id": "offer_reassurance_2",   "label": "Reassurance 2",        "default": "Third-party tested" },
+    { "type": "text",         "id": "offer_reassurance_3",   "label": "Reassurance 3",        "default": "90-day guarantee" },
+
+    { "type": "header", "content": "FAQ section" },
+    { "type": "text", "id": "faq_heading", "label": "Heading", "default": "Frequently Asked Questions" },
+    { "type": "textarea", "id": "disclaimer", "label": "Disclaimer text (below FAQ)", "default": "*These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure or prevent any disease." },
+
+    { "type": "header", "content": "Sticky cart" },
+    { "type": "text",         "id": "sticky_title",     "label": "Product title",   "default": "8-IN-1 LONGEVITY FORMULA" },
+    { "type": "text",         "id": "sticky_meta",      "label": "Meta line",       "default": "180 Capsules · 90-Day Supply" },
+    { "type": "text",         "id": "sticky_day_price", "label": "Per-day price",   "default": "$0.54/day" },
+    { "type": "image_picker", "id": "sticky_image",     "label": "Product thumbnail" }
+
+  ],
+  "blocks": [
+    {
+      "type": "ingredient",
+      "name": "Ingredient",
+      "settings": [
+        { "type": "checkbox",     "id": "is_hero",          "label": "Hero ingredient (ribbon)",  "default": false },
+        { "type": "image_picker", "id": "image",            "label": "Image" },
+        { "type": "text",         "id": "fallback_asset",   "label": "Fallback asset filename (if no image picked)", "info": "e.g. ua-ingredient-urolithin.png" },
+        { "type": "text",         "id": "name",             "label": "Name",    "default": "Ingredient" },
+        { "type": "text",         "id": "dose",             "label": "Dose",    "default": "100mg" },
+        { "type": "text",         "id": "meta",             "label": "Benefit", "default": "Support" }
+      ]
+    },
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "range",        "id": "stars",           "label": "Stars",    "min": 1, "max": 5, "step": 1, "default": 5 },
+        { "type": "textarea",     "id": "quote",           "label": "Quote" },
+        { "type": "image_picker", "id": "avatar",          "label": "Avatar image" },
+        { "type": "text",         "id": "fallback_avatar", "label": "Fallback avatar asset filename", "info": "e.g. ua-avatar-michael.png" },
+        { "type": "text",         "id": "reviewer_name",   "label": "Reviewer name", "default": "Reviewer" },
+        { "type": "text",         "id": "reviewer_badge",  "label": "Badge text",    "default": "Verified Buyer ✓" }
+      ]
+    },
+    {
+      "type": "faq_item",
+      "name": "FAQ item",
+      "settings": [
+        { "type": "text",     "id": "question", "label": "Question" },
+        { "type": "textarea", "id": "answer",   "label": "Answer" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "UA Longevity Product Page",
+      "blocks": [
+        { "type": "ingredient", "settings": { "is_hero": true,  "name": "Urolithin A",  "dose": "2000mg", "meta": "Mitochondrial renewal support",  "fallback_asset": "ua-ingredient-urolithin.png" } },
+        { "type": "ingredient", "settings": { "is_hero": false, "name": "NAD+",         "dose": "100mg",  "meta": "Cellular energy support",         "fallback_asset": "ua-ingredient-nad.png" } },
+        { "type": "ingredient", "settings": { "is_hero": false, "name": "CoQ10",        "dose": "100mg",  "meta": "Heart & energy support",          "fallback_asset": "ua-ingredient-coq10.png" } },
+        { "type": "ingredient", "settings": { "is_hero": false, "name": "Resveratrol",  "dose": "100mg",  "meta": "Antioxidant support",             "fallback_asset": "ua-ingredient-resveratrol.png" } },
+        { "type": "ingredient", "settings": { "is_hero": false, "name": "PQQ",          "dose": "50mg",   "meta": "Mitochondrial support",           "fallback_asset": "ua-ingredient-pqq.png" } },
+        { "type": "ingredient", "settings": { "is_hero": false, "name": "ALA",          "dose": "50mg",   "meta": "Antioxidant support",             "fallback_asset": "ua-ingredient-ala.png" } },
+        { "type": "ingredient", "settings": { "is_hero": false, "name": "L-Carnitine",  "dose": "250mg",  "meta": "Energy metabolism support",       "fallback_asset": "ua-ingredient-lcarnitine.png" } },
+        { "type": "ingredient", "settings": { "is_hero": false, "name": "Quercetin",    "dose": "100mg",  "meta": "Cellular health support",         "fallback_asset": "ua-ingredient-quercetin.png" } },
+        { "type": "review", "settings": { "stars": 5, "quote": "Buying NAD+, CoQ10 and Urolithin A separately cost me over $180/mo. This has all 8 for one price a quarter.", "reviewer_name": "Mark R.", "reviewer_badge": "Verified Buyer ✓", "fallback_avatar": "ua-avatar-michael.png" } },
+        { "type": "review", "settings": { "stars": 5, "quote": "Went from 6 pills every morning to one. Same actives, less cost, far simpler.", "reviewer_name": "Diane K.", "reviewer_badge": "Verified Buyer ✓", "fallback_avatar": "ua-avatar-sarah.png" } },
+        { "type": "review", "settings": { "stars": 5, "quote": "The 90-day guarantee got me to try it. Three weeks in, I'm happy I switched to one daily capsule.", "reviewer_name": "Tom B.", "reviewer_badge": "Verified Buyer ✓", "fallback_avatar": "ua-avatar-david.png" } },
+        { "type": "faq_item", "settings": { "question": "How can one capsule replace 8 separate supplements?", "answer": "Maximum-strength Urolithin A (2000mg) is formulated with NAD+, CoQ10, Resveratrol, PQQ, ALA, L-Carnitine and Quercetin in one daily capsule." } },
+        { "type": "faq_item", "settings": { "question": "How is it this much cheaper?", "answer": "You pay for the formula, not the premium per-bottle markup. One combined stack reduces duplicated packaging, shipping and brand markup." } },
+        { "type": "faq_item", "settings": { "question": "What does the guarantee cover?", "answer": "A full 90-day trial. If it is not a fit, send it back — even the empty bottle — for a refund according to your store policy." } },
+        { "type": "faq_item", "settings": { "question": "How long does one order last?", "answer": "One order contains 180 capsules, designed as a full 90-day supply." } },
+        { "type": "faq_item", "settings": { "question": "When does it ship?", "answer": "Orders ship same day for orders placed before our daily cutoff. Adjust this copy if your shipping policy differs." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

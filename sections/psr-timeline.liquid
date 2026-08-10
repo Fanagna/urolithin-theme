@@ -1,0 +1,106 @@
+{{ 'psr-panstellar-v11.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'psr-panstellar-v11.js' | asset_url }}" defer></script>
+<section class="psr psr-section psr-timeline" id="timeline" style="background:{{ section.settings.background }}">
+<div class="psr-shell">
+  <div class="psr-center-heading"><p class="psr-kicker"><span class="psr-kicker__badge">{% render 'psr-editable-icon', custom_image: section.settings.kicker_icon, fallback_asset: 'psr-v10-icon-leaf.svg', class: 'psr-svg-icon', alt: '' %}</span><span class="psr-kicker__label">{{ section.settings.kicker }}</span></p><h2 class="psr-title">{{ section.settings.heading_before }} <em>{{ section.settings.heading_highlight }}</em></h2><div class="rte">{{ section.settings.body }}</div></div>
+  <div class="psr-timeline-list">{% for block in section.blocks %}<article {{ block.shopify_attributes }}>{% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', alt: block.settings.image_alt }}{% else %}{% capture psr_timeline_asset %}psr-v10-image-timeline-{{ forloop.index }}.webp{% endcapture %}<img alt="{{ block.settings.image_alt | escape }}" loading="lazy" src="{{ psr_timeline_asset | asset_url }}">{% endif %}<div><span>{{ block.settings.days }}</span><h3>{{ block.settings.title }}</h3><p>{{ block.settings.text }}</p></div><b>{{ block.settings.number }}</b></article>{% endfor %}</div>
+</div>
+</section>
+{% schema %}
+{
+  "name": "PSR — Timeline",
+  "tag": "section",
+  "class": "psr-section-wrapper",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "kicker_icon",
+      "label": "Kicker icon"
+    },
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker",
+      "default": "Rooted in science. Made for you."
+    },
+    {
+      "type": "text",
+      "id": "heading_before",
+      "label": "Heading first part",
+      "default": "What many women notice in"
+    },
+    {
+      "type": "text",
+      "id": "heading_highlight",
+      "label": "Highlighted part",
+      "default": "21 days"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Intro text",
+      "default": "<p>Individual experiences vary. Consistency is key.</p>"
+    },
+    {
+      "type": "color_background",
+      "id": "background",
+      "label": "Background",
+      "default": "linear-gradient(180deg,#fff8f3,#fdeee8)"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Timeline step",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "Image alt text",
+          "default": "Woman in daily life"
+        },
+        {
+          "type": "text",
+          "id": "days",
+          "label": "Days label",
+          "default": "Days 1–7"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "More steady energy, better focus"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "A more consistent routine can help you feel ready for the day."
+        },
+        {
+          "type": "text",
+          "id": "number",
+          "label": "Step number",
+          "default": "01"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 5,
+  "presets": [
+    {
+      "name": "PSR — Timeline",
+      "blocks": [
+        { "type": "step", "settings": { "days": "Days 1–7", "title": "More steady energy, better focus", "text": "A more consistent routine can help you feel ready for the day.", "number": "01" } },
+        { "type": "step", "settings": { "days": "Days 8–14", "title": "Brighter-looking skin, easier recovery", "text": "Daily support may begin to feel more noticeable.", "number": "02" } },
+        { "type": "step", "settings": { "days": "Days 15–21", "title": "Stronger, more vibrant, visibly refreshed", "text": "Many customers describe feeling more like themselves.", "number": "03" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

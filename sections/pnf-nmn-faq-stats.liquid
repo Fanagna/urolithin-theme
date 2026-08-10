@@ -1,0 +1,83 @@
+{{ 'section-pnf-nmn.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign faq_blocks = section.blocks | where: 'type', 'faq_item'
+  assign stat_blocks = section.blocks | where: 'type', 'stat'
+-%}
+
+<section class="pnf" id="pnf-nmn-faq-stats-{{ section.id }}">
+  {%- if faq_blocks.size > 0 or stat_blocks.size > 0 -%}
+    <div class="pnf__section pnf__faq-stats">
+      <div class="pnf__container">
+        {%- if faq_blocks.size > 0 -%}
+          <p class="pnf__eyebrow">{{ section.settings.faq_eyebrow }}</p>
+          <h2 class="pnf__title">{{ section.settings.faq_heading }}</h2>
+          <div class="pnf__faq-grid">
+            <div>
+              {%- for block in faq_blocks -%}
+                {%- assign remainder = forloop.index0 | modulo: 2 -%}
+                {%- if remainder == 0 -%}
+                  <details class="pnf__faq" {{ block.shopify_attributes }}>
+                    <summary>{{ block.settings.question }}</summary>
+                    {{ block.settings.answer }}
+                  </details>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+            <div>
+              {%- for block in faq_blocks -%}
+                {%- assign remainder = forloop.index0 | modulo: 2 -%}
+                {%- if remainder == 1 -%}
+                  <details class="pnf__faq" {{ block.shopify_attributes }}>
+                    <summary>{{ block.settings.question }}</summary>
+                    {{ block.settings.answer }}
+                  </details>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          </div>
+        {%- endif -%}
+
+        {%- if stat_blocks.size > 0 -%}
+          <h2 class="pnf__title pnf__stats-title">{{ section.settings.stats_heading }}</h2>
+          <div class="pnf__stats-grid">
+            {%- for block in stat_blocks -%}
+              <article class="pnf__stat-card" {{ block.shopify_attributes }}>
+                <strong>{{ block.settings.value }}</strong>
+                <p>{{ block.settings.text }}</p>
+              </article>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "PNF NMN FAQ + stats",
+  "tag": "section",
+  "class": "shopify-section--pnf-nmn-faq-stats",
+  "enabled_on": { "templates": ["product"] },
+  "max_blocks": 50,
+  "settings": [
+    { "type": "text", "id": "faq_eyebrow", "label": "FAQ eyebrow", "default": "FORMULA, QUALITY AND DAILY USE" },
+    { "type": "html", "id": "faq_heading", "label": "FAQ heading", "default": "A More Complete Approach to <span class=\"pnf__accent\">Cellular Wellness</span>" },
+    { "type": "html", "id": "stats_heading", "label": "Stats heading", "default": "Built Around a <span class=\"pnf__accent\">Fully Disclosed Formula</span>" }
+  ],
+  "blocks": [
+    { "type": "faq_item", "name": "FAQ item", "settings": [
+      { "type": "text", "id": "question", "label": "Question", "default": "What makes the PANSTELLAR formula different?" },
+      { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>PANSTELLAR combines NMN, Trans-Resveratrol, TMG and complementary nutrients in one disclosed formula.</p>" }
+    ] },
+    { "type": "stat", "name": "Stat", "settings": [
+      { "type": "text", "id": "value", "label": "Value", "default": "450 mg" },
+      { "type": "text", "id": "text", "label": "Text", "default": "NMN per listed formula." }
+    ] }
+  ],
+  "presets": [
+    { "name": "PNF NMN FAQ + stats" }
+  ]
+}
+{% endschema %}

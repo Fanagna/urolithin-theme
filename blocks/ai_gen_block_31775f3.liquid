@@ -1,0 +1,816 @@
+{% doc %}
+  @prompt
+    Create an order summary sidebar card for the cart page right column:
+    
+    OVERALL CONTAINER:
+    - Sticky positioning: top 16px on desktop
+    - Width determined by grid (approximately 300px)
+    
+    CARD DESIGN:
+    - Background: white
+    - Border-radius: 8px
+    - Box-shadow: 0 2px 5px rgba(15,17,17,0.08)
+    - Padding: 20px
+    
+    CONTENT (top to bottom):
+    
+    1. FREE SHIPPING CONFIRMATION:
+       - Green check icon + "Your order qualifies for FREE shipping"
+       - Font-size: 13px, font-weight 600, color #067d62
+       - Margin-bottom: 12px
+    
+    2. SUBTOTAL LINE:
+       - "Subtotal (X items):" with bold price next to it
+       - Use Liquid: {{ cart.item_count }} and {{ cart.total_price | money }}
+       - Price: font-size 19px, font-weight 800
+       - Margin-bottom: 16px
+    
+    3. PROMO CODE (collapsed by default):
+       - Small clickable text: "▸ Apply promo code" — font-size 12px, color #007185
+       - When clicked (use <details><summary> HTML element for no-JS toggle):
+         - Shows input field + "Apply" button side by side
+         - Input: flex 1, padding 8px 10px, border 1px solid #d5d9d9, border-radius 6px, font-size 13px
+         - Button: padding 8px 14px, background #f0f2f2, border 1px solid #d5d9d9, border-radius 6px, font-weight 600
+       - Margin-bottom: 14px
+    
+    4. PRIMARY CTA — "Proceed to Checkout":
+       - Full width button
+       - Padding: 12px
+       - Background: linear-gradient(to bottom, #f7dfa5, #f0c14b) — Amazon yellow style
+       - Border: 1px solid #a88734
+       - Border-radius: 20px (pill shape)
+       - Font-size: 14px, font-weight 600
+       - Color: #0f1111 (dark text)
+       - Cursor: pointer
+       - On hover: background gradient shifts darker
+       - Margin-bottom: 8px
+       - This button should link to Shopify checkout: href="{{ routes.cart_url }}" or action="/checkout"
+    
+    5. SECONDARY CTA — "Buy Now":
+       - Same shape as primary but:
+       - Background: linear-gradient(to bottom, #ffa41c, #ff8f00) — orange
+       - Border: 1px solid #c45500
+       - Margin-bottom: 0
+    
+    6. EXPRESS PAYMENT ICONS:
+       - Row with "or" text + payment badges (Apple Pay, Google Pay, PayPal, Klarna)
+       - Each badge: background #f5f5f5, border 1px solid #d5d9d9, border-radius 4px, padding 3px 8px, font-size 11px bold
+       - Centered, flex-wrap, gap 8px
+       - Margin-top: 10px
+    
+    7. SECURITY LABEL:
+       - Centered text: "🔒 Secure 256-bit SSL checkout"
+       - Font-size: 11px, color #767676
+       - Margin-top: 10px
+    
+    RESPONSIVE (under 800px):
+    - Sidebar loses sticky, becomes static
+    - Moves below the cart items in the page flow
+    - Padding: 16px
+    - Everything else stays the same
+    
+    HTML, CSS, and Liquid. Use <details><summary> for promo toggle (no JavaScript required).
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-order-summary-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+  }
+
+  .ai-order-summary-container-{{ ai_gen_id }} {
+    background: {{ block.settings.card_background }};
+    border-radius: {{ block.settings.border_radius }}px;
+    box-shadow: 0 2px 5px rgba(15, 17, 17, 0.08);
+    padding: {{ block.settings.card_padding }}px;
+    position: sticky;
+    top: {{ block.settings.sticky_top }}px;
+  }
+
+  .ai-order-summary-shipping-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: {{ block.settings.shipping_font_size }}px;
+    font-weight: 600;
+    color: {{ block.settings.shipping_text_color }};
+    margin-bottom: {{ block.settings.shipping_margin_bottom }}px;
+  }
+
+  .ai-order-summary-check-icon-{{ ai_gen_id }} {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  .ai-order-summary-subtotal-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: {{ block.settings.subtotal_margin_bottom }}px;
+  }
+
+  .ai-order-summary-subtotal-label-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subtotal_label_font_size }}px;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-order-summary-subtotal-price-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subtotal_price_font_size }}px;
+    font-weight: 800;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-order-summary-promo-{{ ai_gen_id }} {
+    margin-bottom: {{ block.settings.promo_margin_bottom }}px;
+  }
+
+  .ai-order-summary-promo-{{ ai_gen_id }} summary {
+    font-size: {{ block.settings.promo_font_size }}px;
+    color: {{ block.settings.promo_text_color }};
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+  }
+
+  .ai-order-summary-promo-{{ ai_gen_id }} summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .ai-order-summary-promo-{{ ai_gen_id }} summary::before {
+    content: '▸ ';
+  }
+
+  .ai-order-summary-promo-{{ ai_gen_id }}[open] summary::before {
+    content: '▾ ';
+  }
+
+  .ai-order-summary-promo-form-{{ ai_gen_id }} {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .ai-order-summary-promo-input-{{ ai_gen_id }} {
+    flex: 1;
+    padding: 8px 10px;
+    border: 1px solid {{ block.settings.input_border_color }};
+    border-radius: {{ block.settings.input_border_radius }}px;
+    font-size: {{ block.settings.input_font_size }}px;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-order-summary-promo-button-{{ ai_gen_id }} {
+    padding: 8px 14px;
+    background: {{ block.settings.promo_button_bg }};
+    border: 1px solid {{ block.settings.promo_button_border }};
+    border-radius: {{ block.settings.input_border_radius }}px;
+    font-weight: 600;
+    font-size: {{ block.settings.input_font_size }}px;
+    cursor: pointer;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-order-summary-promo-button-{{ ai_gen_id }}:hover {
+    background: {{ block.settings.promo_button_hover_bg }};
+  }
+
+  .ai-order-summary-checkout-btn-{{ ai_gen_id }} {
+    width: 100%;
+    padding: {{ block.settings.button_padding }}px;
+    background: {{ block.settings.primary_button_bg }};
+    border: 1px solid {{ block.settings.primary_button_border }};
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-size: {{ block.settings.button_font_size }}px;
+    font-weight: 600;
+    color: {{ block.settings.primary_button_text }};
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    margin-bottom: {{ block.settings.button_spacing }}px;
+  }
+
+  .ai-order-summary-checkout-btn-{{ ai_gen_id }}:hover {
+    background: {{ block.settings.primary_button_hover_bg }};
+  }
+
+  .ai-order-summary-buynow-btn-{{ ai_gen_id }} {
+    width: 100%;
+    padding: {{ block.settings.button_padding }}px;
+    background: {{ block.settings.secondary_button_bg }};
+    border: 1px solid {{ block.settings.secondary_button_border }};
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-size: {{ block.settings.button_font_size }}px;
+    font-weight: 600;
+    color: {{ block.settings.secondary_button_text }};
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    margin-bottom: 0;
+  }
+
+  .ai-order-summary-buynow-btn-{{ ai_gen_id }}:hover {
+    background: {{ block.settings.secondary_button_hover_bg }};
+  }
+
+  .ai-order-summary-express-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: {{ block.settings.express_margin_top }}px;
+  }
+
+  .ai-order-summary-express-or-{{ ai_gen_id }} {
+    font-size: {{ block.settings.express_font_size }}px;
+    color: {{ block.settings.express_text_color }};
+  }
+
+  .ai-order-summary-payment-badge-{{ ai_gen_id }} {
+    background: {{ block.settings.badge_bg }};
+    border: 1px solid {{ block.settings.badge_border }};
+    border-radius: {{ block.settings.badge_border_radius }}px;
+    padding: 3px 8px;
+    font-size: {{ block.settings.badge_font_size }}px;
+    font-weight: bold;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-order-summary-security-{{ ai_gen_id }} {
+    text-align: center;
+    font-size: {{ block.settings.security_font_size }}px;
+    color: {{ block.settings.security_text_color }};
+    margin-top: {{ block.settings.security_margin_top }}px;
+  }
+
+  @media screen and (max-width: 800px) {
+    .ai-order-summary-container-{{ ai_gen_id }} {
+      position: static;
+      padding: {{ block.settings.mobile_padding }}px;
+    }
+  }
+{% endstyle %}
+
+<cart-order-summary-{{ ai_gen_id }} class="ai-order-summary-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-order-summary-container-{{ ai_gen_id }}">
+    {% if block.settings.show_free_shipping %}
+      <div class="ai-order-summary-shipping-{{ ai_gen_id }}">
+        <svg class="ai-order-summary-check-icon-{{ ai_gen_id }}" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="8" cy="8" r="8" fill="{{ block.settings.shipping_text_color }}"/>
+          <path d="M5 8L7 10L11 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>{{ block.settings.free_shipping_text }}</span>
+      </div>
+    {% endif %}
+
+    <div class="ai-order-summary-subtotal-{{ ai_gen_id }}">
+      <span class="ai-order-summary-subtotal-label-{{ ai_gen_id }}">
+        Subtotal ({{ cart.item_count }} {% if cart.item_count == 1 %}item{% else %}items{% endif %}):
+      </span>
+      <span class="ai-order-summary-subtotal-price-{{ ai_gen_id }}">{{ cart.total_price | money }}</span>
+    </div>
+
+    {% if block.settings.show_promo_code %}
+      <details class="ai-order-summary-promo-{{ ai_gen_id }}">
+        <summary>{{ block.settings.promo_code_text }}</summary>
+        <form class="ai-order-summary-promo-form-{{ ai_gen_id }}" action="{{ routes.cart_url }}" method="post">
+          <input
+            type="text"
+            name="discount"
+            class="ai-order-summary-promo-input-{{ ai_gen_id }}"
+            placeholder="{{ block.settings.promo_placeholder }}"
+          >
+          <button type="submit" class="ai-order-summary-promo-button-{{ ai_gen_id }}">
+            {{ block.settings.promo_button_text }}
+          </button>
+        </form>
+      </details>
+    {% endif %}
+
+    <a href="/checkout" class="ai-order-summary-checkout-btn-{{ ai_gen_id }}">
+      {{ block.settings.checkout_button_text }}
+    </a>
+
+    {% if block.settings.show_buy_now %}
+      <a href="/checkout" class="ai-order-summary-buynow-btn-{{ ai_gen_id }}">
+        {{ block.settings.buy_now_button_text }}
+      </a>
+    {% endif %}
+
+    {% if block.settings.show_express_payment %}
+      <div class="ai-order-summary-express-{{ ai_gen_id }}">
+        <span class="ai-order-summary-express-or-{{ ai_gen_id }}">or</span>
+        <span class="ai-order-summary-payment-badge-{{ ai_gen_id }}">Apple Pay</span>
+        <span class="ai-order-summary-payment-badge-{{ ai_gen_id }}">Google Pay</span>
+        <span class="ai-order-summary-payment-badge-{{ ai_gen_id }}">PayPal</span>
+        <span class="ai-order-summary-payment-badge-{{ ai_gen_id }}">Klarna</span>
+      </div>
+    {% endif %}
+
+    {% if block.settings.show_security_label %}
+      <div class="ai-order-summary-security-{{ ai_gen_id }}">
+        🔒 {{ block.settings.security_label_text }}
+      </div>
+    {% endif %}
+  </div>
+</cart-order-summary-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class CartOrderSummary{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.promoForm = this.querySelector('.ai-order-summary-promo-form-{{ ai_gen_id }}');
+        if (this.promoForm) {
+          this.promoForm.addEventListener('submit', this.handlePromoSubmit.bind(this));
+        }
+      }
+
+      handlePromoSubmit(event) {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const discountCode = formData.get('discount');
+        
+        if (discountCode) {
+          window.location.href = `/checkout?discount=${encodeURIComponent(discountCode)}`;
+        }
+      }
+    }
+
+    customElements.define('cart-order-summary-{{ ai_gen_id }}', CartOrderSummary{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Order summary card",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Card style"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#121212"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "card_padding",
+      "label": "Padding",
+      "min": 10,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding",
+      "label": "Mobile padding",
+      "min": 10,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "sticky_top",
+      "label": "Sticky top offset",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Free shipping"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_free_shipping",
+      "label": "Show free shipping message",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "free_shipping_text",
+      "label": "Free shipping text",
+      "default": "Your order qualifies for FREE shipping"
+    },
+    {
+      "type": "color",
+      "id": "shipping_text_color",
+      "label": "Text color",
+      "default": "#067d62"
+    },
+    {
+      "type": "range",
+      "id": "shipping_font_size",
+      "label": "Font size",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "shipping_margin_bottom",
+      "label": "Margin bottom",
+      "min": 8,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Subtotal"
+    },
+    {
+      "type": "range",
+      "id": "subtotal_label_font_size",
+      "label": "Label font size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "subtotal_price_font_size",
+      "label": "Price font size",
+      "min": 14,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "default": 19
+    },
+    {
+      "type": "range",
+      "id": "subtotal_margin_bottom",
+      "label": "Margin bottom",
+      "min": 8,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Promo code"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_promo_code",
+      "label": "Show promo code",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "promo_code_text",
+      "label": "Promo code text",
+      "default": "Apply promo code"
+    },
+    {
+      "type": "text",
+      "id": "promo_placeholder",
+      "label": "Input placeholder",
+      "default": "Enter code"
+    },
+    {
+      "type": "text",
+      "id": "promo_button_text",
+      "label": "Button text",
+      "default": "Apply"
+    },
+    {
+      "type": "color",
+      "id": "promo_text_color",
+      "label": "Text color",
+      "default": "#007185"
+    },
+    {
+      "type": "range",
+      "id": "promo_font_size",
+      "label": "Font size",
+      "min": 10,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "promo_margin_bottom",
+      "label": "Margin bottom",
+      "min": 8,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "input_border_color",
+      "label": "Input border color",
+      "default": "#d5d9d9"
+    },
+    {
+      "type": "range",
+      "id": "input_border_radius",
+      "label": "Input border radius",
+      "min": 0,
+      "max": 12,
+      "step": 2,
+      "unit": "px",
+      "default": 6
+    },
+    {
+      "type": "range",
+      "id": "input_font_size",
+      "label": "Input font size",
+      "min": 11,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "color",
+      "id": "promo_button_bg",
+      "label": "Button background",
+      "default": "#f0f2f2"
+    },
+    {
+      "type": "color",
+      "id": "promo_button_hover_bg",
+      "label": "Button hover background",
+      "default": "#e3e6e6"
+    },
+    {
+      "type": "color",
+      "id": "promo_button_border",
+      "label": "Button border",
+      "default": "#d5d9d9"
+    },
+    {
+      "type": "header",
+      "content": "Checkout button"
+    },
+    {
+      "type": "text",
+      "id": "checkout_button_text",
+      "label": "Button text",
+      "default": "Proceed to Checkout"
+    },
+    {
+      "type": "color",
+      "id": "primary_button_bg",
+      "label": "Background",
+      "default": "#f0c14b"
+    },
+    {
+      "type": "color",
+      "id": "primary_button_hover_bg",
+      "label": "Hover background",
+      "default": "#e6b53f"
+    },
+    {
+      "type": "color",
+      "id": "primary_button_border",
+      "label": "Border",
+      "default": "#a88734"
+    },
+    {
+      "type": "color",
+      "id": "primary_button_text",
+      "label": "Text color",
+      "default": "#0f1111"
+    },
+    {
+      "type": "range",
+      "id": "button_padding",
+      "label": "Button padding",
+      "min": 8,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "label": "Button border radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "label": "Button font size",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "button_spacing",
+      "label": "Spacing below",
+      "min": 4,
+      "max": 16,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Buy now button"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_buy_now",
+      "label": "Show buy now button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "buy_now_button_text",
+      "label": "Button text",
+      "default": "Buy Now"
+    },
+    {
+      "type": "color",
+      "id": "secondary_button_bg",
+      "label": "Background",
+      "default": "#ff8f00"
+    },
+    {
+      "type": "color",
+      "id": "secondary_button_hover_bg",
+      "label": "Hover background",
+      "default": "#e68200"
+    },
+    {
+      "type": "color",
+      "id": "secondary_button_border",
+      "label": "Border",
+      "default": "#c45500"
+    },
+    {
+      "type": "color",
+      "id": "secondary_button_text",
+      "label": "Text color",
+      "default": "#0f1111"
+    },
+    {
+      "type": "header",
+      "content": "Express payment"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_express_payment",
+      "label": "Show express payment icons",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "express_margin_top",
+      "label": "Margin top",
+      "min": 6,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "express_font_size",
+      "label": "Font size",
+      "min": 10,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "express_text_color",
+      "label": "Text color",
+      "default": "#767676"
+    },
+    {
+      "type": "color",
+      "id": "badge_bg",
+      "label": "Badge background",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "color",
+      "id": "badge_border",
+      "label": "Badge border",
+      "default": "#d5d9d9"
+    },
+    {
+      "type": "range",
+      "id": "badge_border_radius",
+      "label": "Badge border radius",
+      "min": 0,
+      "max": 8,
+      "step": 2,
+      "unit": "px",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "badge_font_size",
+      "label": "Badge font size",
+      "min": 9,
+      "max": 14,
+      "step": 1,
+      "unit": "px",
+      "default": 11
+    },
+    {
+      "type": "header",
+      "content": "Security label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_security_label",
+      "label": "Show security label",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "security_label_text",
+      "label": "Security text",
+      "default": "Secure 256-bit SSL checkout"
+    },
+    {
+      "type": "color",
+      "id": "security_text_color",
+      "label": "Text color",
+      "default": "#767676"
+    },
+    {
+      "type": "range",
+      "id": "security_font_size",
+      "label": "Font size",
+      "min": 9,
+      "max": 14,
+      "step": 1,
+      "unit": "px",
+      "default": 11
+    },
+    {
+      "type": "range",
+      "id": "security_margin_top",
+      "label": "Margin top",
+      "min": 6,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 10
+    }
+  ],
+  "presets": [
+    {
+      "name": "Order summary card"
+    }
+  ]
+}
+{% endschema %}

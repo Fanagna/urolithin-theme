@@ -1,0 +1,762 @@
+{% doc %}
+  @prompt
+    Create a premium supplement landing page visual with a dark, minimalist, high-performance aesthetic.
+    Black background with subtle gradients, modern fitness branding.
+    Left side:
+    Title in bold white text: “The Bulletproof Routine”
+    Subtitle: “A simplified daily protocol to ensure maximum absorption and consistency.”
+    Structured routine section with icons:
+    
+    
+    Sun icon — AM: Repair & Prime
+    
+    
+    Take 2 Capsules BPC-157
+    
+    
+    Take 3 Capsules Creatine
+    
+    
+    Small blue accent text: With breakfast
+    
+    
+    
+    
+    Moon icon — PM: Refill & Saturate
+    
+    
+    Take 3 Capsules Creatine
+    
+    
+    Small blue accent text: Post-workout or dinner
+    
+    
+    
+    
+    Right side:
+    A clean dark card UI titled “BUNDLE CONTENTS”
+    
+    
+    1x BPC-157 (60 Capsules – 500mcg) — $69.99
+    
+    
+    1x Creatine (180 Capsules – Micronized) — $34.99
+    
+    
+    Highlight Bundle Price: $79.99 in blue
+    Large white CTA button: “ADD BUNDLE TO CART”
+    Typography: modern sans-serif, luxury fitness brand
+    Style inspired by biotech, longevity, and elite athlete supplementation
+    High contrast, sharp edges, subtle glow accents, Shopify-ready hero image
+    
+    
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-bulletproof-routine-{{ ai_gen_id }} {
+    background: {{ block.settings.background_color }};
+    background: linear-gradient(135deg, {{ block.settings.background_color }} 0%, {{ block.settings.gradient_color }} 100%);
+    padding: {{ block.settings.padding_vertical }}px {{ block.settings.padding_horizontal }}px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ai-bulletproof-routine-container-{{ ai_gen_id }} {
+    max-width: {{ block.settings.max_width }}px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+
+  .ai-bulletproof-routine-left-{{ ai_gen_id }} {
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-bulletproof-routine-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    font-weight: 700;
+    margin: 0 0 16px 0;
+    color: {{ block.settings.title_color }};
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+  }
+
+  .ai-bulletproof-routine-subtitle-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subtitle_size }}px;
+    margin: 0 0 40px 0;
+    color: {{ block.settings.subtitle_color }};
+    opacity: 0.9;
+    line-height: 1.5;
+  }
+
+  .ai-bulletproof-routine-section-{{ ai_gen_id }} {
+    margin-bottom: 32px;
+  }
+
+  .ai-bulletproof-routine-section-header-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .ai-bulletproof-routine-icon-{{ ai_gen_id }} {
+    width: {{ block.settings.icon_size }}px;
+    height: {{ block.settings.icon_size }}px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: {{ block.settings.icon_background }};
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .ai-bulletproof-routine-icon-{{ ai_gen_id }} svg {
+    width: calc({{ block.settings.icon_size }}px * 0.5);
+    height: calc({{ block.settings.icon_size }}px * 0.5);
+    fill: {{ block.settings.icon_color }};
+  }
+
+  .ai-bulletproof-routine-section-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.section_title_size }}px;
+    font-weight: 600;
+    margin: 0;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-bulletproof-routine-steps-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-left: calc({{ block.settings.icon_size }}px + 12px);
+  }
+
+  .ai-bulletproof-routine-step-{{ ai_gen_id }} {
+    font-size: {{ block.settings.step_size }}px;
+    color: {{ block.settings.text_color }};
+    line-height: 1.6;
+  }
+
+  .ai-bulletproof-routine-timing-{{ ai_gen_id }} {
+    font-size: {{ block.settings.timing_size }}px;
+    color: {{ block.settings.accent_color }};
+    margin-top: 8px;
+    font-weight: 500;
+  }
+
+  .ai-bulletproof-routine-card-{{ ai_gen_id }} {
+    background: {{ block.settings.card_background }};
+    border-radius: {{ block.settings.card_radius }}px;
+    padding: 32px;
+    border: 1px solid {{ block.settings.card_border_color }};
+    box-shadow: 0 8px 32px {{ block.settings.card_shadow_color }};
+  }
+
+  .ai-bulletproof-routine-card-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.card_title_size }}px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin: 0 0 24px 0;
+    color: {{ block.settings.card_text_color }};
+    text-transform: uppercase;
+  }
+
+  .ai-bulletproof-routine-product-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+    border-bottom: 1px solid {{ block.settings.card_divider_color }};
+  }
+
+  .ai-bulletproof-routine-product-{{ ai_gen_id }}:last-of-type {
+    border-bottom: none;
+    margin-bottom: 24px;
+  }
+
+  .ai-bulletproof-routine-product-name-{{ ai_gen_id }} {
+    font-size: {{ block.settings.product_name_size }}px;
+    color: {{ block.settings.card_text_color }};
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  .ai-bulletproof-routine-product-price-{{ ai_gen_id }} {
+    font-size: {{ block.settings.product_price_size }}px;
+    color: {{ block.settings.card_text_color }};
+    opacity: 0.8;
+    white-space: nowrap;
+  }
+
+  .ai-bulletproof-routine-bundle-price-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+    border-top: 2px solid {{ block.settings.accent_color }};
+    margin-bottom: 24px;
+  }
+
+  .ai-bulletproof-routine-bundle-label-{{ ai_gen_id }} {
+    font-size: {{ block.settings.bundle_label_size }}px;
+    font-weight: 700;
+    color: {{ block.settings.card_text_color }};
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .ai-bulletproof-routine-bundle-amount-{{ ai_gen_id }} {
+    font-size: {{ block.settings.bundle_price_size }}px;
+    font-weight: 700;
+    color: {{ block.settings.accent_color }};
+  }
+
+  .ai-bulletproof-routine-cta-{{ ai_gen_id }} {
+    width: 100%;
+    padding: 18px 32px;
+    background: {{ block.settings.button_background }};
+    color: {{ block.settings.button_text_color }};
+    border: none;
+    border-radius: {{ block.settings.button_radius }}px;
+    font-size: {{ block.settings.button_size }}px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+  }
+
+  .ai-bulletproof-routine-cta-{{ ai_gen_id }}:hover {
+    background: {{ block.settings.button_hover_background }};
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px {{ block.settings.button_glow_color }};
+  }
+
+  @media screen and (max-width: 989px) {
+    .ai-bulletproof-routine-container-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    .ai-bulletproof-routine-title-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.title_size }}px * 0.8);
+    }
+
+    .ai-bulletproof-routine-subtitle-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.subtitle_size }}px * 0.9);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-bulletproof-routine-{{ ai_gen_id }} {
+      padding: {{ block.settings.padding_vertical | times: 0.6 }}px {{ block.settings.padding_horizontal | times: 0.6 }}px;
+    }
+
+    .ai-bulletproof-routine-title-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.title_size }}px * 0.65);
+    }
+
+    .ai-bulletproof-routine-card-{{ ai_gen_id }} {
+      padding: 24px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-bulletproof-routine-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-bulletproof-routine-container-{{ ai_gen_id }}">
+    <div class="ai-bulletproof-routine-left-{{ ai_gen_id }}">
+      <h2 class="ai-bulletproof-routine-title-{{ ai_gen_id }}">{{ block.settings.title }}</h2>
+      <p class="ai-bulletproof-routine-subtitle-{{ ai_gen_id }}">{{ block.settings.subtitle }}</p>
+
+      <div class="ai-bulletproof-routine-section-{{ ai_gen_id }}">
+        <div class="ai-bulletproof-routine-section-header-{{ ai_gen_id }}">
+          <div class="ai-bulletproof-routine-icon-{{ ai_gen_id }}">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="5"/>
+              <line x1="12" y1="1" x2="12" y2="3"/>
+              <line x1="12" y1="21" x2="12" y2="23"/>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+              <line x1="1" y1="12" x2="3" y2="12"/>
+              <line x1="21" y1="12" x2="23" y2="12"/>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+          </div>
+          <h3 class="ai-bulletproof-routine-section-title-{{ ai_gen_id }}">{{ block.settings.am_title }}</h3>
+        </div>
+        <div class="ai-bulletproof-routine-steps-{{ ai_gen_id }}">
+          <div class="ai-bulletproof-routine-step-{{ ai_gen_id }}">{{ block.settings.am_step_1 }}</div>
+          <div class="ai-bulletproof-routine-step-{{ ai_gen_id }}">{{ block.settings.am_step_2 }}</div>
+          <div class="ai-bulletproof-routine-timing-{{ ai_gen_id }}">{{ block.settings.am_timing }}</div>
+        </div>
+      </div>
+
+      <div class="ai-bulletproof-routine-section-{{ ai_gen_id }}">
+        <div class="ai-bulletproof-routine-section-header-{{ ai_gen_id }}">
+          <div class="ai-bulletproof-routine-icon-{{ ai_gen_id }}">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+          </div>
+          <h3 class="ai-bulletproof-routine-section-title-{{ ai_gen_id }}">{{ block.settings.pm_title }}</h3>
+        </div>
+        <div class="ai-bulletproof-routine-steps-{{ ai_gen_id }}">
+          <div class="ai-bulletproof-routine-step-{{ ai_gen_id }}">{{ block.settings.pm_step_1 }}</div>
+          <div class="ai-bulletproof-routine-timing-{{ ai_gen_id }}">{{ block.settings.pm_timing }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ai-bulletproof-routine-right-{{ ai_gen_id }}">
+      <div class="ai-bulletproof-routine-card-{{ ai_gen_id }}">
+        <h3 class="ai-bulletproof-routine-card-title-{{ ai_gen_id }}">{{ block.settings.card_title }}</h3>
+
+        <div class="ai-bulletproof-routine-product-{{ ai_gen_id }}">
+          <div class="ai-bulletproof-routine-product-name-{{ ai_gen_id }}">{{ block.settings.product_1_name }}</div>
+          <div class="ai-bulletproof-routine-product-price-{{ ai_gen_id }}">{{ block.settings.product_1_price }}</div>
+        </div>
+
+        <div class="ai-bulletproof-routine-product-{{ ai_gen_id }}">
+          <div class="ai-bulletproof-routine-product-name-{{ ai_gen_id }}">{{ block.settings.product_2_name }}</div>
+          <div class="ai-bulletproof-routine-product-price-{{ ai_gen_id }}">{{ block.settings.product_2_price }}</div>
+        </div>
+
+        <div class="ai-bulletproof-routine-bundle-price-{{ ai_gen_id }}">
+          <div class="ai-bulletproof-routine-bundle-label-{{ ai_gen_id }}">{{ block.settings.bundle_label }}</div>
+          <div class="ai-bulletproof-routine-bundle-amount-{{ ai_gen_id }}">{{ block.settings.bundle_price }}</div>
+        </div>
+
+        <a href="{{ block.settings.cta_link }}" class="ai-bulletproof-routine-cta-{{ ai_gen_id }}">
+          {{ block.settings.cta_text }}
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Bulletproof routine",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Main content"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "The Bulletproof Routine"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "A simplified daily protocol to ensure maximum absorption and consistency."
+    },
+    {
+      "type": "header",
+      "content": "AM routine"
+    },
+    {
+      "type": "text",
+      "id": "am_title",
+      "label": "AM title",
+      "default": "AM: Repair & Prime"
+    },
+    {
+      "type": "text",
+      "id": "am_step_1",
+      "label": "AM step 1",
+      "default": "Take 2 Capsules BPC-157"
+    },
+    {
+      "type": "text",
+      "id": "am_step_2",
+      "label": "AM step 2",
+      "default": "Take 3 Capsules Creatine"
+    },
+    {
+      "type": "text",
+      "id": "am_timing",
+      "label": "AM timing",
+      "default": "With breakfast"
+    },
+    {
+      "type": "header",
+      "content": "PM routine"
+    },
+    {
+      "type": "text",
+      "id": "pm_title",
+      "label": "PM title",
+      "default": "PM: Refill & Saturate"
+    },
+    {
+      "type": "text",
+      "id": "pm_step_1",
+      "label": "PM step",
+      "default": "Take 3 Capsules Creatine"
+    },
+    {
+      "type": "text",
+      "id": "pm_timing",
+      "label": "PM timing",
+      "default": "Post-workout or dinner"
+    },
+    {
+      "type": "header",
+      "content": "Bundle card"
+    },
+    {
+      "type": "text",
+      "id": "card_title",
+      "label": "Card title",
+      "default": "Bundle Contents"
+    },
+    {
+      "type": "text",
+      "id": "product_1_name",
+      "label": "Product 1 name",
+      "default": "1x BPC-157 (60 Capsules – 500mcg)"
+    },
+    {
+      "type": "text",
+      "id": "product_1_price",
+      "label": "Product 1 price",
+      "default": "$69.99"
+    },
+    {
+      "type": "text",
+      "id": "product_2_name",
+      "label": "Product 2 name",
+      "default": "1x Creatine (180 Capsules – Micronized)"
+    },
+    {
+      "type": "text",
+      "id": "product_2_price",
+      "label": "Product 2 price",
+      "default": "$34.99"
+    },
+    {
+      "type": "text",
+      "id": "bundle_label",
+      "label": "Bundle label",
+      "default": "Bundle Price"
+    },
+    {
+      "type": "text",
+      "id": "bundle_price",
+      "label": "Bundle price",
+      "default": "$79.99"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button text",
+      "default": "Add Bundle to Cart"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color",
+      "label": "Gradient end",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle",
+      "default": "#cccccc"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent",
+      "default": "#0048dc"
+    },
+    {
+      "type": "color",
+      "id": "icon_background",
+      "label": "Icon background",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon",
+      "default": "#0048dc"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background",
+      "default": "#0a0a0a"
+    },
+    {
+      "type": "color",
+      "id": "card_text_color",
+      "label": "Card text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Card border",
+      "default": "#2a2a2a"
+    },
+    {
+      "type": "color",
+      "id": "card_divider_color",
+      "label": "Card divider",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "card_shadow_color",
+      "label": "Card shadow",
+      "default": "rgba(0, 0, 0, 0.5)"
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Button background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_background",
+      "label": "Button hover background",
+      "default": "#f0f0f0"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_glow_color",
+      "label": "Button glow",
+      "default": "rgba(255, 255, 255, 0.3)"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 24,
+      "max": 72,
+      "step": 2,
+      "unit": "px",
+      "label": "Title size",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Subtitle size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "section_title_size",
+      "min": 14,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Section title size",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "step_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Step size",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "timing_size",
+      "min": 11,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "label": "Timing size",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "card_title_size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Card title size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "product_name_size",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Product name size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "product_price_size",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Product price size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "bundle_label_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Bundle label size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "bundle_price_size",
+      "min": 20,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Bundle price size",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "button_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Button size",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 1000,
+      "max": 1600,
+      "step": 50,
+      "unit": "px",
+      "label": "Max width",
+      "default": 1400
+    },
+    {
+      "type": "range",
+      "id": "padding_vertical",
+      "min": 40,
+      "max": 120,
+      "step": 10,
+      "unit": "px",
+      "label": "Vertical padding",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_horizontal",
+      "min": 20,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "label": "Horizontal padding",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "min": 32,
+      "max": 64,
+      "step": 4,
+      "unit": "px",
+      "label": "Icon size",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Card radius",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "button_radius",
+      "min": 0,
+      "max": 16,
+      "step": 2,
+      "unit": "px",
+      "label": "Button radius",
+      "default": 6
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bulletproof routine"
+    }
+  ]
+}
+{% endschema %}

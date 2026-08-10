@@ -1,0 +1,156 @@
+{% doc %}
+  @prompt
+    une section image centré au centre 
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-centered-image-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: {{ block.settings.padding_top }}px 20px {{ block.settings.padding_bottom }}px;
+    background-color: {{ block.settings.background_color }};
+  }
+
+  .ai-centered-image-wrapper-{{ ai_gen_id }} {
+    max-width: {{ block.settings.image_width }}px;
+    width: 100%;
+  }
+
+  .ai-centered-image-wrapper-{{ ai_gen_id }} img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: {{ block.settings.border_radius }}px;
+  }
+
+  .ai-centered-image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: {{ block.settings.border_radius }}px;
+    position: relative;
+  }
+
+  .ai-centered-image-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: 400px;
+    max-height: 400px;
+  }
+
+  .ai-centered-image-empty-state-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 20px;
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-centered-image-{{ ai_gen_id }} {
+      padding: {{ block.settings.padding_top | times: 0.7 }}px 16px {{ block.settings.padding_bottom | times: 0.7 }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-centered-image-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-centered-image-wrapper-{{ ai_gen_id }}">
+    {% if block.settings.image %}
+      <img
+        src="{{ block.settings.image | image_url: width: 2000 }}"
+        alt="{{ block.settings.image.alt | escape }}"
+        loading="lazy"
+        width="{{ block.settings.image.width }}"
+        height="{{ block.settings.image.height }}"
+      >
+    {% else %}
+      <div class="ai-centered-image-placeholder-{{ ai_gen_id }}">
+        {{ 'image' | placeholder_svg_tag }}
+        <div class="ai-centered-image-empty-state-{{ ai_gen_id }}">
+          Ajoutez une image
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Image centrée",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "range",
+      "id": "image_width",
+      "min": 200,
+      "max": 1600,
+      "step": 100,
+      "unit": "px",
+      "label": "Largeur maximale",
+      "default": 800
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Couleur de fond",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Rayon de bordure",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Espacement"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Espacement haut",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Espacement bas",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image centrée"
+    }
+  ]
+}
+{% endschema %}

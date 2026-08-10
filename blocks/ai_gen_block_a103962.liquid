@@ -1,0 +1,750 @@
+{% doc %}
+  @prompt
+    genere moi une section contenant un titre centrer au centre et deux blocs de text identique cote à cote contenant  un titre, prix barré       ,prix et pourcentage sauvé (sur la meme  ligne à des liste de texte , un bloc d image à gauche ( avec tous les parametres du section) et avec la deuxieme bloc ajoute juste sur la bordure d entete best value ; avec des boutton ADD TO CARD
+    
+    
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-pricing-comparison-{{ ai_gen_id }} {
+    padding: {{ block.settings.section_padding_top }}px 20px {{ block.settings.section_padding_bottom }}px;
+    background-color: {{ block.settings.background_color }};
+  }
+
+  .ai-pricing-comparison__container-{{ ai_gen_id }} {
+    max-width: {{ block.settings.max_width }}px;
+    margin: 0 auto;
+  }
+
+  .ai-pricing-comparison__title-{{ ai_gen_id }} {
+    text-align: center;
+    font-size: {{ block.settings.title_size }}px;
+    color: {{ block.settings.title_color }};
+    margin: 0 0 {{ block.settings.title_spacing }}px;
+  }
+
+  .ai-pricing-comparison__grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: {{ block.settings.grid_gap }}px;
+  }
+
+  .ai-pricing-comparison__card-{{ ai_gen_id }} {
+    position: relative;
+    background-color: {{ block.settings.card_background }};
+    border: {{ block.settings.card_border_width }}px solid {{ block.settings.card_border_color }};
+    border-radius: {{ block.settings.card_border_radius }}px;
+    padding: {{ block.settings.card_padding }}px;
+    display: flex;
+    flex-direction: column;
+    gap: {{ block.settings.card_content_gap }}px;
+  }
+
+  .ai-pricing-comparison__card-{{ ai_gen_id }}--best-value::before {
+    content: "{{ block.settings.badge_text }}";
+    position: absolute;
+    top: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: {{ block.settings.badge_background }};
+    color: {{ block.settings.badge_text_color }};
+    padding: 8px 24px;
+    font-size: {{ block.settings.badge_font_size }}px;
+    font-weight: 600;
+    border-radius: {{ block.settings.card_border_radius }}px {{ block.settings.card_border_radius }}px 0 0;
+    white-space: nowrap;
+  }
+
+  .ai-pricing-comparison__card-content-{{ ai_gen_id }} {
+    display: flex;
+    gap: {{ block.settings.card_content_gap }}px;
+  }
+
+  .ai-pricing-comparison__image-wrapper-{{ ai_gen_id }} {
+    flex-shrink: 0;
+    width: {{ block.settings.image_width }}px;
+  }
+
+  .ai-pricing-comparison__image-{{ ai_gen_id }} {
+    width: 100%;
+    height: auto;
+    border-radius: {{ block.settings.image_border_radius }}px;
+  }
+
+  .ai-pricing-comparison__image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    aspect-ratio: 1;
+    background-color: #f4f4f4;
+    border-radius: {{ block.settings.image_border_radius }}px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-pricing-comparison__image-placeholder-{{ ai_gen_id }} svg {
+    width: 60%;
+    height: 60%;
+  }
+
+  .ai-pricing-comparison__text-content-{{ ai_gen_id }} {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: {{ block.settings.text_content_gap }}px;
+  }
+
+  .ai-pricing-comparison__product-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.product_title_size }}px;
+    color: {{ block.settings.text_color }};
+    margin: 0;
+    font-weight: 600;
+  }
+
+  .ai-pricing-comparison__price-row-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .ai-pricing-comparison__original-price-{{ ai_gen_id }} {
+    font-size: {{ block.settings.price_size }}px;
+    color: {{ block.settings.original_price_color }};
+    text-decoration: line-through;
+  }
+
+  .ai-pricing-comparison__current-price-{{ ai_gen_id }} {
+    font-size: {{ block.settings.price_size }}px;
+    color: {{ block.settings.current_price_color }};
+    font-weight: 700;
+  }
+
+  .ai-pricing-comparison__savings-{{ ai_gen_id }} {
+    font-size: {{ block.settings.savings_size }}px;
+    color: {{ block.settings.savings_color }};
+    font-weight: 600;
+  }
+
+  .ai-pricing-comparison__features-{{ ai_gen_id }} {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .ai-pricing-comparison__feature-{{ ai_gen_id }} {
+    font-size: {{ block.settings.feature_size }}px;
+    color: {{ block.settings.text_color }};
+    padding-left: 24px;
+    position: relative;
+  }
+
+  .ai-pricing-comparison__feature-{{ ai_gen_id }}::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: {{ block.settings.checkmark_color }};
+    font-weight: 700;
+  }
+
+  .ai-pricing-comparison__button-{{ ai_gen_id }} {
+    width: 100%;
+    padding: {{ block.settings.button_padding }}px;
+    background-color: {{ block.settings.button_background }};
+    color: {{ block.settings.button_text_color }};
+    border: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-size: {{ block.settings.button_font_size }}px;
+    font-weight: 600;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+  }
+
+  .ai-pricing-comparison__button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_background }};
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-pricing-comparison__grid-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+    }
+
+    .ai-pricing-comparison__card-{{ ai_gen_id }}--best-value::before {
+      font-size: {{ block.settings.badge_font_size | times: 0.9 }}px;
+      padding: 6px 16px;
+    }
+
+    .ai-pricing-comparison__title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_size | times: 0.8 }}px;
+    }
+
+    .ai-pricing-comparison__image-wrapper-{{ ai_gen_id }} {
+      width: {{ block.settings.image_width | times: 0.8 }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-pricing-comparison-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-pricing-comparison__container-{{ ai_gen_id }}">
+    {% if block.settings.main_title != blank %}
+      <h2 class="ai-pricing-comparison__title-{{ ai_gen_id }}">{{ block.settings.main_title }}</h2>
+    {% endif %}
+
+    <div class="ai-pricing-comparison__grid-{{ ai_gen_id }}">
+      <div class="ai-pricing-comparison__card-{{ ai_gen_id }}">
+        <div class="ai-pricing-comparison__card-content-{{ ai_gen_id }}">
+          <div class="ai-pricing-comparison__image-wrapper-{{ ai_gen_id }}">
+            {% if block.settings.card_1_image %}
+              <img
+                src="{{ block.settings.card_1_image | image_url: width: 400 }}"
+                alt="{{ block.settings.card_1_image.alt | escape }}"
+                class="ai-pricing-comparison__image-{{ ai_gen_id }}"
+                loading="lazy"
+                width="400"
+                height="400"
+              >
+            {% else %}
+              <div class="ai-pricing-comparison__image-placeholder-{{ ai_gen_id }}">
+                {{ 'product-1' | placeholder_svg_tag }}
+              </div>
+            {% endif %}
+          </div>
+
+          <div class="ai-pricing-comparison__text-content-{{ ai_gen_id }}">
+            {% if block.settings.card_1_title != blank %}
+              <h3 class="ai-pricing-comparison__product-title-{{ ai_gen_id }}">{{ block.settings.card_1_title }}</h3>
+            {% endif %}
+
+            <div class="ai-pricing-comparison__price-row-{{ ai_gen_id }}">
+              {% if block.settings.card_1_original_price != blank %}
+                <span class="ai-pricing-comparison__original-price-{{ ai_gen_id }}">{{ block.settings.card_1_original_price }}</span>
+              {% endif %}
+              {% if block.settings.card_1_current_price != blank %}
+                <span class="ai-pricing-comparison__current-price-{{ ai_gen_id }}">{{ block.settings.card_1_current_price }}</span>
+              {% endif %}
+              {% if block.settings.card_1_savings != blank %}
+                <span class="ai-pricing-comparison__savings-{{ ai_gen_id }}">{{ block.settings.card_1_savings }}</span>
+              {% endif %}
+            </div>
+
+            {% if block.settings.card_1_features != blank %}
+              <ul class="ai-pricing-comparison__features-{{ ai_gen_id }}">
+                {% assign features = block.settings.card_1_features | newline_to_br | split: '<br />' %}
+                {% for feature in features %}
+                  {% if feature != blank %}
+                    <li class="ai-pricing-comparison__feature-{{ ai_gen_id }}">{{ feature }}</li>
+                  {% endif %}
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+        </div>
+
+        {% if block.settings.card_1_button_text != blank %}
+          <button class="ai-pricing-comparison__button-{{ ai_gen_id }}">
+            {{ block.settings.card_1_button_text }}
+          </button>
+        {% endif %}
+      </div>
+
+      <div class="ai-pricing-comparison__card-{{ ai_gen_id }} {% if block.settings.card_2_show_badge %}ai-pricing-comparison__card-{{ ai_gen_id }}--best-value{% endif %}">
+        <div class="ai-pricing-comparison__card-content-{{ ai_gen_id }}">
+          <div class="ai-pricing-comparison__image-wrapper-{{ ai_gen_id }}">
+            {% if block.settings.card_2_image %}
+              <img
+                src="{{ block.settings.card_2_image | image_url: width: 400 }}"
+                alt="{{ block.settings.card_2_image.alt | escape }}"
+                class="ai-pricing-comparison__image-{{ ai_gen_id }}"
+                loading="lazy"
+                width="400"
+                height="400"
+              >
+            {% else %}
+              <div class="ai-pricing-comparison__image-placeholder-{{ ai_gen_id }}">
+                {{ 'product-1' | placeholder_svg_tag }}
+              </div>
+            {% endif %}
+          </div>
+
+          <div class="ai-pricing-comparison__text-content-{{ ai_gen_id }}">
+            {% if block.settings.card_2_title != blank %}
+              <h3 class="ai-pricing-comparison__product-title-{{ ai_gen_id }}">{{ block.settings.card_2_title }}</h3>
+            {% endif %}
+
+            <div class="ai-pricing-comparison__price-row-{{ ai_gen_id }}">
+              {% if block.settings.card_2_original_price != blank %}
+                <span class="ai-pricing-comparison__original-price-{{ ai_gen_id }}">{{ block.settings.card_2_original_price }}</span>
+              {% endif %}
+              {% if block.settings.card_2_current_price != blank %}
+                <span class="ai-pricing-comparison__current-price-{{ ai_gen_id }}">{{ block.settings.card_2_current_price }}</span>
+              {% endif %}
+              {% if block.settings.card_2_savings != blank %}
+                <span class="ai-pricing-comparison__savings-{{ ai_gen_id }}">{{ block.settings.card_2_savings }}</span>
+              {% endif %}
+            </div>
+
+            {% if block.settings.card_2_features != blank %}
+              <ul class="ai-pricing-comparison__features-{{ ai_gen_id }}">
+                {% assign features = block.settings.card_2_features | newline_to_br | split: '<br />' %}
+                {% for feature in features %}
+                  {% if feature != blank %}
+                    <li class="ai-pricing-comparison__feature-{{ ai_gen_id }}">{{ feature }}</li>
+                  {% endif %}
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+        </div>
+
+        {% if block.settings.card_2_button_text != blank %}
+          <button class="ai-pricing-comparison__button-{{ ai_gen_id }}">
+            {{ block.settings.card_2_button_text }}
+          </button>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Pricing comparison",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section"
+    },
+    {
+      "type": "text",
+      "id": "main_title",
+      "label": "Main title",
+      "default": "Choose Your Package"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Title size",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "title_spacing",
+      "min": 10,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "Title spacing",
+      "default": 30
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 800,
+      "max": 1600,
+      "step": 50,
+      "unit": "px",
+      "label": "Max width",
+      "default": 1200
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Gap between cards",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Card style"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Card border color",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "range",
+      "id": "card_border_width",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "unit": "px",
+      "label": "Card border width",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Card border radius",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "card_padding",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Card padding",
+      "default": 25
+    },
+    {
+      "type": "range",
+      "id": "card_content_gap",
+      "min": 10,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "label": "Card content gap",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#121212"
+    },
+    {
+      "type": "header",
+      "content": "Best value badge"
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge text",
+      "default": "BEST VALUE"
+    },
+    {
+      "type": "color",
+      "id": "badge_background",
+      "label": "Badge background",
+      "default": "#5c1ada"
+    },
+    {
+      "type": "color",
+      "id": "badge_text_color",
+      "label": "Badge text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "badge_font_size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Badge font size",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "range",
+      "id": "image_width",
+      "min": 60,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Image width",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Image border radius",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "product_title_size",
+      "min": 14,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Product title size",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "price_size",
+      "min": 14,
+      "max": 28,
+      "step": 2,
+      "unit": "px",
+      "label": "Price size",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "savings_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Savings size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "feature_size",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Feature size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "text_content_gap",
+      "min": 5,
+      "max": 25,
+      "step": 5,
+      "unit": "px",
+      "label": "Text content gap",
+      "default": 15
+    },
+    {
+      "type": "color",
+      "id": "original_price_color",
+      "label": "Original price color",
+      "default": "#999999"
+    },
+    {
+      "type": "color",
+      "id": "current_price_color",
+      "label": "Current price color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "savings_color",
+      "label": "Savings color",
+      "default": "#5c1ada"
+    },
+    {
+      "type": "color",
+      "id": "checkmark_color",
+      "label": "Checkmark color",
+      "default": "#5c1ada"
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Button background",
+      "default": "#5c1ada"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_background",
+      "label": "Button hover background",
+      "default": "#4a0fb8"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Button font size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "button_padding",
+      "min": 10,
+      "max": 25,
+      "step": 1,
+      "unit": "px",
+      "label": "Button padding",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Button border radius",
+      "default": 6
+    },
+    {
+      "type": "header",
+      "content": "Card 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "card_1_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "card_1_title",
+      "label": "Title",
+      "default": "Single Bottle"
+    },
+    {
+      "type": "text",
+      "id": "card_1_original_price",
+      "label": "Original price",
+      "default": "$79.99"
+    },
+    {
+      "type": "text",
+      "id": "card_1_current_price",
+      "label": "Current price",
+      "default": "$59.99"
+    },
+    {
+      "type": "text",
+      "id": "card_1_savings",
+      "label": "Savings",
+      "default": "Save 25%"
+    },
+    {
+      "type": "textarea",
+      "id": "card_1_features",
+      "label": "Features (one per line)",
+      "default": "30-day supply\nFree shipping\n60-day money back guarantee"
+    },
+    {
+      "type": "text",
+      "id": "card_1_button_text",
+      "label": "Button text",
+      "default": "Add to Cart"
+    },
+    {
+      "type": "header",
+      "content": "Card 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "card_2_show_badge",
+      "label": "Show best value badge",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "card_2_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "card_2_title",
+      "label": "Title",
+      "default": "3 Bottle Bundle"
+    },
+    {
+      "type": "text",
+      "id": "card_2_original_price",
+      "label": "Original price",
+      "default": "$239.97"
+    },
+    {
+      "type": "text",
+      "id": "card_2_current_price",
+      "label": "Current price",
+      "default": "$149.99"
+    },
+    {
+      "type": "text",
+      "id": "card_2_savings",
+      "label": "Savings",
+      "default": "Save 37%"
+    },
+    {
+      "type": "textarea",
+      "id": "card_2_features",
+      "label": "Features (one per line)",
+      "default": "90-day supply\nFree shipping\n60-day money back guarantee\nBonus gift included"
+    },
+    {
+      "type": "text",
+      "id": "card_2_button_text",
+      "label": "Button text",
+      "default": "Add to Cart"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Pricing comparison"
+    }
+  ]
+}
+{% endschema %}

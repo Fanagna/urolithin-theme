@@ -1,0 +1,175 @@
+ <script>
+(function () {
+  // ----- one-time guard -----
+  if (window.__EC_ATC_SNIPPET__) return;
+  window.__EC_ATC_SNIPPET__ = true;
+
+  // ----- config -----
+  const CONFIG = {
+    sendTo: 'AW-16706276304/s6xWCJWY5ZgaENCXlp4-', // ✅ your ATC conversion label
+    useDynamicValue: false,                          // true = use product price; false = fixed value
+    fixedValue: 1.00,                                // recommended for secondary goal
+    dedupeMs: 3000,
+    requireConsent: false,                           // set true if you use Consent Mode v2
+    debug: false
+  };
+
+  // ----- safe gtag/dataLayer -----
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = window.gtag || function(){ dataLayer.push(arguments); };
+
+  // ----- helpers -----
+  function log(){ if (CONFIG.debug) console.log.apply(console, ['[EC-ATC]'].concat([].slice.call(arguments))); }
+  function norm(s){ return (s||'').toString().trim().toLowerCase(); }
+
+  async function sha256(str){
+    try{
+      if (!window.crypto?.subtle) return '';
+      const enc = new TextEncoder().encode(str);
+      const buf = await crypto.subtle.digest('SHA-256', enc);
+      return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+    }catch(e){ return ''; }
+  }
+
+  async function buildUserData(){
+    const ud = {};
+    // Liquid fallbacks (logged-in customers)
+    const emailLq = "{{ customer.email | strip | downcase }}";
+    const fnLq    = "{{ customer.first_name | strip | downcase }}";
+    const lnLq    = "{{ customer.last_name  | strip | downcase }}";
+    const zipLq   = "{{ customer.default_address.zip | strip | downcase }}";
+    const ccLq    = "{{ customer.default_address.country_code | strip | upcase }}";
+
+    if (emailLq) ud.email = await sha256(norm(emailLq));
+    if (fnLq)    ud.address = Object.assign({}, ud.address, { first_name: await sha256(norm(fnLq)) });
+    if (lnLq)    ud.address = Object.assign({}, ud.address, { last_name:  await sha256(norm(lnLq)) });
+    if (zipLq)   ud.address = Object.assign({}, ud.address, { postal_code: await sha256(norm(zipLq)) });
+    if (ccLq)    ud.address = Object.assign({}, ud.address, { country: ccLq });
+
+    // Try visible inputs if present
+    const emailEl = document.querySelector('input[type="email"][name*="email"]');
+    if (!ud.email && emailEl?.value) ud.email = await sha256(norm(emailEl.value));
+
+    const phoneEl = document.querySelector('input[type="tel"][name*="phone"]');
+    if (phoneEl?.value) {
+      const cleaned = norm(phoneEl.value).replace(/[^0-9+]/g,'');
+      if (cleaned) ud.phone_number = await sha256(cleaned);
+    }
+    return ud;
+  }
+
+  function getCurrency(){
+    return "{{ localization.country.currency.iso_code | default: shop.currency | default: 'USD' }}";
+  }
+
+  function getPriceFromPage(){
+    const el = document.querySelector(
+      '.price__regular .price-item--regular, .price__current .money, [data-product-price], .price .money'
+    );
+    if (!el) return 0;
+    const n = parseFloat((el.textContent||'').replace(/[^0-9.,]/g,'').replace(',', '.'));
+    return isNaN(n) ? 0 : n;
+  }
+
+  function hasConsent(){
+    if (!CONFIG.requireConsent) return true;
+    try {
+      const cd = window.google_tag_data && window.google_tag_data.consent && window.google_tag_data.consent.state;
+      const ok = [cd?.ad_storage, cd?.ad_user_data, cd?.ad_personalization].every(v => v !== 'denied');
+      if (CONFIG.debug) log('Consent state:', cd, 'ok:', ok);
+      return ok;
+    } catch(e) {
+      return true; // fail-open if unknown
+    }
+  }
+
+  const recentKeys = new Set();
+  function dedupe(key){
+    if (recentKeys.has(key)) return true;
+    recentKeys.add(key);
+    setTimeout(() => recentKeys.delete(key), CONFIG.dedupeMs);
+    return false;
+  }
+
+  async function fireAddToCartEC(value){
+    try{
+      if (!hasConsent()) { log('Blocked by consent'); return; }
+      const user_data = await buildUserData();
+      if (!user_data || !Object.keys(user_data).length) { log('No user_data → skip EC'); return; }
+      const amount = typeof value === 'number' ? value : Number(value) || 0;
+
+      window.gtag('event', 'conversion', {
+        send_to: CONFIG.sendTo,
+        value: Number(amount.toFixed(2)),
+        currency: getCurrency(),
+        user_data
+      });
+      log('EC conversion sent', { value: amount, currency: getCurrency() });
+    }catch(e){ log('EC error', e); }
+  }
+
+  function armOneShotNetworkInterceptor(valueToSend){
+    // Intercept the next successful /cart/add(.js) response only
+    const origFetch = window.fetch;
+    let fetchArmed = true;
+
+    window.fetch = function(){
+      const args = arguments;
+      const req = args[0];
+      const url = (typeof req === 'string') ? req : (req && req.url) || '';
+      const p = origFetch.apply(this, args);
+      if (fetchArmed && /\/cart\/add(\.js)?(\?|$)/.test(url)) {
+        p.then(res => {
+          if (res && res.ok) fireAddToCartEC(valueToSend);
+        }).finally(() => { window.fetch = origFetch; });
+        fetchArmed = false;
+      }
+      return p;
+    };
+
+    const origOpen = XMLHttpRequest.prototype.open;
+    const origSend = XMLHttpRequest.prototype.send;
+    let xhrArmed = true;
+
+    XMLHttpRequest.prototype.open = function(method, url){
+      this.__EC_IS_ATC__ = /\/cart\/add(\.js)?(\?|$)/.test(String(url || ''));
+      return origOpen.apply(this, arguments);
+    };
+    XMLHttpRequest.prototype.send = function(){
+      if (xhrArmed && this.__EC_IS_ATC__) {
+        this.addEventListener('load', function(){
+          const ok = (this.status >= 200 && this.status < 300);
+          if (ok) fireAddToCartEC(valueToSend);
+          XMLHttpRequest.prototype.open = origOpen;
+          XMLHttpRequest.prototype.send = origSend;
+        }, { once:true });
+        xhrArmed = false;
+      }
+      return origSend.apply(this, arguments);
+    };
+  }
+
+  // ----- hook UI actions (no preventDefault) -----
+  document.addEventListener('DOMContentLoaded', function(){
+    // Forms that post to /cart/add
+    document.querySelectorAll('form[action*="/cart/add"]').forEach(function(form){
+      form.addEventListener('submit', function(){
+        const val = CONFIG.useDynamicValue ? getPriceFromPage() : CONFIG.fixedValue;
+        const key = 'form:' + (form.querySelector('[name="id"]')?.value || '') + ':' + val;
+        if (dedupe(key)) return;
+        armOneShotNetworkInterceptor(val);
+      });
+    });
+
+    // Buttons that may trigger AJAX add to cart without a form submit
+    document.querySelectorAll('[name="add"], .product-form__submit, .product-form__cart-submit, button[type="submit"]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        const val = CONFIG.useDynamicValue ? getPriceFromPage() : CONFIG.fixedValue;
+        const key = 'btn:' + (document.querySelector('[name="id"]')?.value || '') + ':' + val;
+        if (dedupe(key)) return;
+        armOneShotNetworkInterceptor(val);
+      });
+    });
+  });
+})();
+</script>

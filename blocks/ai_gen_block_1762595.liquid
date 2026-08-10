@@ -1,0 +1,634 @@
+{% doc %}
+  @prompt
+    Create a customer testimonials section with the following structure:
+    HEADER:
+    
+    Chat bubble icon (💬) followed by "WHAT CUSTOMERS SAY" in bold (font-size: 32px)
+    Below header: 5 gold stars + "4.9/5 Based on 2,847 reviews" (font-size: 18px, gray text)
+    Center-aligned
+    Margin-bottom: 40px
+    
+    TESTIMONIALS GRID:
+    Create a 3-column grid layout with equal-width cards. Each testimonial card should contain:
+    Card Structure:
+    
+    Customer image placeholder:
+    
+    Circular avatar at top (80px diameter)
+    Light gray background with centered text "Add Photo"
+    Or use icon placeholder: 👤
+    Margin-bottom: 15px
+    
+    
+    5 gold stars (⭐⭐⭐⭐⭐) centered
+    Testimonial quote:
+    
+    Text in quotes
+    Font-size: 16px
+    Line-height: 1.6
+    Dark gray color (#333)
+    Padding: 20px
+    
+    
+    Customer name:
+    
+    Format: "— [Name]"
+    Bold text
+    Font-size: 16px
+    Margin-top: 15px
+    
+    
+    Verification badge:
+    
+    Format: "Using [X] months · ✓ VERIFIED PURCHASE"
+    Small text (14px)
+    Gray color
+    Checkmark icon before "VERIFIED PURCHASE"
+    
+    
+    
+    CARD STYLING:
+    
+    Light gray background (#f8f8f8)
+    Rounded corners (12px)
+    Padding: 30px 25px
+    Box shadow: subtle (0 2px 8px rgba(0,0,0,0.08))
+    Gap between cards: 25px
+    
+    SAMPLE TESTIMONIALS (make these dynamic/editable):
+    Card 1:
+    
+    Image placeholder
+    5 stars
+    Quote: "No more afternoon crashes. I actually have energy to cook dinner now instead of ordering takeout."
+    Name: Michael R.
+    Badge: Using 5 months · ✓ VERIFIED PURCHASE
+    
+    Card 2:
+    
+    Image placeholder
+    5 stars
+    Quote: "My stomach feels so much better. No more bloating after lunch. Wish I found this sooner."
+    Name: Jennifer K.
+    Badge: Using 4 months · ✓ VERIFIED PURCHASE
+    
+    Card 3:
+    
+    Image placeholder
+    5 stars
+    Quote: "I don't crave sugar like I used to. And I feel more steady all day. Game changer."
+    Name: Sarah T.
+    Badge: Using 3 months · ✓ VERIFIED PURCHASE
+    
+    DESKTOP LAYOUT (768px and above):
+    
+    Container max-width: 1200px, centered
+    Padding: 80px 40px
+    3-column grid (33.33% each)
+    Gap between cards: 25px
+    
+    MOBILE-SPECIFIC PARAMETERS (767px and below):
+    
+    Layout: Single column, stacked vertically (cards stack one by one)
+    Padding: 40px 20px
+    Header font-size: 24px (reduce from 32px)
+    Rating text: 16px (reduce from 18px)
+    Customer image: 60px diameter (reduce from 80px)
+    Card padding: 25px 20px (reduce from 30px 25px)
+    Quote font-size: 15px (reduce from 16px)
+    Gap between cards: 20px (reduce from 25px)
+    Each card: Full width (100%)
+    Margin-bottom between cards: 20px
+    
+    TABLET PARAMETERS (768px - 1024px):
+    
+    2-column grid (50% each)
+    Third card spans full width below or wraps to new row
+    
+    IMAGE PLACEHOLDER SPECIFICATIONS:
+    
+    Desktop: 80px × 80px circular avatar
+    Mobile: 60px × 60px circular avatar
+    Background: #e8e8e8 (light gray)
+    Centered icon or text: "👤" or "Add Photo" in gray
+    Position: Top-center of each card, above stars
+    Make editable: Allow admin to upload customer photos through Shopify section settings
+    
+    FUNCTIONALITY:
+    
+    Make testimonials editable through section settings (quote, name, duration, image)
+    Allow adding/removing testimonial cards dynamically
+    Option to connect to Shopify Product Reviews app if installed
+    Auto-populate rating count and average from product reviews
+    
+    STYLING REQUIREMENTS:
+    
+    Gold star color: #FFD700
+    Maintain consistent spacing throughout
+    Smooth hover effect on cards (slight lift + shadow increase on desktop)
+    Ensure text remains readable on all devices
+    Center-align all content within each card
+    
+    RESPONSIVE BREAKPOINTS:
+    
+    Mobile: max-width 767px (1 column)
+    Tablet: 768px - 1024px (2 columns)
+    Desktop: 1025px+ (3 columns)
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-testimonials-container-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 40px;
+  }
+
+  .ai-testimonials-header-{{ ai_gen_id }} {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .ai-testimonials-title-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 0 0 15px 0;
+  }
+
+  .ai-testimonials-icon-{{ ai_gen_id }} {
+    font-size: 32px;
+    line-height: 1;
+  }
+
+  .ai-testimonials-heading-{{ ai_gen_id }} {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0;
+    color: {{ block.settings.heading_color }};
+  }
+
+  .ai-testimonials-rating-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 18px;
+    color: {{ block.settings.rating_text_color }};
+  }
+
+  .ai-testimonials-stars-{{ ai_gen_id }} {
+    color: #FFD700;
+    letter-spacing: 2px;
+  }
+
+  .ai-testimonials-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+  }
+
+  .ai-testimonial-card-{{ ai_gen_id }} {
+    background-color: {{ block.settings.card_background }};
+    border-radius: {{ block.settings.card_border_radius }}px;
+    padding: 30px 25px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .ai-testimonial-card-{{ ai_gen_id }}:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  }
+
+  .ai-testimonial-avatar-{{ ai_gen_id }} {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+    overflow: hidden;
+    background-color: #e8e8e8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-testimonial-avatar-{{ ai_gen_id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-testimonial-avatar-placeholder-{{ ai_gen_id }} {
+    font-size: 40px;
+    color: #999;
+  }
+
+  .ai-testimonial-card-stars-{{ ai_gen_id }} {
+    color: #FFD700;
+    font-size: 18px;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+  }
+
+  .ai-testimonial-quote-{{ ai_gen_id }} {
+    font-size: 16px;
+    line-height: 1.6;
+    color: {{ block.settings.quote_color }};
+    padding: 20px 0;
+    margin: 0;
+  }
+
+  .ai-testimonial-quote-{{ ai_gen_id }}::before {
+    content: '"';
+  }
+
+  .ai-testimonial-quote-{{ ai_gen_id }}::after {
+    content: '"';
+  }
+
+  .ai-testimonial-name-{{ ai_gen_id }} {
+    font-size: 16px;
+    font-weight: 700;
+    color: {{ block.settings.name_color }};
+    margin: 15px 0 8px 0;
+  }
+
+  .ai-testimonial-badge-{{ ai_gen_id }} {
+    font-size: 14px;
+    color: {{ block.settings.badge_color }};
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .ai-testimonial-verified-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1024px) {
+    .ai-testimonials-grid-{{ ai_gen_id }} {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    .ai-testimonials-container-{{ ai_gen_id }} {
+      padding: 40px 20px;
+    }
+
+    .ai-testimonials-heading-{{ ai_gen_id }} {
+      font-size: 24px;
+    }
+
+    .ai-testimonials-icon-{{ ai_gen_id }} {
+      font-size: 24px;
+    }
+
+    .ai-testimonials-rating-{{ ai_gen_id }} {
+      font-size: 16px;
+    }
+
+    .ai-testimonials-grid-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .ai-testimonial-card-{{ ai_gen_id }} {
+      padding: 25px 20px;
+    }
+
+    .ai-testimonial-avatar-{{ ai_gen_id }} {
+      width: 60px;
+      height: 60px;
+    }
+
+    .ai-testimonial-avatar-placeholder-{{ ai_gen_id }} {
+      font-size: 30px;
+    }
+
+    .ai-testimonial-quote-{{ ai_gen_id }} {
+      font-size: 15px;
+    }
+  }
+{% endstyle %}
+
+<customer-testimonials-{{ ai_gen_id }} class="ai-testimonials-container-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-testimonials-header-{{ ai_gen_id }}">
+    <div class="ai-testimonials-title-{{ ai_gen_id }}">
+      <span class="ai-testimonials-icon-{{ ai_gen_id }}">💬</span>
+      <h2 class="ai-testimonials-heading-{{ ai_gen_id }}">{{ block.settings.section_heading }}</h2>
+    </div>
+    <div class="ai-testimonials-rating-{{ ai_gen_id }}">
+      <span class="ai-testimonials-stars-{{ ai_gen_id }}">⭐⭐⭐⭐⭐</span>
+      <span>{{ block.settings.rating_average }}/5 Based on {{ block.settings.review_count }} reviews</span>
+    </div>
+  </div>
+
+  <div class="ai-testimonials-grid-{{ ai_gen_id }}">
+    {% if block.settings.testimonial_1_enabled %}
+      <div class="ai-testimonial-card-{{ ai_gen_id }}">
+        <div class="ai-testimonial-avatar-{{ ai_gen_id }}">
+          {% if block.settings.testimonial_1_image %}
+            <img
+              src="{{ block.settings.testimonial_1_image | image_url: width: 160 }}"
+              alt="{{ block.settings.testimonial_1_name | escape }}"
+              width="80"
+              height="80"
+              loading="lazy"
+            >
+          {% else %}
+            <span class="ai-testimonial-avatar-placeholder-{{ ai_gen_id }}">👤</span>
+          {% endif %}
+        </div>
+        <div class="ai-testimonial-card-stars-{{ ai_gen_id }}">⭐⭐⭐⭐⭐</div>
+        <p class="ai-testimonial-quote-{{ ai_gen_id }}">{{ block.settings.testimonial_1_quote }}</p>
+        <div class="ai-testimonial-name-{{ ai_gen_id }}">— {{ block.settings.testimonial_1_name }}</div>
+        <div class="ai-testimonial-badge-{{ ai_gen_id }}">
+          <span>Using {{ block.settings.testimonial_1_duration }} months</span>
+          <span class="ai-testimonial-verified-{{ ai_gen_id }}">· ✓ VERIFIED PURCHASE</span>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if block.settings.testimonial_2_enabled %}
+      <div class="ai-testimonial-card-{{ ai_gen_id }}">
+        <div class="ai-testimonial-avatar-{{ ai_gen_id }}">
+          {% if block.settings.testimonial_2_image %}
+            <img
+              src="{{ block.settings.testimonial_2_image | image_url: width: 160 }}"
+              alt="{{ block.settings.testimonial_2_name | escape }}"
+              width="80"
+              height="80"
+              loading="lazy"
+            >
+          {% else %}
+            <span class="ai-testimonial-avatar-placeholder-{{ ai_gen_id }}">👤</span>
+          {% endif %}
+        </div>
+        <div class="ai-testimonial-card-stars-{{ ai_gen_id }}">⭐⭐⭐⭐⭐</div>
+        <p class="ai-testimonial-quote-{{ ai_gen_id }}">{{ block.settings.testimonial_2_quote }}</p>
+        <div class="ai-testimonial-name-{{ ai_gen_id }}">— {{ block.settings.testimonial_2_name }}</div>
+        <div class="ai-testimonial-badge-{{ ai_gen_id }}">
+          <span>Using {{ block.settings.testimonial_2_duration }} months</span>
+          <span class="ai-testimonial-verified-{{ ai_gen_id }}">· ✓ VERIFIED PURCHASE</span>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if block.settings.testimonial_3_enabled %}
+      <div class="ai-testimonial-card-{{ ai_gen_id }}">
+        <div class="ai-testimonial-avatar-{{ ai_gen_id }}">
+          {% if block.settings.testimonial_3_image %}
+            <img
+              src="{{ block.settings.testimonial_3_image | image_url: width: 160 }}"
+              alt="{{ block.settings.testimonial_3_name | escape }}"
+              width="80"
+              height="80"
+              loading="lazy"
+            >
+          {% else %}
+            <span class="ai-testimonial-avatar-placeholder-{{ ai_gen_id }}">👤</span>
+          {% endif %}
+        </div>
+        <div class="ai-testimonial-card-stars-{{ ai_gen_id }}">⭐⭐⭐⭐⭐</div>
+        <p class="ai-testimonial-quote-{{ ai_gen_id }}">{{ block.settings.testimonial_3_quote }}</p>
+        <div class="ai-testimonial-name-{{ ai_gen_id }}">— {{ block.settings.testimonial_3_name }}</div>
+        <div class="ai-testimonial-badge-{{ ai_gen_id }}">
+          <span>Using {{ block.settings.testimonial_3_duration }} months</span>
+          <span class="ai-testimonial-verified-{{ ai_gen_id }}">· ✓ VERIFIED PURCHASE</span>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</customer-testimonials-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class CustomerTestimonials{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.setupAccessibility();
+      }
+
+      setupAccessibility() {
+        const cards = this.querySelectorAll('.ai-testimonial-card-{{ ai_gen_id }}');
+        cards.forEach((card) => {
+          card.setAttribute('role', 'article');
+          card.setAttribute('aria-label', 'Customer testimonial');
+        });
+      }
+    }
+
+    customElements.define('customer-testimonials-{{ ai_gen_id }}', CustomerTestimonials{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Customer testimonials",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Header"
+    },
+    {
+      "type": "text",
+      "id": "section_heading",
+      "label": "Heading",
+      "default": "WHAT CUSTOMERS SAY"
+    },
+    {
+      "type": "text",
+      "id": "rating_average",
+      "label": "Rating average",
+      "default": "4.9"
+    },
+    {
+      "type": "text",
+      "id": "review_count",
+      "label": "Review count",
+      "default": "2,847"
+    },
+    {
+      "type": "header",
+      "content": "Testimonial 1"
+    },
+    {
+      "type": "checkbox",
+      "id": "testimonial_1_enabled",
+      "label": "Enable testimonial 1",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "testimonial_1_image",
+      "label": "Customer photo"
+    },
+    {
+      "type": "textarea",
+      "id": "testimonial_1_quote",
+      "label": "Quote",
+      "default": "No more afternoon crashes. I actually have energy to cook dinner now instead of ordering takeout."
+    },
+    {
+      "type": "text",
+      "id": "testimonial_1_name",
+      "label": "Customer name",
+      "default": "Michael R."
+    },
+    {
+      "type": "range",
+      "id": "testimonial_1_duration",
+      "label": "Usage duration",
+      "min": 1,
+      "max": 24,
+      "step": 1,
+      "unit": "mo",
+      "default": 5
+    },
+    {
+      "type": "header",
+      "content": "Testimonial 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "testimonial_2_enabled",
+      "label": "Enable testimonial 2",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "testimonial_2_image",
+      "label": "Customer photo"
+    },
+    {
+      "type": "textarea",
+      "id": "testimonial_2_quote",
+      "label": "Quote",
+      "default": "My stomach feels so much better. No more bloating after lunch. Wish I found this sooner."
+    },
+    {
+      "type": "text",
+      "id": "testimonial_2_name",
+      "label": "Customer name",
+      "default": "Jennifer K."
+    },
+    {
+      "type": "range",
+      "id": "testimonial_2_duration",
+      "label": "Usage duration",
+      "min": 1,
+      "max": 24,
+      "step": 1,
+      "unit": "mo",
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Testimonial 3"
+    },
+    {
+      "type": "checkbox",
+      "id": "testimonial_3_enabled",
+      "label": "Enable testimonial 3",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "testimonial_3_image",
+      "label": "Customer photo"
+    },
+    {
+      "type": "textarea",
+      "id": "testimonial_3_quote",
+      "label": "Quote",
+      "default": "I don't crave sugar like I used to. And I feel more steady all day. Game changer."
+    },
+    {
+      "type": "text",
+      "id": "testimonial_3_name",
+      "label": "Customer name",
+      "default": "Sarah T."
+    },
+    {
+      "type": "range",
+      "id": "testimonial_3_duration",
+      "label": "Usage duration",
+      "min": 1,
+      "max": 24,
+      "step": 1,
+      "unit": "mo",
+      "default": 3
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "rating_text_color",
+      "label": "Rating text color",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background",
+      "default": "#f8f8f8"
+    },
+    {
+      "type": "color",
+      "id": "quote_color",
+      "label": "Quote color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "name_color",
+      "label": "Name color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "badge_color",
+      "label": "Badge color",
+      "default": "#666666"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "label": "Card border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    }
+  ],
+  "presets": [
+    {
+      "name": "Customer testimonials"
+    }
+  ]
+}
+{% endschema %}

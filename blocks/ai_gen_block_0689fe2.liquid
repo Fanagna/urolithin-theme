@@ -1,0 +1,586 @@
+{% doc %}
+  @prompt
+    Role:
+    Act as a senior Shopify theme developer.
+    
+    Goal:
+    Recreate the exact provided layout without changing any existing content or copy, and make the Add to Cart button fully functional using Shopify.
+    
+    CONTENT RULE (CRITICAL)
+    
+    DO NOT modify, rewrite, shorten, or enhance any text
+    
+    DO NOT change headings, paragraphs, prices, labels, or wording
+    
+    Use the content exactly as provided in the reference
+    
+    LAYOUT
+    
+    Two-column layout on desktop
+    
+    Left column: article content (scrollable)
+    
+    Right column: product card
+    
+    RIGHT COLUMN — STICKY BEHAVIOR (MANDATORY)
+    
+    The right product card must remain fixed on screen while scrolling
+    
+    Use position: sticky
+    
+    Sticky offset: top: 80px
+    
+    The card stays visible during the entire scroll of the left content
+    
+    Sticky behavior applies desktop only
+    
+    On mobile, layout stacks vertically and sticky is disabled
+    
+    ADD TO CART (VERY IMPORTANT)
+    
+    Replace the visual button with a real Shopify Add to Cart button
+    
+    Use a proper Shopify product form:
+    
+    form 'product'
+    
+    {{ product.selected_or_first_available_variant.id }}
+    
+    On click:
+    
+    Product is added to cart
+    
+    Cart drawer opens OR redirect to cart (theme compatible)
+    
+    ❌ No fake button
+    ❌ No JavaScript-only cart
+    ❌ No hardcoded product ID
+    
+    PRODUCT DATA
+    
+    All product information must be pulled dynamically from Shopify:
+    
+    Product image
+    
+    Product title
+    
+    Price
+    
+    Compare-at price
+    
+    Discount badge
+    
+    Reviews & star rating (if available via Shopify reviews)
+    
+    TECHNICAL REQUIREMENTS
+    
+    Shopify Online Store 2.0 compatible
+    
+    Liquid-based implementation
+    
+    No hardcoded prices or text
+    
+    Clean, minimal CSS
+    
+    Sticky card must not overlap footer
+    
+    Output:
+    Generate the complete Shopify section code that visually matches the reference exactly, keeps all content unchanged, and includes a fully functional Shopify Add to Cart button with a sticky right-side product card.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-article-product-layout-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    max-width: {{ block.settings.desktop_width_percent }}%;
+    margin: 0 auto;
+    padding: {{ block.settings.section_padding }}px 20px;
+  }
+
+  .ai-article-product-container-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  @media screen and (min-width: 990px) {
+    .ai-article-product-container-{{ ai_gen_id }} {
+      grid-template-columns: 1.5fr 1fr;
+      gap: 60px;
+    }
+  }
+
+  .ai-article-content-{{ ai_gen_id }} {
+    min-width: 0;
+  }
+
+  .ai-article-content-{{ ai_gen_id }} h1,
+  .ai-article-content-{{ ai_gen_id }} h2,
+  .ai-article-content-{{ ai_gen_id }} h3,
+  .ai-article-content-{{ ai_gen_id }} h4,
+  .ai-article-content-{{ ai_gen_id }} h5,
+  .ai-article-content-{{ ai_gen_id }} h6 {
+    margin-top: 0;
+    margin-bottom: 16px;
+    color: {{ block.settings.heading_color }};
+    line-height: 1.3;
+  }
+
+  .ai-article-content-{{ ai_gen_id }} h1 {
+    font-size: 32px;
+  }
+
+  .ai-article-content-{{ ai_gen_id }} h2 {
+    font-size: 28px;
+  }
+
+  .ai-article-content-{{ ai_gen_id }} h3 {
+    font-size: 24px;
+  }
+
+  .ai-article-content-{{ ai_gen_id }} p {
+    margin-bottom: 16px;
+    color: {{ block.settings.text_color }};
+    line-height: 1.6;
+    font-size: 16px;
+  }
+
+  .ai-article-content-{{ ai_gen_id }} ul,
+  .ai-article-content-{{ ai_gen_id }} ol {
+    margin-bottom: 16px;
+    padding-left: 24px;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-article-content-{{ ai_gen_id }} li {
+    margin-bottom: 8px;
+    line-height: 1.6;
+  }
+
+  .ai-product-card-wrapper-{{ ai_gen_id }} {
+    position: relative;
+  }
+
+  @media screen and (min-width: 990px) {
+    .ai-product-card-wrapper-{{ ai_gen_id }} {
+      position: sticky;
+      top: 80px;
+      align-self: flex-start;
+    }
+  }
+
+  .ai-product-card-{{ ai_gen_id }} {
+    background-color: {{ block.settings.card_background }};
+    border: {{ block.settings.card_border_thickness }}px solid {{ block.settings.card_border_color }};
+    border-radius: {{ block.settings.card_border_radius }}px;
+    padding: {{ block.settings.card_padding }}px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .ai-product-image-{{ ai_gen_id }} {
+    width: 100%;
+    margin-bottom: 20px;
+    border-radius: {{ block.settings.image_border_radius }}px;
+    overflow: hidden;
+  }
+
+  .ai-product-image-{{ ai_gen_id }} img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .ai-product-badge-{{ ai_gen_id }} {
+    display: inline-block;
+    background-color: {{ block.settings.badge_background }};
+    color: {{ block.settings.badge_text_color }};
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+
+  .ai-product-title-{{ ai_gen_id }} {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0 0 12px;
+    color: {{ block.settings.product_title_color }};
+    line-height: 1.3;
+  }
+
+  .ai-product-reviews-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .ai-product-stars-{{ ai_gen_id }} {
+    display: flex;
+    gap: 2px;
+    color: {{ block.settings.star_color }};
+  }
+
+  .ai-product-review-count-{{ ai_gen_id }} {
+    font-size: 14px;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-product-price-wrapper-{{ ai_gen_id }} {
+    margin-bottom: 20px;
+  }
+
+  .ai-product-price-{{ ai_gen_id }} {
+    font-size: 28px;
+    font-weight: 700;
+    color: {{ block.settings.price_color }};
+  }
+
+  .ai-product-compare-price-{{ ai_gen_id }} {
+    font-size: 20px;
+    color: {{ block.settings.compare_price_color }};
+    text-decoration: line-through;
+    margin-left: 8px;
+  }
+
+  .ai-product-form-{{ ai_gen_id }} {
+    width: 100%;
+  }
+
+  .ai-product-form-{{ ai_gen_id }} button[type="submit"] {
+    width: 100%;
+    padding: 16px 24px;
+    background-color: {{ block.settings.button_background }};
+    color: {{ block.settings.button_text_color }};
+    border: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .ai-product-form-{{ ai_gen_id }} button[type="submit"]:hover {
+    background-color: {{ block.settings.button_hover_background }};
+  }
+
+  .ai-product-form-{{ ai_gen_id }} button[type="submit"]:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+{% endstyle %}
+
+<div class="ai-article-product-layout-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-article-product-container-{{ ai_gen_id }}">
+    <div class="ai-article-content-{{ ai_gen_id }}">
+      {{ block.settings.article_content }}
+    </div>
+
+    <div class="ai-product-card-wrapper-{{ ai_gen_id }}">
+      {% if block.settings.product != blank %}
+        {% assign product = block.settings.product %}
+        <div class="ai-product-card-{{ ai_gen_id }}">
+          {% if product.featured_image %}
+            <div class="ai-product-image-{{ ai_gen_id }}">
+              <img
+                src="{{ product.featured_image | image_url: width: 600 }}"
+                alt="{{ product.featured_image.alt | escape }}"
+                loading="lazy"
+                width="600"
+                height="{{ 600 | divided_by: product.featured_image.aspect_ratio | round }}"
+              >
+            </div>
+          {% endif %}
+
+          {% if product.compare_at_price > product.price %}
+            {% assign discount_percentage = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price %}
+            <div class="ai-product-badge-{{ ai_gen_id }}">
+              {{ block.settings.discount_text }} {{ discount_percentage }}%
+            </div>
+          {% endif %}
+
+          <h3 class="ai-product-title-{{ ai_gen_id }}">{{ product.title }}</h3>
+
+          {% if block.settings.show_reviews %}
+            <div class="ai-product-reviews-{{ ai_gen_id }}">
+              <div class="ai-product-stars-{{ ai_gen_id }}">
+                {% for i in (1..5) %}
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                {% endfor %}
+              </div>
+              <span class="ai-product-review-count-{{ ai_gen_id }}">{{ block.settings.review_count }}</span>
+            </div>
+          {% endif %}
+
+          <div class="ai-product-price-wrapper-{{ ai_gen_id }}">
+            <span class="ai-product-price-{{ ai_gen_id }}">
+              {{ product.selected_or_first_available_variant.price | money }}
+            </span>
+            {% if product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price %}
+              <span class="ai-product-compare-price-{{ ai_gen_id }}">
+                {{ product.selected_or_first_available_variant.compare_at_price | money }}
+              </span>
+            {% endif %}
+          </div>
+
+          {% form 'product', product, class: 'ai-product-form-' | append: ai_gen_id %}
+            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+            <button type="submit" name="add" {% unless product.selected_or_first_available_variant.available %}disabled{% endunless %}>
+              {% if product.selected_or_first_available_variant.available %}
+                {{ block.settings.button_text }}
+              {% else %}
+                {{ block.settings.sold_out_text }}
+              {% endif %}
+            </button>
+          {% endform %}
+        </div>
+      {% else %}
+        <div class="ai-product-card-{{ ai_gen_id }}">
+          <div class="ai-product-image-{{ ai_gen_id }}">
+            {{ 'product-1' | placeholder_svg_tag }}
+          </div>
+          <p style="text-align: center; color: #999; font-style: italic;">Select a product to display</p>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Article with product card",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "label": "Section padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Article content"
+    },
+    {
+      "type": "richtext",
+      "id": "article_content",
+      "label": "Content",
+      "default": "<h1>Article Title</h1><p>This is the article content. Add your text here. The product card on the right will stay visible as you scroll through this content.</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><h2>Section Heading</h2><p>More content here to demonstrate the scrolling behavior and sticky product card.</p>"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#121212"
+    },
+    {
+      "type": "header",
+      "content": "Product"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    },
+    {
+      "type": "color",
+      "id": "product_title_color",
+      "label": "Product title color",
+      "default": "#121212"
+    },
+    {
+      "type": "header",
+      "content": "Reviews"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_reviews",
+      "label": "Show reviews",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "review_count",
+      "label": "Review count",
+      "default": "(128 reviews)"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star color",
+      "default": "#FFD700"
+    },
+    {
+      "type": "header",
+      "content": "Pricing"
+    },
+    {
+      "type": "color",
+      "id": "price_color",
+      "label": "Price color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "compare_price_color",
+      "label": "Compare price color",
+      "default": "#999999"
+    },
+    {
+      "type": "header",
+      "content": "Discount badge"
+    },
+    {
+      "type": "text",
+      "id": "discount_text",
+      "label": "Discount text",
+      "default": "Save"
+    },
+    {
+      "type": "color",
+      "id": "badge_background",
+      "label": "Badge background",
+      "default": "#c12d2d"
+    },
+    {
+      "type": "color",
+      "id": "badge_text_color",
+      "label": "Badge text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Add to Cart"
+    },
+    {
+      "type": "text",
+      "id": "sold_out_text",
+      "label": "Sold out text",
+      "default": "Sold Out"
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Button background",
+      "default": "#5c1ada"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_background",
+      "label": "Button hover background",
+      "default": "#4a15b0"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "label": "Button border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 6
+    },
+    {
+      "type": "header",
+      "content": "Product card style"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Card border color",
+      "default": "#e5e5e5"
+    },
+    {
+      "type": "range",
+      "id": "card_border_thickness",
+      "label": "Card border thickness",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "label": "Card border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "card_padding",
+      "label": "Card padding",
+      "min": 16,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "label": "Image border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 10
+    }
+  ],
+  "presets": [
+    {
+      "name": "Article with product card"
+    }
+  ]
+}
+{% endschema %}

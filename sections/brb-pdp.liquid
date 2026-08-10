@@ -1,0 +1,442 @@
+{{ 'brb-pdp.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign brb_variant = product.selected_or_first_available_variant
+  assign brb_price   = brb_variant.price | money
+  assign brb_compare = brb_variant.compare_at_price | money
+
+  # Per-day price, auto-calculated from the live product price so it never goes
+  # stale when the price changes. supply_days is a merchant-editable fact about
+  # the product (not a price), defaults to 90 (3 months supply).
+  assign brb_supply_days = section.settings.supply_days | default: 90
+  assign brb_day_price = brb_variant.price | times: 1.0 | divided_by: brb_supply_days | money | append: '/day'
+
+  # Hero background images: section overrides fall back to bundled assets.
+  assign brb_hero_desktop = 'brb-hero-desktop.webp' | asset_url
+  assign brb_hero_mobile  = 'brb-hero-mobile.webp'  | asset_url
+  if section.settings.hero_bg != blank
+    assign brb_hero_desktop = section.settings.hero_bg | image_url: width: 1920
+  endif
+  if section.settings.hero_bg_mobile != blank
+    assign brb_hero_mobile = section.settings.hero_bg_mobile | image_url: width: 900
+  endif
+
+  # Product bottle (compare + sticky)
+  assign brb_bottle = 'brb-bottle.webp' | asset_url
+  if section.settings.product_image != blank
+    assign brb_bottle = section.settings.product_image | image_url: width: 600
+  endif
+
+  assign review_blocks = section.blocks | where: 'type', 'review'
+  assign faq_blocks    = section.blocks | where: 'type', 'faq_item'
+
+  assign brb_hero_form_id   = 'brb-hero-form-'   | append: section.id
+  assign brb_sticky_form_id = 'brb-sticky-form-' | append: section.id
+-%}
+
+{% render 'panstellar-product-schema', product: product %}
+<link rel="preload" as="image" href="{{ brb_hero_desktop }}" media="(min-width: 761px)" fetchpriority="high">
+<link rel="preload" as="image" href="{{ brb_hero_mobile }}" media="(max-width: 760px)" fetchpriority="high">
+<style>
+  #brb-pdp-{{ section.id }}{
+    --brb-hero-img: url('{{ brb_hero_desktop }}');
+    --brb-hero-img-m: url('{{ brb_hero_mobile }}');
+  }
+</style>
+
+<div class="brb-pdp brb-page" id="brb-pdp-{{ section.id }}">
+
+  <!-- ══════════════════════════════ HERO ══════════════════════════════ -->
+  <section class="brb-section brb-hero">
+    <div class="brb-hero-grid">
+      <div class="brb-hero-copy">
+        <div class="brb-eyebrow">{{ section.settings.hero_eyebrow }}</div>
+        <h1 class="brb-hero-title">{{ section.settings.hero_h1 }}</h1>
+        <p>{{ section.settings.hero_subtitle }}</p>
+        <div class="brb-hero-icons">
+          <div class="brb-hero-icon"><div class="brb-icon-circle"><img src="{{ 'brb-icon-capsule.png' | asset_url }}" alt="Serving strength" width="30" height="30"></div>{{ section.settings.hero_stat1 }}</div>
+          <div class="brb-hero-icon"><div class="brb-icon-circle"><img src="{{ 'brb-icon-molecule.png' | asset_url }}" alt="Formula" width="30" height="30"></div>{{ section.settings.hero_stat2 }}</div>
+          <div class="brb-hero-icon"><div class="brb-icon-circle"><img src="{{ 'brb-icon-beaker.png' | asset_url }}" alt="Absorption" width="30" height="30"></div>{{ section.settings.hero_stat3 }}</div>
+          <div class="brb-hero-icon"><div class="brb-icon-circle"><img src="{{ 'brb-icon-bottle.png' | asset_url }}" alt="Vegan capsules" width="30" height="30"></div>{{ section.settings.hero_stat4 }}</div>
+        </div>
+        <div class="brb-hero-meta">{{ section.settings.hero_foot }}</div>
+      </div>
+
+      <aside class="brb-buy-card" id="brb-buy-card-{{ section.id }}">
+        <div class="brb-price">
+          {{ brb_price }}
+          {%- if brb_variant.compare_at_price > brb_variant.price -%}
+            <span style="font-size:24px;color:#b3a89c;text-decoration:line-through;font-weight:600;margin-left:8px">{{ brb_compare }}</span>
+          {%- endif -%}
+        </div>
+        <div class="brb-meta">{{ section.settings.card_meta }}</div>
+        <div class="brb-day">{{ brb_day_price }}</div>
+
+        {%- form 'product', product, id: brb_hero_form_id, novalidate: 'novalidate' -%}
+          <input type="hidden" name="id" value="{{ brb_variant.id }}">
+          <input type="hidden" name="quantity" value="1">
+          <button type="submit" name="add" class="brb-cta">{{ section.settings.cta_text }}</button>
+        {%- endform -%}
+
+        <div class="brb-trust-list">
+          <div><img src="{{ 'brb-icon-truck.png' | asset_url }}" alt="" width="20" height="20">{{ section.settings.trust1 }}</div>
+          <div><img src="{{ 'brb-icon-shield-lock.png' | asset_url }}" alt="" width="20" height="20">{{ section.settings.trust2 }}</div>
+          <div><img src="{{ 'brb-icon-shield-check.png' | asset_url }}" alt="" width="20" height="20">{{ section.settings.trust3 }}</div>
+        </div>
+
+        <div class="brb-accordion">
+          <div class="brb-acc">
+            <button class="brb-acc-btn" type="button">{{ section.settings.acc1_label }} <span>⌄</span></button>
+            <div class="brb-acc-panel"><p>{{ section.settings.acc1_text }}</p></div>
+          </div>
+          <div class="brb-acc">
+            <button class="brb-acc-btn" type="button">{{ section.settings.acc2_label }} <span>⌄</span></button>
+            <div class="brb-acc-panel"><p>{{ section.settings.acc2_text }}</p></div>
+          </div>
+          <div class="brb-acc">
+            <button class="brb-acc-btn" type="button">{{ section.settings.acc3_label }} <span>⌄</span></button>
+            <div class="brb-acc-panel"><p>{{ section.settings.acc3_text }}</p></div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════ INGREDIENTS ══════════════════════════════ -->
+  <section class="brb-section brb-ingredients">
+    <div class="brb-ingredient-layout">
+      <div class="brb-block-title">
+        <h2 class="brb-ingredients-title">{{ section.settings.ing_heading }}</h2>
+        <p>{{ section.settings.ing_sub }}</p>
+      </div>
+      <div class="brb-ingredient-grid">
+        <article class="brb-ingredient-card"><div class="brb-thumb"><img src="{{ 'brb-ing-berberine.webp' | asset_url }}" alt="Berberine HCl" loading="lazy"></div><h3>Berberine<br>HCl</h3><div class="brb-dose">core active</div><div class="brb-desc">metabolic support</div></article>
+        <article class="brb-ingredient-card"><div class="brb-thumb"><img src="{{ 'brb-ing-cinnamon.webp' | asset_url }}" alt="Ceylon Cinnamon" loading="lazy"></div><h3>Ceylon<br>Cinnamon</h3><div class="brb-dose">metabolic</div><div class="brb-desc">support</div></article>
+        <article class="brb-ingredient-card"><div class="brb-thumb"><img src="{{ 'brb-ing-ala.webp' | asset_url }}" alt="Alpha Lipoic Acid" loading="lazy"></div><h3>Alpha Lipoic<br>Acid</h3><div class="brb-dose">antioxidant</div><div class="brb-desc">support</div></article>
+        <article class="brb-ingredient-card"><div class="brb-thumb"><img src="{{ 'brb-ing-piperine.webp' | asset_url }}" alt="Piperine" loading="lazy"></div><h3>Piperine</h3><div class="brb-dose">absorption</div><div class="brb-desc">support</div></article>
+        <article class="brb-ingredient-card"><div class="brb-thumb"><img src="{{ 'brb-ing-chromium.webp' | asset_url }}" alt="Chromium Picolinate" loading="lazy"></div><h3>Chromium<br>Picolinate</h3><div class="brb-dose">metabolic</div><div class="brb-desc">support</div></article>
+        <article class="brb-ingredient-card"><div class="brb-thumb"><img src="{{ 'brb-ing-banaba.webp' | asset_url }}" alt="Banaba Leaf" loading="lazy"></div><h3>Banaba<br>Leaf</h3><div class="brb-dose">metabolic</div><div class="brb-desc">support</div></article>
+        <article class="brb-ingredient-card"><div class="brb-thumb"><img src="{{ 'brb-ing-phosphatidyl.webp' | asset_url }}" alt="Phosphatidylcholine" loading="lazy"></div><h3>Phosphatidyl<br>choline</h3><div class="brb-dose">delivery</div><div class="brb-desc">support</div></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════ COMPARE ══════════════════════════════ -->
+  <section class="brb-section brb-compare">
+    <div class="brb-compare-layout">
+      <div class="brb-compare-title">
+        <h2>{{ section.settings.compare_heading }}</h2>
+        <p>{{ section.settings.compare_sub }}</p>
+      </div>
+      <div class="brb-main-compare">
+        <div class="brb-bottle"><img src="{{ brb_bottle }}" alt="{{ product.title }}" loading="lazy"></div>
+        <div class="brb-copy">
+          <div class="brb-brand">PANSTELLAR</div>
+          <h3>7 IN 1 BERBERINE COMPLEX</h3>
+          <ul class="brb-check-list">
+            <li><span class="brb-tick">✓</span>2000mg per serving</li>
+            <li><span class="brb-tick">✓</span>7 active ingredients</li>
+            <li><span class="brb-tick">✓</span>Phytosome technology</li>
+            <li><span class="brb-tick">✓</span>180 vegan capsules</li>
+            <li><span class="brb-tick">✓</span>3 months supply</li>
+            <li><span class="brb-tick">✓</span>Targeted metabolic support</li>
+          </ul>
+        </div>
+        <div class="brb-vs">VS</div>
+      </div>
+      <div class="brb-side-compare">
+        <h3>Buying Separately</h3>
+        <div class="brb-bottles"><img src="{{ 'brb-typical-bottles.webp' | asset_url }}" alt="Buying supplements separately" loading="lazy"></div>
+        <ul class="brb-x-list">
+          <li><span class="brb-cross">×</span>More separate products</li>
+          <li><span class="brb-cross">×</span>More pills to take</li>
+          <li><span class="brb-cross">×</span>Harder to track</li>
+          <li><span class="brb-cross">×</span>More clutter</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════ SCIENCE ══════════════════════════════ -->
+  <section class="brb-section brb-science">
+    <div class="brb-science-layout">
+      <div class="brb-science-img"><img src="{{ 'brb-science.webp' | asset_url }}" alt="Phytosome technology" loading="lazy"></div>
+      <div class="brb-science-copy">
+        <h2>{{ section.settings.science_heading }}</h2>
+        <p>{{ section.settings.science_sub }}</p>
+      </div>
+      <div class="brb-science-points">
+        <div class="brb-science-point"><div class="brb-mini"><img src="{{ 'brb-icon-molecule.png' | asset_url }}" alt="" width="22" height="22" loading="lazy"></div>Supports healthy metabolism</div>
+        <div class="brb-science-point"><div class="brb-mini"><img src="{{ 'brb-icon-beaker.png' | asset_url }}" alt="" width="22" height="22" loading="lazy"></div>Enhanced absorption</div>
+        <div class="brb-science-point"><div class="brb-mini"><img src="{{ 'brb-icon-shield-check.png' | asset_url }}" alt="" width="22" height="22" loading="lazy"></div>Comprehensive wellness support</div>
+      </div>
+      <div class="brb-research">
+        <h3>{{ section.settings.research_big }}<span>{{ section.settings.research_sub }}</span></h3>
+        <p>{{ section.settings.research_note }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════ TRUST / QUALITY ══════════════════════════════ -->
+  <section class="brb-section brb-trust">
+    <div class="brb-trust-layout">
+      <h2>{{ section.settings.quality_heading }}</h2>
+      <div class="brb-quality-icons">
+        <div class="brb-quality"><div class="brb-icon-circle"><img src="{{ 'brb-icon-certificate.png' | asset_url }}" alt="" width="28" height="28" loading="lazy"></div>Third‑Party<br>Tested</div>
+        <div class="brb-quality"><div class="brb-icon-circle"><img src="{{ 'brb-icon-beaker.png' | asset_url }}" alt="" width="28" height="28" loading="lazy"></div>cGMP<br>Facility</div>
+        <div class="brb-quality"><div class="brb-icon-circle"><img src="{{ 'brb-icon-made-in-usa.webp' | asset_url }}" alt="" width="28" height="28" loading="lazy"></div>Made in<br>USA</div>
+        <div class="brb-quality"><div class="brb-icon-circle"><img src="{{ 'brb-icon-capsule.png' | asset_url }}" alt="" width="28" height="28" loading="lazy"></div>Vegan</div>
+        <div class="brb-quality"><div class="brb-icon-circle"><img src="{{ 'brb-icon-shield-check.png' | asset_url }}" alt="" width="28" height="28" loading="lazy"></div>Non‑GMO</div>
+        <div class="brb-quality"><div class="brb-icon-circle"><img src="{{ 'brb-icon-molecule.png' | asset_url }}" alt="" width="28" height="28" loading="lazy"></div>Phytosome<br>Enhanced</div>
+      </div>
+      <div class="brb-badge"><img src="{{ 'brb-guarantee.webp' | asset_url }}" alt="90 Day guarantee" loading="lazy"></div>
+      <div class="brb-risk">
+        <h3>Try it Risk‑Free</h3>
+        <p>Love it or get a full refund within 90 days of purchase.</p>
+        <a href="{{ section.settings.guarantee_url | default: '#' }}" class="brb-learn">LEARN MORE</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════ REVIEWS ══════════════════════════════ -->
+  {%- if review_blocks.size > 0 -%}
+  <section class="brb-section brb-reviews">
+    <div class="brb-reviews-layout">
+      <div>
+        <h2>{{ section.settings.reviews_heading }}</h2>
+        <div class="brb-rating">{{ section.settings.reviews_score }} <span class="brb-stars">★★★★★</span> <span style="font-weight:500;color:#5d534a">{{ section.settings.reviews_count }}</span></div>
+      </div>
+      <div>
+        <div class="brb-review-grid">
+          {%- for block in review_blocks -%}
+            <article class="brb-review-card" {{ block.shopify_attributes }}>
+              <div class="brb-stars">★★★★★</div>
+              <p>{{ block.settings.quote }}</p>
+              <div class="brb-author">— {{ block.settings.author }}</div>
+            </article>
+          {%- endfor -%}
+        </div>
+        {%- if section.settings.reviews_note != blank -%}
+          <div class="brb-note">{{ section.settings.reviews_note }}</div>
+        {%- endif -%}
+      </div>
+    </div>
+  </section>
+  {%- endif -%}
+
+  <!-- ══════════════════════════════ FAQ ══════════════════════════════ -->
+  {%- if faq_blocks.size > 0 -%}
+  <section class="brb-section brb-faq">
+    <div class="brb-faq-layout">
+      <h2 class="brb-faq-title">{{ section.settings.faq_heading }}</h2>
+      <div class="brb-faq-box">
+        {%- for block in faq_blocks -%}
+          <div class="brb-faq-item" {{ block.shopify_attributes }}>
+            <button class="brb-faq-q" type="button">{{ block.settings.question }} <span>⌄</span></button>
+            <div class="brb-faq-a"><p>{{ block.settings.answer }}</p></div>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+  {%- endif -%}
+
+  <!-- ══════════════════════════════ STICKY ADD-TO-CART (fixed, reveal on scroll) ══════════════════════════════ -->
+  <section class="brb-sticky" id="brb-sticky-{{ section.id }}" aria-label="Quick add to cart">
+    <div class="brb-sticky-inner">
+      <div class="brb-mini-bottle"><img src="{{ brb_bottle }}" alt="{{ product.title }}" loading="lazy"></div>
+      <div class="brb-headline">{{ section.settings.sticky_title }}</div>
+      <div class="brb-sticky-price">
+        <div class="brb-num">{{ brb_price }}</div>
+        <div class="brb-sub">{{ section.settings.card_meta }} · {{ brb_day_price }}</div>
+        <div class="brb-sticky-icons">
+          <span><img src="{{ 'brb-icon-truck.png' | asset_url }}" alt="" width="16" height="16" loading="lazy">{{ section.settings.trust1 }}</span>
+          <span><img src="{{ 'brb-icon-shield-lock.png' | asset_url }}" alt="" width="16" height="16" loading="lazy">{{ section.settings.trust2 }}</span>
+          <span><img src="{{ 'brb-icon-shield-check.png' | asset_url }}" alt="" width="16" height="16" loading="lazy">{{ section.settings.trust3 }}</span>
+        </div>
+      </div>
+      {%- form 'product', product, id: brb_sticky_form_id, novalidate: 'novalidate' -%}
+        <input type="hidden" name="id" value="{{ brb_variant.id }}">
+        <input type="hidden" name="quantity" value="1">
+        <button type="submit" name="add">{{ section.settings.cta_text }}</button>
+      {%- endform -%}
+    </div>
+  </section>
+
+</div><!-- /.brb-pdp -->
+
+<script>
+(function(){
+  var wrap = document.getElementById('brb-pdp-{{ section.id }}');
+  if (!wrap) return;
+
+  /* ── Accordions + FAQ (max-height toggle, close siblings) ── */
+  wrap.querySelectorAll('.brb-acc-btn, .brb-faq-q').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var p = btn.nextElementSibling;
+      var open = p.style.maxHeight && p.style.maxHeight !== '0px';
+      // close siblings within the same group
+      var group = p.parentElement.parentElement;
+      group.querySelectorAll('.brb-acc-panel, .brb-faq-a').forEach(function(x){
+        if (x !== p) x.style.maxHeight = null;
+      });
+      p.style.maxHeight = open ? null : p.scrollHeight + 'px';
+    });
+  });
+
+  /* ── Sticky reveal once the buy-card (CTA + accordions) scrolls out of
+     view — observing the whole hero instead would keep the sticky hidden
+     while the buy-card has scrolled away but the rest of the (taller) hero
+     is still on screen, leaving no visible CTA in between. ── */
+  var buyCard = document.getElementById('brb-buy-card-{{ section.id }}');
+  var sticky = document.getElementById('brb-sticky-{{ section.id }}');
+  if (buyCard && sticky && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function(entries){
+      sticky.classList.toggle('brb-sticky--visible', !entries[0].isIntersecting);
+    }, { threshold: 0 }).observe(buyCard);
+  } else if (sticky) {
+    sticky.classList.add('brb-sticky--visible');
+  }
+
+  /* ── AJAX Add to Cart (Dawn cart drawer) ── */
+  /* ── AJAX Add to Cart (Dawn cart drawer) ──
+     Uses the native <cart-drawer> custom element's own renderContents()
+     method (same one Dawn's product-form.js calls) — it both swaps in the
+     fresh sections AND opens the drawer. window.openCartDrawer() and
+     [data-cart-toggle]/[aria-controls="CartDrawer"] don't exist anywhere
+     in this theme, so relying on them silently did nothing. */
+  function handleForm(form){
+    if (!form) return;
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var btn = form.querySelector('[type="submit"]');
+      var origText = btn ? btn.textContent : '';
+      if (btn) { btn.disabled = true; btn.textContent = 'Adding…'; }
+      fetch(window.Shopify.routes.root + 'cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+        body: JSON.stringify({
+          id: form.querySelector('[name="id"]').value,
+          quantity: 1,
+          sections: ['cart-drawer', 'cart-icon-bubble'],
+          sections_url: window.location.pathname
+        })
+      })
+      .then(function(r){ return r.json(); })
+      .then(function(data){
+        /* Fire Dawn's own pubsub cart-update event (same one product-form.js
+           fires) — apps that hook into cart updates (reviews widgets, bundle
+           upsells, etc.) listen for this, not our custom DOM event alone. */
+        if (typeof publish === 'function' && typeof PUB_SUB_EVENTS !== 'undefined') {
+          publish(PUB_SUB_EVENTS.cartUpdate, { source: 'brb-pdp', productVariantId: form.querySelector('[name="id"]').value, cartData: data });
+        }
+        document.dispatchEvent(new CustomEvent('cart:refresh'));
+        if (btn) { btn.dataset.added = '1'; }
+        var drawer = document.querySelector('cart-drawer');
+        if (drawer && typeof drawer.renderContents === 'function') {
+          drawer.renderContents(data);
+        } else {
+          window.location = window.Shopify.routes.root + 'cart';
+        }
+      })
+      .catch(function(){ window.location = window.Shopify.routes.root + 'cart'; })
+      .finally(function(){ if (btn) { btn.disabled = false; if (btn.dataset.added) { delete btn.dataset.added; btn.textContent = '\u2713 Added'; setTimeout(function(){ btn.textContent = origText; }, 1600); } else { btn.textContent = origText; } } });
+    });
+  }
+  handleForm(document.getElementById('brb-hero-form-{{ section.id }}'));
+  handleForm(document.getElementById('brb-sticky-form-{{ section.id }}'));
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Berberine PDP",
+  "tag": "section",
+  "class": "brb-pdp-wrapper",
+  "settings": [
+    { "type": "header", "content": "Hero" },
+    { "type": "image_picker", "id": "hero_bg",        "label": "Hero background (desktop)" },
+    { "type": "image_picker", "id": "hero_bg_mobile", "label": "Hero background (mobile)" },
+    { "type": "image_picker", "id": "product_image",  "label": "Product bottle (compare + sticky)" },
+    { "type": "text",     "id": "hero_eyebrow",  "label": "Eyebrow",  "default": "Metabolic Support · Advanced Absorption" },
+    { "type": "html",     "id": "hero_h1",       "label": "Heading (HTML allowed)", "default": "<span class=\"brb-nowrap-line\">Better Berberine.</span><br><span class=\"brb-nowrap-line\">Smarter Every Bottle.</span>" },
+    { "type": "textarea", "id": "hero_subtitle",  "label": "Subtitle", "default": "A liposomal berberine supplement enhanced with Phytosome technology for superior absorption. Features Ceylon Cinnamon, Alpha Lipoic Acid, and Banaba Leaf for comprehensive metabolic wellness support." },
+    { "type": "html",     "id": "hero_stat1",    "label": "Stat 1", "default": "2000mg<br>Per Serving" },
+    { "type": "html",     "id": "hero_stat2",    "label": "Stat 2", "default": "7 in 1<br>Formula" },
+    { "type": "html",     "id": "hero_stat3",    "label": "Stat 3", "default": "9x Better<br>Absorption" },
+    { "type": "html",     "id": "hero_stat4",    "label": "Stat 4", "default": "180 Vegan<br>Capsules" },
+    { "type": "text",     "id": "hero_foot",     "label": "Footer line", "default": "Third-party tested · cGMP facility · Made in USA" },
+    { "type": "header", "content": "Buy card" },
+    { "type": "text",     "id": "card_meta",     "label": "Meta line", "default": "180 Vegan Capsules · 3 Months Supply" },
+    { "type": "number",   "id": "supply_days",   "label": "Days of supply (used to auto-calculate the $/day price)", "info": "How many days one order lasts. The $/day price shown on the page is calculated automatically from the live product price ÷ this number — it always stays correct, even when the price changes.", "default": 90 },
+    { "type": "text",     "id": "cta_text",      "label": "CTA button", "default": "ADD TO CART" },
+    { "type": "text",     "id": "trust1",        "label": "Trust 1", "default": "Free U.S. shipping · 1-2 day delivery" },
+    { "type": "text",     "id": "trust2",        "label": "Trust 2", "default": "Secure checkout" },
+    { "type": "text",     "id": "trust3",        "label": "Trust 3", "default": "Quality you can trust" },
+    { "type": "text",     "id": "acc1_label",    "label": "Accordion 1 label", "default": "Supports" },
+    { "type": "textarea", "id": "acc1_text",     "label": "Accordion 1 text",  "default": "Metabolic wellness, daily balance, antioxidant support and absorption-focused nutrient delivery." },
+    { "type": "text",     "id": "acc2_label",    "label": "Accordion 2 label", "default": "Ingredients" },
+    { "type": "textarea", "id": "acc2_text",     "label": "Accordion 2 text",  "default": "Berberine HCl, Ceylon Cinnamon, Alpha Lipoic Acid, Piperine, Chromium Picolinate, Banaba Leaf and Phosphatidylcholine." },
+    { "type": "text",     "id": "acc3_label",    "label": "Accordion 3 label", "default": "Certificates" },
+    { "type": "textarea", "id": "acc3_text",     "label": "Accordion 3 text",  "default": "Third-party tested, cGMP facility, made in USA and 90-day guarantee." },
+    { "type": "header", "content": "Ingredients" },
+    { "type": "html",     "id": "ing_heading",   "label": "Heading", "default": "<span class=\"brb-nowrap-line\">7 Powerful Ingredients.</span><br><span class=\"brb-nowrap-line\">1 Smarter Formula.</span>" },
+    { "type": "textarea", "id": "ing_sub",       "label": "Subtitle", "default": "A synergistic blend designed to support metabolic wellness with enhanced absorption and bioavailability." },
+    { "type": "header", "content": "Compare" },
+    { "type": "html",     "id": "compare_heading", "label": "Heading", "default": "One Bottle<br>vs. Many Bottles" },
+    { "type": "text",     "id": "compare_sub",     "label": "Subtitle", "default": "Smarter. Simpler. More effective support." },
+    { "type": "header", "content": "Science" },
+    { "type": "html",     "id": "science_heading", "label": "Heading", "default": "Science. Phytosome.<br>Daily Support." },
+    { "type": "textarea", "id": "science_sub",     "label": "Subtitle", "default": "Our Phytosome technology enhances absorption and bioavailability, delivering powerful nutrients your body can use—conveniently, every day." },
+    { "type": "text",     "id": "research_big",    "label": "Research big number", "default": "9x" },
+    { "type": "text",     "id": "research_sub",    "label": "Research number label", "default": "Better Absorption" },
+    { "type": "html",     "id": "research_note",   "label": "Research note", "default": "vs. standard<br>berberine" },
+    { "type": "header", "content": "Quality" },
+    { "type": "html",     "id": "quality_heading", "label": "Heading", "default": "Quality You<br>Can Trust" },
+    { "type": "url",      "id": "guarantee_url",   "label": "Guarantee URL" },
+    { "type": "header", "content": "Reviews" },
+    { "type": "html",     "id": "reviews_heading", "label": "Heading", "default": "Real People.<br>Real Routines." },
+    { "type": "text",     "id": "reviews_score",   "label": "Score", "default": "4.8" },
+    { "type": "text",     "id": "reviews_count",   "label": "Count", "default": "Verified reviews" },
+    { "type": "textarea", "id": "reviews_note",    "label": "Disclaimer", "default": "Reviews may vary. Testimonials reflect individual experiences and are not guaranteed." },
+    { "type": "header", "content": "FAQ" },
+    { "type": "html",     "id": "faq_heading",     "label": "Heading", "default": "<span class=\"brb-nowrap-line\">Frequently Asked</span><br><span class=\"brb-nowrap-line\">Questions</span>" },
+    { "type": "header", "content": "Sticky band" },
+    { "type": "html",     "id": "sticky_title",    "label": "Sticky title", "default": "Better Berberine. <span>Simpler</span> daily support." }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "textarea", "id": "quote",  "label": "Quote",  "default": "Great quality and easy to incorporate into my daily routine. I feel more balanced and consistent throughout the day." },
+        { "type": "text",     "id": "author", "label": "Author", "default": "Verified Buyer" }
+      ]
+    },
+    {
+      "type": "faq_item",
+      "name": "FAQ item",
+      "settings": [
+        { "type": "text",     "id": "question", "label": "Question", "default": "What is berberine?" },
+        { "type": "textarea", "id": "answer",   "label": "Answer",   "default": "Berberine is a plant-derived compound used in daily wellness routines." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Berberine PDP",
+      "blocks": [
+        { "type": "review", "settings": { "quote": "Great quality and easy to incorporate into my daily routine. I feel more balanced and consistent throughout the day.", "author": "Verified Buyer" }},
+        { "type": "review", "settings": { "quote": "Love that it includes Ceylon Cinnamon and Alpha Lipoic Acid. Comprehensive formula in just one capsule.", "author": "Verified Buyer" }},
+        { "type": "review", "settings": { "quote": "Easy to digest and gentle. I appreciate the clean ingredients and Phytosome technology.", "author": "Verified Buyer" }},
+        { "type": "review", "settings": { "quote": "One bottle, everything I need. Convenient and well-designed formula for daily support.", "author": "Verified Buyer" }},
+        { "type": "faq_item", "settings": { "question": "What is berberine?", "answer": "Berberine is a plant-derived compound used in daily wellness routines. This formula combines berberine with complementary ingredients and delivery support." }},
+        { "type": "faq_item", "settings": { "question": "How much berberine is in each serving?", "answer": "Each serving is positioned as a 2000mg berberine complex serving." }},
+        { "type": "faq_item", "settings": { "question": "What makes phytosome different?", "answer": "Phytosome technology pairs active compounds with phospholipids to support improved absorption and bioavailability." }},
+        { "type": "faq_item", "settings": { "question": "What are the 7 ingredients?", "answer": "Berberine HCl, Ceylon Cinnamon, Alpha Lipoic Acid, Piperine, Chromium Picolinate, Banaba Leaf and Phosphatidylcholine." }},
+        { "type": "faq_item", "settings": { "question": "How long does one bottle last?", "answer": "One bottle contains 180 vegan capsules, designed as a 3-month supply when used as directed." }}
+      ]
+    }
+  ]
+}
+{% endschema %}

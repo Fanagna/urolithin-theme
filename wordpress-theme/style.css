@@ -1,0 +1,21 @@
+/*
+Theme Name: Panstellar
+Theme URI: https://panstellarshop.com
+Author: Panstellar
+Description: Thème WordPress/WooCommerce converti depuis le thème Shopify Dawn 15.1.0 personnalisé (panstellar). Composant header converti depuis sections/header.liquid — structure template-parts/ conforme à MIGRATION.md §2.4.
+Version: 1.0.0
+Requires at least: 6.0
+Tested up to: 6.6
+Requires PHP: 7.4
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: panstellar
+Tags: e-commerce, woo-commerce, translation-ready
+*/
+
+/* Ce fichier ne contient que l'en-tête du thème.
+   Les styles sont chargés via wp_enqueue_style() dans functions.php :
+   - assets/css/base.css                    (noyau Dawn, copié depuis le thème Shopify)
+   - assets/css/component-*.css             (composants Dawn du header)
+   - assets/css/header.css                  (styles header + variables de couleur)
+*/

@@ -1,0 +1,408 @@
+{{ 'section-pnf-nmn.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign form_id = 'pnf-product-form-' | append: section.id
+
+  assign gallery_blocks = section.blocks | where: 'type', 'gallery_slide'
+  assign benefit_blocks = section.blocks | where: 'type', 'benefit'
+  assign offer_blocks = section.blocks | where: 'type', 'offer'
+  assign trust_blocks = section.blocks | where: 'type', 'trust_item'
+
+  assign first_gallery_image = product.featured_image
+  if first_gallery_image == blank
+    for image in product.images limit: 1
+      assign first_gallery_image = image
+    endfor
+  endif
+  if first_gallery_image == blank
+    for block in gallery_blocks
+      if first_gallery_image == blank and block.settings.image != blank
+        assign first_gallery_image = block.settings.image
+      endif
+    endfor
+  endif
+
+
+  assign selected_offer_found = false
+  assign active_offer_index = 1
+  assign selected_offer_price = blank
+  assign selected_offer_discount_code = blank
+  assign selected_offer_quantity = 1
+  for block in offer_blocks
+    if block.settings.selected and selected_offer_found == false
+      assign active_offer_index = forloop.index
+      assign selected_offer_price = block.settings.price
+      assign selected_offer_discount_code = block.settings.discount_code
+      assign selected_offer_quantity = block.settings.quantity
+      assign selected_offer_found = true
+    endif
+  endfor
+  if selected_offer_price == blank
+    for block in offer_blocks limit: 1
+      assign selected_offer_price = block.settings.price
+      assign selected_offer_discount_code = block.settings.discount_code
+      assign selected_offer_quantity = block.settings.quantity
+    endfor
+  endif
+  if selected_offer_price == blank
+    assign selected_offer_price = current_variant.price | money
+  endif
+-%}
+
+<section class="pnf" id="pnf-nmn-{{ section.id }}" data-pnf-nmn>
+  {%- if section.settings.show_top_strip and section.settings.top_strip != blank -%}
+    <div class="pnf__top-strip">{{ section.settings.top_strip }}</div>
+  {%- endif -%}
+
+  <div class="pnf__hero">
+    <div class="pnf__container pnf__hero-grid">
+      <div class="pnf__gallery-shell">
+        <div class="pnf__main-media">
+          <div class="pnf__main-media-frame" data-pnf-main-media>
+            {%- if first_gallery_image != blank -%}
+              <img src="{{ first_gallery_image | image_url: width: 1400 }}" alt="{{ first_gallery_image.alt | default: product.title | escape }}" loading="eager" fetchpriority="high" width="1400" height="1400">
+            {%- elsif product.featured_image != blank -%}
+              <img src="{{ product.featured_image | image_url: width: 1400 }}" alt="{{ product.featured_image.alt | default: product.title | escape }}" loading="eager" fetchpriority="high" width="1400" height="1400">
+            {%- else -%}
+              <div class="pnf__placeholder"><span>image</span><strong>01</strong><span>selected slide</span></div>
+            {%- endif -%}
+          </div>
+
+          {%- if product.images.size > 1 or gallery_blocks.size > 1 -%}
+            <button class="pnf__gallery-arrow pnf__gallery-arrow--prev" type="button" aria-label="Previous image" data-pnf-gallery-prev>&lsaquo;</button>
+            <button class="pnf__gallery-arrow pnf__gallery-arrow--next" type="button" aria-label="Next image" data-pnf-gallery-next>&rsaquo;</button>
+          {%- endif -%}
+        </div>
+
+        {%- if product.images.size > 0 -%}
+          <div class="pnf__thumbs" aria-label="Product gallery">
+            {%- for image in product.images -%}
+              {%- assign thumb_index = forloop.index | prepend: '0' | slice: -2, 2 -%}
+              <button
+                class="pnf__thumb{% if forloop.first %} is-active{% endif %}"
+                type="button"
+                data-pnf-thumb
+                data-index="{{ thumb_index }}"
+                data-image-url="{{ image | image_url: width: 1400 }}"
+                data-image-alt="{{ image.alt | default: product.title | escape }}">
+                <img src="{{ image | image_url: width: 220 }}" alt="{{ image.alt | default: product.title | escape }}" loading="lazy" width="220" height="220">
+              </button>
+            {%- endfor -%}
+          </div>
+        {%- elsif gallery_blocks.size > 0 -%}
+          <div class="pnf__thumbs" aria-label="Product gallery">
+            {%- for block in gallery_blocks -%}
+              {%- if block.settings.image != blank -%}
+                {%- assign thumb_index = forloop.index | prepend: '0' | slice: -2, 2 -%}
+                <button
+                  class="pnf__thumb{% if forloop.first %} is-active{% endif %}"
+                  type="button"
+                  data-pnf-thumb
+                  data-index="{{ thumb_index }}"
+                  data-image-url="{{ block.settings.image | image_url: width: 1400 }}"
+                  data-image-alt="{{ block.settings.alt | default: block.settings.image.alt | escape }}"
+                  {{ block.shopify_attributes }}>
+                  <img src="{{ block.settings.image | image_url: width: 220 }}" alt="{{ block.settings.alt | default: block.settings.image.alt | escape }}" loading="lazy" width="220" height="220">
+                </button>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div class="pnf__buy-panel">
+        {%- if section.settings.hero_title != blank -%}
+          <h1>{{ section.settings.hero_title }}</h1>
+        {%- else -%}
+          <h1>{{ product.title }}</h1>
+        {%- endif -%}
+
+        {%- if section.settings.show_rating -%}
+          <div class="pnf__rating">
+            <span class="pnf__stars" aria-hidden="true">★★★★★</span>
+            <span><strong>{{ section.settings.rating_score }}</strong> - {{ section.settings.rating_text }}</span>
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.hero_pill != blank -%}
+          <div class="pnf__pill">{{ section.settings.hero_pill }}</div>
+        {%- endif -%}
+
+        {%- if benefit_blocks.size > 0 -%}
+          <ul class="pnf__benefits">
+            {%- for block in benefit_blocks -%}
+              <li {{ block.shopify_attributes }}>{{ block.settings.text }}</li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+
+        {%- if section.settings.promo_text != blank -%}
+          <div class="pnf__promo">{{ section.settings.promo_text }}</div>
+        {%- endif -%}
+
+        {%- form 'product', product, id: form_id, class: 'pnf__product-form' -%}
+          {%- if product.variants.size > 1 -%}
+            <select class="pnf__variant-select" name="id" aria-label="Select variant">
+              {%- for variant in product.variants -%}
+                <option value="{{ variant.id }}" {% if variant.id == current_variant.id %}selected{% endif %} {% unless variant.available %}disabled{% endunless %}>
+                  {{ variant.title }} - {{ variant.price | money }}{% unless variant.available %} - Sold out{% endunless %}
+                </option>
+              {%- endfor -%}
+            </select>
+          {%- else -%}
+            <input type="hidden" name="id" value="{{ current_variant.id }}">
+          {%- endif -%}
+
+          <input type="hidden" name="quantity" value="{{ selected_offer_quantity | default: 1 }}" data-pnf-quantity>
+          <input
+            type="hidden"
+            name="return_to"
+            value="{% if selected_offer_discount_code != blank %}/discount/{{ selected_offer_discount_code | url_encode }}?redirect=/cart{% endif %}"
+            data-pnf-return-to
+            {% if selected_offer_discount_code == blank %}disabled{% endif %}>
+
+          {%- if offer_blocks.size > 0 -%}
+            <div class="pnf__offers" id="pnf-offers-{{ section.id }}">
+              {%- for block in offer_blocks -%}
+                <button
+                  type="button"
+                  class="pnf__offer{% if forloop.index == active_offer_index %} is-active{% endif %}"
+                  data-pnf-offer
+                  data-quantity="{{ block.settings.quantity | default: 1 }}"
+                  data-price="{{ block.settings.price | escape }}"
+                  data-discount-code="{{ block.settings.discount_code | escape }}"
+                  {{ block.shopify_attributes }}>
+                  <span class="pnf__offer-media">
+                    {%- if block.settings.image != blank -%}
+                      <img src="{{ block.settings.image | image_url: width: 180 }}" alt="{{ block.settings.title | escape }}" loading="lazy" width="180" height="180">
+                    {%- elsif first_gallery_image != blank -%}
+                      <img src="{{ first_gallery_image | image_url: width: 180 }}" alt="{{ first_gallery_image.alt | default: product.title | escape }}" loading="lazy" width="180" height="180">
+                    {%- endif -%}
+                  </span>
+                  <span class="pnf__radio" aria-hidden="true"></span>
+                  <span>
+                    {%- if block.settings.badge != blank -%}<span class="pnf__offer-badge">{{ block.settings.badge }}</span>{%- endif -%}
+                    <span class="pnf__offer-title">{{ block.settings.title }}</span>
+                    <span class="pnf__offer-sub">{{ block.settings.subtitle }}</span>
+                  </span>
+                  <span class="pnf__offer-price">
+                    <span>{{ block.settings.price }}</span>
+                    {%- if block.settings.compare_price != blank -%}<del>{{ block.settings.compare_price }}</del>{%- endif -%}
+                  </span>
+                </button>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+
+          <button class="pnf__cta" type="submit" name="add" {% unless current_variant.available %}disabled{% endunless %}>
+            {%- if current_variant.available -%}
+              {{ section.settings.cta_label }} <span data-pnf-cta-price>{{ selected_offer_price }}</span>
+            {%- else -%}
+              Sold out
+            {%- endif -%}
+          </button>
+        {%- endform -%}
+
+        {%- if section.settings.shipping_line != blank -%}
+          <p class="pnf__ship-line">{{ section.settings.shipping_line }}</p>
+        {%- endif -%}
+        {%- if section.settings.guarantee_line != blank -%}
+          <p class="pnf__guarantee">{{ section.settings.guarantee_line }}</p>
+        {%- endif -%}
+
+        {%- if trust_blocks.size > 0 -%}
+          <div class="pnf__trust-row">
+            {%- for block in trust_blocks -%}
+              <div class="pnf__trust" {{ block.shopify_attributes }}>
+                <div class="pnf__trust-icon">
+                  {%- if block.settings.icon_image != blank -%}
+                    <img src="{{ block.settings.icon_image | image_url: width: 80 }}" alt="{{ block.settings.text | escape }}" loading="lazy" width="80" height="80">
+                  {%- else -%}
+                    {{ block.settings.icon_text }}
+                  {%- endif -%}
+                </div>
+                {{ block.settings.text }}
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+        <div class="pnf__accordions">
+          {%- if section.settings.accordion_1_title != blank -%}
+            <details><summary>{{ section.settings.accordion_1_title }}</summary>{{ section.settings.accordion_1_text }}</details>
+          {%- endif -%}
+          {%- if section.settings.accordion_2_title != blank -%}
+            <details open><summary>{{ section.settings.accordion_2_title }}</summary>{{ section.settings.accordion_2_text }}</details>
+          {%- endif -%}
+          {%- if section.settings.accordion_3_title != blank -%}
+            <details><summary>{{ section.settings.accordion_3_title }}</summary>{{ section.settings.accordion_3_text }}</details>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {%- if section.settings.show_press_strip and section.settings.press_logos != blank -%}
+    <div class="pnf__press-strip" aria-label="As featured in">
+      <div class="pnf__container">
+        <div class="pnf__press-title">{{ section.settings.press_title }}</div>
+        {%- assign press_logos = section.settings.press_logos | split: ',' -%}
+        <div class="pnf__press-marquee">
+          <div class="pnf__press-track">
+            <div class="pnf__press-group">
+              {%- for logo in press_logos -%}<span>{{ logo | strip }}</span>{%- endfor -%}
+            </div>
+            <div class="pnf__press-group" aria-hidden="true">
+              {%- for logo in press_logos -%}<span>{{ logo | strip }}</span>{%- endfor -%}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- if section.settings.disclaimer != blank -%}
+    <div class="pnf__container">
+      <p class="pnf__disclaimer">{{ section.settings.disclaimer }}</p>
+    </div>
+  {%- endif -%}
+
+  <div class="pnf__mobile-sticky" data-pnf-sticky aria-hidden="true">
+    <div>
+      <span class="pnf__mobile-title">{{ product.title }}</span>
+      <span class="pnf__mobile-price" data-pnf-sticky-price>{{ selected_offer_price }}</span>
+    </div>
+    <button type="button" data-pnf-sticky-button>{{ section.settings.sticky_label }}</button>
+  </div>
+</section>
+
+<script src="{{ 'section-pnf-nmn.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "PNF NMN premium PDP",
+  "tag": "section",
+  "class": "shopify-section--pnf-nmn",
+  "enabled_on": { "templates": ["product"] },
+  "max_blocks": 50,
+  "settings": [
+    { "type": "checkbox", "id": "show_top_strip", "label": "Show top strip", "default": true },
+    { "type": "text", "id": "top_strip", "label": "Top strip", "default": "90-Day Returns - U.S. Delivery in 3-5 Days - Premium 10-Ingredient Formula" },
+    { "type": "html", "id": "hero_title", "label": "Hero heading", "default": "Support Your Cells.<br>Protect Your Natural Glow." },
+    { "type": "checkbox", "id": "show_rating", "label": "Show rating", "default": true },
+    { "type": "text", "id": "rating_score", "label": "Rating score", "default": "4.84/5" },
+    { "type": "text", "id": "rating_text", "label": "Rating text", "default": "1,278+ verified customers" },
+    { "type": "text", "id": "hero_pill", "label": "Hero pill", "default": "10 ACTIVE INGREDIENTS" },
+    { "type": "text", "id": "promo_text", "label": "Promo text", "default": "A COMPLETE 10-INGREDIENT CELLULAR WELLNESS COMPLEX" },
+    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "SECURE MY SUPPLY -" },
+    { "type": "text", "id": "sticky_label", "label": "Mobile sticky button", "default": "ADD TO CART" },
+    { "type": "text", "id": "shipping_line", "label": "Shipping line", "default": "U.S. delivery in 3-5 days - United States only" },
+    { "type": "text", "id": "guarantee_line", "label": "Guarantee line", "default": "90-day risk-free guarantee" },
+    { "type": "text", "id": "accordion_1_title", "label": "Accordion 1 title", "default": "What's inside?" },
+    { "type": "richtext", "id": "accordion_1_text", "label": "Accordion 1 text", "default": "<p>NMN 450 mg, Trans-Resveratrol 550 mg, TMG 400 mg, Quercetin 200 mg, Fisetin 100 mg, Curcumin 95% 150 mg, CoQ10 100 mg, Piperine 10 mg, Phosphatidylcholine 150 mg, Vitamin C 100 mg.</p>" },
+    { "type": "text", "id": "accordion_2_title", "label": "Accordion 2 title", "default": "How to take?" },
+    { "type": "richtext", "id": "accordion_2_text", "label": "Accordion 2 text", "default": "<p>Take 2 capsules daily. Do not exceed the recommended daily serving.</p>" },
+    { "type": "text", "id": "accordion_3_title", "label": "Accordion 3 title", "default": "Shipping & returns" },
+    { "type": "richtext", "id": "accordion_3_text", "label": "Accordion 3 text", "default": "<p>Shipping is available within the United States only. Delivery typically takes 3-5 days. Returns are accepted for 90 days.</p>" },
+    { "type": "checkbox", "id": "show_press_strip", "label": "Show press strip", "default": true },
+    { "type": "text", "id": "press_title", "label": "Press strip title", "default": "AS FEATURED IN" },
+    { "type": "textarea", "id": "press_logos", "label": "Press logo names, separated by commas", "default": "Wellness Daily, Mind & Body, Health Edit, Modern Woman, Daily Vitality, Natural Living" },
+    { "type": "text", "id": "stats_eyebrow", "label": "Stats eyebrow", "default": "FORMULA, QUALITY AND DAILY USE" },
+    { "type": "html", "id": "stats_heading", "label": "Stats heading", "default": "Built Around a <span class=\"pnf__accent\">Fully Disclosed Formula</span>" },
+    { "type": "text", "id": "formula_eyebrow", "label": "Formula eyebrow", "default": "FULLY DISCLOSED FORMULA" },
+    { "type": "html", "id": "formula_heading", "label": "Formula heading", "default": "10 Active Ingredients.<br><span class=\"pnf__accent\">Every Amount Shown.</span>" },
+    { "type": "html", "id": "science_heading", "label": "Science heading", "default": "The <span class=\"pnf__accent\">Formula Logic</span> Behind It" },
+    { "type": "textarea", "id": "science_subheading", "label": "Science subheading" },
+    { "type": "text", "id": "timeline_heading", "label": "Timeline heading", "default": "A Simple Routine Built for Consistency" },
+    { "type": "text", "id": "results_heading", "label": "Results heading", "default": "The Formula Speaks for Itself" },
+    { "type": "html", "id": "compare_heading", "label": "Comparison heading", "default": "Why PANSTELLAR Stands Above <span class=\"pnf__accent\">Ordinary NMN</span>" },
+    { "type": "html", "id": "mission_heading", "label": "Mission heading", "default": "Our <span class=\"pnf__accent\">Mission:</span>" },
+    { "type": "textarea", "id": "mission_text", "label": "Mission text", "default": "PANSTELLAR is designed to make a premium cellular wellness routine simpler and more transparent, with a fully disclosed 10-ingredient formula built around NMN and Trans-Resveratrol." },
+    { "type": "text", "id": "ugc_eyebrow", "label": "UGC eyebrow", "default": "CUSTOMER VIDEOS" },
+    { "type": "text", "id": "ugc_heading", "label": "UGC heading", "default": "See the Routine in Real Life." },
+    { "type": "textarea", "id": "ugc_subheading", "label": "UGC subheading", "default": "Add customer video clips, unboxings or short usage moments directly from the theme editor." },
+    { "type": "range", "id": "testimonial_autoplay_ms", "label": "Testimonials autoplay speed", "min": 2500, "max": 9000, "step": 500, "unit": "ms", "default": 4500 },
+    { "type": "text", "id": "reviews_eyebrow", "label": "Reviews eyebrow", "default": "VERIFIED CUSTOMERS" },
+    { "type": "text", "id": "reviews_heading", "label": "Reviews heading", "default": "Real People. Real Routines." },
+    { "type": "text", "id": "faq_eyebrow", "label": "FAQ eyebrow", "default": "FORMULA, QUALITY AND DAILY USE" },
+    { "type": "text", "id": "faq_heading", "label": "FAQ heading", "default": "A More Complete Approach to <span class=\"pnf__accent\">Cellular Wellness</span>" },
+    { "type": "textarea", "id": "disclaimer", "label": "Disclaimer", "default": "These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure, or prevent any disease. Consult your healthcare provider before starting any new supplement protocol." }
+  ],
+  "blocks": [
+    { "type": "gallery_slide", "name": "Gallery slide", "settings": [
+      { "type": "image_picker", "id": "image", "label": "Image" },
+      { "type": "text", "id": "label", "label": "Placeholder label", "default": "image" },
+      { "type": "text", "id": "alt", "label": "Alt text" }
+    ] },
+    { "type": "benefit", "name": "Hero benefit", "settings": [
+      { "type": "text", "id": "text", "label": "Text", "default": "Replenishes NAD+ with 450 mg NMN daily" }
+    ] },
+    { "type": "offer", "name": "Bundle offer", "settings": [
+      { "type": "checkbox", "id": "selected", "label": "Selected by default", "default": false },
+      { "type": "image_picker", "id": "image", "label": "Bundle image" },
+      { "type": "text", "id": "badge", "label": "Badge" },
+      { "type": "text", "id": "title", "label": "Title", "default": "Buy 1 Bottle - 3 Month Supply" },
+      { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "$16.65 / month" },
+      { "type": "text", "id": "price", "label": "Displayed price", "default": "$49.97" },
+      { "type": "text", "id": "compare_price", "label": "Compare price", "default": "$69.97" },
+      { "type": "text", "id": "discount_code", "label": "Discount code to auto-apply" },
+      { "type": "range", "id": "quantity", "label": "Cart quantity", "min": 1, "max": 12, "step": 1, "default": 1 }
+    ] },
+    { "type": "trust_item", "name": "Trust item", "settings": [
+      { "type": "image_picker", "id": "icon_image", "label": "Icon image" },
+      { "type": "text", "id": "icon_text", "label": "Icon fallback", "default": "*" },
+      { "type": "text", "id": "text", "label": "Text", "default": "90-Day Guarantee" }
+    ] },
+    { "type": "stat", "name": "Stat", "settings": [
+      { "type": "text", "id": "value", "label": "Value", "default": "50%" },
+      { "type": "text", "id": "text", "label": "Text", "default": "Decline in NAD+ levels by age 50" }
+    ] },
+    { "type": "ingredient", "name": "Ingredient", "settings": [
+      { "type": "text", "id": "index", "label": "Index", "default": "01" },
+      { "type": "image_picker", "id": "image", "label": "Image" },
+      { "type": "text", "id": "placeholder", "label": "Placeholder", "default": "ADD IMAGE" },
+      { "type": "text", "id": "name", "label": "Name", "default": "NMN" },
+      { "type": "text", "id": "dose", "label": "Dose", "default": "450 mg" }
+    ] },
+    { "type": "science_card", "name": "Science card", "settings": [
+      { "type": "text", "id": "icon_text", "label": "Icon text", "default": "450" },
+      { "type": "text", "id": "title", "label": "Title", "default": "NMN" },
+      { "type": "textarea", "id": "text", "label": "Text", "default": "Supports cellular energy production." }
+    ] },
+    { "type": "phase", "name": "Timeline phase", "settings": [
+      { "type": "text", "id": "title", "label": "Title", "default": "Week 1-2:" },
+      { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Cellular Reboot" },
+      { "type": "textarea", "id": "text", "label": "Text", "default": "Most users report noticeably better energy, mental clarity and reduced afternoon crashes." }
+    ] },
+    { "type": "result", "name": "Result", "settings": [
+      { "type": "text", "id": "value", "label": "Value", "default": "94%" },
+      { "type": "text", "id": "text", "label": "Text", "default": "Reported sustained energy within 21 days*" }
+    ] },
+    { "type": "compare_row", "name": "Comparison row", "settings": [
+      { "type": "text", "id": "yes_text", "label": "Panstellar text", "default": "450 mg NMN + 550 mg Resveratrol + 8 more" },
+      { "type": "text", "id": "no_text", "label": "Typical text", "default": "Just basic NMN" }
+    ] },
+    { "type": "ugc_video", "name": "UGC video", "settings": [
+      { "type": "video", "id": "video", "label": "Shopify-hosted video" },
+      { "type": "video_url", "id": "external_video_url", "label": "YouTube or Vimeo URL", "accept": ["youtube", "vimeo"] },
+      { "type": "image_picker", "id": "cover_image", "label": "Cover image" },
+      { "type": "text", "id": "title", "label": "Title", "default": "Morning routine" },
+      { "type": "textarea", "id": "caption", "label": "Caption", "default": "Short customer video clip." }
+    ] },
+    { "type": "review", "name": "Testimonial slide", "settings": [
+      { "type": "image_picker", "id": "image", "label": "Customer photo" },
+      { "type": "textarea", "id": "quote", "label": "Quote", "default": "I noticed more stable energy and fewer afternoon crashes after adding this to my routine." },
+      { "type": "text", "id": "author", "label": "Author", "default": "Verified Buyer" },
+      { "type": "text", "id": "caption", "label": "Photo caption", "default": "Holding their daily PANSTELLAR bottle" }
+    ] },
+    { "type": "faq_item", "name": "FAQ item", "settings": [
+      { "type": "text", "id": "question", "label": "Question", "default": "How do I take it?" },
+      { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>Take 2 capsules daily with water, or follow your healthcare provider's guidance.</p>" }
+    ] }
+  ],
+  "presets": [
+    { "name": "PNF NMN premium PDP" }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,173 @@
+{{ 'ndl-liposomal.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'ndl-liposomal.js' | asset_url }}" defer></script>
+{% liquid
+  assign step_blocks = section.blocks | where: 'type', 'step'
+  assign main_review_blocks = section.blocks | where: 'type', 'main_review'
+  assign small_review_blocks = section.blocks | where: 'type', 'small_review'
+  assign metric_blocks = section.blocks | where: 'type', 'metric'
+%}
+<div class="ndl">
+  <section class="ndl-section ndl-journey">
+    <div class="ndl-shell">
+      <div class="ndl-journey-top">
+        <div>
+          <div class="ndl-section-head" style="text-align:left;margin:0">
+            <span class="ndl-eyebrow">{{ section.settings.eyebrow }}</span>
+            <h2 class="ndl-heading" style="font-size:clamp(2rem,4vw,3.8rem)">{{ section.settings.heading }}</h2>
+            <p class="ndl-subheading">{{ section.settings.subheading }}</p>
+          </div>
+          {% if step_blocks.size > 0 %}
+          <div class="ndl-timeline">
+            {% for block in step_blocks %}
+              <div class="ndl-time-step" {{ block.shopify_attributes }}>
+                <div class="time-icon">{{ block.settings.emoji }}</div>
+                <span class="week">{{ block.settings.week }}</span>
+                <h3>{{ block.settings.title }}</h3>
+                <p>{{ block.settings.text }}</p>
+                {% if block.settings.image != blank %}
+                  {{ block.settings.image | image_url: width: 300 | image_tag: loading: 'lazy', alt: block.settings.title }}
+                {% else %}
+                  {% assign ndl_timeline_n = forloop.index0 | modulo: 4 | plus: 1 %}
+                  {% capture ndl_timeline_asset %}ndl-timeline-{{ ndl_timeline_n }}.webp{% endcapture %}
+                  <img src="{{ ndl_timeline_asset | asset_url }}" alt="{{ block.settings.title | escape }}" loading="lazy">
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+        <div class="ndl-journey-bottle">
+          {% if section.settings.bottle_image != blank %}
+            {{ section.settings.bottle_image | image_url: width: 400 | image_tag: loading: 'lazy', alt: 'PANSTELLAR NAD+' }}
+          {% else %}
+            <img src="{{ 'ndl-nad-bottle.webp' | asset_url }}" alt="PANSTELLAR NAD+" loading="lazy">
+          {% endif %}
+          <div class="ndl-card ndl-consistency"><strong>{{ section.settings.consistency_title }}</strong><br><span class="ndl-tiny">{{ section.settings.consistency_text }}</span></div>
+        </div>
+      </div>
+
+      {% if main_review_blocks.size > 0 %}
+      <div class="ndl-section-head" style="margin-top:42px">
+        <h2 class="ndl-heading" style="font-size:clamp(2.2rem,4vw,3.6rem)">{{ section.settings.reviews_heading }}</h2>
+        <p class="ndl-subheading">{{ section.settings.reviews_subheading }}</p>
+      </div>
+
+      <div class="ndl-hscroll-wrap">
+        <div class="ndl-main-testimonials">
+          {% for block in main_review_blocks %}
+            <article class="ndl-main-testimonial" {{ block.shopify_attributes }}>
+              {% if block.settings.image != blank %}
+                {{ block.settings.image | image_url: width: 600 | image_tag: loading: 'lazy', alt: block.settings.name }}
+              {% else %}
+                {% assign ndl_main_n = forloop.index0 | modulo: 3 | plus: 1 %}
+                {% capture ndl_main_asset %}ndl-testimonial-main-{{ ndl_main_n }}.webp{% endcapture %}
+                <img src="{{ ndl_main_asset | asset_url }}" alt="{{ block.settings.name | escape }}" loading="lazy">
+              {% endif %}
+              <div class="body"><div class="ndl-stars">★★★★★</div><blockquote>“{{ block.settings.quote }}”</blockquote><strong>— {{ block.settings.name }}</strong></div>
+            </article>
+          {% endfor %}
+        </div>
+        <button type="button" class="ndl-hscroll-arrow is-hidden" data-ndl-hscroll-prev aria-label="Previous">‹</button>
+        <button type="button" class="ndl-hscroll-arrow" data-ndl-hscroll-next aria-label="Next">›</button>
+      </div>
+      {% endif %}
+
+      {% if small_review_blocks.size > 0 %}
+      <div class="ndl-hscroll-wrap">
+        <div class="ndl-small-review-grid">
+          {% for block in small_review_blocks %}
+            <div class="ndl-small-review" {{ block.shopify_attributes }}>
+              <div class="meta">
+                {% if block.settings.avatar != blank %}
+                  {{ block.settings.avatar | image_url: width: 70 | image_tag: loading: 'lazy', alt: '', class: 'ndl-avatar' }}
+                {% else %}
+                  {% assign ndl_avatar_n = forloop.index0 | modulo: 6 | plus: 1 %}
+                  {% capture ndl_avatar_asset %}ndl-review-{{ ndl_avatar_n }}.webp{% endcapture %}
+                  <img class="ndl-avatar" src="{{ ndl_avatar_asset | asset_url }}" alt="" loading="lazy">
+                {% endif %}
+                <strong>{{ block.settings.name }}<br><span class="ndl-lime">Verified Buyer</span></strong>
+              </div>
+              <div class="ndl-stars">★★★★★</div>
+              <p>{{ block.settings.quote }}</p>
+            </div>
+          {% endfor %}
+        </div>
+        <button type="button" class="ndl-hscroll-arrow is-hidden" data-ndl-hscroll-prev aria-label="Previous">‹</button>
+        <button type="button" class="ndl-hscroll-arrow" data-ndl-hscroll-next aria-label="Next">›</button>
+      </div>
+      {% endif %}
+
+      {% if metric_blocks.size > 0 %}
+      <div class="ndl-metrics">
+        {% for block in metric_blocks %}
+          <div class="ndl-metric" {{ block.shopify_attributes }}><strong>{{ block.settings.value }}</strong><span>{{ block.settings.label }}</span></div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+  </section>
+</div>
+{% schema %}
+{
+  "name": "NDL — Journey & Reviews",
+  "tag": "section",
+  "class": "ndl-section-wrapper",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "🌿 Consistency is key" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "What You Can Expect" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Your NAD+ journey starts now." },
+    { "type": "image_picker", "id": "bottle_image", "label": "Bottle image" },
+    { "type": "text", "id": "consistency_title", "label": "Consistency note — title", "default": "✓ CONSISTENCY MATTERS" },
+    { "type": "text", "id": "consistency_text", "label": "Consistency note — text", "default": "Take daily and stay consistent for the best long-term routine." },
+    { "type": "text", "id": "reviews_heading", "label": "Reviews heading", "default": "What Our Customers Are Saying", "info": "Kept distinct from the \"REAL WORLD RESULTS\" heading earlier on the page so shoppers don't see near-identical wording twice while scrolling." },
+    { "type": "text", "id": "reviews_subheading", "label": "Reviews subheading", "default": "Thousands are already making PANSTELLAR part of their routine." }
+  ],
+  "blocks": [
+    { "type": "step", "name": "Timeline step", "settings": [
+      { "type": "text", "id": "emoji", "label": "Icon (emoji or short text)", "default": "⚡" },
+      { "type": "text", "id": "week", "label": "Week label", "default": "WEEK 1–2" },
+      { "type": "text", "id": "title", "label": "Title", "default": "More Energy" },
+      { "type": "text", "id": "text", "label": "Text", "default": "Feel more energized throughout your day." },
+      { "type": "image_picker", "id": "image", "label": "Image" }
+    ]},
+    { "type": "main_review", "name": "Featured testimonial", "settings": [
+      { "type": "image_picker", "id": "image", "label": "Photo" },
+      { "type": "textarea", "id": "quote", "label": "Quote", "default": "I feel more energized in the morning and stay focused all day." },
+      { "type": "text", "id": "name", "label": "Name", "default": "Mark, 52" }
+    ]},
+    { "type": "small_review", "name": "Small review", "settings": [
+      { "type": "image_picker", "id": "avatar", "label": "Avatar" },
+      { "type": "text", "id": "name", "label": "Name", "default": "Lisa R., 50" },
+      { "type": "textarea", "id": "quote", "label": "Quote", "default": "Clearer mind and better focus. This is now part of my nightly routine." }
+    ]},
+    { "type": "metric", "name": "Metric", "settings": [
+      { "type": "text", "id": "value", "label": "Value", "default": "4.8 / 5" },
+      { "type": "text", "id": "label", "label": "Label", "default": "Average Rating" }
+    ]}
+  ],
+  "max_blocks": 25,
+  "presets": [
+    { "name": "NDL — Journey & Reviews", "blocks": [
+      { "type": "step", "settings": { "emoji": "⚡", "week": "WEEK 1–2", "title": "More Energy", "text": "Feel more energized throughout your day." } },
+      { "type": "step", "settings": { "emoji": "✨", "week": "WEEK 3–4", "title": "Better Skin", "text": "Support a healthy, radiant-looking glow." } },
+      { "type": "step", "settings": { "emoji": "🏋", "week": "WEEK 5–8", "title": "Stronger Recovery", "text": "Support workout recovery and daily stamina." } },
+      { "type": "step", "settings": { "emoji": "◎", "week": "WEEK 9–12", "title": "Daily Performance", "text": "Feel sharper, perform better, and stay consistent." } },
+      { "type": "main_review", "settings": { "quote": "I feel more energized in the morning and stay focused all day.", "name": "Mark, 52" } },
+      { "type": "main_review", "settings": { "quote": "My skin looks brighter and I feel years younger.", "name": "Sarah, 48" } },
+      { "type": "main_review", "settings": { "quote": "Recovery is faster and I have more energy than ever.", "name": "James, 55" } },
+      { "type": "small_review", "settings": { "name": "Lisa R., 50", "quote": "Clearer mind and better focus. This is now part of my nightly routine." } },
+      { "type": "small_review", "settings": { "name": "David T., 57", "quote": "I feel more like myself than I have in years." } },
+      { "type": "small_review", "settings": { "name": "Nicole W., 46", "quote": "Easy to take and easy to love. My new daily essential." } },
+      { "type": "small_review", "settings": { "name": "Tom B., 60", "quote": "I have tried several NAD+ products. PANSTELLAR fits my routine best." } },
+      { "type": "small_review", "settings": { "name": "Amanda L., 44", "quote": "More energy, better focus, and my skin looks refreshed." } },
+      { "type": "small_review", "settings": { "name": "Ryan M., 51", "quote": "Great quality and a simple daily routine." } },
+      { "type": "small_review", "settings": { "name": "Jessica P., 49", "quote": "My workouts feel stronger and recovery feels easier." } },
+      { "type": "small_review", "settings": { "name": "Brian K., 53", "quote": "This product has helped me show up better at work and home." } },
+      { "type": "metric", "settings": { "value": "4.8 / 5", "label": "Average Rating" } },
+      { "type": "metric", "settings": { "value": "12,500+", "label": "Verified Reviews" } },
+      { "type": "metric", "settings": { "value": "25,000+", "label": "Happy Customers" } },
+      { "type": "metric", "settings": { "value": "180 Days", "label": "Money Back Guarantee" } }
+    ]}
+  ]
+}
+{% endschema %}

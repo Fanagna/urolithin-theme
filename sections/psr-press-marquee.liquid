@@ -1,0 +1,94 @@
+{{ 'psr-panstellar-v11.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'psr-panstellar-v11.js' | asset_url }}" defer></script>
+<section class="psr psr-press" id="press" style="background:{{ section.settings.background }}">
+<div class="psr-center-heading psr-shell"><p class="psr-kicker"><span class="psr-kicker__badge">{% render 'psr-editable-icon', custom_image: section.settings.kicker_icon, fallback_asset: 'psr-v10-icon-leaf.svg', class: 'psr-svg-icon', alt: '' %}</span><span class="psr-kicker__label">{{ section.settings.kicker }}</span></p><h2 class="psr-title">{{ section.settings.heading }}</h2><p>{{ section.settings.body }}</p></div>
+<div class="psr-logo-marquee" style="--psr-logo-speed:{{ section.settings.speed }}s"><div class="psr-logo-marquee__track">{% for pass in (1..2) %}{% for block in section.blocks %}{% if block.settings.link != blank %}<a href="{{ block.settings.link }}" target="_blank" rel="noopener" {{ block.shopify_attributes }}>{% else %}<span class="psr-press-item" {{ block.shopify_attributes }}>{% endif %}{% if block.settings.logo != blank %}{{ block.settings.logo | image_url: width: 360 | image_tag: loading: 'lazy', alt: block.settings.name, class: 'psr-press-logo' }}{% else %}<span>{{ block.settings.name }}</span>{% endif %}{% if block.settings.link != blank %}</a>{% else %}</span>{% endif %}{% endfor %}{% endfor %}</div></div>
+</section>
+{% schema %}
+{
+  "name": "PSR — Press marquee",
+  "tag": "section",
+  "class": "psr-section-wrapper",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "kicker_icon",
+      "label": "Kicker icon"
+    },
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker",
+      "default": "Trusted recognition"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "As Seen In"
+    },
+    {
+      "type": "text",
+      "id": "body",
+      "label": "Subheading",
+      "default": "Trusted by leading wellness experts and publications"
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "label": "Marquee speed",
+      "min": 10,
+      "max": 60,
+      "step": 1,
+      "unit": "s",
+      "default": 24
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Background",
+      "default": "#fffaf7"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "Publication",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "logo",
+          "label": "Logo image"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "VOGUE"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 15,
+  "presets": [
+    {
+      "name": "PSR — Press marquee",
+      "blocks": [
+        { "type": "logo", "settings": { "name": "VOGUE" } },
+        { "type": "logo", "settings": { "name": "BAZAAR" } },
+        { "type": "logo", "settings": { "name": "goop" } },
+        { "type": "logo", "settings": { "name": "Women’s Health" } },
+        { "type": "logo", "settings": { "name": "marie claire" } },
+        { "type": "logo", "settings": { "name": "GLAMOUR" } },
+        { "type": "logo", "settings": { "name": "COSMOPOLITAN" } },
+        { "type": "logo", "settings": { "name": "BYRDIE" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,89 @@
+{{ 'psr-panstellar-v11.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'psr-panstellar-v11.js' | asset_url }}" defer></script>
+<section class="psr psr-trustbar" style="--psr-trust-bg:{{ section.settings.background }};--psr-trust-color:{{ section.settings.text_color }};--psr-marquee-speed:{{ section.settings.speed }}s" aria-label="{{ section.settings.aria_label | escape }}">
+  <div class="psr-trustbar__track">
+    {% for pass in (1..2) %}
+      {% for block in section.blocks %}
+        <span {% if pass == 2 %}aria-hidden="true"{% endif %} {{ block.shopify_attributes }}>
+          {% if block.settings.icon != blank %}{% render 'psr-editable-icon', custom_image: block.settings.icon, fallback_asset: '', class: 'psr-trustbar__icon', alt: '' %}{% endif %}
+          {{ block.settings.text }}
+        </span>
+        {% unless forloop.last %}<span aria-hidden="true">{{ section.settings.separator }}</span>{% endunless %}
+      {% endfor %}
+    {% endfor %}
+  </div>
+</section>
+{% schema %}
+{
+  "name": "PSR — Trust bar",
+  "tag": "section",
+  "class": "psr-section-wrapper",
+  "settings": [
+    {
+      "type": "text",
+      "id": "aria_label",
+      "label": "Accessibility label",
+      "default": "Customer promises"
+    },
+    {
+      "type": "text",
+      "id": "separator",
+      "label": "Separator",
+      "default": "•"
+    },
+    {
+      "type": "color_background",
+      "id": "background",
+      "label": "Background",
+      "default": "linear-gradient(90deg,#8f1838,#bd365b,#8f1838)"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "label": "Marquee speed",
+      "min": 10,
+      "max": 60,
+      "step": 1,
+      "unit": "s",
+      "default": 26
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Promise",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Optional icon"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "90-Day Money-Back Guarantee"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "PSR — Trust bar",
+      "blocks": [
+        { "type": "item", "settings": { "text": "90-Day Money-Back Guarantee" } },
+        { "type": "item", "settings": { "text": "One Bottle Lasts 90 Days" } },
+        { "type": "item", "settings": { "text": "Free Shipping on 3+ Bottles" } },
+        { "type": "item", "settings": { "text": "Thousands of Happy Women" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

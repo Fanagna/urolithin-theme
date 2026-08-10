@@ -1,0 +1,475 @@
+{% doc %}
+  @prompt
+    genere moi une section contenant un titre ,3blocs de card rectangulaire sur la largeur (les deux premiers blocs sont cote à cote  de gauche à doite et la troisieme bloc et juste en dessous et centrer au centre en fonction des deux premiers)
+    chaque bloc est identique et contient chacun (titre, sous titre(orange), et des listes), le bordure du premier bloc contient un  text(Gold standart) et le dexieme(HIMALAYAN VITALITY)
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-feature-cards-{{ ai_gen_id }} {
+    padding: 40px 20px;
+    max-width: {{ block.settings.max_width }}px;
+    margin: 0 auto;
+  }
+
+  .ai-feature-cards__title-{{ ai_gen_id }} {
+    text-align: center;
+    font-size: {{ block.settings.title_size }}px;
+    margin: 0 0 40px;
+    color: {{ block.settings.title_color }};
+  }
+
+  .ai-feature-cards__grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: {{ block.settings.card_gap }}px;
+    max-width: 100%;
+  }
+
+  .ai-feature-card-{{ ai_gen_id }} {
+    position: relative;
+    background-color: {{ block.settings.card_bg_color }};
+    border: {{ block.settings.card_border_width }}px solid {{ block.settings.card_border_color }};
+    border-radius: {{ block.settings.card_border_radius }}px;
+    padding: {{ block.settings.card_padding }}px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .ai-feature-card-{{ ai_gen_id }}--centered {
+    grid-column: 1 / -1;
+    max-width: calc(50% - {{ block.settings.card_gap | divided_by: 2 }}px);
+    margin: 0 auto;
+  }
+
+  .ai-feature-card__badge-{{ ai_gen_id }} {
+    position: absolute;
+    top: -12px;
+    left: 20px;
+    background-color: {{ block.settings.badge_bg_color }};
+    color: {{ block.settings.badge_text_color }};
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .ai-feature-card__title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.card_title_size }}px;
+    margin: 16px 0 0;
+    color: {{ block.settings.card_title_color }};
+  }
+
+  .ai-feature-card__subtitle-{{ ai_gen_id }} {
+    font-size: {{ block.settings.card_subtitle_size }}px;
+    color: {{ block.settings.subtitle_color }};
+    margin: 0;
+    font-weight: 600;
+  }
+
+  .ai-feature-card__list-{{ ai_gen_id }} {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .ai-feature-card__list-item-{{ ai_gen_id }} {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: {{ block.settings.list_item_size }}px;
+    color: {{ block.settings.list_item_color }};
+  }
+
+  .ai-feature-card__list-item-{{ ai_gen_id }}::before {
+    content: "✓";
+    color: {{ block.settings.checkmark_color }};
+    font-weight: bold;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-feature-cards__grid-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+    }
+
+    .ai-feature-card-{{ ai_gen_id }}--centered {
+      max-width: 100%;
+    }
+
+    .ai-feature-cards__title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_size | times: 0.8 }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-feature-cards-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% if block.settings.main_title != blank %}
+    <h2 class="ai-feature-cards__title-{{ ai_gen_id }}">{{ block.settings.main_title }}</h2>
+  {% endif %}
+
+  <div class="ai-feature-cards__grid-{{ ai_gen_id }}">
+    {% if block.settings.card_1_enabled %}
+      <div class="ai-feature-card-{{ ai_gen_id }}">
+        {% if block.settings.card_1_badge != blank %}
+          <div class="ai-feature-card__badge-{{ ai_gen_id }}">{{ block.settings.card_1_badge }}</div>
+        {% endif %}
+        {% if block.settings.card_1_title != blank %}
+          <h3 class="ai-feature-card__title-{{ ai_gen_id }}">{{ block.settings.card_1_title }}</h3>
+        {% endif %}
+        {% if block.settings.card_1_subtitle != blank %}
+          <p class="ai-feature-card__subtitle-{{ ai_gen_id }}">{{ block.settings.card_1_subtitle }}</p>
+        {% endif %}
+        {% if block.settings.card_1_list != blank %}
+          <ul class="ai-feature-card__list-{{ ai_gen_id }}">
+            {% assign list_items = block.settings.card_1_list | split: '|' %}
+            {% for item in list_items %}
+              {% if item != blank %}
+                <li class="ai-feature-card__list-item-{{ ai_gen_id }}">{{ item | strip }}</li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% if block.settings.card_2_enabled %}
+      <div class="ai-feature-card-{{ ai_gen_id }}">
+        {% if block.settings.card_2_badge != blank %}
+          <div class="ai-feature-card__badge-{{ ai_gen_id }}">{{ block.settings.card_2_badge }}</div>
+        {% endif %}
+        {% if block.settings.card_2_title != blank %}
+          <h3 class="ai-feature-card__title-{{ ai_gen_id }}">{{ block.settings.card_2_title }}</h3>
+        {% endif %}
+        {% if block.settings.card_2_subtitle != blank %}
+          <p class="ai-feature-card__subtitle-{{ ai_gen_id }}">{{ block.settings.card_2_subtitle }}</p>
+        {% endif %}
+        {% if block.settings.card_2_list != blank %}
+          <ul class="ai-feature-card__list-{{ ai_gen_id }}">
+            {% assign list_items = block.settings.card_2_list | split: '|' %}
+            {% for item in list_items %}
+              {% if item != blank %}
+                <li class="ai-feature-card__list-item-{{ ai_gen_id }}">{{ item | strip }}</li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% if block.settings.card_3_enabled %}
+      <div class="ai-feature-card-{{ ai_gen_id }} ai-feature-card-{{ ai_gen_id }}--centered">
+        {% if block.settings.card_3_badge != blank %}
+          <div class="ai-feature-card__badge-{{ ai_gen_id }}">{{ block.settings.card_3_badge }}</div>
+        {% endif %}
+        {% if block.settings.card_3_title != blank %}
+          <h3 class="ai-feature-card__title-{{ ai_gen_id }}">{{ block.settings.card_3_title }}</h3>
+        {% endif %}
+        {% if block.settings.card_3_subtitle != blank %}
+          <p class="ai-feature-card__subtitle-{{ ai_gen_id }}">{{ block.settings.card_3_subtitle }}</p>
+        {% endif %}
+        {% if block.settings.card_3_list != blank %}
+          <ul class="ai-feature-card__list-{{ ai_gen_id }}">
+            {% assign list_items = block.settings.card_3_list | split: '|' %}
+            {% for item in list_items %}
+              {% if item != blank %}
+                <li class="ai-feature-card__list-item-{{ ai_gen_id }}">{{ item | strip }}</li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Feature cards",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section"
+    },
+    {
+      "type": "text",
+      "id": "main_title",
+      "label": "Main title",
+      "default": "Our Features"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 800,
+      "max": 1600,
+      "step": 100,
+      "unit": "px",
+      "label": "Maximum width",
+      "default": 1200
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Title size",
+      "default": 36
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#121212"
+    },
+    {
+      "type": "header",
+      "content": "Card style"
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Gap between cards",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "card_border_width",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "unit": "px",
+      "label": "Border width",
+      "default": 1
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Border color",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "card_padding",
+      "min": 15,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Badge style"
+    },
+    {
+      "type": "color",
+      "id": "badge_bg_color",
+      "label": "Background color",
+      "default": "#5c1ada"
+    },
+    {
+      "type": "color",
+      "id": "badge_text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Card content"
+    },
+    {
+      "type": "range",
+      "id": "card_title_size",
+      "min": 16,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Title size",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "card_title_color",
+      "label": "Title color",
+      "default": "#121212"
+    },
+    {
+      "type": "range",
+      "id": "card_subtitle_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Subtitle size",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle color",
+      "default": "#ff8c00"
+    },
+    {
+      "type": "range",
+      "id": "list_item_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "List item size",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "list_item_color",
+      "label": "List item color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "checkmark_color",
+      "label": "Checkmark color",
+      "default": "#5c1ada"
+    },
+    {
+      "type": "header",
+      "content": "Card 1"
+    },
+    {
+      "type": "checkbox",
+      "id": "card_1_enabled",
+      "label": "Enable card 1",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "card_1_badge",
+      "label": "Badge text",
+      "default": "Gold Standard"
+    },
+    {
+      "type": "text",
+      "id": "card_1_title",
+      "label": "Title",
+      "default": "Premium Quality"
+    },
+    {
+      "type": "text",
+      "id": "card_1_subtitle",
+      "label": "Subtitle",
+      "default": "Excellence Guaranteed"
+    },
+    {
+      "type": "textarea",
+      "id": "card_1_list",
+      "label": "List items",
+      "info": "Separate items with | character",
+      "default": "Third-party tested|GMP certified|Pure ingredients|No fillers"
+    },
+    {
+      "type": "header",
+      "content": "Card 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "card_2_enabled",
+      "label": "Enable card 2",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "card_2_badge",
+      "label": "Badge text",
+      "default": "Himalayan Vitality"
+    },
+    {
+      "type": "text",
+      "id": "card_2_title",
+      "label": "Title",
+      "default": "Natural Source"
+    },
+    {
+      "type": "text",
+      "id": "card_2_subtitle",
+      "label": "Subtitle",
+      "default": "Pure & Potent"
+    },
+    {
+      "type": "textarea",
+      "id": "card_2_list",
+      "label": "List items",
+      "info": "Separate items with | character",
+      "default": "Sourced from Himalayas|Rich in minerals|Sustainably harvested|Traditional methods"
+    },
+    {
+      "type": "header",
+      "content": "Card 3"
+    },
+    {
+      "type": "checkbox",
+      "id": "card_3_enabled",
+      "label": "Enable card 3",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "card_3_badge",
+      "label": "Badge text"
+    },
+    {
+      "type": "text",
+      "id": "card_3_title",
+      "label": "Title",
+      "default": "Science-Backed"
+    },
+    {
+      "type": "text",
+      "id": "card_3_subtitle",
+      "label": "Subtitle",
+      "default": "Research Proven"
+    },
+    {
+      "type": "textarea",
+      "id": "card_3_list",
+      "label": "List items",
+      "info": "Separate items with | character",
+      "default": "Clinical studies|Expert formulated|Bioavailable forms|Optimal dosing"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Feature cards"
+    }
+  ]
+}
+{% endschema %}

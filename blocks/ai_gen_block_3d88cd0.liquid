@@ -1,0 +1,186 @@
+{% doc %}
+  @prompt
+    Create a full-width announcement banner for the top of my cart page with these specifications:
+    
+    CONTENT:
+    - Left icon: truck/shipping icon
+    - Text: "FREE shipping on all orders · 3rd-party tested · 60-day money-back guarantee"
+    - The words "FREE shipping" should be highlighted in bright green (#4ade80)
+    
+    DESIGN:
+    - Background: dark/black (#0f1111)
+    - Text: white, 13px, font-weight 500
+    - Padding: 10px top and bottom
+    - Center-aligned text
+    - Single line on desktop, allowed to wrap on mobile
+    
+    RESPONSIVE:
+    - On mobile (under 768px): font-size 11px, padding 8px
+    - Text should wrap naturally without breaking layout
+    - Must be full-width on all screen sizes
+    
+    Do NOT use any JavaScript. Pure HTML and CSS only.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-announcement-banner-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    background-color: {{ block.settings.background_color }};
+    padding: {{ block.settings.padding_desktop }}px 20px;
+    text-align: center;
+  }
+
+  .ai-announcement-banner__content-{{ ai_gen_id }} {
+    color: {{ block.settings.text_color }};
+    font-size: {{ block.settings.font_size_desktop }}px;
+    font-weight: {{ block.settings.font_weight }};
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  .ai-announcement-banner__highlight-{{ ai_gen_id }} {
+    color: {{ block.settings.highlight_color }};
+  }
+
+  @media screen and (max-width: 767px) {
+    .ai-announcement-banner-{{ ai_gen_id }} {
+      padding: {{ block.settings.padding_mobile }}px 16px;
+    }
+
+    .ai-announcement-banner__content-{{ ai_gen_id }} {
+      font-size: {{ block.settings.font_size_mobile }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-announcement-banner-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <p class="ai-announcement-banner__content-{{ ai_gen_id }}">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 6px;">
+      <rect x="1" y="3" width="15" height="13"></rect>
+      <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+      <circle cx="5.5" cy="18.5" r="2.5"></circle>
+      <circle cx="18.5" cy="18.5" r="2.5"></circle>
+    </svg>
+    <span class="ai-announcement-banner__highlight-{{ ai_gen_id }}">{{ block.settings.highlight_text }}</span> {{ block.settings.main_text }}
+  </p>
+</div>
+
+{% schema %}
+{
+  "name": "Announcement banner",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "highlight_text",
+      "label": "Highlighted text",
+      "default": "FREE shipping"
+    },
+    {
+      "type": "text",
+      "id": "main_text",
+      "label": "Main text",
+      "default": "on all orders · 3rd-party tested · 60-day money-back guarantee"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#0f1111"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "highlight_color",
+      "label": "Highlight",
+      "default": "#4ade80"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "font_size_desktop",
+      "label": "Desktop font size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "font_size_mobile",
+      "label": "Mobile font size",
+      "min": 9,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 11
+    },
+    {
+      "type": "range",
+      "id": "font_weight",
+      "label": "Font weight",
+      "min": 400,
+      "max": 700,
+      "step": 100,
+      "default": 500
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_desktop",
+      "label": "Desktop padding",
+      "min": 5,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "padding_mobile",
+      "label": "Mobile padding",
+      "min": 4,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Announcement banner"
+    }
+  ]
+}
+{% endschema %}

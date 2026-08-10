@@ -1,0 +1,662 @@
+{% doc %}
+  @prompt
+    Crée une section de contenu premium intitulée “What’s Inside the Guide” pour une landing page de récupération sportive.
+    
+    Style & ambiance :
+    – Design dark mode, moderne, haut de gamme
+    – Fond noir / bleu nuit avec cartes arrondies, ombres douces
+    – Typographie sans-serif, lisible, espacement généreux
+    – Icônes minimalistes, vert/teal pour les checkmarks
+    – Aspect ebook / guide d’expert
+    
+    Structure :
+    
+    Titre centré
+    Texte : “What’s Inside the Guide”
+    
+    Carte principale (header du guide)
+    – Carte sombre avec bords arrondis
+    – Icône livre à gauche
+    – Titre : “The Ultimate Recovery Guide”
+    – Sous-texte :
+    “15-page PDF · Research-backed protocols · Instant download”
+    
+    Liste à puces avec checkmarks verts
+    Chaque ligne commence par une icône check verte :
+    
+    – Why injuries won’t heal — The 3 mistakes that keep you stuck
+    – The BPC-157 protocol — Oral vs injectable, dosing, what to expect
+    – Week-by-week tracking — How to measure progress objectively
+    – Recovery stack — What supplements actually work (and which don’t)
+    – Nutrition timing — When to eat for optimal tissue repair
+    – Sleep optimization — The recovery phase most people ignore
+    – Case studies — Real examples of chronic injury recovery
+    
+    Bloc bonus (en bas)
+    – Carte distincte avec dégradé vert foncé / teal
+    – Icône 🎁
+    – Titre : “BONUS INSIDE”
+    – Texte :
+    “Exclusive 30% discount code for Panstellar BPC-157 capsules (no injections required)”
+    
+    Contraintes :
+    – Responsive mobile & desktop
+    – Lisibilité maximale
+    – Pas d’images humaines
+    – Rendu sérieux, scientifique, confiance & autorité
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-guide-section-{{ ai_gen_id }} {
+    background: {{ block.settings.background_color }};
+    padding: {{ block.settings.section_padding_top }}px 20px {{ block.settings.section_padding_bottom }}px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  .ai-guide-container-{{ ai_gen_id }} {
+    max-width: {{ block.settings.container_width }}px;
+    margin: 0 auto;
+  }
+
+  .ai-guide-title-{{ ai_gen_id }} {
+    text-align: center;
+    font-size: {{ block.settings.title_size }}px;
+    font-weight: 700;
+    color: {{ block.settings.title_color }};
+    margin: 0 0 {{ block.settings.title_spacing }}px;
+    letter-spacing: -0.5px;
+  }
+
+  .ai-guide-header-card-{{ ai_gen_id }} {
+    background: {{ block.settings.card_background }};
+    border-radius: {{ block.settings.card_radius }}px;
+    padding: 32px;
+    margin-bottom: 32px;
+    box-shadow: 0 4px 20px {{ block.settings.card_shadow_color }};
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .ai-guide-icon-wrapper-{{ ai_gen_id }} {
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: {{ block.settings.icon_background }};
+    border-radius: 12px;
+  }
+
+  .ai-guide-icon-wrapper-{{ ai_gen_id }} svg {
+    width: 32px;
+    height: 32px;
+    color: {{ block.settings.icon_color }};
+  }
+
+  .ai-guide-header-content-{{ ai_gen_id }} {
+    flex: 1;
+  }
+
+  .ai-guide-header-title-{{ ai_gen_id }} {
+    font-size: 24px;
+    font-weight: 700;
+    color: {{ block.settings.card_title_color }};
+    margin: 0 0 8px;
+    letter-spacing: -0.3px;
+  }
+
+  .ai-guide-header-meta-{{ ai_gen_id }} {
+    font-size: 14px;
+    color: {{ block.settings.card_meta_color }};
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .ai-guide-meta-item-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .ai-guide-meta-separator-{{ ai_gen_id }} {
+    width: 4px;
+    height: 4px;
+    background: {{ block.settings.card_meta_color }};
+    border-radius: 50%;
+    opacity: 0.5;
+  }
+
+  .ai-guide-checklist-{{ ai_gen_id }} {
+    background: {{ block.settings.card_background }};
+    border-radius: {{ block.settings.card_radius }}px;
+    padding: 40px 32px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 20px {{ block.settings.card_shadow_color }};
+  }
+
+  .ai-guide-checklist-item-{{ ai_gen_id }} {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+    align-items: flex-start;
+  }
+
+  .ai-guide-checklist-item-{{ ai_gen_id }}:last-child {
+    margin-bottom: 0;
+  }
+
+  .ai-guide-check-icon-{{ ai_gen_id }} {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: {{ block.settings.check_background }};
+    border-radius: 50%;
+    margin-top: 2px;
+  }
+
+  .ai-guide-check-icon-{{ ai_gen_id }} svg {
+    width: 14px;
+    height: 14px;
+    color: {{ block.settings.check_color }};
+  }
+
+  .ai-guide-checklist-text-{{ ai_gen_id }} {
+    flex: 1;
+    font-size: {{ block.settings.checklist_text_size }}px;
+    line-height: 1.6;
+    color: {{ block.settings.checklist_text_color }};
+  }
+
+  .ai-guide-bonus-card-{{ ai_gen_id }} {
+    background: {{ block.settings.bonus_background }};
+    border-radius: {{ block.settings.card_radius }}px;
+    padding: 32px;
+    box-shadow: 0 4px 20px {{ block.settings.card_shadow_color }};
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ai-guide-bonus-card-{{ ai_gen_id }}::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, {{ block.settings.bonus_gradient_start }} 0%, {{ block.settings.bonus_gradient_end }} 100%);
+    opacity: {{ block.settings.bonus_gradient_opacity }};
+    pointer-events: none;
+  }
+
+  .ai-guide-bonus-content-{{ ai_gen_id }} {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .ai-guide-bonus-icon-{{ ai_gen_id }} {
+    font-size: 40px;
+    flex-shrink: 0;
+  }
+
+  .ai-guide-bonus-text-{{ ai_gen_id }} {
+    flex: 1;
+  }
+
+  .ai-guide-bonus-label-{{ ai_gen_id }} {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: {{ block.settings.bonus_label_color }};
+    margin: 0 0 8px;
+  }
+
+  .ai-guide-bonus-description-{{ ai_gen_id }} {
+    font-size: {{ block.settings.bonus_text_size }}px;
+    line-height: 1.5;
+    color: {{ block.settings.bonus_text_color }};
+    margin: 0;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-guide-section-{{ ai_gen_id }} {
+      padding: {{ block.settings.section_padding_top | times: 0.6 }}px 16px {{ block.settings.section_padding_bottom | times: 0.6 }}px;
+    }
+
+    .ai-guide-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_size | times: 0.7 }}px;
+      margin-bottom: {{ block.settings.title_spacing | times: 0.7 }}px;
+    }
+
+    .ai-guide-header-card-{{ ai_gen_id }} {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .ai-guide-header-title-{{ ai_gen_id }} {
+      font-size: 20px;
+    }
+
+    .ai-guide-header-meta-{{ ai_gen_id }} {
+      font-size: 13px;
+    }
+
+    .ai-guide-checklist-{{ ai_gen_id }} {
+      padding: 28px 20px;
+    }
+
+    .ai-guide-checklist-item-{{ ai_gen_id }} {
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .ai-guide-checklist-text-{{ ai_gen_id }} {
+      font-size: {{ block.settings.checklist_text_size | times: 0.9 }}px;
+    }
+
+    .ai-guide-bonus-card-{{ ai_gen_id }} {
+      padding: 24px;
+    }
+
+    .ai-guide-bonus-content-{{ ai_gen_id }} {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .ai-guide-bonus-description-{{ ai_gen_id }} {
+      font-size: {{ block.settings.bonus_text_size | times: 0.9 }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-guide-section-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-guide-container-{{ ai_gen_id }}">
+    {% if block.settings.main_title != blank %}
+      <h2 class="ai-guide-title-{{ ai_gen_id }}">{{ block.settings.main_title }}</h2>
+    {% endif %}
+
+    <div class="ai-guide-header-card-{{ ai_gen_id }}">
+      <div class="ai-guide-icon-wrapper-{{ ai_gen_id }}">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+        </svg>
+      </div>
+      <div class="ai-guide-header-content-{{ ai_gen_id }}">
+        <h3 class="ai-guide-header-title-{{ ai_gen_id }}">{{ block.settings.guide_title }}</h3>
+        <div class="ai-guide-header-meta-{{ ai_gen_id }}">
+          {% if block.settings.meta_pages != blank %}
+            <span class="ai-guide-meta-item-{{ ai_gen_id }}">{{ block.settings.meta_pages }}</span>
+          {% endif %}
+          {% if block.settings.meta_pages != blank and block.settings.meta_type != blank %}
+            <span class="ai-guide-meta-separator-{{ ai_gen_id }}"></span>
+          {% endif %}
+          {% if block.settings.meta_type != blank %}
+            <span class="ai-guide-meta-item-{{ ai_gen_id }}">{{ block.settings.meta_type }}</span>
+          {% endif %}
+          {% if block.settings.meta_type != blank and block.settings.meta_download != blank %}
+            <span class="ai-guide-meta-separator-{{ ai_gen_id }}"></span>
+          {% endif %}
+          {% if block.settings.meta_download != blank %}
+            <span class="ai-guide-meta-item-{{ ai_gen_id }}">{{ block.settings.meta_download }}</span>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="ai-guide-checklist-{{ ai_gen_id }}">
+      {% for i in (1..7) %}
+        {% liquid
+          assign item_key = 'checklist_item_' | append: i
+          assign item_text = block.settings[item_key]
+        %}
+        {% if item_text != blank %}
+          <div class="ai-guide-checklist-item-{{ ai_gen_id }}">
+            <div class="ai-guide-check-icon-{{ ai_gen_id }}">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <div class="ai-guide-checklist-text-{{ ai_gen_id }}">{{ item_text }}</div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    {% if block.settings.show_bonus %}
+      <div class="ai-guide-bonus-card-{{ ai_gen_id }}">
+        <div class="ai-guide-bonus-content-{{ ai_gen_id }}">
+          <div class="ai-guide-bonus-icon-{{ ai_gen_id }}">🎁</div>
+          <div class="ai-guide-bonus-text-{{ ai_gen_id }}">
+            <div class="ai-guide-bonus-label-{{ ai_gen_id }}">{{ block.settings.bonus_label }}</div>
+            <p class="ai-guide-bonus-description-{{ ai_gen_id }}">{{ block.settings.bonus_text }}</p>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "What's inside the guide",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "main_title",
+      "label": "Main title",
+      "default": "What's Inside the Guide"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 24,
+      "max": 64,
+      "step": 2,
+      "unit": "px",
+      "label": "Title size",
+      "default": 42
+    },
+    {
+      "type": "range",
+      "id": "title_spacing",
+      "min": 20,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Title spacing",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "container_width",
+      "min": 600,
+      "max": 1200,
+      "step": 50,
+      "unit": "px",
+      "label": "Container width",
+      "default": 800
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 80
+    },
+    {
+      "type": "header",
+      "content": "Guide header card"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "guide_title",
+      "label": "Guide title",
+      "default": "The Ultimate Recovery Guide"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "meta_pages",
+      "label": "Pages",
+      "default": "15-page PDF"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "meta_type",
+      "label": "Type",
+      "default": "Research-backed protocols"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "meta_download",
+      "label": "Download",
+      "default": "Instant download"
+    },
+    {
+      "type": "header",
+      "content": "Checklist items"
+    },
+    {
+      "type": "textarea",
+      "id": "checklist_item_1",
+      "label": "Item 1",
+      "default": "Why injuries won't heal — The 3 mistakes that keep you stuck"
+    },
+    {
+      "type": "textarea",
+      "id": "checklist_item_2",
+      "label": "Item 2",
+      "default": "The BPC-157 protocol — Oral vs injectable, dosing, what to expect"
+    },
+    {
+      "type": "textarea",
+      "id": "checklist_item_3",
+      "label": "Item 3",
+      "default": "Week-by-week tracking — How to measure progress objectively"
+    },
+    {
+      "type": "textarea",
+      "id": "checklist_item_4",
+      "label": "Item 4",
+      "default": "Recovery stack — What supplements actually work (and which don't)"
+    },
+    {
+      "type": "textarea",
+      "id": "checklist_item_5",
+      "label": "Item 5",
+      "default": "Nutrition timing — When to eat for optimal tissue repair"
+    },
+    {
+      "type": "textarea",
+      "id": "checklist_item_6",
+      "label": "Item 6",
+      "default": "Sleep optimization — The recovery phase most people ignore"
+    },
+    {
+      "type": "textarea",
+      "id": "checklist_item_7",
+      "label": "Item 7",
+      "default": "Case studies — Real examples of chronic injury recovery"
+    },
+    {
+      "type": "range",
+      "id": "checklist_text_size",
+      "min": 14,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Bonus section"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_bonus",
+      "label": "Show bonus section",
+      "default": true
+    },
+    {
+      "type": "inline_richtext",
+      "id": "bonus_label",
+      "label": "Label",
+      "default": "BONUS INSIDE"
+    },
+    {
+      "type": "textarea",
+      "id": "bonus_text",
+      "label": "Text",
+      "default": "Exclusive 30% discount code for Panstellar BPC-157 capsules (no injections required)"
+    },
+    {
+      "type": "range",
+      "id": "bonus_text_size",
+      "min": 14,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Text size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "bonus_gradient_opacity",
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "label": "Gradient opacity",
+      "default": 0.3
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#0a0a0a"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background",
+      "default": "#1a1a2e"
+    },
+    {
+      "type": "color",
+      "id": "card_shadow_color",
+      "label": "Card shadow",
+      "default": "rgba(0, 0, 0, 0.3)"
+    },
+    {
+      "type": "color",
+      "id": "card_title_color",
+      "label": "Card title",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_meta_color",
+      "label": "Card meta text",
+      "default": "#a0a0a0"
+    },
+    {
+      "type": "color",
+      "id": "icon_background",
+      "label": "Icon background",
+      "default": "#2a2a3e"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon",
+      "default": "#14b8a6"
+    },
+    {
+      "type": "color",
+      "id": "check_background",
+      "label": "Check background",
+      "default": "#14b8a6"
+    },
+    {
+      "type": "color",
+      "id": "check_color",
+      "label": "Check icon",
+      "default": "#0a0a0a"
+    },
+    {
+      "type": "color",
+      "id": "checklist_text_color",
+      "label": "Checklist text",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "color",
+      "id": "bonus_background",
+      "label": "Bonus background",
+      "default": "#0d3d3a"
+    },
+    {
+      "type": "color",
+      "id": "bonus_gradient_start",
+      "label": "Bonus gradient start",
+      "default": "#14b8a6"
+    },
+    {
+      "type": "color",
+      "id": "bonus_gradient_end",
+      "label": "Bonus gradient end",
+      "default": "#0d9488"
+    },
+    {
+      "type": "color",
+      "id": "bonus_label_color",
+      "label": "Bonus label",
+      "default": "#5eead4"
+    },
+    {
+      "type": "color",
+      "id": "bonus_text_color",
+      "label": "Bonus text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Card border radius",
+      "default": 16
+    }
+  ],
+  "presets": [
+    {
+      "name": "What's inside the guide"
+    }
+  ]
+}
+{% endschema %}

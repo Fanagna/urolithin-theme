@@ -1,0 +1,320 @@
+{% doc %}
+  @prompt
+    Crée un hero banner large (desktop) pour une landing page fitness/récupération.
+    Style premium, moderne, minimal, fond dégradé sombre (bleu nuit → noir) avec une légère lueur/vignette au centre.
+    Au-dessus du titre, ajoute un petit badge arrondi (pill) vert/teal avec une icône “spark/étoile”, texte : “FREE GUIDE + 30% DISCOUNT”.
+    Centre le contenu.
+    Titre en blanc, très grand, gras, sur 2 lignes : “How to Heal Stubborn Injuries That Won’t Go Away”.
+    Sous-titre plus petit, gris clair, largeur limitée :
+    “Download the complete recovery protocol used by elite athletes. Includes a 30% discount code for BPC-157 capsules.”
+    Beaucoup d’espace négatif, typographie sans-serif, rendu net et high-end.
+    Format : bannière horizontale (ex: 1600×450), responsive.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-hero-banner-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    min-height: {{ block.settings.banner_height }}px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: linear-gradient(135deg, {{ block.settings.gradient_start }} 0%, {{ block.settings.gradient_end }} 100%);
+  }
+
+  .ai-hero-banner-{{ ai_gen_id }}::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 80%;
+    background: radial-gradient(ellipse at center, rgba(255, 255, 255, {{ block.settings.glow_opacity | divided_by: 10.0 }}) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .ai-hero-banner-content-{{ ai_gen_id }} {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: {{ block.settings.content_max_width }}px;
+    padding: 40px 20px;
+  }
+
+  .ai-hero-banner-badge-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: {{ block.settings.badge_bg_color }};
+    color: {{ block.settings.badge_text_color }};
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: {{ block.settings.badge_font_size }}px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .ai-hero-banner-badge-icon-{{ ai_gen_id }} {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  .ai-hero-banner-title-{{ ai_gen_id }} {
+    font-family: {{ block.settings.title_font.family }}, {{ block.settings.title_font.fallback_families }};
+    font-weight: {{ block.settings.title_font.weight }};
+    font-size: {{ block.settings.title_font_size }}px;
+    line-height: 1.1;
+    color: {{ block.settings.title_color }};
+    margin: 0 0 24px;
+    letter-spacing: -0.02em;
+  }
+
+  .ai-hero-banner-subtitle-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subtitle_font_size }}px;
+    line-height: 1.6;
+    color: {{ block.settings.subtitle_color }};
+    max-width: {{ block.settings.subtitle_max_width }}px;
+    margin: 0 auto;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-hero-banner-{{ ai_gen_id }} {
+      min-height: {{ block.settings.banner_height_mobile }}px;
+    }
+
+    .ai-hero-banner-content-{{ ai_gen_id }} {
+      padding: 30px 16px;
+    }
+
+    .ai-hero-banner-badge-{{ ai_gen_id }} {
+      font-size: {{ block.settings.badge_font_size | times: 0.9 }}px;
+      padding: 6px 12px;
+      margin-bottom: 16px;
+    }
+
+    .ai-hero-banner-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_font_size | times: 0.5 }}px;
+      margin-bottom: 16px;
+    }
+
+    .ai-hero-banner-subtitle-{{ ai_gen_id }} {
+      font-size: {{ block.settings.subtitle_font_size | times: 0.9 }}px;
+    }
+  }
+
+  @media screen and (min-width: 750px) and (max-width: 989px) {
+    .ai-hero-banner-title-{{ ai_gen_id }} {
+      font-size: {{ block.settings.title_font_size | times: 0.7 }}px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-hero-banner-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-hero-banner-content-{{ ai_gen_id }}">
+    {% if block.settings.show_badge %}
+      <div class="ai-hero-banner-badge-{{ ai_gen_id }}">
+        <svg class="ai-hero-banner-badge-icon-{{ ai_gen_id }}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+        </svg>
+        <span>{{ block.settings.badge_text }}</span>
+      </div>
+    {% endif %}
+
+    {% if block.settings.title != blank %}
+      <h1 class="ai-hero-banner-title-{{ ai_gen_id }}">
+        {{ block.settings.title }}
+      </h1>
+    {% endif %}
+
+    {% if block.settings.subtitle != blank %}
+      <div class="ai-hero-banner-subtitle-{{ ai_gen_id }}">
+        {{ block.settings.subtitle }}
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Hero banner fitness",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Badge"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_badge",
+      "label": "Show badge",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge text",
+      "default": "FREE GUIDE + 30% DISCOUNT"
+    },
+    {
+      "type": "color",
+      "id": "badge_bg_color",
+      "label": "Background color",
+      "default": "#14b8a6"
+    },
+    {
+      "type": "color",
+      "id": "badge_text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "badge_font_size",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Title"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "How to Heal Stubborn Injuries That Won't Go Away"
+    },
+    {
+      "type": "font_picker",
+      "id": "title_font",
+      "label": "Font",
+      "default": "archivo_narrow_n7"
+    },
+    {
+      "type": "range",
+      "id": "title_font_size",
+      "min": 32,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Font size",
+      "default": 72
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Subtitle"
+    },
+    {
+      "type": "richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "<p>Download the complete recovery protocol used by elite athletes. Includes a 30% discount code for BPC-157 capsules.</p>"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_font_size",
+      "min": 14,
+      "max": 28,
+      "step": 2,
+      "unit": "px",
+      "label": "Font size",
+      "default": 18
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Color",
+      "default": "#d1d5db"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_max_width",
+      "min": 400,
+      "max": 900,
+      "step": 50,
+      "unit": "px",
+      "label": "Max width",
+      "default": 700
+    },
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "color",
+      "id": "gradient_start",
+      "label": "Gradient start color",
+      "default": "#1e3a8a"
+    },
+    {
+      "type": "color",
+      "id": "gradient_end",
+      "label": "Gradient end color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "glow_opacity",
+      "min": 0,
+      "max": 2,
+      "step": 1,
+      "label": "Center glow intensity",
+      "default": 1
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "banner_height",
+      "min": 300,
+      "max": 700,
+      "step": 50,
+      "unit": "px",
+      "label": "Height (desktop)",
+      "default": 450
+    },
+    {
+      "type": "range",
+      "id": "banner_height_mobile",
+      "min": 400,
+      "max": 700,
+      "step": 50,
+      "unit": "px",
+      "label": "Height (mobile)",
+      "default": 500
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "min": 600,
+      "max": 1400,
+      "step": 100,
+      "unit": "px",
+      "label": "Content max width",
+      "default": 1000
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero banner fitness"
+    }
+  ]
+}
+{% endschema %}

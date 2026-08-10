@@ -1,0 +1,260 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "description_wUFXL9": {
+          "type": "description",
+          "settings": {}
+        },
+        "icon_with_text_F3pkWw": {
+          "type": "icon-with-text",
+          "settings": {
+            "layout": "vertical",
+            "icon_1": "truck",
+            "heading_1": "Free Shipping",
+            "icon_2": "return",
+            "heading_2": "30 Days Return Policy",
+            "icon_3": "star",
+            "heading_3": "200+ Bought past month"
+          }
+        },
+        "icon_with_text_UWKGDC": {
+          "type": "icon-with-text",
+          "settings": {
+            "layout": "vertical",
+            "icon_1": "none",
+            "image_1": "shopify://shop_images/13316327.jpg",
+            "heading_1": "Limited stock",
+            "icon_2": "return",
+            "heading_2": "",
+            "icon_3": "truck",
+            "heading_3": ""
+          }
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "swatch_shape": "circle"
+          }
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": true
+          }
+        }
+      },
+      "block_order": [
+        "title",
+        "price",
+        "description_wUFXL9",
+        "icon_with_text_F3pkWw",
+        "icon_with_text_UWKGDC",
+        "variant_picker",
+        "quantity_selector",
+        "buy_buttons"
+      ],
+      "settings": {
+        "enable_sticky_info": true,
+        "color_scheme": "",
+        "media_size": "small",
+        "constrain_to_viewport": true,
+        "media_fit": "contain",
+        "gallery_layout": "thumbnail_slider",
+        "media_position": "left",
+        "image_zoom": "hover",
+        "mobile_thumbnails": "hide",
+        "hide_variants": true,
+        "enable_video_looping": false,
+        "padding_top": 12,
+        "padding_bottom": 12
+      }
+    },
+    "multirow_Nr3zb8": {
+      "type": "multirow",
+      "blocks": {
+        "row_NGChiz": {
+          "type": "row",
+          "settings": {
+            "image": "shopify://shop_images/52ssx2_1.jpg",
+            "caption": "Urolithin A",
+            "heading": "<strong>Benefits</strong>",
+            "text": "<p><strong>Advanced 8-in-1 Formula</strong>: Combines Urolithin A, NAD+, and key nutrients for a well-rounded daily supplement.</p><p><strong>Cellular Support</strong>: Designed to contribute to optimal energy production at the cellular level.</p><p><strong>Balanced Wellness</strong>: Features a blend of powerful ingredients selected for overall vitality.</p><p><strong>Cognitive Focus</strong>: Includes compounds like CoQ10, Resveratrol, and Quercetin to complement mental clarity.</p><p><strong>Long-Term Convenience</strong>: A 3-month supply with 180 capsules for sustained daily support.</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "row_TGJATp": {
+          "type": "row",
+          "settings": {
+            "image": "shopify://shop_images/uro_misy_vert.jpg",
+            "caption": "Ingredients",
+            "heading": "<strong>What’s in our Urolithin A?</strong>",
+            "text": "<p><em>Urolithin A</em>: 2000 mg</p><p><em>NAD+ (Nicotinamide Adenine Dinucleotide)</em>: 100 mg</p><p><em>CoQ10 (Coenzyme Q10)</em>: 100 mg</p><p><em>Resveratrol</em>: 100 mg</p><p><em>PQQ (Pyrroloquinoline Quinone)</em>: 50 mg</p><p><em>ALA (Alpha-Lipoic Acid)</em>: 50 mg</p><p><em>L-Carnitine</em>: 250 mg</p><p><em>Quercetin</em>: 100 mg</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "row_eyXLTW": {
+          "type": "row",
+          "settings": {
+            "image": "shopify://shop_images/urol_sipa.jpg",
+            "caption": "",
+            "heading": "<strong>Dosage & Interactions</strong>",
+            "text": "<p><strong>Recommended Use</strong>: Take 2 capsules per day with water, preferably with a meal.</p><p><strong>Compatibility</strong>: Designed to support a balanced routine.</p><p><strong>Interactions</strong>: If you are pregnant, nursing, taking medication, or have any health concerns, consult a healthcare professional before use.</p><p><strong>Storage</strong>: Store in a cool, dry place away from direct sunlight.</p><p>Always follow the suggested use for best results!</p>",
+            "button_label": "",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "row_NGChiz",
+        "row_TGJATp",
+        "row_eyXLTW"
+      ],
+      "settings": {
+        "image_height": "medium",
+        "desktop_image_width": "medium",
+        "heading_size": "h1",
+        "text_style": "body",
+        "button_style": "secondary",
+        "desktop_content_position": "middle",
+        "desktop_content_alignment": "left",
+        "image_layout": "alternate-left",
+        "section_color_scheme": "",
+        "row_color_scheme": "",
+        "mobile_content_alignment": "left",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "image_banner_NwB3Vc": {
+      "type": "image-banner",
+      "blocks": {
+        "heading_eyFbUi": {
+          "type": "heading",
+          "settings": {
+            "heading": "",
+            "heading_size": "h1"
+          }
+        },
+        "text_hpUFfr": {
+          "type": "text",
+          "settings": {
+            "text": "",
+            "text_style": "body"
+          }
+        },
+        "buttons_iJEgiA": {
+          "type": "buttons",
+          "settings": {
+            "button_label_1": "",
+            "button_link_1": "",
+            "button_style_secondary_1": false,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_eyFbUi",
+        "text_hpUFfr",
+        "buttons_iJEgiA"
+      ],
+      "disabled": true,
+      "settings": {
+        "image": "shopify://shop_images/Urolithin_A_label_160mm_New_design.png",
+        "image_overlay_opacity": 0,
+        "image_height": "adapt",
+        "desktop_content_position": "middle-center",
+        "show_text_box": false,
+        "desktop_content_alignment": "center",
+        "color_scheme": "",
+        "image_behavior": "none",
+        "mobile_content_alignment": "center",
+        "stack_images_on_mobile": true,
+        "show_text_below": false
+      }
+    },
+    "rich_text_ymMPth": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_rbLLiC": {
+          "type": "heading",
+          "settings": {
+            "heading": "Specifications Product",
+            "heading_size": "h1"
+          }
+        }
+      },
+      "block_order": [
+        "heading_rbLLiC"
+      ],
+      "settings": {
+        "desktop_content_position": "left",
+        "content_alignment": "left",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
+    "related-products": {
+      "type": "related-products",
+      "settings": {
+        "heading": "You may also like",
+        "heading_size": "h2",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "color_scheme": "background-1",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "columns_mobile": "2",
+        "padding_top": 36,
+        "padding_bottom": 28
+      }
+    },
+    "1725003887ee0f83c8": {
+      "type": "apps",
+      "settings": {
+        "include_margins": true
+      }
+    }
+  },
+  "order": [
+    "main",
+    "multirow_Nr3zb8",
+    "image_banner_NwB3Vc",
+    "rich_text_ymMPth",
+    "related-products",
+    "1725003887ee0f83c8"
+  ]
+}

@@ -1,0 +1,123 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "nmn-resveratrol-v2-pdp",
+      "blocks": {
+        "review-1": {
+          "type": "review",
+          "settings": {
+            "quote": "Love the clean ingredients and how it fits 2-in-1. I feel consistent energy and clarity throughout the day.",
+            "author": "Verified Buyer"
+          }
+        },
+        "review-2": {
+          "type": "review",
+          "settings": {
+            "quote": "One capsule makes it easy. Healthy skin, better sleep, feels like longevity.",
+            "author": "Verified Buyer"
+          }
+        },
+        "review-3": {
+          "type": "review",
+          "settings": {
+            "quote": "Grateful I found this. It feels like this supports the long-term routine.",
+            "author": "Verified Buyer"
+          }
+        },
+        "review-4": {
+          "type": "review",
+          "settings": {
+            "quote": "Finally a high quality all-in-one for aging. My skin, focus and energy are better.",
+            "author": "Verified Buyer"
+          }
+        },
+        "faq-1": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How long does one bottle last?",
+            "answer": "One bottle provides 90 servings (2 capsules each) — a 3-month supply."
+          }
+        },
+        "faq-2": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How much NMN is in each serving?",
+            "answer": "Each serving provides 500mg NMN."
+          }
+        },
+        "faq-3": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How do you verify it?",
+            "answer": "Every batch is third-party tested for quality and purity."
+          }
+        },
+        "faq-4": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What are the other 5 ingredients?",
+            "answer": "Trans-resveratrol, quercetin, piperine, phosphatidyl choline and vitamin C."
+          }
+        },
+        "faq-5": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Is it suitable for everyday use?",
+            "answer": "It is designed as a simple daily supplement routine. Follow the label directions."
+          }
+        }
+      },
+      "block_order": [
+        "review-1",
+        "review-2",
+        "review-3",
+        "review-4",
+        "faq-3",
+        "faq-2",
+        "faq-5",
+        "faq-4",
+        "faq-1"
+      ],
+      "settings": {
+        "hero_desktop": "shopify://shop_images/ak1.jpg",
+        "hero_mobile": "shopify://shop_images/hero-mobile-nmn-resveratrol.jpg",
+        "product_image": "shopify://shop_images/nmn.png",
+        "hero_pill": "Verified NMN · Daily NAD+ Support",
+        "hero_heading": "Real NMN.Verified Every Bottle.",
+        "hero_subtitle": "A complete NMN + Resveratrol daily stack designed to support cellular wellness, healthy aging, and everyday vitality — with 6 complementary actives in one simple routine.",
+        "hero_meta": "cGMP compliant facility · Made in USA · 90-day guarantee",
+        "card_meta": "180 Capsules · 90 Servings",
+        "supply_days": 30,
+        "cta_text": "ADD TO CART",
+        "ingredients_heading": "6 Powerful Actives.1 Complete Stack.",
+        "ingredients_subtitle": "Synergistic actives designed to work together to deliver energy and healthy aging.",
+        "compare_heading": "One Bottlevs. 6+ Bottles",
+        "compare_subtitle": "One smart. Simplify your routine.",
+        "science_heading": "Science. Synergy.Daily Support.",
+        "science_subtitle": "NMN works at the cellular level to support energy, recovery, healthy aging and vitality, and everyday wellness.",
+        "research_text": "NMN + resveratrol may support healthy NAD+ levels and cellular wellness.",
+        "quality_heading": "Quality YouCan Trust",
+        "guarantee_url": "",
+        "reviews_heading": "Real People.Real Routines.",
+        "reviews_score": "4.8",
+        "reviews_count": "113 reviews",
+        "reviews_note": "Reviews may vary. Testimonials reflect individual experiences and are not guaranteed.",
+        "faq_heading": "FrequentlyAskedQuestions",
+        "sticky_title": "Real NMN. Verified. Yours today."
+      }
+    }
+  },
+  "order": [
+    "main"
+  ],
+  "layout": "ua-no-header"
+}
