@@ -1,0 +1,8 @@
+# WordPress
+wp-config.php
+wp-content/uploads/
+*.log
+# Divers
+.DS_Store
+node_modules/
+/tmp/

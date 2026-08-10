@@ -1,0 +1,253 @@
+/* ============================================================
+   HEADER — Panstellar (converti depuis le thème Shopify Dawn)
+   ------------------------------------------------------------
+   Ce fichier reproduit les variables CSS générées par
+   layout/theme.liquid (bloc {% style %}) pour le header,
+   avec les valeurs réelles de config/settings_data.json
+   (boutique : Poppins/Inter, page-width 1600, schemes).
+   ============================================================ */
+
+/* ── Polices (définies dans le Customizer → poppins/inter) ── */
+:root {
+  --font-body-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-body-style: normal;
+  --font-body-weight: 400;
+  --font-body-weight-bold: 700;
+
+  --font-heading-family: Poppins, Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-heading-style: normal;
+  --font-heading-weight: 400;
+
+  --font-body-scale: 1.0;
+  --font-heading-scale: 1.0;
+}
+
+/* ── Schéma de couleurs principal (header) : scheme-5a9a3de0… ──
+   settings_data.json → color_scheme du header. */
+:root,
+.color-scheme-5a9a3de0-927a-4340-b2ed-cabdd3e7d381 {
+  --color-background: 255,255,255;
+  --gradient-background: #ffffff;
+  --color-foreground: 18,18,18;
+  --color-background-contrast: 13,13,13;
+  --color-shadow: 18,18,18;
+  --color-button: 18,18,18;
+  --color-button-text: 255,255,255;
+  --color-secondary-button: 255,255,255;
+  --color-secondary-button-text: 18,18,18;
+  --color-link: 18,18,18;
+  --color-badge-foreground: 18,18,18;
+  --color-badge-background: 255,255,255;
+  --color-badge-border: 18,18,18;
+  --payment-terms-background-color: rgb(255 255 255);
+}
+
+/* ── Schéma « inverse » : utilisé pour le menu (menu_color_scheme) ── */
+.color-inverse {
+  --color-background: 43,31,31;
+  --gradient-background: linear-gradient(8deg, rgba(0, 0, 0, 1), rgba(0, 0, 0, 1) 28%, rgba(22, 11, 138, 1) 100%);
+  --color-foreground: 255,255,255;
+  --color-background-contrast: 255,255,255;
+  --color-shadow: 18,18,18;
+  --color-button: 18,18,18;
+  --color-button-text: 255,255,255;
+  --color-secondary-button: 255,255,255;
+  --color-secondary-button-text: 255,255,255;
+  --color-link: 255,255,255;
+  --color-badge-foreground: 255,255,255;
+  --color-badge-background: 43,31,31;
+  --color-badge-border: 255,255,255;
+  --payment-terms-background-color: rgb(43 31 31);
+}
+
+/* ── Schéma « accent-1 » : utilisé par le footer (footer-group.json → color_scheme) ── */
+.color-accent-1 {
+  --color-background: 0,20,62;
+  --gradient-background: #00143e;
+  --color-foreground: 255,255,255;
+  --color-background-contrast: 255,255,255;
+  --color-shadow: 18,18,18;
+  --color-button: 1,42,126;
+  --color-button-text: 243,243,243;
+  --color-secondary-button: 255,255,255;
+  --color-secondary-button-text: 255,255,255;
+  --color-link: 255,255,255;
+  --color-badge-foreground: 255,255,255;
+  --color-badge-background: 0,20,62;
+  --color-badge-border: 255,255,255;
+  --payment-terms-background-color: rgb(0 20 62);
+}
+
+/* ── Mise en page ── */
+:root {
+  --page-width: 160rem;
+  --page-width-margin: 2rem;   /* settings_data.json → page_width: 1600 → Dawn calcule 2rem */
+
+  --spacing-sections-desktop: 36px;
+  --spacing-sections-mobile: 25px;
+  --grid-desktop-vertical-spacing: 8px;
+  --grid-desktop-horizontal-spacing: 8px;
+  --grid-mobile-vertical-spacing: 4px;
+  --grid-mobile-horizontal-spacing: 4px;
+
+  /* Boutons */
+  --buttons-radius: 6px;
+  --buttons-radius-outset: 7px;
+  --buttons-border-width: 1px;
+  --buttons-border-opacity: 1;
+  --buttons-shadow-opacity: 0;
+  --buttons-shadow-visible: 0;
+  --buttons-shadow-horizontal-offset: 0px;
+  --buttons-shadow-vertical-offset: 4px;
+  --buttons-shadow-blur-radius: 0px;
+  --buttons-border-offset: 0px;
+
+  /* Champs de saisie */
+  --inputs-radius: 6px;
+  --inputs-border-width: 1px;
+  --inputs-border-opacity: 0.55;
+  --inputs-shadow-opacity: 0;
+  --inputs-shadow-horizontal-offset: 0px;
+  --inputs-margin-offset: 0px;
+  --inputs-shadow-vertical-offset: 4px;
+  --inputs-shadow-blur-radius: 0px;
+  --inputs-radius-outset: 7px;
+
+  /* Variantes */
+  --variant-pills-radius: 40px;
+  --variant-pills-border-width: 1px;
+  --variant-pills-border-opacity: 0.55;
+  --variant-pills-shadow-opacity: 0;
+  --variant-pills-shadow-horizontal-offset: 0px;
+  --variant-pills-shadow-vertical-offset: 4px;
+  --variant-pills-shadow-blur-radius: 5px;
+
+  /* Popups / overlays (mega menu, drawer…) */
+  --popup-border-width: 1px;
+  --popup-border-opacity: 0.1;
+  --popup-corner-radius: 10px;
+  --popup-shadow-opacity: 0.05;
+  --popup-shadow-horizontal-offset: 0px;
+  --popup-shadow-vertical-offset: 4px;
+  --popup-shadow-blur-radius: 5px;
+
+  /* Drawer */
+  --drawer-border-width: 1px;
+  --drawer-border-opacity: 0.1;
+  --drawer-shadow-opacity: 0;
+  --drawer-shadow-horizontal-offset: 0px;
+  --drawer-shadow-vertical-offset: 4px;
+  --drawer-shadow-blur-radius: 5px;
+
+  /* Médias / cartes */
+  --media-padding: 0px;
+  --media-border-opacity: 0.05;
+  --media-border-width: 1px;
+  --media-radius: 10px;
+  --media-shadow-opacity: 0;
+  --media-shadow-horizontal-offset: 0px;
+  --media-shadow-vertical-offset: 4px;
+  --media-shadow-blur-radius: 5px;
+
+  --text-boxes-border-opacity: 0.1;
+  --text-boxes-border-width: 0px;
+  --text-boxes-radius: 10px;
+  --text-boxes-shadow-opacity: 0;
+  --text-boxes-shadow-visible: 0;
+  --text-boxes-shadow-horizontal-offset: 0px;
+  --text-boxes-shadow-vertical-offset: 4px;
+  --text-boxes-shadow-blur-radius: 5px;
+
+  /* Badges */
+  --badge-corner-radius: 40px;
+
+  /* Durées / animations */
+  --duration-short: .1s;
+  --duration-default: .2s;
+  --duration-announcement-bar: .25s;
+  --duration-medium: .3s;
+  --duration-long: .5s;
+  --duration-extra-long: .6s;
+  --duration-extra-longer: .75s;
+  --duration-extended: 3s;
+  --ease-out-slow: cubic-bezier(0, 0, .3, 1);
+  --animation-slide-in: slideIn var(--duration-extra-long) var(--ease-out-slow) forwards;
+  --animation-fade-in: fadeIn var(--duration-extra-long) var(--ease-out-slow);
+
+  /* Hauteurs header (calculées par JS header.js) */
+  --header-height: 0px;
+  --viewport-height: 100vh;
+  --header-bottom-position: 100%;
+}
+
+/* ── Grille de base (page-width) ── */
+.page-width {
+  max-width: var(--page-width);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+@media screen and (min-width: 750px) {
+  .page-width { padding: 0 5rem; }
+  .header.page-width { padding-left: 3.2rem; padding-right: 3.2rem; }
+}
+
+@media screen and (min-width: 990px) {
+  .header:not(.drawer-menu).page-width { padding-left: 5rem; padding-right: 5rem; }
+}
+
+/* ── Compléments sticky header (alignés avec base.css) ── */
+.section-header {
+  z-index: 3;
+}
+
+.shopify-section-header-sticky {
+  position: sticky;
+  top: 0;
+}
+
+.shopify-section-header-hidden {
+  top: calc(-1 * var(--header-height));
+}
+
+.shopify-section-header-hidden.menu-open {
+  top: 0;
+}
+
+.shopify-section-header-sticky.animate {
+  transition: top .15s ease-out;
+}
+
+/* Réduction du logo quand le header est sticky « reduce-logo-size »
+   (complément : transition douce). */
+.header__heading-logo-wrapper {
+  transition: width .3s cubic-bezier(.52, .16, .04, 1);
+}
+
+/* Accessibilité : lien « skip to content » */
+.skip-to-content-link {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  z-index: 9999;
+  background: rgb(var(--color-background));
+  color: rgb(var(--color-foreground));
+  padding: 1rem 2rem;
+}
+
+.skip-to-content-link:focus {
+  top: 0;
+}
+
+/* Masquage visuel (utile pour les labels) */
+.visually-hidden {
+  position: absolute !important;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip: rect(0 0 0 0);
+  word-wrap: normal !important;
+}
