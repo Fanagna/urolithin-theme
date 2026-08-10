@@ -1,2 +1,0 @@
-let subscribers={};function subscribe(eventName,callback){return subscribers[eventName]===void 0&&(subscribers[eventName]=[]),subscribers[eventName]=[...subscribers[eventName],callback],function(){subscribers[eventName]=subscribers[eventName].filter(cb=>cb!==callback)}}function publish(eventName,data){subscribers[eventName]&&subscribers[eventName].forEach(callback=>{callback(data)})}
-//# sourceMappingURL=/s/files/1/0730/3951/1836/t/16/assets/pubsub.js.map?v=1726213635

@@ -1,6 +1,8 @@
-node_modules/
-.DS_Store
+# WordPress
+wp-config.php
+wp-content/uploads/
 *.log
-.shopify
-.env
-.env.local
+# Divers
+.DS_Store
+node_modules/
+/tmp/
