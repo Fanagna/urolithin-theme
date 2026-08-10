@@ -189,6 +189,11 @@ function panstellar_theme_setting( $key, $default = '' ) {
 		// main-article (équivalents de templates/article.json).
 		'article_show_date'            => true,
 		'article_show_author'          => false,
+
+		// ── Template page (équivalents de templates/page.json) ──
+		// main-page.
+		'page_padding_top'             => 28,
+		'page_padding_bottom'          => 28,
 	);
 	if ( array_key_exists( $key, $map ) && '' === $default ) {
 		$default = $map[ $key ];
@@ -429,6 +434,26 @@ function panstellar_comment_form_args() {
 		'submit_button'        => '<input name="%1$s" type="submit" id="%2$s" class="button" value="%3$s">',
 		'comment_notes_before' => '',
 		'comment_notes_after'  => '',
+	);
+}
+
+/**
+ * CSS dynamique des pages (équivalent du bloc {% style %} de main-page.liquid).
+ */
+function panstellar_page_dynamic_css() {
+	$top    = (int) panstellar_theme_setting( 'page_padding_top', 28 );
+	$bottom = (int) panstellar_theme_setting( 'page_padding_bottom', 28 );
+
+	$mobile_top    = (int) round( $top * 0.75 );
+	$mobile_bottom = (int) round( $bottom * 0.75 );
+
+	return sprintf(
+		'.section-main-page-padding { padding-top: %1$dpx; padding-bottom: %2$dpx; }' .
+		'@media screen and (min-width: 750px) { .section-main-page-padding { padding-top: %3$dpx; padding-bottom: %4$dpx; } }',
+		$mobile_top,
+		$mobile_bottom,
+		$top,
+		$bottom
 	);
 }
 
@@ -1398,6 +1423,17 @@ function panstellar_scripts() {
 				'shareSuccess' => __( 'Link copied to clipboard', 'panstellar' ),
 			)
 		);
+	}
+
+	// ── Pages classiques (conversion de templates/page.json) : page.php ──
+	// NB : is_page() est exclu des pages WooCommerce (boutique, panier…) qui
+	// ont leurs propres templates + enqueues. La boutique (is_shop) est aussi
+	// un post type « page » → exclue explicitement.
+	if ( is_page() && ! is_shop() && ! is_cart() && ! is_checkout() && ! is_account_page() && ! is_wc_endpoint_url() ) {
+		wp_enqueue_style( 'panstellar-main-page', $theme_uri . '/assets/css/section-main-page.css', array( 'panstellar-base' ), PANSTELLAR_VERSION );
+
+		// Padding dynamique (équivalent du {% style %} de main-page.liquid).
+		wp_add_inline_style( 'panstellar-main-page', panstellar_page_dynamic_css() );
 	}
 
 	// JavaScript du header (StickyHeader, HeaderDrawer, MenuDrawer, modale de recherche).
