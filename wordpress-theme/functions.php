@@ -1523,6 +1523,20 @@ function panstellar_scripts() {
 		// Rien à enqueuer (styles inline + base.css).
 	}
 
+	// ── Page 404 (404.php, design Dawn par défaut) ──
+	if ( is_404() ) {
+		// Le formulaire de recherche Dawn (searchform.php) a besoin de
+		// component-search.css, sinon le champ est non stylé.
+		wp_enqueue_style( 'panstellar-search', $theme_uri . '/assets/css/component-search.css', array( 'panstellar-base' ), PANSTELLAR_VERSION );
+
+		wp_add_inline_style(
+			'panstellar-search',
+			'.section-404-padding { padding: 8rem 0; text-align: center; }' .
+			'.section-404-padding .search { max-width: 44rem; margin: 2rem auto 0; }' .
+			'.section-404-padding .h0 { font-size: clamp(6rem, 16vw, 12rem); margin: 0 0 1rem; }'
+		);
+	}
+
 	// JavaScript du header (StickyHeader, HeaderDrawer, MenuDrawer, modale de recherche).
 	wp_enqueue_script( 'panstellar-header', $theme_uri . '/assets/js/header.js', array(), PANSTELLAR_VERSION, true );
 }
