@@ -1185,6 +1185,63 @@ function panstellar_newsletter_handler() {
 }
 
 /* -------------------------------------------------------------------------
+ * 6d. FORMULAIRE DE CONTACT (équivalent de sections/contact-form.liquid)
+ * ---------------------------------------------------------------------- */
+add_action( 'admin_post_panstellar_contact', 'panstellar_contact_handler' );
+add_action( 'admin_post_nopriv_panstellar_contact', 'panstellar_contact_handler' );
+
+/**
+ * Handler du formulaire de contact (template-parts/page/contact-form.php).
+ *
+ * Équivalent de la soumission {% form 'contact' %} : vérifie le nonce,
+ * valide les champs, puis envoie l'email via wp_mail() à l'administrateur.
+ */
+function panstellar_contact_handler() {
+	$redirect = isset( $_POST['redirect'] ) ? esc_url_raw( wp_unslash( $_POST['redirect'] ) ) : home_url( '/' );
+
+	if (
+		! isset( $_POST['panstellar_contact_nonce'], $_POST['contact_email'], $_POST['contact_body'] )
+		|| ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['panstellar_contact_nonce'] ) ), 'panstellar_contact' )
+	) {
+		wp_safe_redirect( add_query_arg( 'contact', 'error', $redirect ) );
+		exit;
+	}
+
+	$name  = isset( $_POST['contact_name'] ) ? sanitize_text_field( wp_unslash( $_POST['contact_name'] ) ) : '';
+	$email = sanitize_email( wp_unslash( $_POST['contact_email'] ) );
+	$phone = isset( $_POST['contact_phone'] ) ? sanitize_text_field( wp_unslash( $_POST['contact_phone'] ) ) : '';
+	$body  = sanitize_textarea_field( wp_unslash( $_POST['contact_body'] ) );
+
+	if ( ! is_email( $email ) || '' === $body ) {
+		// Repasse name/email pour pré-remplir le formulaire après l'erreur.
+		$error_args = array(
+			'contact' => 'error',
+			'name'    => $name,
+			'email'   => $email,
+		);
+		wp_safe_redirect( add_query_arg( $error_args, $redirect ) );
+		exit;
+	}
+
+	$admin_email = get_option( 'admin_email' );
+	$subject     = sprintf( /* translators: %s: site name */ __( '[%s] New contact form message', 'panstellar' ), get_bloginfo( 'name' ) );
+	$message     = sprintf(
+		"%s\n\n%s\n%s\n\n%s\n\n%s",
+		sprintf( /* translators: %s: sender name */ __( 'Name: %s', 'panstellar' ), $name ),
+		sprintf( /* translators: %s: sender email */ __( 'Email: %s', 'panstellar' ), $email ),
+		$phone ? sprintf( /* translators: %s: phone */ __( 'Phone: %s', 'panstellar' ), $phone ) : '',
+		__( 'Message:', 'panstellar' ),
+		$body
+	);
+
+	$headers = array( 'Reply-To: ' . $name . ' <' . $email . '>' );
+	$sent    = wp_mail( $admin_email, $subject, $message, $headers );
+
+	wp_safe_redirect( add_query_arg( 'contact', $sent ? 'sent' : 'error', $redirect ) );
+	exit;
+}
+
+/* -------------------------------------------------------------------------
  * 7. RÉSEAUX SOCIAUX (équivalents de settings.social_*_link)
  * ---------------------------------------------------------------------- */
 
@@ -1429,11 +1486,41 @@ function panstellar_scripts() {
 	// NB : is_page() est exclu des pages WooCommerce (boutique, panier…) qui
 	// ont leurs propres templates + enqueues. La boutique (is_shop) est aussi
 	// un post type « page » → exclue explicitement.
-	if ( is_page() && ! is_shop() && ! is_cart() && ! is_checkout() && ! is_account_page() && ! is_wc_endpoint_url() ) {
+	if ( is_page() && ! is_shop() && ! is_cart() && ! is_checkout() && ! is_account_page() && ! is_wc_endpoint_url() && ! is_page( array( 'contact', 'faq', 'about-us' ) ) ) {
 		wp_enqueue_style( 'panstellar-main-page', $theme_uri . '/assets/css/section-main-page.css', array( 'panstellar-base' ), PANSTELLAR_VERSION );
 
 		// Padding dynamique (équivalent du {% style %} de main-page.liquid).
 		wp_add_inline_style( 'panstellar-main-page', panstellar_page_dynamic_css() );
+	}
+
+	// ── Page contact (conversion de templates/page.contact.json) ──
+	if ( is_page( 'contact' ) ) {
+		wp_enqueue_style( 'panstellar-rich-text', $theme_uri . '/assets/css/section-rich-text.css', array( 'panstellar-base' ), PANSTELLAR_VERSION );
+		wp_enqueue_style( 'panstellar-contact-form', $theme_uri . '/assets/css/section-contact-form.css', array( 'panstellar-base' ), PANSTELLAR_VERSION );
+
+		// Padding dynamique des deux sections.
+		wp_add_inline_style(
+			'panstellar-rich-text',
+			'.section-rich-text-padding { padding-top: 30px; padding-bottom: 39px; }' .
+			'@media screen and (min-width: 750px) { .section-rich-text-padding { padding-top: 40px; padding-bottom: 52px; } }'
+		);
+		wp_add_inline_style(
+			'panstellar-contact-form',
+			'.section-contact-form-padding { padding-top: 27px; padding-bottom: 27px; }' .
+			'@media screen and (min-width: 750px) { .section-contact-form-padding { padding-top: 36px; padding-bottom: 36px; } }'
+		);
+	}
+
+	// ── Page FAQ (conversion de templates/page.faq.json) ──
+	if ( is_page( 'faq' ) ) {
+		wp_enqueue_style( 'panstellar-accordion', $theme_uri . '/assets/css/component-accordion.css', array( 'panstellar-base' ), PANSTELLAR_VERSION );
+	}
+
+	// ── Page À propos (conversion de templates/page.about-us.json) ──
+	// NB : les styles des sections about sont en ligne dans le template
+	// (blocs ai_gen reconstruits) — aucun CSS dédié requis.
+	if ( is_page( 'about-us' ) ) {
+		// Rien à enqueuer (styles inline + base.css).
 	}
 
 	// JavaScript du header (StickyHeader, HeaderDrawer, MenuDrawer, modale de recherche).
